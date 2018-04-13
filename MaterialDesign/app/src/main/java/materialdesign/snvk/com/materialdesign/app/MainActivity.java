@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         getSupportActionBar().setTitle("Around U!");
         toolbar.setSubtitle("Know your city");
 
+        //Arbitrary comment
 
 //        setUpRecyclerView();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
