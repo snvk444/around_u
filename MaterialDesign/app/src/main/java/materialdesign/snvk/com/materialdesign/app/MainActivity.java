@@ -12,6 +12,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     BufferedReader reader = null;
     RecyclerView itemsList;
     ArrayList<ItemsListSingleItem> data = new ArrayList<>();
+
+    Toolbar myToolbar;
+    Spinner mySpinner ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +122,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //View r1 = (View) findViewById(R.id.refresh);
         //r1.setOnClickListener((View.OnClickListener) this);
         /////////
+
+        myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mySpinner = (Spinner) findViewById(R.id.spinner);
+
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1,
+                getResources().getStringArray(R.array.names));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        mySpinner.setAdapter(myAdapter);
+
+        //have to add setOnItemClickListener (Available)
+        mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(MainActivity.this, mySpinner.getSelectedItem().toString(),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        ////////
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -126,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onOptionsItemSelected(MenuItem item) {
         String msg = "";
         switch (item.getItemId()) {
-            case R.id.refresh:
+            case R.id.location:
                 Log.i(TAG, "intent start");
                 Intent i = new Intent(getApplicationContext(),LocationReminder.class);
                 Log.i(TAG, "intent start_1");
@@ -137,7 +166,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 msg = "Refresh";
                 break;
-            case R.id.settings:
+            case R.id.spinner:
+                Log.i(TAG, "intent start");
+                Intent j = new Intent(getApplicationContext(),LocationReminder.class);
+                Log.i(TAG, "intent start_1");
+                startActivity(j);
+                Log.i(TAG, "intent start_2");
+//                setContentView(R.layout.content_location_reminder);
+                Log.i(TAG, "intent end");
+
                 msg = "Settings";
                 break;
             case R.id.exit:

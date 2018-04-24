@@ -4,11 +4,11 @@
 
 
     <item
-        android2:id="@+id/refresh"
+        android2:id="@+id/location"
         android2:title="Refresh"
         app:showAsAction="never"/>
     <item
-        android2:id="@+id/settings"
+        android2:id="@+id/spinner"
         android2:title="Settings"
         app:showAsAction="never"/>
     <item
