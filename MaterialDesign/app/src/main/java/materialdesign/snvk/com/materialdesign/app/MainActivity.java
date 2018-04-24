@@ -1,7 +1,12 @@
 package materialdesign.snvk.com.materialdesign.app;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -16,21 +21,30 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
 import materialdesign.snvk.com.materialdesign.R;
 import materialdesign.snvk.com.materialdesign.adapter.RecyclerAdapter;
+import materialdesign.snvk.com.materialdesign.database.DBHandler;
 import materialdesign.snvk.com.materialdesign.model.Landscape;
+import materialdesign.snvk.com.materialdesign.vo.PivotTableData;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -43,24 +57,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     ArrayList<ItemsListSingleItem> data = new ArrayList<>();
 
     Toolbar myToolbar;
-    Spinner mySpinner ;
+    Spinner mySpinner;
+    private DBHandler dbHandler;
+    private GoogleMap googleMap;
+
+    private FusedLocationProviderClient mFusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         Log.i(TAG, "Toolbar");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Around U!");
         toolbar.setSubtitle("Know your city");
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         //Arbitrary comment
 
 //        setUpRecyclerView();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        RecyclerAdapter adapter = new RecyclerAdapter(this, Landscape.getData());
+        final RecyclerAdapter adapter = new RecyclerAdapter(this, Landscape.getData());
         LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(this);
         mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(mLinearLayoutManagerVertical);
@@ -83,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //data from db
         /////////
-        DBHandler db = new DBHandler(this);
+        dbHandler = DBHandler.getInstance(getApplicationContext());
         Log.d("TAG", "Inserting");
         List<LatLng> latLngList = new ArrayList<LatLng>();
         String line = "";
@@ -111,14 +131,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 String district = lines[0];
                 String state = "Andhra Pradesh";
 
-                db.addPivotTableData(new PivotTableData(identifier, lat, lon, name,brand, address, zipcode, city, district, state));
-                Log.i(TAG, "Reading data into table " + identifier + "," + lat + "," +lon + "," + brand +"," + name +"," + address + "," +zipcode + "," + city + "," + state);
+                dbHandler.addPivotTableData(new PivotTableData(identifier, lat, lon, name, brand, address, zipcode, city, district, state));
+                Log.i(TAG, "Reading data into table " + identifier + "," + lat + "," + lon + "," + brand + "," + name + "," + address + "," + zipcode + "," + city + "," + state);
             }
         } catch (IOException e) {
             Log.i(TAG, "Reading lat long failed");
             e.printStackTrace();
         }
-        db.getIntoPivotTableData("Gas");
+        dbHandler.getIntoPivotTableData("Gas");
 
         //View r1 = (View) findViewById(R.id.refresh);
         //r1.setOnClickListener((View.OnClickListener) this);
@@ -138,6 +158,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(MainActivity.this, mySpinner.getSelectedItem().toString(),
                         Toast.LENGTH_SHORT).show();
+                if (mySpinner.getSelectedItem().toString().equalsIgnoreCase("Gas Stations")) {
+                    //todo get off UI thread
+                    googleMap.clear();
+                    ArrayList<PivotTableData> gasResults = dbHandler.getIntoPivotTableData(DBHandler.IDENTIFIER_GAS);
+                    Log.d(TAG, "Gas: " + gasResults.size());
+                    for (PivotTableData item : gasResults) {
+                        googleMap.addMarker(new MarkerOptions().position(new LatLng(item.getLatitude(), item.getLongitude()))
+                                .title(item.getName()));
+                    }
+                } else if (mySpinner.getSelectedItem().toString().equalsIgnoreCase("Train Stations")) {
+                    googleMap.clear();
+                    ArrayList<PivotTableData> trainResults = dbHandler.getIntoPivotTableData(DBHandler.IDENTIFIER_TRAIN);
+                    Log.d(TAG, "train: " + trainResults.size());
+                    for (PivotTableData item : trainResults) {
+                        googleMap.addMarker(new MarkerOptions().position(new LatLng(item.getLatitude(), item.getLongitude()))
+                                .title(item.getName()));
+                    }
+                } else if (mySpinner.getSelectedItem().toString().equalsIgnoreCase("Bus Stations")) {
+                    googleMap.clear();
+                    ArrayList<PivotTableData> busResults = dbHandler.getIntoPivotTableData(DBHandler.IDENTIFIER_BUS);
+                    Log.d(TAG, "Bus: " + busResults.size());
+                    for (PivotTableData item : busResults) {
+                        googleMap.addMarker(new MarkerOptions().position(new LatLng(item.getLatitude(), item.getLongitude()))
+                                .title(item.getName()));
+                    }
+                }
             }
 
             @Override
@@ -158,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         switch (item.getItemId()) {
             case R.id.location:
                 Log.i(TAG, "intent start");
-                Intent i = new Intent(getApplicationContext(),LocationReminder.class);
+                Intent i = new Intent(getApplicationContext(), LocationReminder.class);
                 Log.i(TAG, "intent start_1");
                 startActivity(i);
                 Log.i(TAG, "intent start_2");
@@ -169,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case R.id.spinner:
                 Log.i(TAG, "intent start");
-                Intent j = new Intent(getApplicationContext(),LocationReminder.class);
+                Intent j = new Intent(getApplicationContext(), LocationReminder.class);
                 Log.i(TAG, "intent start_1");
                 startActivity(j);
                 Log.i(TAG, "intent start_2");
@@ -199,7 +245,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
+        this.googleMap = googleMap;
 
         List<LatLng> latLngList = new ArrayList<LatLng>();
         String line = "";
@@ -229,11 +276,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        System.out.println(latLngList.get(0).latitude);
 //        System.out.println(latLngList.get(0).longitude);
 
-         //Reading the data from database
-        DBHandler db = new DBHandler(this);
-        List<PivotTableData> markers = db.getFromPivotTableData();
-        for(PivotTableData marker : markers) {
-            Log.i(TAG, "Reading data from table " + marker.identifier + "," + marker.latitude + "," + marker.longitude );
+        //Reading the data from database
+        List<PivotTableData> markers = dbHandler.getFromPivotTableData();
+        for (PivotTableData marker : markers) {
+            Log.i(TAG, "Reading data from table " + marker.identifier + "," + marker.latitude + "," + marker.longitude);
             double lat = marker.latitude;
             double lon = marker.longitude;
             latLngList.add(new LatLng(lat, lon));
@@ -241,11 +287,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         for (LatLng point : latLngList) {
             Log.i(TAG, "Displaying map Fragment");
-          LatLng test = new LatLng(point.latitude, point.longitude);
+            LatLng test = new LatLng(point.latitude, point.longitude);
             googleMap.addMarker(new MarkerOptions().position(test)
                     .title("Marker in Sydney"));
             Log.i(TAG, "Point: " + point);
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(point));
+        }
+
+
+        boolean hasPermission = true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            hasPermission = checkPermission();
+        }
+        if (hasPermission) {
+            setLocation();
         }
 
 
@@ -256,12 +311,56 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //        googleMap.addGroundOverlay(newarkMap);
     }
 
-    public void onClick(MainActivity v)
-    {
+    private void setLocation() {
+        try {
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            Log.d(TAG, "Location: " + location);
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                // Logic to handle location object
+                                LatLng coordinate = new LatLng(location.getLatitude(), location.getLongitude());
+                                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
+                                googleMap.animateCamera(yourLocation);
+                            }
+                        }
+                    });
+        }
+        catch(SecurityException e){
+            Log.d(TAG, "Location exception: " + e.getMessage());
+        }
+    }
+
+    public void onClick(MainActivity v) {
         // TODO Auto-generated method stub
         Log.i(TAG, "in onclick function");
-        Intent i = new Intent(getApplicationContext(),LocationReminder.class);
+        Intent i = new Intent(getApplicationContext(), LocationReminder.class);
         startActivity(i);
         setContentView(R.layout.content_location_reminder);
+    }
+
+    public boolean checkPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                ) {//Can add more as per requirement
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    123);
+            return false;
+        } else return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        Log.e(TAG, "Permission dialog complete");  // Log printed
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        for (String permission : permissions) {
+            if (permission.equalsIgnoreCase(Manifest.permission.ACCESS_COARSE_LOCATION) || permission.equalsIgnoreCase(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                setLocation();
+            }
+        }
     }
 }
