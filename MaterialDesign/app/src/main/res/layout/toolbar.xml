@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorPrimary"
-    android:minHeight="?attr/actionBarSize"
-    app:theme="@style/ToolbarTheme"
-    app:popupTheme="@style/popupTheme"/>
+    android:elevation="5dp"
+    app:popupTheme="@style/popupTheme"
+    app:theme="@style/ToolbarTheme" tools:targetApi="lollipop">
 
+<Spinner
+android:id="@+id/spinner"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+tools:layout_editor_absoluteX="8dp"
+tools:layout_editor_absoluteY="96dp"
+    android:gravity="end"
+    />
+
+</android.support.v7.widget.Toolbar>
 

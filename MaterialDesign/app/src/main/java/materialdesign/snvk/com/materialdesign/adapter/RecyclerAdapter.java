@@ -62,13 +62,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            imgThumb = (ImageView) itemView.findViewById(R.id.first);
+            //imgThumb = (ImageView) itemView.findViewById(R.id.first);
             //imgDelete = (ImageView) itemView.findViewById(R.id.second);
             //imgAdd = (ImageView) itemView.findViewById(R.id.third);
         }
 
         public void setData(Landscape current, int position) {
-            this.imgThumb.setImageResource(current.getImageID());
+            //this.imgThumb.setImageResource(current.getImageID());
             this.position = position;
             this.current = current;
         }
