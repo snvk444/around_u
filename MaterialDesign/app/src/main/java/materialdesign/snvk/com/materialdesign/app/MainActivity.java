@@ -2,9 +2,11 @@ package materialdesign.snvk.com.materialdesign.app;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -75,8 +77,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         toolbar.setSubtitle("Know your city");
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        //Arbitrary comment
+        dbHandler = DBHandler.getInstance(getApplicationContext());
 
 //        setUpRecyclerView();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -101,44 +102,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             //implement this feature without material design.
         }
 
-        //data from db
-        /////////
-        dbHandler = DBHandler.getInstance(getApplicationContext());
-        Log.d("TAG", "Inserting");
-        List<LatLng> latLngList = new ArrayList<LatLng>();
-        String line = "";
-        try {
-            Log.i(TAG, "Reading LocationReadings.csv to db");
-            InputStream is = getResources().openRawResource(R.raw.locationreadings);
-            reader = new BufferedReader(new InputStreamReader(is));
-        } catch (Exception e) {
-            Log.i(TAG, "Reading LocationReadings.csv to db failed");
+        //initial insert of data
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        if(prefs.getBoolean("first_run", true)) {
+            populateDatabaseWithInitialData(prefs);
         }
-        //reading data into database from csv file
-        try {
-            while ((line = reader.readLine()) != null) // Read until end of file
-            {
-                Log.i(TAG, "read lat and long");
-                String[] lines = line.split(",");
-                String identifier = lines[3];
-                float lat = Float.parseFloat(lines[4]);
-                float lon = Float.parseFloat(lines[5]);
-                String brand = lines[6];
-                String name = lines[7];
-                String address = lines[8];
-                int zipcode = Integer.parseInt(lines[2]);
-                String city = lines[1];
-                String district = lines[0];
-                String state = "Andhra Pradesh";
-
-                dbHandler.addPivotTableData(new PivotTableData(identifier, lat, lon, name, brand, address, zipcode, city, district, state));
-                Log.i(TAG, "Reading data into table " + identifier + "," + lat + "," + lon + "," + brand + "," + name + "," + address + "," + zipcode + "," + city + "," + state);
-            }
-        } catch (IOException e) {
-            Log.i(TAG, "Reading lat long failed");
-            e.printStackTrace();
-        }
-        dbHandler.getIntoPivotTableData("Gas");
 
         //View r1 = (View) findViewById(R.id.refresh);
         //r1.setOnClickListener((View.OnClickListener) this);
@@ -192,6 +160,45 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
         ////////
+    }
+
+    private void populateDatabaseWithInitialData(SharedPreferences prefs){
+        Log.d("TAG", "Inserting");
+        List<LatLng> latLngList = new ArrayList<LatLng>();
+        String line = "";
+        try {
+            Log.i(TAG, "Reading LocationReadings.csv to db");
+            InputStream is = getResources().openRawResource(R.raw.locationreadings);
+            reader = new BufferedReader(new InputStreamReader(is));
+        } catch (Exception e) {
+            Log.i(TAG, "Reading LocationReadings.csv to db failed");
+        }
+        //reading data into database from csv file
+        try {
+            while ((line = reader.readLine()) != null) // Read until end of file
+            {
+                Log.i(TAG, "read lat and long");
+                String[] lines = line.split(",");
+                String identifier = lines[3];
+                float lat = Float.parseFloat(lines[4]);
+                float lon = Float.parseFloat(lines[5]);
+                String brand = lines[6];
+                String name = lines[7];
+                String address = lines[8];
+                int zipcode = Integer.parseInt(lines[2]);
+                String city = lines[1];
+                String district = lines[0];
+                String state = "Andhra Pradesh";
+
+                dbHandler.addPivotTableData(new PivotTableData(identifier, lat, lon, name, brand, address, zipcode, city, district, state));
+                Log.i(TAG, "Reading data into table " + identifier + "," + lat + "," + lon + "," + brand + "," + name + "," + address + "," + zipcode + "," + city + "," + state);
+            }
+        } catch (IOException e) {
+            Log.i(TAG, "Reading lat long failed");
+            e.printStackTrace();
+        }
+        dbHandler.getIntoPivotTableData("Gas");
+        prefs.edit().putBoolean("first_run", false).commit();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
