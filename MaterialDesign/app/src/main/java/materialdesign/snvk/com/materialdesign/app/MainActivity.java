@@ -46,6 +46,7 @@ import materialdesign.snvk.com.materialdesign.R;
 import materialdesign.snvk.com.materialdesign.adapter.RecyclerAdapter;
 import materialdesign.snvk.com.materialdesign.database.DBHandler;
 import materialdesign.snvk.com.materialdesign.model.Landscape;
+import materialdesign.snvk.com.materialdesign.network.HTTPUtils;
 import materialdesign.snvk.com.materialdesign.vo.PivotTableData;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -160,6 +161,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
         ////////
+
+        HTTPUtils.sendPost();
     }
 
     private void populateDatabaseWithInitialData(SharedPreferences prefs){
