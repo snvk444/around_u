@@ -8,4 +8,13 @@
     <string name="app_name">AroundU!</string>
     <string name="title_activity_maps">title_activity_maps</string>
     <string name="resume">resume</string>
+    <string name="Spinner" />
+
+    <string-array name="names">
+        <item>Gas Stations</item>
+        <item>Train Stations</item>
+        <item>Bus Stations</item>
+        <item>PROMOTIONS</item>
+
+    </string-array>
 </resources>
