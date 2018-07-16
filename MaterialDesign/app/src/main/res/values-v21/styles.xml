@@ -1,9 +1,0 @@
-<resources>
-
-    <!-- Base application theme. -->
-    <style name="MaterialTheme" parent="ParentMaterialTheme">
-        <!-- Customize for only lollipop and above versions -->
-
-    </style>
-
-</resources>
