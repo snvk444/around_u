@@ -61,10 +61,9 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener, OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener, OnMapReadyCallback {
 
-    private static final String TAG = "Testing Toolbar";
+    private static final String TAG = "TestingToolbar";
     BufferedReader reader = null;
     private GoogleMap googleMap;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -85,7 +84,6 @@ public class MainActivity extends AppCompatActivity
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         Spinner core_spinner = (Spinner) findViewById(R.id.core_spinner);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView title = (TextView) findViewById(R.id.showTitle);
         setSupportActionBar(toolbar);
 
         checkLocationPermission();
@@ -162,19 +160,12 @@ public class MainActivity extends AppCompatActivity
 
         //initial insert of data
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        //todo get off UI thread
         if (prefs.getBoolean("first_run", true)) {
             populateDatabaseWithInitialData(prefs);
         }
 
-
-        final LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        Log.i(TAG, "onCreate");
-
-
-
-
-
-                locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -186,122 +177,73 @@ public class MainActivity extends AppCompatActivity
             return;
         }
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100, 100, new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    Log.i(TAG, "onLocationChanged");
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
-                    long timeStamp = System.currentTimeMillis();
-                    Log.i(TAG, "timestamp" +timeStamp+ " latitude" +latitude+ " longitude" +longitude);
-                    //LatLng present_Loc = new LatLng(latitude, longitude);
-                    //add location data into table - locationinfo.
-                    addLocationInfoToDB(latitude, longitude, timeStamp);
-                    //reading latlong from table - locationinfo.
-                    setUpClusterer(latitude, longitude);
-
-
-                    addHeatMap(latitude, longitude);
-                    displayLocationInfo(latitude, longitude);
-                }
-
-                @Override
-                public void onStatusChanged(String s, int i, Bundle bundle) {
-
-                }
-
-                @Override
-                public void onProviderEnabled(String s) {
-
-                }
-
-                @Override
-                public void onProviderDisabled(String s) {
-
-                }
-            });
+            setLocationManagerListener(LocationManager.NETWORK_PROVIDER);
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 100, new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    Log.i(TAG, "onLocationChanged");
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
-                    long timeStamp = System.currentTimeMillis();
-                    Log.i(TAG, "timestamp" +timeStamp+ " latitude" +latitude+ " longitude" +longitude);
-                    //LatLng present_Loc = new LatLng(latitude, longitude);
-                    //add location data into table - locationinfo.
-                    addLocationInfoToDB(latitude, longitude, timeStamp);
-                    //reading latlong from table - locationinfo.
-                    setUpClusterer(latitude, longitude);
-
-
-                    addHeatMap(latitude, longitude);
-                    displayLocationInfo(latitude, longitude);
-                }
-
-                @Override
-                public void onStatusChanged(String s, int i, Bundle bundle) {
-
-                }
-
-                @Override
-                public void onProviderEnabled(String s) {
-
-                }
-
-                @Override
-                public void onProviderDisabled(String s) {
-                }
-            });
+            setLocationManagerListener(LocationManager.GPS_PROVIDER);
         }
-
 
 
     }
 
+    @SuppressWarnings({"MissingPermission"})
+    public void setLocationManagerListener(String provider) {
+        locationManager.requestLocationUpdates(provider, 100, 100, new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.i(TAG, "onLocationChanged");
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+                long timeStamp = System.currentTimeMillis();
+                Log.i(TAG, "timestamp" + timeStamp + " latitude" + latitude + " longitude" + longitude);
+                //LatLng present_Loc = new LatLng(latitude, longitude);
+                //add location data into table - locationinfo.
+                addLocationInfoToDB(latitude, longitude, timeStamp);
+                //reading latlong from table - locationinfo.
+                setUpClusterer(latitude, longitude);
+
+
+                addHeatMap(latitude, longitude);
+                displayLocationInfo(latitude, longitude);
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+            }
+        });
+    }
 
 
     public boolean checkLocationPermission() {
+        Log.d(TAG, "Permission requested");
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-// Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-// Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.title_location_permission)
-                        .setMessage(R.string.text_location_permission)
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(MainActivity.this,
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                        MY_PERMISSIONS_REQUEST_LOCATION);
-                            }
-                        })
-                        .create()
-                        .show();
 
+            // No explanation needed, we can request the permission.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_LOCATION);
 
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-            }
         } else {
             return false;
         }
         return false;
     }
 
+    @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults){
+                                           String permissions[], int[] grantResults) {
+        Log.d(TAG, "Permission response: " + requestCode);
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
@@ -320,47 +262,14 @@ public class MainActivity extends AppCompatActivity
                         //Request location updates:
 
                         provider = locationManager.getBestProvider(new Criteria(), false);
-                        locationManager.requestLocationUpdates(provider, 100, 100, new LocationListener() {
-                            @Override
-                            public void onLocationChanged(Location location) {
-                                Log.i(TAG, "onLocationChanged");
-                                double latitude = location.getLatitude();
-                                double longitude = location.getLongitude();
-                                long timeStamp = System.currentTimeMillis();
-                                Log.i(TAG, "timestamp" +timeStamp+ " latitude" +latitude+ " longitude" +longitude);
-                                //LatLng present_Loc = new LatLng(latitude, longitude);
-                                //add location data into table - locationinfo.
-                                addLocationInfoToDB(latitude, longitude, timeStamp);
-                                //reading latlong from table - locationinfo.
-                                setUpClusterer(latitude, longitude);
-
-
-                                addHeatMap(latitude, longitude);
-                                displayLocationInfo(latitude, longitude);
-                            }
-
-                            @Override
-                            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-                            }
-
-                            @Override
-                            public void onProviderEnabled(String s) {
-
-                            }
-
-                            @Override
-                            public void onProviderDisabled(String s) {
-
-                            }
-                        });
+                        setLocationManagerListener(provider);
                     }
 
                 } else {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-
+                    //todo add pop up to re-request location, since the app is mostly pointless without it
                 }
                 return;
             }
@@ -370,10 +279,10 @@ public class MainActivity extends AppCompatActivity
 
     private void addHeatMap(double latitude, double longitude) {
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18f));
-        ArrayList<LocationInfo> locationInfoList =  db.readLocationInfo(latitude, longitude);
+        ArrayList<LocationInfo> locationInfoList = db.readLocationInfo(latitude, longitude);
         LatLng source_loc = null;
         List<LatLng> list = new ArrayList<>();
-        for (LocationInfo li: locationInfoList) {
+        for (LocationInfo li : locationInfoList) {
             source_loc = new LatLng(li.getLatitude(), li.getLongitude());
             list.add(source_loc);
         }
@@ -386,7 +295,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     private void setUpClusterer(double latitude, double longitude) {
         // Position the map.
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18));
@@ -397,8 +305,8 @@ public class MainActivity extends AppCompatActivity
 
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
-  //      googleMap.setOnCameraIdleListener(mClusterManager);
-  //      googleMap.setOnMarkerClickListener(mClusterManager);
+        //      googleMap.setOnCameraIdleListener(mClusterManager);
+        //      googleMap.setOnMarkerClickListener(mClusterManager);
 
         // Add cluster items (markers) to the cluster manager.
         displayLocationInfo(latitude, longitude);
@@ -407,7 +315,7 @@ public class MainActivity extends AppCompatActivity
 
     public void addLocationInfoToDB(double latitude, double longitude, long timeStamp) {
         // adding the location data into LocationInfo table.
-        Log.i(TAG, "timestamp-start" +timeStamp+ " latitude" +latitude+ " longitude" +longitude);
+        Log.i(TAG, "timestamp-start" + timeStamp + " latitude" + latitude + " longitude" + longitude);
         LocationInfo li = new LocationInfo();
         li.setTime_stamp(timeStamp);
         li.setLatitude(latitude);
@@ -417,15 +325,14 @@ public class MainActivity extends AppCompatActivity
 
 
     public void displayLocationInfo(double latitude, double longitude) {
-        ArrayList<LocationInfo> locationInfoList =  db.readLocationInfo(latitude, longitude);
-        for (LocationInfo li: locationInfoList) {
+        ArrayList<LocationInfo> locationInfoList = db.readLocationInfo(latitude, longitude);
+        for (LocationInfo li : locationInfoList) {
             //mMap.addMarker(new MarkerOptions().position(new LatLng(li.getLatitude(), li.getLongitude())));
-            Log.i(TAG, " Points to Display from displayLocationInfo: Latitude:" + li.getLatitude()+ "longitude " +li.getLongitude());
+            Log.i(TAG, " Points to Display from displayLocationInfo: Latitude:" + li.getLatitude() + "longitude " + li.getLongitude());
         }
         //db.TotalCount();
         mClusterManager.addItems(locationInfoList);
     }
-
 
 
     private void populateDatabaseWithInitialData(SharedPreferences prefs) {
@@ -455,7 +362,7 @@ public class MainActivity extends AppCompatActivity
                 String state = lines[0];
 
                 db.addPivotTableData(new PivotTableData(identifier, lat, lon, name, brand, address, zipcode, city, district, state));
-                Log.i(TAG, "Reading data into table " + identifier + "," + lat + "," + lon + "," + brand + "," + name + "," + address + "," + zipcode + "," + city + "," + state);
+//                Log.i(TAG, "Reading data into table " + identifier + "," + lat + "," + lon + "," + brand + "," + name + "," + address + "," + zipcode + "," + city + "," + state);
             }
         } catch (IOException e) {
             Log.i(TAG, "Reading lat long failed");
@@ -547,14 +454,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         this.googleMap = googleMap;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            setLocation();
-        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            setLocation();
+        boolean permissionAccepted = true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+            permissionAccepted = false;
         }
-        googleMap.setMyLocationEnabled(true);
-        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+        if (permissionAccepted) {
+            setLocation();
+            googleMap.setMyLocationEnabled(true);
+            googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        }
 
 //        ArrayList<DisplayInfo> displayInfo = null;
 //
@@ -640,23 +549,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-
-            //locationManager.requestLocationUpdates(provider, 100, 100, this);
-        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-
-            //locationManager.removeUpdates((LocationListener) this);
-        }
     }
 
 }
