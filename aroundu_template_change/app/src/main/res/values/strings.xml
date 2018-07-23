@@ -18,4 +18,5 @@
         <item>Theatre</item>
         <item>College</item>
     </string-array>
+    <string name="title_activity_heat_map">HeatMapActivity</string>
 </resources>

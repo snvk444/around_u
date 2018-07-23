@@ -99,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //todo use this section to display the bus routes from source to destination that are provided by the user.
+                //get the closest bus stations from the user and the destination location the user provided. Use that info to display the list in this bottom up.
                 Snackbar.make(view, "Show the list of markers within 2mile radius", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -363,6 +365,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 db.addPivotTableData(new PivotTableData(identifier, lat, lon, name, brand, address, zipcode, city, district, state));
 //                Log.i(TAG, "Reading data into table " + identifier + "," + lat + "," + lon + "," + brand + "," + name + "," + address + "," + zipcode + "," + city + "," + state);
+            }
+        } catch (IOException e) {
+            Log.i(TAG, "Reading lat long failed");
+            e.printStackTrace();
+        }
+        try {
+            InputStream is = getResources().openRawResource(R.raw.visakhapatnam_bus_lines_data);
+            reader = new BufferedReader(new InputStreamReader(is));
+        } catch (Exception e) {
+            Log.i(TAG, "Reading LocationReadings.csv to db failed");
+        }
+        prefs.edit().putBoolean("first_run", false).apply();
+
+        try {
+            while ((line = reader.readLine()) != null) // Read until end of file
+            {
+                String[] lines = line.split(",");
+                int lineid = Integer.parseInt(lines[0]);
+                String busno = lines[1];
+                String source_station = lines[2];
+                String destination_station = lines[3];
+                db.addBusLinesData(new IdentifierBusInfo(lineid, busno, source_station, destination_station));
+                Log.i(TAG, "Reading data into table " + lineid + "," + busno + "," + source_station + "," + destination_station);
             }
         } catch (IOException e) {
             Log.i(TAG, "Reading lat long failed");

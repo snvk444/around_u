@@ -26,6 +26,7 @@ public class DBHandler extends SQLiteOpenHelper {
     // table name
     private static final String TABLE_NAME = "pivottabledata";
     private static final String LOC_TABLE_NAME = "location_info";
+    private static final String LINES_TABLE_NAME = "Lines";
     // Table Columns names
     private static final String KEY_ID = "id";
     private static final String IDENTIFIER = "identifier";
@@ -39,6 +40,10 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DISTRICT = "district";
     private static final String STATE = "state";
     private static final String TIME_STAMP = "time_stamp";
+    private static final String LINE_ID = "line_id";
+    private static final String BUS_NO = "Bus_no";
+    private static final String SOURCE_STATION = "Source_station";
+    private static final String DESTINATION_STATION = "Destination_station";
 
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -251,5 +256,47 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
         return itemIds;
     }
+
+
+
+    //******** BusRoutes RELATED DBHANDLERS *******//
+    public void addBusLinesData(IdentifierBusInfo ib) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(LINE_ID, ib.getLineid());
+        values.put(BUS_NO, ib.getBusno());
+        values.put(SOURCE_STATION, ib.getSourceLocation());
+        values.put(DESTINATION_STATION, ib.getDestinationLocation());
+
+        long result = db.insertOrThrow(LINES_TABLE_NAME, null, values);
+        db.close(); // Closing database connection
+    }
+
+    public List<IdentifierBusInfo> getBusLinesData(String src_location, String dest_location) {
+        List<IdentifierBusInfo> markersList = new ArrayList<IdentifierBusInfo>();
+        String selectQuery = null;
+
+        selectQuery = "SELECT * FROM " + LINES_TABLE_NAME + " WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                IdentifierBusInfo ib = new IdentifierBusInfo();
+                ib.setLineid(Integer.parseInt(String.valueOf(cursor.getInt(0))));
+                ib.setBusno(cursor.getString(1));
+                ib.setSourceLocation(cursor.getString(2));
+                ib.setDestinationLocation(cursor.getString(3));
+                // Adding markers to list
+                markersList.add(ib);
+            } while (cursor.moveToNext());
+
+            Log.i(TAG, "Total points available for that selected Identifier: " + markersList.size());
+        }
+        return markersList;
+    }
+
+
 
 }
