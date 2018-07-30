@@ -27,7 +27,7 @@ public class HeatMapActivity extends AppCompatActivity {
         });
 
 
-        //displayLocationInfo(latitude, longitude);
+
     }
 
 }

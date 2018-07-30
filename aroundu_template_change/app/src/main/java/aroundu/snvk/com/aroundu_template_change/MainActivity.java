@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -22,12 +23,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,6 +80,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     HeatmapTileProvider mProvider;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     String provider;
+    Button btn;
+    EditText eText;
+    ConstraintLayout constraint_Layout_1;
+    LinearLayout linear_Layout_1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,6 +193,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setLocationManagerListener(LocationManager.GPS_PROVIDER);
         }
 
+
+        //textbox - destination
+        eText = (EditText) findViewById(R.id.editText);
+        btn = (Button) findViewById(R.id.button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String str = eText.getText().toString();
+                Toast msg = Toast.makeText(getBaseContext(),str,Toast.LENGTH_LONG);
+                msg.show();
+            }
+        });
 
     }
 
@@ -468,6 +488,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String item_selected = adapterView.getItemAtPosition(i).toString();
         Toast.makeText(adapterView.getContext(), item_selected, Toast.LENGTH_SHORT).show();
         item_selected_1 = item_selected;
+        if (item_selected_1 != "Bus"){
+            //todo hide the linear layout created.
+
+            constraint_Layout_1 = (ConstraintLayout) findViewById(R.id.constraintlayout);
+            linear_Layout_1 = (LinearLayout) findViewById(R.id.linearlayout);
+            linear_Layout_1.setVisibility(view.GONE);
+
+        }
         populateMap();
     }
 
