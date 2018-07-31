@@ -2,6 +2,7 @@ package aroundu.snvk.com.aroundu_template_change;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -202,6 +203,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String str = eText.getText().toString();
                 Toast msg = Toast.makeText(getBaseContext(),str,Toast.LENGTH_LONG);
                 msg.show();
+
+                Intent intent = new Intent(v.getContext(), HeatMapActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -488,15 +492,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String item_selected = adapterView.getItemAtPosition(i).toString();
         Toast.makeText(adapterView.getContext(), item_selected, Toast.LENGTH_SHORT).show();
         item_selected_1 = item_selected;
-        if (item_selected_1 != "Bus"){
-            //todo hide the linear layout created.
 
-            constraint_Layout_1 = (ConstraintLayout) findViewById(R.id.constraintlayout);
-            linear_Layout_1 = (LinearLayout) findViewById(R.id.linearlayout);
-            linear_Layout_1.setVisibility(view.GONE);
-
-        }
-        populateMap();
+        populateMap(view);
     }
 
     @Override
@@ -537,9 +534,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    public void populateMap() {
+    public void populateMap(View view) {
 
         googleMap.clear();
+
+        if (item_selected_1 == "Select..."){
+            //todo hide the linear layout created.
+
+            constraint_Layout_1 = (ConstraintLayout) findViewById(R.id.constraintlayout);
+            linear_Layout_1 = (LinearLayout) findViewById(R.id.linearlayout);
+            linear_Layout_1.setVisibility(view.GONE);
+
+        }
 
 
         List<LatLng> latLngList = new ArrayList<LatLng>();
