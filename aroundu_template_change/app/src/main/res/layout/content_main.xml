@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="aroundu.snvk.com.aroundu_template_change.MainActivity"
+    tools:context="aroundu.snvk.com.aroundu_template_change.activity.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
     <fragment
@@ -19,7 +19,8 @@
         android:id="@+id/linearlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <EditText
             android:id="@+id/editText"
