@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
                 //todo make this real instead of just a test
-                ArrayList busList = new ArrayList(dbHandler.getBusLinesData("",""));
+                ArrayList busList = new ArrayList(dbHandler.getBusLinesData("",eText.toString()));
                 Log.d("BottomSheetTest", "Size: " + busList.size());
                 bottomSheetAdapter =  new BottomSheetAdapter(busList);
                 bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -330,7 +330,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void addHeatMap(double latitude, double longitude) {
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18f));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15f));
         ArrayList<LocationInfo> locationInfoList = dbHandler.readLocationInfo(latitude, longitude);
         LatLng source_loc = null;
         List<LatLng> list = new ArrayList<>();
@@ -349,7 +349,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setUpClusterer(double latitude, double longitude) {
         // Position the map.
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15f));
 
         // Initialize the manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
@@ -572,6 +572,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             linear_Layout_1.setVisibility(view.GONE);
         }
 
+        // TODO Set the Location to avoid crashing of app.
+        //Location location = null;
+        double latitude = 33.587105;
+        double longitude = -117.719604;
 
         List<LatLng> latLngList = new ArrayList<LatLng>();
         String line = "";
@@ -582,7 +586,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(item_selected_1.equalsIgnoreCase("Bus")){
                 linear_Layout_1.setVisibility(View.VISIBLE);
             }
-            List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1);
+            List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
             LatLng latLng = null;
             Log.d(TAG, String.valueOf(markers));
             for (PivotTableData marker : markers) {
@@ -598,8 +602,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             for (LatLng li : mData.keySet()) {
                 Log.d(TAG, "Display" + mData.get(li) + "" + li);
                 googleMap.addMarker(new MarkerOptions().position(li).title(String.valueOf(mData.get(li))));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 18));
+                //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 15));
             }
+            setLocation();
+
 //            for (LatLng point : latLngList) {
 //                googleMap.clear();
 //                LatLng test = new LatLng(point.latitude, point.longitude);
@@ -622,7 +628,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             if (location != null) {
                                 // Logic to handle location object
                                 LatLng coordinate = new LatLng(location.getLatitude(), location.getLongitude());
-                                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 18);
+                                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15);
                                 googleMap.animateCamera(yourLocation);
                             }
                         }

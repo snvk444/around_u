@@ -173,10 +173,35 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Getting All Markers from database
-    public List<PivotTableData> getFromPivotTableData(String item_selected_1) {
+    public List<PivotTableData> getFromPivotTableData(String item_selected_1, double latitude, double longitude) {
         Log.i(TAG,item_selected_1);
         List<PivotTableData> markersList = new ArrayList<PivotTableData>();
         String selectQuery = null;
+        double lat1 = latitude-0.01;
+        double lat2 = latitude+0.01;
+        double lng1 = longitude-0.01;
+        double lng2 = longitude+0.01;
+        double minlat;
+        double minlng;
+        double maxlat;
+        double maxlng;
+
+        if(lat1>lat2) {
+            minlat = lat2;
+            maxlat = lat1;
+        }
+        else {
+            minlat = lat1;
+            maxlat = lat2;
+        }
+        if(lng1>lng2) {
+            minlng = lng2;
+            maxlng = lng1;
+        }
+        else {
+            minlng = lng1;
+            maxlng = lng2;
+        }
 
         if (item_selected_1.equals(null)){
             // Select All Query
@@ -184,7 +209,12 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         else {
             // Select specific identifier data Query
-            selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE identifier= '" + item_selected_1 + "'";
+            selectQuery = "SELECT * FROM " + TABLE_NAME + " " +
+                    " WHERE identifier= '" + item_selected_1 +
+                    "' and LATITUDE >= " +minlat+ " " +
+                    " and LATITUDE <= " +maxlat+ " " +
+                    " and LONGITUDE >= " +minlng+ " " +
+                    "and LONGITUDE <= " +maxlng;
 //            selectQuery = "SELECT * FROM " + TABLE_NAME;
         }
         Log.i(TAG,selectQuery);
@@ -236,7 +266,8 @@ public class DBHandler extends SQLiteOpenHelper {
         double maxlat = latitude+0.01;
         double minlng = longitude-0.01;
         double maxlng = longitude+0.01;
-        //Cursor cursor = db.rawQuery("Select * from " +LOC_TABLE_NAME+ " where LATITUDE >= " +minlat+ " and LATITUDE <= " +maxlat+ " and LONGITUDE >= " +minlng+ " and LONGITUDE <= " +maxlng, null);
+        //Cursor cursor = db.rawQuery("Select * from " +LOC_TABLE_NAME+ " where
+        // LATITUDE >= " +minlat+ " and LATITUDE <= " +maxlat+ " and LONGITUDE >= " +minlng+ " and LONGITUDE <= " +maxlng, null);
         Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME, null);
 
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
@@ -308,7 +339,8 @@ public class DBHandler extends SQLiteOpenHelper {
         String selectQuery = null;
 
 //        selectQuery = "SELECT * FROM " + LINES_TABLE_NAME + " WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
-        selectQuery = "SELECT * FROM " + LINES_TABLE_NAME;
+        selectQuery = "SELECT * FROM " + LINES_TABLE_NAME + " " +
+                "WHERE DESTINATION_STATION= '" + dest_location + "'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
