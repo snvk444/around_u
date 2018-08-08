@@ -337,7 +337,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public List<IdentifierBusInfo> getBusLinesData(String src_location, String dest_location) {
         List<IdentifierBusInfo> markersList = new ArrayList<IdentifierBusInfo>();
         String selectQuery = null;
-
+        Log.i(TAG, "Destination" + dest_location);
 //        selectQuery = "SELECT * FROM " + LINES_TABLE_NAME + " WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
         selectQuery = "SELECT * FROM " + LINES_TABLE_NAME + " " +
                 "WHERE DESTINATION_STATION= '" + dest_location + "'";

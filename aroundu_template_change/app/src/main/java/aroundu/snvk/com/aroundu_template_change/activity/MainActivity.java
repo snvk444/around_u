@@ -206,6 +206,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         bottomSheetRV = (RecyclerView) findViewById(R.id.recycler_view);
 
+        //todo check the number of bustops available within 1mile radius of the user. if there is 1 busstop, consider that busstop as the sourcelocation. if there are none,
+        //display a window saying "No Bustops near u!". If there are more than 1, show a popup window asking the user to select a bus stop from the map.
+
         //textbox - destination
         eText = (EditText) findViewById(R.id.editText);
         btn = (Button) findViewById(R.id.button);
@@ -220,7 +223,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
                 //todo make this real instead of just a test
-                ArrayList busList = new ArrayList(dbHandler.getBusLinesData("",eText.toString()));
+
+
+                ArrayList busList = new ArrayList(dbHandler.getBusLinesData("", eText.getText().toString().toUpperCase()));
                 Log.d("BottomSheetTest", "Size: " + busList.size());
                 bottomSheetAdapter =  new BottomSheetAdapter(busList);
                 bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -234,7 +239,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
+        //todo if there are no buslines from the source to the destination, show a popup window saying, 'no information is available. If there is a bus line, let us know...'
+        //when the user clicks yes, he is directed to a different activity that is used to collect the missing data from the users.
     }
 
     @SuppressWarnings({"MissingPermission"})
