@@ -69,7 +69,7 @@ import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener, OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private static final String TAG = "TestingToolbar";
     BufferedReader reader = null;
@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private RecyclerView bottomSheetRV;
     private BottomSheetAdapter bottomSheetAdapter;
+
+    private Location currentLocation = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d("BottomSheetTest", "Button click");
                 View view = getCurrentFocus();
                 if (view != null) {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -225,19 +227,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //todo make this real instead of just a test
 
 
+
                 ArrayList busList = new ArrayList(dbHandler.getBusLinesData("", eText.getText().toString().toUpperCase()));
                 Log.d("BottomSheetTest", "Size: " + busList.size());
-                bottomSheetAdapter =  new BottomSheetAdapter(busList);
+                bottomSheetAdapter = new BottomSheetAdapter(busList);
                 bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 bottomSheetRV.setAdapter(bottomSheetAdapter);
                 String str = eText.getText().toString();
-                Toast msg = Toast.makeText(getBaseContext(),str,Toast.LENGTH_LONG);
+                Toast msg = Toast.makeText(getBaseContext(), str, Toast.LENGTH_LONG);
                 msg.show();
 
 //                Intent intent = new Intent(v.getContext(), HeatMapActivity.class);
 //                startActivity(intent);
             }
         });
+
+
+        // marker listener - when the user clicks the busstop.
+
 
         //todo if there are no buslines from the source to the destination, show a popup window saying, 'no information is available. If there is a bus line, let us know...'
         //when the user clicks yes, he is directed to a different activity that is used to collect the missing data from the users.
@@ -249,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onLocationChanged(Location location) {
                 Log.i(TAG, "onLocationChanged");
+                currentLocation = location;
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
                 long timeStamp = System.currentTimeMillis();
@@ -535,7 +543,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
+        Log.d("whatever", "OnMapReady");
         this.googleMap = googleMap;
+        this.googleMap.setOnMarkerClickListener(this);
+
         boolean permissionAccepted = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED) {
             permissionAccepted = false;
@@ -571,7 +582,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         googleMap.clear();
         linear_Layout_1 = (LinearLayout) findViewById(R.id.linearlayout);
 
-        if (!item_selected_1.equalsIgnoreCase("Bus")){
+        if (!item_selected_1.equalsIgnoreCase("Bus")) {
             //todo hide the linear layout created.
 
             constraint_Layout_1 = (ConstraintLayout) findViewById(R.id.constraintlayout);
@@ -579,20 +590,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         // TODO Set the Location to avoid crashing of app.
-        //Location location = null;
-        double latitude = 33.587105;
-        double longitude = -117.719604;
+//        Location location = null;
+//        double latitude = 33.587105;
+//        double longitude = -117.719604;
 
         List<LatLng> latLngList = new ArrayList<LatLng>();
         String line = "";
         HashMap<LatLng, String> mData = new HashMap<>();
         Marker m;
 
-        if (!item_selected_1.equals("Select...")) {
-            if(item_selected_1.equalsIgnoreCase("Bus")){
+        if (!item_selected_1.equals("Select...") && currentLocation != null) {
+            if (item_selected_1.equalsIgnoreCase("Bus")) {
                 linear_Layout_1.setVisibility(View.VISIBLE);
             }
-            List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
+            List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, currentLocation.getLatitude(), currentLocation.getLongitude());
             LatLng latLng = null;
             Log.d(TAG, String.valueOf(markers));
             for (PivotTableData marker : markers) {
@@ -620,6 +631,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                Log.i(TAG, "Point: " + point);
 //                googleMap.moveCamera(CameraUpdateFactory.newLatLng(point));
 //            }
+            //todo if the currentlocation is null, popup a window.
         } else googleMap.clear();
     }
 
@@ -652,6 +664,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        final String src_location = marker.getTitle();
+        Log.d("onmarkerclick", src_location);
+
+        LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
+        final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
+        eText = (EditText) findViewById(R.id.editText);
+        btn = (Button) findViewById(R.id.button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("BottomSheetTest", "Button click");
+                View view = getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+                //todo make this real instead of just a test
+
+
+
+                ArrayList busList = new ArrayList(dbHandler.getBusLinesData(src_location, eText.getText().toString().toUpperCase()));
+                Log.d("BottomSheetTest", "Size: " + busList.size());
+                bottomSheetAdapter = new BottomSheetAdapter(busList);
+                bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                bottomSheetRV.setAdapter(bottomSheetAdapter);
+                String str = eText.getText().toString();
+                Toast msg = Toast.makeText(getBaseContext(), str, Toast.LENGTH_LONG);
+                msg.show();
+
+//                Intent intent = new Intent(v.getContext(), HeatMapActivity.class);
+//                startActivity(intent);
+            }
+        });
+
+
+        return false;
+
     }
 
 }
