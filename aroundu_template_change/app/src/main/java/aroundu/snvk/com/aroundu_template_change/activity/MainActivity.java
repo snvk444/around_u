@@ -758,17 +758,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-                //todo make this real instead of just a test
-
+                
                 ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation, eText.getText().toString().toUpperCase()));
-                bottomSheetAdapter = new BottomSheetAdapter(busList);
-                bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                bottomSheetRV.setAdapter(bottomSheetAdapter);
-                String str = eText.getText().toString();
-                Toast msg = Toast.makeText(getBaseContext(), str, Toast.LENGTH_LONG);
-                msg.show();
+                if(busList.size() == 0){
+                    Toast msg = Toast.makeText(getBaseContext(), "No results", Toast.LENGTH_LONG);
+                    msg.show();
+                }
+                else {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    bottomSheetAdapter = new BottomSheetAdapter(busList);
+                    bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    bottomSheetRV.setAdapter(bottomSheetAdapter);
+                }
 
 //                Intent intent = new Intent(v.getContext(), HeatMapActivity.class);
 //                startActivity(intent);
