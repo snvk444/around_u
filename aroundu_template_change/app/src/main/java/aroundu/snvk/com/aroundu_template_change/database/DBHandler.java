@@ -341,6 +341,7 @@ public class DBHandler extends SQLiteOpenHelper {
 //        selectQuery = "SELECT * FROM " + LINES_TABLE_NAME + " WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
         selectQuery = "SELECT * FROM " + LINES_TABLE_NAME + " " +
                 "WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
+        Log.d("DBTest", "Query: " + selectQuery);
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -358,7 +359,27 @@ public class DBHandler extends SQLiteOpenHelper {
 
             Log.i(TAG, "Total points available for that selected Identifier: " + markersList.size());
         }
+        Log.d("DBTest", "Marker list: " + markersList.size());
         return markersList;
+    }
+
+    public ArrayList<String> destinationLookup(String s){
+        ArrayList<String> results = new ArrayList<>();
+
+        String selectQuery = "SELECT DISTINCT " + DESTINATION_STATION + " FROM " + LINES_TABLE_NAME + " WHERE " + DESTINATION_STATION + " LIKE '%" + s + "%'";
+        Log.d("PredictiveTest", "Query: " + selectQuery);
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        Log.d("PredictiveTest", "Query results: " + cursor.getCount());
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+
+            Log.d("PredictiveTest", "Total names: " + results);
+        }
+
+        return results;
     }
 
 

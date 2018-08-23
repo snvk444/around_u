@@ -10,6 +10,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
@@ -24,6 +26,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -64,12 +68,14 @@ import java.util.List;
 import aroundu.snvk.com.aroundu_template_change.PivotTableData;
 import aroundu.snvk.com.aroundu_template_change.R;
 import aroundu.snvk.com.aroundu_template_change.adapters.BottomSheetAdapter;
+import aroundu.snvk.com.aroundu_template_change.adapters.SearchViewAdapter;
 import aroundu.snvk.com.aroundu_template_change.database.DBHandler;
+import aroundu.snvk.com.aroundu_template_change.interfaces.RecyclerViewClickListener;
 import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, RecyclerViewClickListener {
 
     private static final String TAG = "TestingToolbar";
     BufferedReader reader = null;
@@ -87,16 +93,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ConstraintLayout constraint_Layout_1;
     LinearLayout linear_Layout_1;
     private DBHandler dbHandler;
+    private Handler mHandler;
 
-    private RecyclerView bottomSheetRV;
+    private RecyclerView bottomSheetRV, searchViewRV;
     private BottomSheetAdapter bottomSheetAdapter;
+    private SearchViewAdapter searchViewAdapter;
 
     private Location currentLocation = null;
+
+    private String srcLocation = "";
+    private RecyclerViewClickListener recyclerViewClickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mHandler = new Handler(Looper.getMainLooper());
+        recyclerViewClickListener = this;
 
         dbHandler = DBHandler.getInstance(this);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -207,12 +221,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         bottomSheetRV = (RecyclerView) findViewById(R.id.recycler_view);
+        searchViewRV = (RecyclerView) findViewById(R.id.search_recycler_view);
 
         //todo check the number of bustops available within 1mile radius of the user. if there is 1 busstop, consider that busstop as the sourcelocation. if there are none,
         //display a window saying "No Bustops near u!". If there are more than 1, show a popup window asking the user to select a bus stop from the map.
 
         //textbox - destination
         eText = (EditText) findViewById(R.id.editText);
+
+        eText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Thread thread = new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        try {
+                            Log.d("PredictiveTest", "Text: " + eText.getText().toString());
+                            final ArrayList<String> results = dbHandler.destinationLookup(eText.getText().toString());
+
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    searchViewAdapter = new SearchViewAdapter(results, recyclerViewClickListener);
+                                    searchViewRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                    searchViewRV.setAdapter(searchViewAdapter);
+                                    searchViewAdapter.notifyDataSetChanged();
+                                }
+                            });
+                        } catch (Exception e) {
+                            Log.d(TAG, "Error: " + e.getMessage());
+                        }
+
+                    }
+                });
+                thread.start();
+            }
+        });
         btn = (Button) findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -227,8 +284,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //todo make this real instead of just a test
 
 
-
-                ArrayList busList = new ArrayList(dbHandler.getBusLinesData("", eText.getText().toString().toUpperCase()));
+                ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation, eText.getText().toString().toUpperCase()));
                 Log.d("BottomSheetTest", "Size: " + busList.size());
                 bottomSheetAdapter = new BottomSheetAdapter(busList);
                 bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -406,7 +462,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         List<LatLng> latLngList = new ArrayList<LatLng>();
         String line = "";
         try {
-            InputStream is = getResources().openRawResource(R.raw.visakhapatnam_data_small);
+            InputStream is = getResources().openRawResource(R.raw.visakhapatnam_data_small_copy);
             reader = new BufferedReader(new InputStreamReader(is));
         } catch (Exception e) {
             Log.i(TAG, "Reading LocationReadings.csv to db failed");
@@ -530,7 +586,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String item_selected = adapterView.getItemAtPosition(i).toString();
-        Toast.makeText(adapterView.getContext(), item_selected, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(adapterView.getContext(), item_selected, Toast.LENGTH_SHORT).show();
         item_selected_1 = item_selected;
 
         populateMap(view);
@@ -543,7 +599,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-        Log.d("whatever", "OnMapReady");
         this.googleMap = googleMap;
         this.googleMap.setOnMarkerClickListener(this);
 
@@ -600,10 +655,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Marker m;
 
         if (!item_selected_1.equals("Select...") && currentLocation != null) {
-            if (item_selected_1.equalsIgnoreCase("Bus")) {
-                linear_Layout_1.setVisibility(View.VISIBLE);
-            }
+
             List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, currentLocation.getLatitude(), currentLocation.getLongitude());
+
+            if (item_selected_1.equalsIgnoreCase("Bus")) {
+                if (markers.size() == 0) {
+                    Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
+                    msg.show();
+                } else if (markers.size() == 1) {
+                    linear_Layout_1.setVisibility(View.VISIBLE);
+                    srcLocation = markers.get(0).name.toUpperCase();
+                    Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
+                    msg.show();
+                } else {
+                    Toast msg = Toast.makeText(getBaseContext(), "Select source bus stop marker", Toast.LENGTH_LONG);
+                    msg.show();
+                }
+            }
+
             LatLng latLng = null;
             Log.d(TAG, String.valueOf(markers));
             for (PivotTableData marker : markers) {
@@ -615,6 +684,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 latLngList.add(latLng);
             }
             Log.d(TAG, "Here I am" + String.valueOf(mData));
+            Log.d(TAG, "Rock you like a hurricane");
 
             for (LatLng li : mData.keySet()) {
                 Log.d(TAG, "Display" + mData.get(li) + "" + li);
@@ -669,8 +739,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-        final String src_location = marker.getTitle();
-        Log.d("onmarkerclick", src_location);
+        srcLocation = marker.getTitle().toUpperCase();
+
+        if (item_selected_1.equalsIgnoreCase("Bus")) {
+            linear_Layout_1.setVisibility(View.VISIBLE);
+            Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
+            msg.show();
+        }
 
         LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
         final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
@@ -678,7 +753,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btn = (Button) findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("BottomSheetTest", "Button click");
                 View view = getCurrentFocus();
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -688,10 +762,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 //todo make this real instead of just a test
 
-
-
-                ArrayList busList = new ArrayList(dbHandler.getBusLinesData(src_location, eText.getText().toString().toUpperCase()));
-                Log.d("BottomSheetTest", "Size: " + busList.size());
+                ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation, eText.getText().toString().toUpperCase()));
                 bottomSheetAdapter = new BottomSheetAdapter(busList);
                 bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 bottomSheetRV.setAdapter(bottomSheetAdapter);
@@ -709,4 +780,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @Override
+    public void onClick(String destination) {
+        eText.setText(destination);
+    }
 }

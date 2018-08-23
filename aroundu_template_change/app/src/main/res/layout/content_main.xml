@@ -22,14 +22,28 @@
         android:orientation="horizontal"
         android:visibility="gone">
 
-        <EditText
-            android:id="@+id/editText"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".60"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Enter Destination" />
+            >
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Enter Destination"
+                android:inputType="textPersonName" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/search_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editText"
+                android:scrollbars="vertical" />
+
+        </RelativeLayout>
 
         <Button
             android:id="@+id/button"
