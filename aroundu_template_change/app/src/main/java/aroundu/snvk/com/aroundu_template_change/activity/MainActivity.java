@@ -103,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private String srcLocation = "";
     private RecyclerViewClickListener recyclerViewClickListener;
+    private ArrayList<String> busDestinationSearchResults;
+    private boolean searchResultClick = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -248,19 +250,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void run() {
 
                         try {
-                            Log.d("PredictiveTest", "Text: " + eText.getText().toString());
-                            final ArrayList<String> results = dbHandler.destinationLookup(eText.getText().toString());
+                            if(!searchResultClick && eText.getText().toString().length() > 2) {
+                                busDestinationSearchResults = dbHandler.destinationLookup(eText.getText().toString());
+                            }
 
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-
-                                    searchViewAdapter = new SearchViewAdapter(results, recyclerViewClickListener);
-                                    searchViewRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                                    searchViewRV.setAdapter(searchViewAdapter);
-                                    searchViewAdapter.notifyDataSetChanged();
+                                    if(! searchResultClick && busDestinationSearchResults != null) {
+                                        searchViewAdapter = new SearchViewAdapter(busDestinationSearchResults, recyclerViewClickListener);
+                                        searchViewRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                        searchViewRV.setAdapter(searchViewAdapter);
+                                        searchViewAdapter.notifyDataSetChanged();
+                                    }
                                 }
                             });
+                            searchResultClick = false;
                         } catch (Exception e) {
                             Log.d(TAG, "Error: " + e.getMessage());
                         }
@@ -758,7 +763,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
-                
+
                 ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation, eText.getText().toString().toUpperCase()));
                 if(busList.size() == 0){
                     Toast msg = Toast.makeText(getBaseContext(), "No results", Toast.LENGTH_LONG);
@@ -782,7 +787,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onClick(String destination) {
+    public void onDestinationSearchClick(String destination) {
+        searchResultClick = true;
         eText.setText(destination);
+        View view = getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+        busDestinationSearchResults.clear();
+        searchViewAdapter.updateData(busDestinationSearchResults);
+        searchViewAdapter.notifyDataSetChanged();
     }
 }

@@ -28,7 +28,7 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Vi
 
         @Override
         public void onClick(View v) {
-            mListener.onClick(destinationList.get(getAdapterPosition()));
+            mListener.onDestinationSearchClick(destinationList.get(getAdapterPosition()));
         }
     }
 
@@ -54,5 +54,9 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Vi
     @Override
     public int getItemCount() {
         return destinationList.size();
+    }
+
+    public void updateData(ArrayList<String> list) {
+        destinationList = list;
     }
 }
