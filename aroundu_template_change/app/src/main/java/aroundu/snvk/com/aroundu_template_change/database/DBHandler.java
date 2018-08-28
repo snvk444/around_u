@@ -177,10 +177,10 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.i(TAG,item_selected_1);
         List<PivotTableData> markersList = new ArrayList<PivotTableData>();
         String selectQuery = null;
-        double lat1 = latitude-0.01;
-        double lat2 = latitude+0.01;
-        double lng1 = longitude-0.01;
-        double lng2 = longitude+0.01;
+        double lat1 = latitude-0.11;
+        double lat2 = latitude+0.11;
+        double lng1 = longitude-0.11;
+        double lng2 = longitude+0.11;
         double minlat;
         double minlng;
         double maxlat;

@@ -288,8 +288,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 //todo make this real instead of just a test
 
-
-                ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation, eText.getText().toString().toUpperCase()));
+                //Sample Src_Coordinates for testing.
+                srcLocation = "Kailasagiri";
+                ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation.toUpperCase(), eText.getText().toString().toUpperCase()));
                 Log.d("BottomSheetTest", "Size: " + busList.size());
                 bottomSheetAdapter = new BottomSheetAdapter(busList);
                 bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -511,7 +512,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String busno = lines[1];
                 String source_station = lines[2];
                 String destination_station = lines[3];
-                dbHandler.addBusLinesData(new IdentifierBusInfo(lineid, busno, source_station, destination_station));
+                int direction = Integer.parseInt(lines[4]);
+                int sequence = Integer.parseInt(lines[5]);
+                dbHandler.addBusLinesData(new IdentifierBusInfo(lineid, busno, source_station, destination_station, direction, sequence));
                 Log.i(TAG, "Reading data into table " + lineid + "," + busno + "," + source_station + "," + destination_station);
             }
         } catch (IOException e) {
@@ -663,6 +666,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, currentLocation.getLatitude(), currentLocation.getLongitude());
 
+            //testing the data. Assigning latnlong manually for now.
+            //double latitude = 17.74748;
+            //double longitude = 83.346268;
+            //List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
+
+            //////
             if (item_selected_1.equalsIgnoreCase("Bus")) {
                 if (markers.size() == 0) {
                     Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
