@@ -2,8 +2,10 @@ package aroundu.snvk.com.aroundu_template_change.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -49,8 +51,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -110,6 +115,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //MAP STYLE
+        //googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.map_style));
 
         mHandler = new Handler(Looper.getMainLooper());
         recyclerViewClickListener = this;
@@ -221,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
         final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
+        bottomSheetBehavior.setHideable(true);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         bottomSheetRV = (RecyclerView) findViewById(R.id.recycler_view);
@@ -315,7 +324,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @SuppressWarnings({"MissingPermission"})
     public void setLocationManagerListener(String provider) {
-        locationManager.requestLocationUpdates(provider, 100, 100, new LocationListener() {
+        //locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(provider, 100, 0, new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 Log.i(TAG, "onLocationChanged");
@@ -328,11 +338,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //add location data into table - locationinfo.
                 addLocationInfoToDB(latitude, longitude, timeStamp);
                 //reading latlong from table - locationinfo.
-                setUpClusterer(latitude, longitude);
-
+                //setUpClusterer(latitude, longitude);
 
                 addHeatMap(latitude, longitude);
-                displayLocationInfo(latitude, longitude);
+                //displayLocationInfo(latitude, longitude);
             }
 
             @Override
@@ -406,8 +415,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void addHeatMap(double latitude, double longitude) {
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15f));
+    public void addHeatMap(double latitude, double longitude) {
+        //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15f));
         ArrayList<LocationInfo> locationInfoList = dbHandler.readLocationInfo(latitude, longitude);
         LatLng source_loc = null;
         List<LatLng> list = new ArrayList<>();
@@ -558,10 +567,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
                         .show();
                 break;
-//            case R.id.action_settings:
-//                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
-//                        .show();
-//                break;
+            case R.id.action_settings:
+                Intent heatmap = new Intent(this, HeatMapActivity.class);
+                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+                        .show();
+                startActivity(heatmap);
+                break;
+
 //            case R.id.action_exit:
 //                Toast.makeText(this, "Exited selected", Toast.LENGTH_SHORT)
 //                        .show();
@@ -708,9 +720,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.d(TAG, "Here I am" + String.valueOf(mData));
             Log.d(TAG, "Rock you like a hurricane");
 
+            //Drawing lines
+            Polyline lines;
             for (LatLng li : mData.keySet()) {
                 Log.d(TAG, "Display" + mData.get(li) + "" + li);
                 googleMap.addMarker(new MarkerOptions().position(li).title(String.valueOf(mData.get(li))));
+                Log.d(TAG, "Line drawing! possible?");
+                lines = googleMap.addPolyline(new PolylineOptions()
+                        .add(new LatLng(17.74748, 83.346268), new LatLng(17.74766, 83.34633))
+                        .width(5)
+                        .color(Color.RED));
                 //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 15));
             }
             setLocation();
