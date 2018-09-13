@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="aroundu.snvk.com.aroundu_template_change">
 
     <permission
@@ -45,6 +46,7 @@
             android:name=".activity.HeatMapActivity"
             android:label="@string/title_activity_heat_map"
             android:theme="@style/AppTheme">
+
 
             <meta-data
                 android:name="com.google.android.geo.API_KEY"
