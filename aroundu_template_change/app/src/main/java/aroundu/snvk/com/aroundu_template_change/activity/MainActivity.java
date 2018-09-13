@@ -2,6 +2,7 @@ package aroundu.snvk.com.aroundu_template_change.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -22,11 +23,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -291,6 +294,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation, eText.getText().toString().toUpperCase()));
                 Log.d("BottomSheetTest", "Size: " + busList.size());
+
+//                showAlertDialog();
                 bottomSheetAdapter = new BottomSheetAdapter(busList);
                 bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 bottomSheetRV.setAdapter(bottomSheetAdapter);
@@ -309,6 +314,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //todo if there are no buslines from the source to the destination, show a popup window saying, 'no information is available. If there is a bus line, let us know...'
         //when the user clicks yes, he is directed to a different activity that is used to collect the missing data from the users.
+    }
+
+    public void showAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Title");
+
+// Set up the input
+        final EditText input = new EditText(this);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+//                m_Text = input.getText().toString();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     @SuppressWarnings({"MissingPermission"})
@@ -766,14 +798,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation, eText.getText().toString().toUpperCase()));
                 if(busList.size() == 0){
+//                    showAlertDialog();
                     Toast msg = Toast.makeText(getBaseContext(), "No results", Toast.LENGTH_LONG);
                     msg.show();
                 }
-                else {
+                else if(busList.size() > 1){
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     bottomSheetAdapter = new BottomSheetAdapter(busList);
                     bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     bottomSheetRV.setAdapter(bottomSheetAdapter);
+                }
+                else{
+
                 }
 
 //                Intent intent = new Intent(v.getContext(), HeatMapActivity.class);

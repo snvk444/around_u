@@ -382,6 +382,25 @@ public class DBHandler extends SQLiteOpenHelper {
         return results;
     }
 
+    public ArrayList<String> destinationLookupByCity(String s){
+        ArrayList<String> results = new ArrayList<>();
+
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + CITY + " LIKE '%" + s + "%'";
+        Log.d("PredictiveTest", "Query: " + selectQuery);
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        Log.d("PredictiveTest", "Query results: " + cursor.getCount());
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+
+            Log.d("PredictiveTest", "Total names: " + results);
+        }
+
+        return results;
+    }
+
 
 
 }
