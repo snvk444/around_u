@@ -49,6 +49,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String BUS_NO = "Bus_no";
     private static final String SOURCE_STATION = "Source_station";
     private static final String DESTINATION_STATION = "Destination_station";
+    private static final String DIRECTION = "Direction";
+    private static final String SEQUENCE = "Sequence";
 
     private static DBHandler mInstance = null;
 
@@ -103,7 +105,9 @@ public class DBHandler extends SQLiteOpenHelper {
                 + LINE_ID + " INTEGER, "
                 + BUS_NO + " TEXT, "
                 + SOURCE_STATION + " TEXT, "
-                + DESTINATION_STATION + " TEXT"
+                + DESTINATION_STATION + " TEXT, "
+                + DIRECTION + " INTEGER, "
+                + SEQUENCE + " INTEGER "
                 +")";
         db.execSQL(CREATE_LINES_TABLE);
     }
@@ -120,6 +124,7 @@ public class DBHandler extends SQLiteOpenHelper {
     //adding source data into table TABLE_SOURCE.
 
     public void addPivotTableData(PivotTableData pt) {
+        Log.d("DebugTest", "addPivotTableData");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(IDENTIFIER, pt.getIdentifier());
@@ -177,10 +182,10 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.i(TAG,item_selected_1);
         List<PivotTableData> markersList = new ArrayList<PivotTableData>();
         String selectQuery = null;
-        double lat1 = latitude-0.01;
-        double lat2 = latitude+0.01;
-        double lng1 = longitude-0.01;
-        double lng2 = longitude+0.01;
+        double lat1 = latitude-0.11;
+        double lat2 = latitude+0.11;
+        double lng1 = longitude-0.11;
+        double lng2 = longitude+0.11;
         double minlat;
         double minlng;
         double maxlat;
@@ -206,6 +211,7 @@ public class DBHandler extends SQLiteOpenHelper {
         if (item_selected_1.equals(null)){
             // Select All Query
             selectQuery = "SELECT * FROM " + TABLE_NAME;
+            Log.i(TAG, "Select Query:" + selectQuery);
         }
         else {
             // Select specific identifier data Query
@@ -329,6 +335,8 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(BUS_NO, ib.getBusno());
         values.put(SOURCE_STATION, ib.getSourceLocation());
         values.put(DESTINATION_STATION, ib.getDestinationLocation());
+        values.put(DIRECTION, ib.getDirection());
+        values.put(SEQUENCE, ib.getSequence());
 
         long result = db.insertOrThrow(LINES_TABLE_NAME, null, values);
         db.close(); // Closing database connection
@@ -337,10 +345,16 @@ public class DBHandler extends SQLiteOpenHelper {
     public List<IdentifierBusInfo> getBusLinesData(String src_location, String dest_location) {
         List<IdentifierBusInfo> markersList = new ArrayList<IdentifierBusInfo>();
         String selectQuery = null;
-        Log.i(TAG, "Destination " + dest_location + "Source " + src_location);
+        Log.i(TAG, "Destination " + dest_location + " Source " + src_location);
 //        selectQuery = "SELECT * FROM " + LINES_TABLE_NAME + " WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
-        selectQuery = "SELECT * FROM " + LINES_TABLE_NAME + " " +
-                "WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
+        //selectQuery = "SELECT * FROM " + LINES_TABLE_NAME;
+                //"WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
+
+        selectQuery = "select distinct L1.line_id, L1.Bus_no, L1.Source_Station, L2.Destination_Station from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
+                + "L1." +LINE_ID + "= L2." + LINE_ID +
+                " and L1." + BUS_NO + "= L2." + BUS_NO + " and L1." +
+                DIRECTION + "= L2." + DIRECTION +") WHERE " +
+                "L1." + SOURCE_STATION + "='" + src_location + "' AND L2." + DESTINATION_STATION + "= '" + dest_location + "'";
         Log.d("DBTest", "Query: " + selectQuery);
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -349,7 +363,7 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 IdentifierBusInfo ib = new IdentifierBusInfo();
-                ib.setLineid(Integer.parseInt(String.valueOf(cursor.getInt(0))));
+                //ib.setLineid(Integer.parseInt(String.valueOf(cursor.getInt(0))));
                 ib.setBusno(cursor.getString(1));
                 ib.setSourceLocation(cursor.getString(2));
                 ib.setDestinationLocation(cursor.getString(3));

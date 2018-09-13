@@ -201,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         //todo get off UI thread
         if (prefs.getBoolean("first_run", true)) {
+            Log.d("SharedPreferenceTest", "Populating the database");
             populateDatabaseWithInitialData(prefs);
         }
 
@@ -291,8 +292,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 //todo make this real instead of just a test
 
-
-                ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation, eText.getText().toString().toUpperCase()));
+                //Sample Src_Coordinates for testing.
+                srcLocation = "KAILASAGIRI";
+                ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation.toUpperCase(), eText.getText().toString().toUpperCase()));
                 Log.d("BottomSheetTest", "Size: " + busList.size());
 
 //                showAlertDialog();
@@ -495,13 +497,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void populateDatabaseWithInitialData(SharedPreferences prefs) {
+        Log.d("DebugTest", "populateData");
 //        DBHandler db = new DBHandler(this);
         List<LatLng> latLngList = new ArrayList<LatLng>();
         String line = "";
         try {
-            InputStream is = getResources().openRawResource(R.raw.visakhapatnam_data_small_copy);
+            InputStream is = getResources().openRawResource(R.raw.visakhapatnam_data_small);
             reader = new BufferedReader(new InputStreamReader(is));
         } catch (Exception e) {
+            Log.d("DebugTest", "Error creating input stream visakhapatnam: " + e.getLocalizedMessage());
             Log.i(TAG, "Reading LocationReadings.csv to db failed");
         }
         //reading data into database from csv file
@@ -525,12 +529,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         } catch (IOException e) {
             Log.i(TAG, "Reading lat long failed");
+            Log.d("DebugTest", "Parsing file: " + e.getLocalizedMessage());
             e.printStackTrace();
         }
         try {
             InputStream is = getResources().openRawResource(R.raw.visakhapatnam_bus_lines_data);
             reader = new BufferedReader(new InputStreamReader(is));
         } catch (Exception e) {
+            Log.d("DebugTest", "Error creating input stream bus lines: " + e.getLocalizedMessage());
             Log.i(TAG, "Reading LocationReadings.csv to db failed");
         }
         prefs.edit().putBoolean("first_run", false).apply();
@@ -543,11 +549,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String busno = lines[1];
                 String source_station = lines[2];
                 String destination_station = lines[3];
-                dbHandler.addBusLinesData(new IdentifierBusInfo(lineid, busno, source_station, destination_station));
+                int direction = Integer.parseInt(lines[4]);
+                int sequence = Integer.parseInt(lines[5]);
+                dbHandler.addBusLinesData(new IdentifierBusInfo(lineid, busno, source_station, destination_station, direction, sequence));
                 Log.i(TAG, "Reading data into table " + lineid + "," + busno + "," + source_station + "," + destination_station);
             }
         } catch (IOException e) {
             Log.i(TAG, "Reading lat long failed");
+            Log.d("DebugTest", "I/O Error: " + e.getLocalizedMessage());
             e.printStackTrace();
         }
         prefs.edit().putBoolean("first_run", false).apply();
@@ -693,8 +702,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (!item_selected_1.equals("Select...") && currentLocation != null) {
 
-            List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, currentLocation.getLatitude(), currentLocation.getLongitude());
+            //List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, currentLocation.getLatitude(), currentLocation.getLongitude());
 
+            //testing the data. Assigning latnlong manually for now.
+            double latitude = 17.74748;
+            double longitude = 83.346268;
+            List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
+            int a = markers.size();
+            Log.i(TAG, "Sizeses:" +a);
+
+            //////
             if (item_selected_1.equalsIgnoreCase("Bus")) {
                 if (markers.size() == 0) {
                     Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
