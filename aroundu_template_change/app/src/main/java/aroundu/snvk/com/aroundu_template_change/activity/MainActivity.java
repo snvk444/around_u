@@ -84,6 +84,7 @@ import aroundu.snvk.com.aroundu_template_change.adapters.SearchViewAdapter;
 import aroundu.snvk.com.aroundu_template_change.database.DBHandler;
 import aroundu.snvk.com.aroundu_template_change.interfaces.BottomSheetClickListener;
 import aroundu.snvk.com.aroundu_template_change.interfaces.RecyclerViewClickListener;
+import aroundu.snvk.com.aroundu_template_change.service.BackgroundService;
 import aroundu.snvk.com.aroundu_template_change.view.MoreInfoDialog;
 import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
@@ -351,7 +352,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.i(TAG, "timestamp" + timeStamp + " latitude" + latitude + " longitude" + longitude);
                 //LatLng present_Loc = new LatLng(latitude, longitude);
                 //add location data into table - locationinfo.
-                addLocationInfoToDB(latitude, longitude, timeStamp);
+//                addLocationInfoToDB(latitude, longitude, timeStamp);
                 //reading latlong from table - locationinfo.
                 //setUpClusterer(latitude, longitude);
 
@@ -388,6 +389,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     MY_PERMISSIONS_REQUEST_LOCATION);
 
         } else {
+            startService(new Intent(this, BackgroundService.class));
             return false;
         }
         return false;

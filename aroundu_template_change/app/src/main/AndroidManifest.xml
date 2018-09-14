@@ -52,6 +52,8 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyDzX0mgNlwHWNIDY1DcZXcVAhRCZo6RJd4" />
         </activity>
+
+        <service android:name="aroundu.snvk.com.aroundu_template_change.service.BackgroundService" android:exported="false" />
     </application>
 
 </manifest>
