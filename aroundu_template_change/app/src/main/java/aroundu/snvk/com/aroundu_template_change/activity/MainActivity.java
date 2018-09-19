@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.location.Criteria;
@@ -48,6 +49,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -129,15 +131,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private LinearLayout llBottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
+    ToggleButton toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+  //toggle button
+        toggle = (ToggleButton)findViewById(R.id.toggBtn);
 
-        //MAP STYLE
-        //googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.map_style));
-
+//
         mHandler = new Handler(Looper.getMainLooper());
         recyclerViewClickListener = this;
         bottomSheetClickListener = this;
@@ -214,8 +217,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 //todo use this section to display the bus routes from source to destination that are provided by the user.
                 //get the closest bus stations from the user and the destination location the user provided. Use that info to display the list in this bottom up.
-                Snackbar.make(view, "Show the list of markers within 2mile radius", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Missing a BusStop? Locate it on the map!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                fab.setBackgroundTintList(ColorStateList.valueOf(5)); //in normal state
+                fab.setRippleColor(10); //in pressed state
+
+                //display toggle
+                toggle.toggle();
+                toggle.setTextOff("TOGGLE ON");
+
+                //fab - click to point out the busstop. does this work???
+                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
+                    public void onMapClick(LatLng point){
+                        Toast.makeText(getBaseContext(),
+                                point.latitude + ", " + point.longitude,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         });
 
@@ -593,10 +612,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .show();
                 break;
             case R.id.action_settings:
-                Intent heatmap = new Intent(this, HeatMapActivity.class);
+                //Intent heatmap = new Intent(this, HeatMapActivity.class);
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
                         .show();
-                startActivity(heatmap);
+                //startActivity(heatmap);
                 break;
 
 //            case R.id.action_exit:
@@ -862,4 +881,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView numberOfStops = (TextView) dialog.findViewById(R.id.number_of_stops);
         numberOfStops.setText(String.valueOf(dbHandler.getNumberOfStopsBetween(src, destination, busName)));
     }
+
+
 }
