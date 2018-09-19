@@ -2,9 +2,11 @@ package aroundu.snvk.com.aroundu_template_change.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
@@ -15,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
@@ -24,11 +27,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -41,6 +46,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -62,6 +68,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
+import org.w3c.dom.Text;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,12 +83,15 @@ import aroundu.snvk.com.aroundu_template_change.R;
 import aroundu.snvk.com.aroundu_template_change.adapters.BottomSheetAdapter;
 import aroundu.snvk.com.aroundu_template_change.adapters.SearchViewAdapter;
 import aroundu.snvk.com.aroundu_template_change.database.DBHandler;
+import aroundu.snvk.com.aroundu_template_change.interfaces.BottomSheetClickListener;
 import aroundu.snvk.com.aroundu_template_change.interfaces.RecyclerViewClickListener;
+import aroundu.snvk.com.aroundu_template_change.service.BackgroundService;
+import aroundu.snvk.com.aroundu_template_change.view.MoreInfoDialog;
 import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, RecyclerViewClickListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, RecyclerViewClickListener, BottomSheetClickListener {
 
     private static final String TAG = "TestingToolbar";
     BufferedReader reader = null;
@@ -108,8 +119,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private String srcLocation = "";
     private RecyclerViewClickListener recyclerViewClickListener;
+    private BottomSheetClickListener bottomSheetClickListener;
     private ArrayList<String> busDestinationSearchResults;
     private boolean searchResultClick = false;
+
+    private Spinner core_spinner;
+
+    private FloatingActionButton fab;
+    private Toolbar toolbar;
+    private LinearLayout llBottomSheet;
+    private BottomSheetBehavior bottomSheetBehavior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,86 +140,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mHandler = new Handler(Looper.getMainLooper());
         recyclerViewClickListener = this;
+        bottomSheetClickListener = this;
 
         dbHandler = DBHandler.getInstance(this);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        Spinner core_spinner = (Spinner) findViewById(R.id.core_spinner);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setViews();
+        setListenersAndBehaviors();
         setSupportActionBar(toolbar);
 
         checkLocationPermission();
-
-        //Spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.core_identifiers, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        core_spinner.setAdapter(adapter);
-        core_spinner.setOnItemSelectedListener(this);
-
-        //Floating Action
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //todo use this section to display the bus routes from source to destination that are provided by the user.
-                //get the closest bus stations from the user and the destination location the user provided. Use that info to display the list in this bottom up.
-                Snackbar.make(view, "Show the list of markers within 2mile radius", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        //Drawer Implementation (DEFAULT)
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
-//
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-
-        //map fragment
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-//        //core-data from csv file
-//        DBHandler db = new DBHandler(this);
-//        Log.d("TAG", "Inserting");
-//        List<LatLng> latLngList = new ArrayList<LatLng>();
-//        String line = "";
-//        try {
-//            Log.i(TAG, "Reading LocationReadings.csv to db");
-//            InputStream is = getResources().openRawResource(R.raw.visakhapatnam_data);
-//            reader = new BufferedReader(new InputStreamReader(is));
-//        } catch (Exception e) {
-//            Log.i(TAG, "Reading LocationReadings.csv to db failed");
-//        }
-//        //reading data into database from csv file
-//        try {
-//            while ((line = reader.readLine()) != null) // Read until end of file
-//            {
-//                Log.i(TAG, "read lat and long");
-//                String[] lines = line.split(",");
-//                String identifier = lines[4];
-//                float lat = Float.parseFloat(lines[5]);
-//                float lon = Float.parseFloat(lines[6]);
-//                String brand = lines[7];
-//                String name = lines[8];
-//                String address = lines[9];
-//                int zipcode = Integer.parseInt(lines[3]);
-//                String city = lines[2];
-//                String district = lines[1];
-//                String state = "Andhra Pradesh";
-//
-//                db.addPivotTableData(new PivotTableData(identifier, lat, lon, name,brand, address, zipcode, city, district, state));
-//                Log.i(TAG, "Reading data into table " + identifier + "," + lat + "," +lon + "," + brand +"," + name +"," + address + "," +zipcode + "," + city + "," + state);
-//            }
-//        } catch (IOException e) {
-//            Log.i(TAG, "Reading lat long failed");
-//            e.printStackTrace();
-//        }
-//        //db.getIntoPivotTableData("Gas");
-//        /////////
 
         //initial insert of data
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
@@ -227,19 +176,68 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setLocationManagerListener(LocationManager.GPS_PROVIDER);
         }
 
-        LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
-        final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
-        bottomSheetBehavior.setHideable(true);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        //todo check the number of bustops available within 1mile radius of the user. if there is 1 busstop, consider that busstop as the sourcelocation. if there are none,
+        //display a window saying "No Bustops near u!". If there are more than 1, show a popup window asking the user to select a bus stop from the map.
+
+        //todo if there are no buslines from the source to the destination, show a popup window saying, 'no information is available. If there is a bus line, let us know...'
+        //when the user clicks yes, he is directed to a different activity that is used to collect the missing data from the users.
+    }
+
+    public void setViews(){
+        core_spinner = (Spinner) findViewById(R.id.core_spinner);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
 
         bottomSheetRV = (RecyclerView) findViewById(R.id.recycler_view);
         searchViewRV = (RecyclerView) findViewById(R.id.search_recycler_view);
 
-        //todo check the number of bustops available within 1mile radius of the user. if there is 1 busstop, consider that busstop as the sourcelocation. if there are none,
-        //display a window saying "No Bustops near u!". If there are more than 1, show a popup window asking the user to select a bus stop from the map.
-
-        //textbox - destination
         eText = (EditText) findViewById(R.id.editText);
+        btn = (Button) findViewById(R.id.button);
+    }
+
+    public void setListenersAndBehaviors(){
+        //Spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.core_identifiers, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        core_spinner.setAdapter(adapter);
+        core_spinner.setOnItemSelectedListener(this);
+
+        //Floating Action
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //todo use this section to display the bus routes from source to destination that are provided by the user.
+                //get the closest bus stations from the user and the destination location the user provided. Use that info to display the list in this bottom up.
+                Snackbar.make(view, "Show the list of markers within 2mile radius", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
+        bottomSheetBehavior.setHideable(true);
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if(newState == BottomSheetBehavior.STATE_EXPANDED){
+                    fab.hide();
+                }
+                if(newState == BottomSheetBehavior.STATE_HIDDEN){
+                    fab.show();
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         eText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -285,41 +283,60 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 thread.start();
             }
         });
-        btn = (Button) findViewById(R.id.button);
+
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("BottomSheetTest", "Button click");
                 View view = getCurrentFocus();
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
-                //todo make this real instead of just a test
-
-                //Sample Src_Coordinates for testing.
-                srcLocation = "KAILASAGIRI";
-                ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation.toUpperCase(), eText.getText().toString().toUpperCase()));
+                ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation, eText.getText().toString().toUpperCase()));
                 Log.d("BottomSheetTest", "Size: " + busList.size());
-                bottomSheetAdapter = new BottomSheetAdapter(busList);
-                bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                bottomSheetRV.setAdapter(bottomSheetAdapter);
-                String str = eText.getText().toString();
-                Toast msg = Toast.makeText(getBaseContext(), str, Toast.LENGTH_LONG);
-                msg.show();
+                if(busList.size() == 0){
+//                    showAlertDialog();
+                    Toast msg = Toast.makeText(getBaseContext(), "No results", Toast.LENGTH_LONG);
+                    msg.show();
+                }
+                else if(busList.size() > 0){
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    bottomSheetAdapter = new BottomSheetAdapter(busList, bottomSheetClickListener);
+                    bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    bottomSheetRV.setAdapter(bottomSheetAdapter);
+                }
 
 //                Intent intent = new Intent(v.getContext(), HeatMapActivity.class);
 //                startActivity(intent);
             }
         });
+    }
 
+    public void showAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Title");
 
-        // marker listener - when the user clicks the busstop.
+// Set up the input
+        final EditText input = new EditText(this);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
 
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+//                m_Text = input.getText().toString();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
 
-        //todo if there are no buslines from the source to the destination, show a popup window saying, 'no information is available. If there is a bus line, let us know...'
-        //when the user clicks yes, he is directed to a different activity that is used to collect the missing data from the users.
+        builder.show();
     }
 
     @SuppressWarnings({"MissingPermission"})
@@ -336,7 +353,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.i(TAG, "timestamp" + timeStamp + " latitude" + latitude + " longitude" + longitude);
                 //LatLng present_Loc = new LatLng(latitude, longitude);
                 //add location data into table - locationinfo.
-                addLocationInfoToDB(latitude, longitude, timeStamp);
+//                addLocationInfoToDB(latitude, longitude, timeStamp);
                 //reading latlong from table - locationinfo.
                 //setUpClusterer(latitude, longitude);
 
@@ -373,6 +390,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     MY_PERMISSIONS_REQUEST_LOCATION);
 
         } else {
+            startService(new Intent(this, BackgroundService.class));
             return false;
         }
         return false;
@@ -425,11 +443,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             list.add(source_loc);
         }
         // Create a heat map tile provider, passing it the latlngs of the police stations.
-        mProvider = new HeatmapTileProvider.Builder()
-                .data(list)
-                .build();
-        // Add a tile overlay to the map, using the heat map tile provider.
-        mOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+
+        if (list.size() == 0){
+
+        }
+        else{
+            Log.d("HeatMapTileProvider", "Permission response: " + list);
+            mProvider = new HeatmapTileProvider.Builder()
+                    .data(list)
+                    .build();
+            // Add a tile overlay to the map, using the heat map tile provider.
+            mOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+        }
     }
 
 
@@ -626,6 +651,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         this.googleMap = googleMap;
+
+        //mapstyle code below
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            boolean success = googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.mapstyle));
+
+            if (!success) {
+                Log.e(TAG, "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e(TAG, "Can't find style. Error: ", e);
+        }
+        //mapstyle code above
+
         this.googleMap.setOnMarkerClickListener(this);
 
         boolean permissionAccepted = true;
@@ -693,6 +735,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             //////
             if (item_selected_1.equalsIgnoreCase("Bus")) {
+                //todo get rid of this when done testing
+                LatLng latLng = new LatLng(latitude, longitude);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                googleMap.animateCamera(cameraUpdate);
+                //todo no seriously, get rid of this block
+
                 if (markers.size() == 0) {
                     Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
                     msg.show();
@@ -758,7 +806,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 // Logic to handle location object
                                 LatLng coordinate = new LatLng(location.getLatitude(), location.getLongitude());
                                 CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15);
-                                googleMap.animateCamera(yourLocation);
+                                //todo uncomment this...maybe
+//                                googleMap.animateCamera(yourLocation);
                             }
                         }
                     });
@@ -788,36 +837,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             msg.show();
         }
 
-        LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
-        final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
-        eText = (EditText) findViewById(R.id.editText);
-        btn = (Button) findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                View view = getCurrentFocus();
-                if (view != null) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
-
-                ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation, eText.getText().toString().toUpperCase()));
-                if(busList.size() == 0){
-                    Toast msg = Toast.makeText(getBaseContext(), "No results", Toast.LENGTH_LONG);
-                    msg.show();
-                }
-                else {
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    bottomSheetAdapter = new BottomSheetAdapter(busList);
-                    bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    bottomSheetRV.setAdapter(bottomSheetAdapter);
-                }
-
-//                Intent intent = new Intent(v.getContext(), HeatMapActivity.class);
-//                startActivity(intent);
-            }
-        });
-
-
         return false;
 
     }
@@ -834,5 +853,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         busDestinationSearchResults.clear();
         searchViewAdapter.updateData(busDestinationSearchResults);
         searchViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onMoreInfoClick(String busName, String src, String destination) {
+        MoreInfoDialog dialog = new MoreInfoDialog(this);
+        dialog.show();
+        TextView numberOfStops = (TextView) dialog.findViewById(R.id.number_of_stops);
+        numberOfStops.setText(String.valueOf(dbHandler.getNumberOfStopsBetween(src, destination, busName)));
     }
 }

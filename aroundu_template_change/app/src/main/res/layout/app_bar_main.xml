@@ -49,7 +49,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email"
-        app:layout_anchor="@id/bottom_sheet"
-        app:layout_anchorGravity="top|end"/>
+        />
 
 </android.support.design.widget.CoordinatorLayout>

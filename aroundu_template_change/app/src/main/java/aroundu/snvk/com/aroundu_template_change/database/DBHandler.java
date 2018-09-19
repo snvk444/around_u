@@ -268,10 +268,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public ArrayList<LocationInfo> readLocationInfo(double latitude, double longitude) {
         SQLiteDatabase db = this.getReadableDatabase();
-        double minlat = latitude-0.01;
-        double maxlat = latitude+0.01;
-        double minlng = longitude-0.01;
-        double maxlng = longitude+0.01;
+        double minlat = latitude-0.001;
+        double maxlat = latitude+0.001;
+        double minlng = longitude-0.001;
+        double maxlng = longitude+0.001;
         //Cursor cursor = db.rawQuery("Select * from " +LOC_TABLE_NAME+ " where
         // LATITUDE >= " +minlat+ " and LATITUDE <= " +maxlat+ " and LONGITUDE >= " +minlng+ " and LONGITUDE <= " +maxlng, null);
         Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME, null);
@@ -339,6 +339,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(SEQUENCE, ib.getSequence());
 
         long result = db.insertOrThrow(LINES_TABLE_NAME, null, values);
+        Log.d("DBTest", "inserting: " + result);
         db.close(); // Closing database connection
     }
 
@@ -350,11 +351,12 @@ public class DBHandler extends SQLiteOpenHelper {
         //selectQuery = "SELECT * FROM " + LINES_TABLE_NAME;
                 //"WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
 
-        selectQuery = "select distinct L1.line_id, L1.Bus_no, L1.Source_Station, L2.Destination_Station from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
+        selectQuery = "select L1.line_id, L1.Bus_no, L1.Source_Station, L2.Destination_Station from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
                 + "L1." +LINE_ID + "= L2." + LINE_ID +
                 " and L1." + BUS_NO + "= L2." + BUS_NO + " and L1." +
                 DIRECTION + "= L2." + DIRECTION +") WHERE " +
-                "L1." + SOURCE_STATION + "='" + src_location + "' AND L2." + DESTINATION_STATION + "= '" + dest_location + "'";
+                "L1." + SOURCE_STATION + "='" + src_location + "' AND L2." + DESTINATION_STATION + "= '" + dest_location + "' " +
+                "GROUP BY L1.line_id, L1.Bus_no, L1.Source_Station, L2.Destination_Station";
         Log.d("DBTest", "Query: " + selectQuery);
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -377,10 +379,51 @@ public class DBHandler extends SQLiteOpenHelper {
         return markersList;
     }
 
+    public int getNumberOfStopsBetween(String src_location, String dest_location, String busNo) {
+        List<IdentifierBusInfo> markersList = new ArrayList<IdentifierBusInfo>();
+        String selectQuery = null;
+        Log.i(TAG, "Destination " + dest_location + " Source " + src_location);
+//        selectQuery = "SELECT * FROM " + LINES_TABLE_NAME + " WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
+        //selectQuery = "SELECT * FROM " + LINES_TABLE_NAME;
+        //"WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
+
+        selectQuery = "select L2." + SEQUENCE + "-L1." + SEQUENCE + " from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
+                + "L1." +LINE_ID + "= L2." + LINE_ID +
+                " and L1." + BUS_NO + "= L2." + BUS_NO + " and L1." +
+                DIRECTION + "= L2." + DIRECTION +") WHERE " +
+                "L1." + SOURCE_STATION + "='" + src_location + "' AND L2." + DESTINATION_STATION + "= '" + dest_location + "' AND L1." + BUS_NO + "= '" + busNo + "'";
+        Log.d("DBTest", "Query: " + selectQuery);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        Log.d("DBTest", "Result: " + cursor.getCount());
+
+        return cursor.getCount();
+    }
+
     public ArrayList<String> destinationLookup(String s){
         ArrayList<String> results = new ArrayList<>();
 
         String selectQuery = "SELECT DISTINCT " + DESTINATION_STATION + " FROM " + LINES_TABLE_NAME + " WHERE " + DESTINATION_STATION + " LIKE '%" + s + "%'";
+        Log.d("PredictiveTest", "Query: " + selectQuery);
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        Log.d("PredictiveTest", "Query results: " + cursor.getCount());
+        if (cursor.moveToFirst()) {
+            do {
+                results.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+
+            Log.d("PredictiveTest", "Total names: " + results);
+        }
+
+        return results;
+    }
+
+    public ArrayList<String> destinationLookupByCity(String s){
+        ArrayList<String> results = new ArrayList<>();
+
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + CITY + " LIKE '%" + s + "%'";
         Log.d("PredictiveTest", "Query: " + selectQuery);
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
