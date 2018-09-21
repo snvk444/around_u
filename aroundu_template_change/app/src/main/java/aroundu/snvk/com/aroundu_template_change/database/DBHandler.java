@@ -5,9 +5,19 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +38,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     // Database Name
     private static final String DATABASE_NAME = "AroundU_DB";
+    private static final String DATABASE_PATH = "/data/data/aroundu.snvk.com.aroundu_template_change/databases/";
     // table name
     private static final String TABLE_NAME = "pivottabledata";
     private static final String LOC_TABLE_NAME = "location_info";
@@ -70,46 +81,50 @@ public class DBHandler extends SQLiteOpenHelper {
 
     protected DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-
         mContext = context;
+        SQLiteDatabase db = getReadableDatabase();
+        db = null;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        synchronized (this) {
+            Log.d("Export", "onCreate");
 
-        String CREATE_CONTENTS_TABLE = "CREATE TABLE " + TABLE_NAME + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
-                + IDENTIFIER + " TEXT ,"
-                + LATITUDE + " DECIMAL(10,7) ,"
-                + LONGITUDE + " DECIMAL(10,7) ,"
-                + NAME + " TEXT ,"
-                + BRAND + " TEXT,"
-                + ADDRESS + " TEXT ,"
-                + ZIPCODE + " TEXT ,"
-                + CITY + " TEXT ,"
-                + DISTRICT + " TEXT ,"
-                + STATE + " TEXT"
-                + ")";
-        Log.i(TAG, "Create table " + CREATE_CONTENTS_TABLE);
-        db.execSQL(CREATE_CONTENTS_TABLE);
+            String CREATE_CONTENTS_TABLE = "CREATE TABLE " + TABLE_NAME + "("
+                    + KEY_ID + " INTEGER PRIMARY KEY,"
+                    + IDENTIFIER + " TEXT ,"
+                    + LATITUDE + " DECIMAL(10,7) ,"
+                    + LONGITUDE + " DECIMAL(10,7) ,"
+                    + NAME + " TEXT ,"
+                    + BRAND + " TEXT,"
+                    + ADDRESS + " TEXT ,"
+                    + ZIPCODE + " TEXT ,"
+                    + CITY + " TEXT ,"
+                    + DISTRICT + " TEXT ,"
+                    + STATE + " TEXT"
+                    + ")";
+            Log.i(TAG, "Create table " + CREATE_CONTENTS_TABLE);
+            db.execSQL(CREATE_CONTENTS_TABLE);
 
-        String CREATE_LOCATION_TABLE = "CREATE TABLE " + LOC_TABLE_NAME + "("
-                + TIME_STAMP + " TEXT PRIMARY KEY,"
-                + LATITUDE + " DECIMAL(10,7) ,"
-                + LONGITUDE + " DECIMAL(10,7)"
-                + ")";
-        Log.i(TAG, "Create table " + CREATE_LOCATION_TABLE);
-        db.execSQL(CREATE_LOCATION_TABLE);
+            String CREATE_LOCATION_TABLE = "CREATE TABLE " + LOC_TABLE_NAME + "("
+                    + TIME_STAMP + " TEXT PRIMARY KEY,"
+                    + LATITUDE + " DECIMAL(10,7) ,"
+                    + LONGITUDE + " DECIMAL(10,7)"
+                    + ")";
+            Log.i(TAG, "Create table " + CREATE_LOCATION_TABLE);
+            db.execSQL(CREATE_LOCATION_TABLE);
 
-        String CREATE_LINES_TABLE = "CREATE TABLE " + LINES_TABLE_NAME + "("
-                + LINE_ID + " INTEGER, "
-                + BUS_NO + " TEXT, "
-                + SOURCE_STATION + " TEXT, "
-                + DESTINATION_STATION + " TEXT, "
-                + DIRECTION + " INTEGER, "
-                + SEQUENCE + " INTEGER "
-                +")";
-        db.execSQL(CREATE_LINES_TABLE);
+            String CREATE_LINES_TABLE = "CREATE TABLE " + LINES_TABLE_NAME + "("
+                    + LINE_ID + " INTEGER, "
+                    + BUS_NO + " TEXT, "
+                    + SOURCE_STATION + " TEXT, "
+                    + DESTINATION_STATION + " TEXT, "
+                    + DIRECTION + " INTEGER, "
+                    + SEQUENCE + " INTEGER "
+                    + ")";
+            db.execSQL(CREATE_LINES_TABLE);
+        }
     }
 
     @Override
@@ -141,7 +156,7 @@ public class DBHandler extends SQLiteOpenHelper {
         // Inserting Row
         Log.i(TAG, "Inserting data" + values);
         long result = db.insertOrThrow(TABLE_NAME, null, values);
-        Log.i(TAG, "Result" + result );
+        Log.i(TAG, "Result" + result);
         db.close(); // Closing database connection
     }
 
@@ -179,51 +194,48 @@ public class DBHandler extends SQLiteOpenHelper {
 
     // Getting All Markers from database
     public List<PivotTableData> getFromPivotTableData(String item_selected_1, double latitude, double longitude) {
-        Log.i(TAG,item_selected_1);
+        Log.i(TAG, item_selected_1);
         List<PivotTableData> markersList = new ArrayList<PivotTableData>();
         String selectQuery = null;
-        double lat1 = latitude-0.11;
-        double lat2 = latitude+0.11;
-        double lng1 = longitude-0.11;
-        double lng2 = longitude+0.11;
+        double lat1 = latitude - 0.11;
+        double lat2 = latitude + 0.11;
+        double lng1 = longitude - 0.11;
+        double lng2 = longitude + 0.11;
         double minlat;
         double minlng;
         double maxlat;
         double maxlng;
 
-        if(lat1>lat2) {
+        if (lat1 > lat2) {
             minlat = lat2;
             maxlat = lat1;
-        }
-        else {
+        } else {
             minlat = lat1;
             maxlat = lat2;
         }
-        if(lng1>lng2) {
+        if (lng1 > lng2) {
             minlng = lng2;
             maxlng = lng1;
-        }
-        else {
+        } else {
             minlng = lng1;
             maxlng = lng2;
         }
 
-        if (item_selected_1.equals(null)){
+        if (item_selected_1.equals(null)) {
             // Select All Query
             selectQuery = "SELECT * FROM " + TABLE_NAME;
             Log.i(TAG, "Select Query:" + selectQuery);
-        }
-        else {
+        } else {
             // Select specific identifier data Query
             selectQuery = "SELECT * FROM " + TABLE_NAME + " " +
                     " WHERE identifier= '" + item_selected_1 +
-                    "' and LATITUDE >= " +minlat+ " " +
-                    " and LATITUDE <= " +maxlat+ " " +
-                    " and LONGITUDE >= " +minlng+ " " +
-                    "and LONGITUDE <= " +maxlng;
+                    "' and LATITUDE >= " + minlat + " " +
+                    " and LATITUDE <= " + maxlat + " " +
+                    " and LONGITUDE >= " + minlng + " " +
+                    "and LONGITUDE <= " + maxlng;
 //            selectQuery = "SELECT * FROM " + TABLE_NAME;
         }
-        Log.i(TAG,selectQuery);
+        Log.i(TAG, selectQuery);
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 // looping through all rows and adding to list
@@ -262,23 +274,23 @@ public class DBHandler extends SQLiteOpenHelper {
         // Inserting Row
         Log.i(TAG, "Inserting data" + values);
         long result = db.insertOrThrow(LOC_TABLE_NAME, null, values);
-        Log.i(TAG, "Result" + result );
+        Log.i(TAG, "Result" + result);
         db.close(); // Closing database connection
     }
 
     public ArrayList<LocationInfo> readLocationInfo(double latitude, double longitude) {
         SQLiteDatabase db = this.getReadableDatabase();
-        double minlat = latitude-0.001;
-        double maxlat = latitude+0.001;
-        double minlng = longitude-0.001;
-        double maxlng = longitude+0.001;
+        double minlat = latitude - 0.001;
+        double maxlat = latitude + 0.001;
+        double minlng = longitude - 0.001;
+        double maxlng = longitude + 0.001;
         //Cursor cursor = db.rawQuery("Select * from " +LOC_TABLE_NAME+ " where
         // LATITUDE >= " +minlat+ " and LATITUDE <= " +maxlat+ " and LONGITUDE >= " +minlng+ " and LONGITUDE <= " +maxlng, null);
         Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME, null);
 
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
         LocationInfo li;
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             li = new LocationInfo();
             //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
             li.setTime_stamp(cursor.getLong(0));
@@ -297,12 +309,12 @@ public class DBHandler extends SQLiteOpenHelper {
     public List readLocationInfo_1() {
         SQLiteDatabase db = this.getReadableDatabase();
         //Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
-        Cursor cursor = db.rawQuery("Select * from " +LOC_TABLE_NAME + " limit 50", null);
+        Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME + " limit 50", null);
         List itemIds = new ArrayList<>();
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             long itemId = cursor.getLong(
                     cursor.getColumnIndexOrThrow(LATITUDE));
-            Log.i(TAG, " TimeStamp: " +cursor.getDouble(0)+ "Latitude:" +cursor.getDouble(1)+ "Longitude:" +cursor.getDouble(2));
+            Log.i(TAG, " TimeStamp: " + cursor.getDouble(0) + "Latitude:" + cursor.getDouble(1) + "Longitude:" + cursor.getDouble(2));
             itemIds.add(itemId);
         }
         cursor.close();
@@ -313,9 +325,9 @@ public class DBHandler extends SQLiteOpenHelper {
     @SuppressLint("LongLogTag")
     public List TotalCount() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("Select count(*) from " +TABLE_NAME, null);
+        Cursor cursor = db.rawQuery("Select count(*) from " + TABLE_NAME, null);
         List itemIds = new ArrayList<>();
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             long itemId = cursor.getLong(
                     cursor.getColumnIndexOrThrow(LATITUDE));
             Log.i(TAG, String.valueOf(cursor.getInt(0)));
@@ -324,7 +336,6 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
         return itemIds;
     }
-
 
 
     //******** BusRoutes RELATED DBHANDLERS *******//
@@ -340,7 +351,6 @@ public class DBHandler extends SQLiteOpenHelper {
 
         long result = db.insertOrThrow(LINES_TABLE_NAME, null, values);
         Log.d("DBTest", "inserting: " + result);
-        db.close(); // Closing database connection
     }
 
     public List<IdentifierBusInfo> getBusLinesData(String src_location, String dest_location) {
@@ -349,12 +359,12 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.i(TAG, "Destination " + dest_location + " Source " + src_location);
 //        selectQuery = "SELECT * FROM " + LINES_TABLE_NAME + " WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
         //selectQuery = "SELECT * FROM " + LINES_TABLE_NAME;
-                //"WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
+        //"WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
 
         selectQuery = "select L1.line_id, L1.Bus_no, L1.Source_Station, L2.Destination_Station from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
-                + "L1." +LINE_ID + "= L2." + LINE_ID +
+                + "L1." + LINE_ID + "= L2." + LINE_ID +
                 " and L1." + BUS_NO + "= L2." + BUS_NO + " and L1." +
-                DIRECTION + "= L2." + DIRECTION +") WHERE " +
+                DIRECTION + "= L2." + DIRECTION + ") WHERE " +
                 "L1." + SOURCE_STATION + "='" + src_location + "' AND L2." + DESTINATION_STATION + "= '" + dest_location + "' " +
                 "GROUP BY L1.line_id, L1.Bus_no, L1.Source_Station, L2.Destination_Station";
         Log.d("DBTest", "Query: " + selectQuery);
@@ -388,9 +398,9 @@ public class DBHandler extends SQLiteOpenHelper {
         //"WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
 
         selectQuery = "select L2." + SEQUENCE + "-L1." + SEQUENCE + " from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
-                + "L1." +LINE_ID + "= L2." + LINE_ID +
+                + "L1." + LINE_ID + "= L2." + LINE_ID +
                 " and L1." + BUS_NO + "= L2." + BUS_NO + " and L1." +
-                DIRECTION + "= L2." + DIRECTION +") WHERE " +
+                DIRECTION + "= L2." + DIRECTION + ") WHERE " +
                 "L1." + SOURCE_STATION + "='" + src_location + "' AND L2." + DESTINATION_STATION + "= '" + dest_location + "' AND L1." + BUS_NO + "= '" + busNo + "'";
         Log.d("DBTest", "Query: " + selectQuery);
 
@@ -401,7 +411,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return cursor.getCount();
     }
 
-    public ArrayList<String> destinationLookup(String s){
+    public ArrayList<String> destinationLookup(String s) {
         ArrayList<String> results = new ArrayList<>();
 
         String selectQuery = "SELECT DISTINCT " + DESTINATION_STATION + " FROM " + LINES_TABLE_NAME + " WHERE " + DESTINATION_STATION + " LIKE '%" + s + "%'";
@@ -420,7 +430,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return results;
     }
 
-    public ArrayList<String> destinationLookupByCity(String s){
+    public ArrayList<String> destinationLookupByCity(String s) {
         ArrayList<String> results = new ArrayList<>();
 
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + CITY + " LIKE '%" + s + "%'";
@@ -439,6 +449,100 @@ public class DBHandler extends SQLiteOpenHelper {
         return results;
     }
 
+    /**
+     * Exports the database to local storage on the users device under a created folder called SignalTrackerDatabases
+     */
+    public void exportDB() {
+        // TODO Auto-generated method stub
+        Log.d("Export", "Method called");
 
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                Log.d("Export", "Begin copy");
+                String currentDBPath = "//data//" + "aroundu.snvk.com.aroundu_template_change"
+                        + "//databases//" + "AroundU_DB";
+                String backupDBPath = "/AroundUDatabases/AroundU_DB.sqlite";
+                File direct = new File(Environment.getExternalStorageDirectory() + "/AroundUDatabases");
+
+                if (!direct.exists())
+                    Log.d("Export", "Directory does not exist");
+                {
+                    if (direct.mkdir()) {
+                        Log.d("Export", "Directory created");
+                        //directory is created;
+                    }
+                }
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                FileChannel src = new FileInputStream(currentDB).getChannel();
+                FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                dst.transferFrom(src, 0, src.size());
+                src.close();
+                dst.close();
+                Toast.makeText(mContext, "Database exported",
+                        Toast.LENGTH_LONG).show();
+
+            }
+        } catch (Exception e) {
+            Log.d("Export", "Error: " + e.toString());
+        }
+    }
+
+    public void importDatabase() {
+        //Open your local db as the input stream
+        try {
+            Log.d("Export", "Begin import");
+            InputStream mInput = mContext.getApplicationContext().getAssets().open(DATABASE_NAME + ".sqlite");
+            String outFileName = DATABASE_PATH + DATABASE_NAME;
+            OutputStream mOutput = new FileOutputStream(outFileName);
+            byte[] mBuffer = new byte[2024];
+            int mLength;
+            while ((mLength = mInput.read(mBuffer)) > 0) {
+                mOutput.write(mBuffer, 0, mLength);
+            }
+            mOutput.flush();
+            mOutput.close();
+            mInput.close();
+            Log.d("Export", "Import successful");
+        } catch (IOException e) {
+            Log.d("Export", "Failure: " + e);
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method will create database in application package /databases
+     * directory when first time application launched
+     **/
+    public void createDataBase() {
+        boolean mDataBaseExist = checkDataBase();
+        Log.d("Export", "Database exists: " + mDataBaseExist);
+        if (!mDataBaseExist) {
+            this.getReadableDatabase();
+        }
+        importDatabase();
+        close();
+    }
+
+    /**
+     * This method checks whether database is exists or not
+     **/
+    private boolean checkDataBase() {
+        try {
+            final String mPath = DATABASE_PATH + DATABASE_NAME;
+            final File file = new File(mPath);
+            if (file.exists())
+                return true;
+            else
+                return false;
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

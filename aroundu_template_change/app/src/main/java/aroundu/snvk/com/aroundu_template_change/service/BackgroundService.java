@@ -30,52 +30,55 @@ public class BackgroundService extends Service {
         return null;
     }
 
-    @SuppressWarnings({"MissingPermission"})
     @Override
     public void onCreate() {
-        Toast.makeText(this, "Service created!", Toast.LENGTH_LONG).show();
 
         dbHandler = DBHandler.getInstance(this);
         handler = new Handler();
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        setLocationManager();
         runnable = new Runnable() {
             public void run() {
-                String provider = "";
-                if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                    provider = LocationManager.NETWORK_PROVIDER;
-                } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    provider = LocationManager.GPS_PROVIDER;
-                }
-                locationManager.requestLocationUpdates(provider, 100, 0, new LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-                        Log.i("ServiceTest", "onLocationChanged");
-                        double latitude = location.getLatitude();
-                        double longitude = location.getLongitude();
-                        long timeStamp = System.currentTimeMillis();
-                        Log.i("ServiceTest", "timestamp" + timeStamp + " latitude" + latitude + " longitude" + longitude);
-                        addLocationInfoToDB(latitude, longitude, timeStamp);
-                    }
-
-                    @Override
-                    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-                    }
-
-                    @Override
-                    public void onProviderEnabled(String s) {
-
-                    }
-
-                    @Override
-                    public void onProviderDisabled(String s) {
-                    }
-                });
                 handler.postDelayed(runnable, 10000);
             }
         };
 
         handler.postDelayed(runnable, 15000);
+    }
+
+    @SuppressWarnings({"MissingPermission"})
+    public void setLocationManager(){
+        String provider = "";
+        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            provider = LocationManager.NETWORK_PROVIDER;
+        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            provider = LocationManager.GPS_PROVIDER;
+        }
+        locationManager.requestLocationUpdates(provider, 100, 0, new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.i("ServiceTest", "onLocationChanged");
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+                long timeStamp = System.currentTimeMillis();
+                Log.i("ServiceTest", "timestamp" + timeStamp + " latitude" + latitude + " longitude" + longitude);
+                addLocationInfoToDB(latitude, longitude, timeStamp);
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+            }
+        });
     }
 
     @Override

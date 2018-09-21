@@ -16,6 +16,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -125,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ArrayList<String> busDestinationSearchResults;
     private boolean searchResultClick = false;
 
+    private TextView version;
+
     private Spinner core_spinner;
 
     private FloatingActionButton fab;
@@ -133,15 +136,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private BottomSheetBehavior bottomSheetBehavior;
     ToggleButton toggle;
 
+    private Handler backgroundHandler = null;
+
+    private HandlerThread mHandlerThread = null;
+
+    private int versionClickCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-  //toggle button
-        toggle = (ToggleButton)findViewById(R.id.toggBtn);
-
 //
         mHandler = new Handler(Looper.getMainLooper());
+        mHandlerThread = new HandlerThread("BackgroundThread");
+        mHandlerThread.start();
+        backgroundHandler = new Handler(mHandlerThread.getLooper());
+
         recyclerViewClickListener = this;
         bottomSheetClickListener = this;
 
@@ -155,11 +165,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         checkLocationPermission();
 
         //initial insert of data
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        //todo get off UI thread
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         if (prefs.getBoolean("first_run", true)) {
-            Log.d("SharedPreferenceTest", "Populating the database");
-            populateDatabaseWithInitialData(prefs);
+            Log.d("Export", "Populating the database");
+
+            backgroundHandler.post(new Runnable() {
+                @Override
+                public void run() {
+//                    populateDatabaseWithInitialData(prefs);
+
+                    dbHandler.createDataBase();
+
+                    prefs.edit().putBoolean("first_run", false).apply();
+                }
+            });
         }
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -186,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //when the user clicks yes, he is directed to a different activity that is used to collect the missing data from the users.
     }
 
-    public void setViews(){
+    public void setViews() {
         core_spinner = (Spinner) findViewById(R.id.core_spinner);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -202,9 +221,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         eText = (EditText) findViewById(R.id.editText);
         btn = (Button) findViewById(R.id.button);
+
+        version = (TextView) findViewById(R.id.version_number);
+        toggle = (ToggleButton) findViewById(R.id.toggBtn);
     }
 
-    public void setListenersAndBehaviors(){
+    public void setListenersAndBehaviors() {
         //Spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.core_identifiers, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -227,8 +249,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 toggle.setTextOff("TOGGLE ON");
 
                 //fab - click to point out the busstop. does this work???
-                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
-                    public void onMapClick(LatLng point){
+                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    public void onMapClick(LatLng point) {
                         Toast.makeText(getBaseContext(),
                                 point.latitude + ", " + point.longitude,
                                 Toast.LENGTH_SHORT).show();
@@ -243,10 +265,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if(newState == BottomSheetBehavior.STATE_EXPANDED){
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     fab.hide();
                 }
-                if(newState == BottomSheetBehavior.STATE_HIDDEN){
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                     fab.show();
                 }
             }
@@ -277,14 +299,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void run() {
 
                         try {
-                            if(!searchResultClick && eText.getText().toString().length() > 2) {
+                            if (!searchResultClick && eText.getText().toString().length() > 2) {
                                 busDestinationSearchResults = dbHandler.destinationLookup(eText.getText().toString());
                             }
 
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if(! searchResultClick && busDestinationSearchResults != null) {
+                                    if (!searchResultClick && busDestinationSearchResults != null) {
                                         searchViewAdapter = new SearchViewAdapter(busDestinationSearchResults, recyclerViewClickListener);
                                         searchViewRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                         searchViewRV.setAdapter(searchViewAdapter);
@@ -313,12 +335,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation, eText.getText().toString().toUpperCase()));
                 Log.d("BottomSheetTest", "Size: " + busList.size());
-                if(busList.size() == 0){
+                if (busList.size() == 0) {
 //                    showAlertDialog();
                     Toast msg = Toast.makeText(getBaseContext(), "No results", Toast.LENGTH_LONG);
                     msg.show();
-                }
-                else if(busList.size() > 0){
+                } else if (busList.size() > 0) {
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     bottomSheetAdapter = new BottomSheetAdapter(busList, bottomSheetClickListener);
                     bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -329,9 +350,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                startActivity(intent);
             }
         });
+
+        version.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("VersionMenu", "Count: " + versionClickCount);
+                versionClickCount++;
+                if (versionClickCount == 10) {
+                    Log.d("VersionMenu", "Success");
+                    dbHandler.exportDB();
+                }
+            }
+        });
+
     }
 
-    public void showAlertDialog(){
+    public void showAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Title");
 
@@ -376,7 +410,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //reading latlong from table - locationinfo.
                 //setUpClusterer(latitude, longitude);
 
-                addHeatMap(latitude, longitude);
+                //todo rework logic to prevent massive bogging down of system
+                //addHeatMap(latitude, longitude);
                 //displayLocationInfo(latitude, longitude);
             }
 
@@ -438,6 +473,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         provider = locationManager.getBestProvider(new Criteria(), false);
                         setLocationManagerListener(provider);
+                        startService(new Intent(this, BackgroundService.class));
                     }
 
                 } else {
@@ -463,10 +499,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         // Create a heat map tile provider, passing it the latlngs of the police stations.
 
-        if (list.size() == 0){
+        if (list.size() == 0) {
 
-        }
-        else{
+        } else {
             Log.d("HeatMapTileProvider", "Permission response: " + list);
             mProvider = new HeatmapTileProvider.Builder()
                     .data(list)
@@ -495,14 +530,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    public void addLocationInfoToDB(double latitude, double longitude, long timeStamp) {
+    public void addLocationInfoToDB(final double latitude, final double longitude, final long timeStamp) {
         // adding the location data into LocationInfo table.
-        Log.i(TAG, "timestamp-start" + timeStamp + " latitude" + latitude + " longitude" + longitude);
-        LocationInfo li = new LocationInfo();
-        li.setTime_stamp(timeStamp);
-        li.setLatitude(latitude);
-        li.setLongitude(longitude);
-        dbHandler.addLocationInfo(li);
+        backgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG, "timestamp-start" + timeStamp + " latitude" + latitude + " longitude" + longitude);
+                LocationInfo li = new LocationInfo();
+                li.setTime_stamp(timeStamp);
+                li.setLatitude(latitude);
+                li.setLongitude(longitude);
+                dbHandler.addLocationInfo(li);
+            }
+        });
     }
 
 
@@ -657,6 +697,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String item_selected = adapterView.getItemAtPosition(i).toString();
 //        Toast.makeText(adapterView.getContext(), item_selected, Toast.LENGTH_SHORT).show();
+        Log.d("Export", "Item selected: " + item_selected);
         item_selected_1 = item_selected;
 
         populateMap(view);
@@ -741,6 +782,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         HashMap<LatLng, String> mData = new HashMap<>();
         Marker m;
 
+        if(ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED && currentLocation == null){
+            String provider = null;
+            if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                provider = LocationManager.NETWORK_PROVIDER;
+            } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                provider = LocationManager.GPS_PROVIDER;
+            }
+            if(provider != null) {
+                locationManager.getLastKnownLocation(provider);
+            }
+        }
+
         if (!item_selected_1.equals("Select...") && currentLocation != null) {
 
             //List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, currentLocation.getLatitude(), currentLocation.getLongitude());
@@ -750,10 +805,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             double longitude = 83.346268;
             List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
             int a = markers.size();
-            Log.i(TAG, "Sizeses:" +a);
+            Log.d("Export", "Sizeses:" + a);
 
             //////
             if (item_selected_1.equalsIgnoreCase("Bus")) {
+                Log.d("Export", "Bus thing");
                 //todo get rid of this when done testing
                 LatLng latLng = new LatLng(latitude, longitude);
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
