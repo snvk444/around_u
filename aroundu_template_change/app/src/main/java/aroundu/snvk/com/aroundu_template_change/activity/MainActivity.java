@@ -810,6 +810,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //////
             if (item_selected_1.equalsIgnoreCase("Bus")) {
                 Log.d("Export", "Bus thing");
+                googleMap.getUiSettings().setMapToolbarEnabled(false);
                 //todo get rid of this when done testing
                 LatLng latLng = new LatLng(latitude, longitude);
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
