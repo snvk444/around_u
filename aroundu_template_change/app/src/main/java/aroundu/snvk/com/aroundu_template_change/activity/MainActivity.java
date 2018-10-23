@@ -713,7 +713,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.googleMap = googleMap;
 
         //mapstyle code below
-        try {
+       try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
             boolean success = googleMap.setMapStyle(
