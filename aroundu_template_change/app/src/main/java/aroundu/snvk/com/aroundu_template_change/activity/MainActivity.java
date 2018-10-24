@@ -248,8 +248,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //get the closest bus stations from the user and the destination location the user provided. Use that info to display the list in this bottom up.
                 Snackbar.make(view, "Missing a BusStop? Locate it on the map!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                fab.setBackgroundTintList(ColorStateList.valueOf(5)); //in normal state
-                fab.setRippleColor(10); //in pressed state
+                //fab.setBackgroundTintList(ColorStateList.valueOf(5)); //in normal state
+                //fab.setRippleColor(10); //in pressed state
 
                 //display toggle
                 toggle.toggle();
@@ -703,13 +703,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.profile) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.bus_stations) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.explored_loc) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.massage) {
+
+        } else if (id == R.id.terms_conditions) {
 
         } else if (id == R.id.nav_share) {
 
