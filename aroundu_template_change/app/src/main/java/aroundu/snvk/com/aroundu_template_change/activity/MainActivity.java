@@ -88,13 +88,14 @@ import aroundu.snvk.com.aroundu_template_change.adapters.SearchViewAdapter;
 import aroundu.snvk.com.aroundu_template_change.database.DBHandler;
 import aroundu.snvk.com.aroundu_template_change.interfaces.BottomSheetClickListener;
 import aroundu.snvk.com.aroundu_template_change.interfaces.RecyclerViewClickListener;
+import aroundu.snvk.com.aroundu_template_change.interfaces.TrackingListener;
 import aroundu.snvk.com.aroundu_template_change.service.BackgroundService;
 import aroundu.snvk.com.aroundu_template_change.view.MoreInfoDialog;
 import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, RecyclerViewClickListener, BottomSheetClickListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, RecyclerViewClickListener, BottomSheetClickListener, TrackingListener {
 
     private static final String TAG = "TestingToolbar";
     BufferedReader reader = null;
@@ -121,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Location currentLocation = null;
 
     private String srcLocation = "";
+    private String destLocation = "";
     private RecyclerViewClickListener recyclerViewClickListener;
     private BottomSheetClickListener bottomSheetClickListener;
     private ArrayList<String> busDestinationSearchResults;
@@ -141,6 +143,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private HandlerThread mHandlerThread = null;
 
     private int versionClickCount = 0;
+
+    private boolean expanded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +176,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             backgroundHandler.post(new Runnable() {
                 @Override
                 public void run() {
+//                    Log.d("DestLookUp", "Before");
 //                    populateDatabaseWithInitialData(prefs);
+//                    Log.d("DestLookUp", "After");
+//                    populateDestinationLookUpTable();
 
                     dbHandler.createDataBase();
 
@@ -241,8 +248,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //get the closest bus stations from the user and the destination location the user provided. Use that info to display the list in this bottom up.
                 Snackbar.make(view, "Missing a BusStop? Locate it on the map!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                fab.setBackgroundTintList(ColorStateList.valueOf(5)); //in normal state
-                fab.setRippleColor(10); //in pressed state
+                //fab.setBackgroundTintList(ColorStateList.valueOf(5)); //in normal state
+                //fab.setRippleColor(10); //in pressed state
 
                 //display toggle
                 toggle.toggle();
@@ -267,9 +274,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     fab.hide();
+                    expanded = true;
                 }
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                     fab.show();
+                    expanded = false;
                 }
             }
 
@@ -556,6 +565,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mClusterManager.addItems(locationInfoList);
     }
 
+    private void populateDestinationLookUpTable(){
+        Log.d("DestLookUp", "Begin");
+        String line = "";
+        try {
+            InputStream is = getResources().openRawResource(R.raw.destination_lookup);
+            reader = new BufferedReader(new InputStreamReader(is));
+            while ((line = reader.readLine()) != null)
+            {
+                String[] str = line.split(",");
+                dbHandler.addDestinationLookUpInfo(str[0], str[1]);
+            }
+        } catch (Exception e) {
+            Log.d("DestLookUp", "Error: " + e.getLocalizedMessage());
+        }
+    }
+
 
     private void populateDatabaseWithInitialData(SharedPreferences prefs) {
         Log.d("DebugTest", "populateData");
@@ -628,7 +653,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else if(expanded){
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+        else {
             super.onBackPressed();
         }
     }
@@ -674,13 +703,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.profile) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.bus_stations) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.explored_loc) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.massage) {
+
+        } else if (id == R.id.terms_conditions) {
 
         } else if (id == R.id.nav_share) {
 
@@ -809,7 +840,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             //////
             if (item_selected_1.equalsIgnoreCase("Bus")) {
-                Log.d("Export", "Bus thing");
                 googleMap.getUiSettings().setMapToolbarEnabled(false);
                 //todo get rid of this when done testing
                 LatLng latLng = new LatLng(latitude, longitude);
@@ -933,11 +963,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onMoreInfoClick(String busName, String src, String destination) {
-        MoreInfoDialog dialog = new MoreInfoDialog(this);
+        MoreInfoDialog dialog = new MoreInfoDialog(this, this);
+        srcLocation = src;
+        destLocation = destination;
         dialog.show();
         TextView numberOfStops = (TextView) dialog.findViewById(R.id.number_of_stops);
         numberOfStops.setText(String.valueOf(dbHandler.getNumberOfStopsBetween(src, destination, busName)));
     }
 
 
+    @Override
+    public void trackMyPath() {
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        //todo get from database latlngs for source (variable srcLocation) and destination (variable destLocation). Clear map of markers. Draw two markers.
+    }
 }

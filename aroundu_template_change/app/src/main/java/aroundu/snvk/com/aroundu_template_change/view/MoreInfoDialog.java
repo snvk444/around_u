@@ -8,15 +8,18 @@ import android.view.Window;
 import android.widget.Button;
 
 import aroundu.snvk.com.aroundu_template_change.R;
+import aroundu.snvk.com.aroundu_template_change.interfaces.TrackingListener;
 
 public class MoreInfoDialog extends Dialog implements View.OnClickListener{
 
     public Activity rootActivity;
     public Button goBack, track;
+    public TrackingListener mListener;
 
-    public MoreInfoDialog(Activity a){
+    public MoreInfoDialog(Activity a, TrackingListener m){
         super(a);
         rootActivity = a;
+        mListener = m;
     }
 
     @Override
@@ -36,6 +39,7 @@ public class MoreInfoDialog extends Dialog implements View.OnClickListener{
         switch (v.getId()) {
             case R.id.btn_yes:
                 //launch next popup
+                mListener.trackMyPath();
                 break;
             case R.id.btn_no:
                 dismiss();
