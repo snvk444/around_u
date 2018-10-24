@@ -16,11 +16,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:text="# Bus Stops between source and destination"
-<<<<<<< HEAD
-        android:textColor="@android:color/white"
-=======
         android:textColor="@color/colorPrimary"
->>>>>>> NavigationView_Update1
         android:textSize="15sp"
         android:textStyle="bold"/>
 
@@ -31,11 +27,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:text="0"
-<<<<<<< HEAD
-        android:textColor="#3E80B4"
-=======
         android:textColor="@color/colorPrimary"
->>>>>>> NavigationView_Update1
         android:textSize="25sp"
         android:textStyle="bold"/>
 
