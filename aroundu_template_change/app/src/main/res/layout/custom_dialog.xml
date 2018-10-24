@@ -16,7 +16,7 @@
         android:layout_marginRight="10dp"
         android:text="# Bus Stops between source and destination"
         android:textColor="@android:color/white"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:textStyle="bold"/>
 
     <TextView
@@ -26,8 +26,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:text="0"
-        android:textColor="@android:color/white"
-        android:textSize="25dp"
+        android:textColor="#3E80B4"
+        android:textSize="25sp"
         android:textStyle="bold"/>
 
 
