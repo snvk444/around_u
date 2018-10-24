@@ -401,23 +401,29 @@ public class DBHandler extends SQLiteOpenHelper {
     public int getNumberOfStopsBetween(String src_location, String dest_location, String busNo) {
         List<IdentifierBusInfo> markersList = new ArrayList<IdentifierBusInfo>();
         String selectQuery = null;
+
         Log.i(TAG, "Destination " + dest_location + " Source " + src_location);
 //        selectQuery = "SELECT * FROM " + LINES_TABLE_NAME + " WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
         //selectQuery = "SELECT * FROM " + LINES_TABLE_NAME;
         //"WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
 
-        selectQuery = "select L2." + SEQUENCE + "-L1." + SEQUENCE + " from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
+        selectQuery = "select abs(L2." + SEQUENCE + "-L1." + SEQUENCE + ") from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
                 + "L1." + LINE_ID + "= L2." + LINE_ID +
                 " and L1." + BUS_NO + "= L2." + BUS_NO + " and L1." +
                 DIRECTION + "= L2." + DIRECTION + ") WHERE " +
-                "L1." + SOURCE_STATION + "='" + src_location + "' AND L2." + DESTINATION_STATION + "= '" + dest_location + "' AND L1." + BUS_NO + "= '" + busNo + "'";
+                "L1." + SOURCE_STATION + "='" + src_location + "' AND L2." +
+                DESTINATION_STATION + "= '" + dest_location + "' AND L1." + BUS_NO + "= '" + busNo +
+                "' AND L2." + SEQUENCE + "> L1." + SEQUENCE +"" ;
         Log.d("DBTest", "Query: " + selectQuery);
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         Log.d("DBTest", "Result: " + cursor.getCount());
-
-        return cursor.getCount();
+        if(cursor.moveToFirst())
+        {
+            Log.d("cursor",cursor.getString(0));
+        }
+        return Integer.parseInt(cursor.getString(0));
     }
 
     public ArrayList<String> destinationLookup(String s) {
