@@ -43,6 +43,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "pivottabledata";
     private static final String LOC_TABLE_NAME = "location_info";
     private static final String LINES_TABLE_NAME = "Lines";
+    private static final String DEST_LOOKUP_TABLE_NAME = "destination_lookup_tbl";
     // Table Columns names
     private static final String KEY_ID = "id";
     private static final String IDENTIFIER = "identifier";
@@ -62,6 +63,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DESTINATION_STATION = "Destination_station";
     private static final String DIRECTION = "Direction";
     private static final String SEQUENCE = "Sequence";
+    private static final String DEST_LOOK_UP = "dest_look_up";
+    private static final String ACTUAL_NAME = "actual_name";
 
     private static DBHandler mInstance = null;
 
@@ -124,6 +127,12 @@ public class DBHandler extends SQLiteOpenHelper {
                     + SEQUENCE + " INTEGER "
                     + ")";
             db.execSQL(CREATE_LINES_TABLE);
+
+            String CREATE_DEST_TABLE = "CREATE TABLE " + DEST_LOOKUP_TABLE_NAME + "("
+                    + ACTUAL_NAME + " TEXT, "
+                    + DEST_LOOK_UP + " TEXT "
+                        +")";
+            db.execSQL(CREATE_DEST_TABLE);
         }
     }
 
@@ -414,7 +423,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public ArrayList<String> destinationLookup(String s) {
         ArrayList<String> results = new ArrayList<>();
 
-        String selectQuery = "SELECT DISTINCT " + DESTINATION_STATION + " FROM " + LINES_TABLE_NAME + " WHERE " + DESTINATION_STATION + " LIKE '%" + s + "%'";
+        String selectQuery = "SELECT DISTINCT " + ACTUAL_NAME + " FROM " + DEST_LOOKUP_TABLE_NAME + " WHERE " + DEST_LOOK_UP + " LIKE '%" + s + "%'";
         Log.d("PredictiveTest", "Query: " + selectQuery);
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -543,6 +552,16 @@ public class DBHandler extends SQLiteOpenHelper {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public void addDestinationLookUpInfo(String actualName, String destLookUp) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(ACTUAL_NAME, actualName);
+        values.put(DEST_LOOK_UP, destLookUp);
+
+        long result = db.insertOrThrow(DEST_LOOKUP_TABLE_NAME, null, values);
+        Log.d("DestLookUp", "inserting: " + result);
     }
 
 }

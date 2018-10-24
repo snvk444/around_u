@@ -172,7 +172,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             backgroundHandler.post(new Runnable() {
                 @Override
                 public void run() {
+//                    Log.d("DestLookUp", "Before");
 //                    populateDatabaseWithInitialData(prefs);
+//                    Log.d("DestLookUp", "After");
+//                    populateDestinationLookUpTable();
 
                     dbHandler.createDataBase();
 
@@ -554,6 +557,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         //db.TotalCount();
         mClusterManager.addItems(locationInfoList);
+    }
+
+    private void populateDestinationLookUpTable(){
+        Log.d("DestLookUp", "Begin");
+        String line = "";
+        try {
+            InputStream is = getResources().openRawResource(R.raw.destination_lookup);
+            reader = new BufferedReader(new InputStreamReader(is));
+            while ((line = reader.readLine()) != null)
+            {
+                String[] str = line.split(",");
+                dbHandler.addDestinationLookUpInfo(str[0], str[1]);
+            }
+        } catch (Exception e) {
+            Log.d("DestLookUp", "Error: " + e.getLocalizedMessage());
+        }
     }
 
 
