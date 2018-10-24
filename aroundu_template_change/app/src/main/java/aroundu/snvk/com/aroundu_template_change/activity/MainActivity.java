@@ -142,6 +142,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private int versionClickCount = 0;
 
+    private boolean expanded = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -270,9 +272,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     fab.hide();
+                    expanded = true;
                 }
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                     fab.show();
+                    expanded = false;
                 }
             }
 
@@ -647,7 +651,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else if(expanded){
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+        else {
             super.onBackPressed();
         }
     }
@@ -957,6 +965,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView numberOfStops = (TextView) dialog.findViewById(R.id.number_of_stops);
         numberOfStops.setText(String.valueOf(dbHandler.getNumberOfStopsBetween(src, destination, busName)));
     }
+
+
 
 
 }
