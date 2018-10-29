@@ -210,6 +210,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //todo if there are no buslines from the source to the destination, show a popup window saying, 'no information is available. If there is a bus line, let us know...'
         //when the user clicks yes, he is directed to a different activity that is used to collect the missing data from the users.
+
+
     }
 
     public void setViews() {
@@ -415,12 +417,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.i(TAG, "timestamp" + timeStamp + " latitude" + latitude + " longitude" + longitude);
                 //LatLng present_Loc = new LatLng(latitude, longitude);
                 //add location data into table - locationinfo.
-//                addLocationInfoToDB(latitude, longitude, timeStamp);
+                //addLocationInfoToDB(latitude, longitude, timeStamp);
                 //reading latlong from table - locationinfo.
                 //setUpClusterer(latitude, longitude);
 
                 //todo rework logic to prevent massive bogging down of system
-                //addHeatMap(latitude, longitude);
+                addHeatMap(latitude, longitude);
                 //displayLocationInfo(latitude, longitude);
             }
 
@@ -506,7 +508,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             source_loc = new LatLng(li.getLatitude(), li.getLongitude());
             list.add(source_loc);
         }
-        // Create a heat map tile provider, passing it the latlngs of the police stations.
+        // Create a heat map tile provider, passing it the latlngs.
 
         if (list.size() == 0) {
 

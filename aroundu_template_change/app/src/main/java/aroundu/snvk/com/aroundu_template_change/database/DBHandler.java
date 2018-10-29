@@ -289,10 +289,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public ArrayList<LocationInfo> readLocationInfo(double latitude, double longitude) {
         SQLiteDatabase db = this.getReadableDatabase();
-        double minlat = latitude - 0.001;
-        double maxlat = latitude + 0.001;
-        double minlng = longitude - 0.001;
-        double maxlng = longitude + 0.001;
+        double minlat = latitude;
+        double maxlat = latitude ;
+        double minlng = longitude;
+        double maxlng = longitude;
         //Cursor cursor = db.rawQuery("Select * from " +LOC_TABLE_NAME+ " where
         // LATITUDE >= " +minlat+ " and LATITUDE <= " +maxlat+ " and LONGITUDE >= " +minlng+ " and LONGITUDE <= " +maxlng, null);
         Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME, null);
