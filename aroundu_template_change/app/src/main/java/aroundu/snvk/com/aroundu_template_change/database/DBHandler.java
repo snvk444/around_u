@@ -314,20 +314,32 @@ public class DBHandler extends SQLiteOpenHelper {
         return displaypoints;
     }
 
+
     @SuppressLint("LongLogTag")
     public List readLocationInfo_1() {
         SQLiteDatabase db = this.getReadableDatabase();
         //Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
-        Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME + " limit 50", null);
-        List itemIds = new ArrayList<>();
+        //Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME + " limit 50", null);
+        Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME, null);
+        //List itemIds = new ArrayList<>();
+        ArrayList<LocationInfo> displaypoints = new ArrayList<>();
+        LocationInfo li;
         while (cursor.moveToNext()) {
-            long itemId = cursor.getLong(
-                    cursor.getColumnIndexOrThrow(LATITUDE));
-            Log.i(TAG, " TimeStamp: " + cursor.getDouble(0) + "Latitude:" + cursor.getDouble(1) + "Longitude:" + cursor.getDouble(2));
-            itemIds.add(itemId);
+            //long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(LATITUDE));
+            //Log.i(TAG, " TimeStamp: " + cursor.getDouble(0) + "Latitude:" + cursor.getDouble(1) + "Longitude:" + cursor.getDouble(2));
+            //itemIds.add(itemId);
+
+            li = new LocationInfo();
+            //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
+            li.setTime_stamp(cursor.getLong(0));
+            li.setLatitude(cursor.getDouble(1));
+            li.setLongitude(cursor.getDouble(2));
+
+            displaypoints.add(li);
+            Log.i(TAG, " Points to Display from readLocationInfo:" + li.getLongitude());
         }
         cursor.close();
-        return itemIds;
+        return displaypoints;
     }
 
 

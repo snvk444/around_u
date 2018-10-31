@@ -122,37 +122,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     LinearLayout linear_Layout_1;
     private DBHandler dbHandler;
     private Handler mHandler;
-
     private RecyclerView bottomSheetRV, searchViewRV;
     private BottomSheetAdapter bottomSheetAdapter;
     private SearchViewAdapter searchViewAdapter;
-
     private Location currentLocation = null;
-
     private String srcLocation = "";
     private String destLocation = "";
     private RecyclerViewClickListener recyclerViewClickListener;
     private BottomSheetClickListener bottomSheetClickListener;
     private ArrayList<String> busDestinationSearchResults;
     private boolean searchResultClick = false;
-
     private TextView version;
-
     private Spinner core_spinner;
-
     private FloatingActionButton fab;
     private FloatingActionButton fab1;
+    private FloatingActionButton bus_fab;
+    private FloatingActionButton coverage_fab;
     private Toolbar toolbar;
     private LinearLayout llBottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
     ToggleButton toggle;
-
     private Handler backgroundHandler = null;
-
     private HandlerThread mHandlerThread = null;
-
     private int versionClickCount = 0;
-
     private boolean expanded = false;
     private boolean fabMenuOpen = false;
     private LinearLayout fabContainer;
@@ -229,25 +221,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void setViews() {
         core_spinner = (Spinner) findViewById(R.id.core_spinner);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        fabContainer = (LinearLayout) findViewById(R.id.fabContainerLayout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab1 = (FloatingActionButton) findViewById(R.id.fab1);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        bus_fab = (FloatingActionButton) findViewById(R.id.bus_fab);
+        coverage_fab = (FloatingActionButton) findViewById(R.id.coverage_fab);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        fabContainer = (LinearLayout) findViewById(R.id.fabContainerLayout);
-
 
         llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
-
         bottomSheetRV = (RecyclerView) findViewById(R.id.recycler_view);
         searchViewRV = (RecyclerView) findViewById(R.id.search_recycler_view);
 
         eText = (EditText) findViewById(R.id.editText);
         btn = (Button) findViewById(R.id.button);
-
         version = (TextView) findViewById(R.id.version_number);
-        toggle = (ToggleButton) findViewById(R.id.toggBtn);
-
+//        toggle = (ToggleButton) findViewById(R.id.toggBtn);
 
         //Animations to fab
         Animation show_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_show);
@@ -261,14 +250,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab1.startAnimation(show_fab_1);
         fab1.setClickable(true);
 
+
+        //main_fab1
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toggleFabMenu();
+                bus_fab.setClickable(true);
+                coverage_fab.setClickable(true);
             }
         });
 
+        bus_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //toggleFabMenu();
+                if (!fabMenuOpen) {
+                    Log.d(TAG, "Is this working?");
+                    fabContainer.setVisibility(View.GONE);
+                    Log.d(TAG, "Bus Button Clicked");
+                    addHeatMap_1();
+                    Log.d(TAG, "addHeatMap_1 passed");
+                }
+                else {
+                    fabContainer.setVisibility(View.GONE);
+                }
+            }
+        });
 
+        coverage_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //toggleFabMenu();
+                fabContainer.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     //This is all for the animation for fab
@@ -277,8 +293,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!fabMenuOpen) {
             //fab1.setImageResource(R.drawable.ic_launcher_background);
 
-            //Log.d("fab1", String.valueOf(fabContainer.getWidth()));
-            //else - not updated. fabContainer replace with fab1
             int centerX = fabContainer.getWidth()/2;
             int centerY = fabContainer.getHeight()/2;
             int startRadius = 0;
@@ -524,7 +538,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //setUpClusterer(latitude, longitude);
 
                 //todo rework logic to prevent massive bogging down of system
-                addHeatMap(latitude, longitude);
+                //addHeatMap(latitude, longitude);
                 //displayLocationInfo(latitude, longitude);
             }
 
@@ -604,6 +618,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void addHeatMap(double latitude, double longitude) {
         //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15f));
         ArrayList<LocationInfo> locationInfoList = dbHandler.readLocationInfo(latitude, longitude);
+        LatLng source_loc = null;
+        List<LatLng> list = new ArrayList<>();
+        for (LocationInfo li : locationInfoList) {
+            source_loc = new LatLng(li.getLatitude(), li.getLongitude());
+            list.add(source_loc);
+        }
+        // Create a heat map tile provider, passing it the latlngs.
+
+        if (list.size() == 0) {
+
+        } else {
+            Log.d("HeatMapTileProvider", "Permission response: " + list);
+            mProvider = new HeatmapTileProvider.Builder()
+                    .data(list)
+                    .build();
+            // Add a tile overlay to the map, using the heat map tile provider.
+            mOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+        }
+    }
+
+    public void addHeatMap_1() {
+        //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15f));
+        ArrayList<LocationInfo> locationInfoList = (ArrayList<LocationInfo>) dbHandler.readLocationInfo_1();
         LatLng source_loc = null;
         List<LatLng> list = new ArrayList<>();
         for (LocationInfo li : locationInfoList) {

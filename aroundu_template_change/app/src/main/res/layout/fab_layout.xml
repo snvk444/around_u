@@ -6,6 +6,7 @@
     android:id="@+id/fabContainerLayout"
     android:layout_gravity="center_vertical|center_horizontal"
     android:background="#fff"
+    android:visibility="gone"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -14,7 +15,7 @@
         android:layout_height="wrap_content">
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/Bus"
+            android:id="@+id/bus_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/fab_margin"
@@ -39,7 +40,7 @@
         android:layout_height="wrap_content">
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/f3"
+            android:id="@+id/coverage_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/fab_margin"
