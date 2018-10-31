@@ -1,6 +1,9 @@
 package aroundu.snvk.com.aroundu_template_change.activity;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +25,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -41,11 +45,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -133,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Spinner core_spinner;
 
     private FloatingActionButton fab;
+    private FloatingActionButton fab1;
     private Toolbar toolbar;
     private LinearLayout llBottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
@@ -145,6 +154,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int versionClickCount = 0;
 
     private boolean expanded = false;
+    private boolean fabMenuOpen = false;
+    private LinearLayout fabContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,14 +225,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @SuppressLint("WrongViewCast")
     public void setViews() {
         core_spinner = (Spinner) findViewById(R.id.core_spinner);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-
+        fab1 = (FloatingActionButton) findViewById(R.id.fab1);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        fabContainer = (LinearLayout) findViewById(R.id.fabContainerLayout);
+
 
         llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
 
@@ -233,7 +247,95 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         version = (TextView) findViewById(R.id.version_number);
         toggle = (ToggleButton) findViewById(R.id.toggBtn);
+
+
+        //Animations to fab
+        Animation show_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_show);
+        Animation hide_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_hide);
+
+        //expanding fab
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) fab1.getLayoutParams();
+        layoutParams.rightMargin += (int) (fab1.getWidth() * 1.7);
+        layoutParams.bottomMargin += (int) (fab1.getHeight() * 0.25);
+        fab1.setLayoutParams(layoutParams);
+        fab1.startAnimation(show_fab_1);
+        fab1.setClickable(true);
+
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleFabMenu();
+            }
+        });
+
+
     }
+
+    //This is all for the animation for fab
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void toggleFabMenu() {
+        if (!fabMenuOpen) {
+            //fab1.setImageResource(R.drawable.ic_launcher_background);
+
+            //Log.d("fab1", String.valueOf(fabContainer.getWidth()));
+            //else - not updated. fabContainer replace with fab1
+            int centerX = fabContainer.getWidth()/2;
+            int centerY = fabContainer.getHeight()/2;
+            int startRadius = 0;
+            int endRadius = (int) Math.hypot(fabContainer.getWidth(), fabContainer.getHeight()) / 2;
+
+            fabContainer.setVisibility(View.VISIBLE);
+            Log.d("visibility -s", String.valueOf(fabContainer.getVisibility()));
+            ViewAnimationUtils
+                    .createCircularReveal(
+                            fabContainer,
+                            centerX,
+                            centerY,
+                            startRadius,
+                            endRadius
+                    )
+                    .setDuration(1000)
+                    .start();
+        } else {
+            //fab1.setImageResource(R.drawable.ic_launcher_background);
+            int centerX = fabContainer.getWidth() / 2;
+            int centerY = fabContainer.getHeight() / 2;
+            int startRadius = (int) Math.hypot(fabContainer.getWidth(), fabContainer.getHeight()) / 2;
+            int endRadius = 0;
+
+            Animator animator = ViewAnimationUtils
+                    .createCircularReveal(
+                            fabContainer,
+                            centerX,
+                            centerY,
+                            startRadius,
+                            endRadius
+                    );
+            animator.setDuration(1000);
+            animator.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    fabContainer.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+                }
+            });
+            animator.start();
+        }
+        fabMenuOpen = !fabMenuOpen;
+    }
+
+
 
     public void setListenersAndBehaviors() {
         //Spinner
