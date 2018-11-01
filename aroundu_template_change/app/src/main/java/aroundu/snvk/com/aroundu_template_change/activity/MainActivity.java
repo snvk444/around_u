@@ -257,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 toggleFabMenu();
                 bus_fab.setClickable(true);
+                Log.d(TAG, "bus button clicked");
                 coverage_fab.setClickable(true);
             }
         });
