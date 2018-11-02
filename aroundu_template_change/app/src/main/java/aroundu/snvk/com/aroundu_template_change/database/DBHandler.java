@@ -419,11 +419,15 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         Log.d("DBTest", "Result: " + cursor.getCount());
-        if(cursor.moveToFirst())
-        {
-            Log.d("cursor",cursor.getString(0));
+        if(cursor.getCount() != 0) {
+            if (cursor.moveToFirst()) {
+                Log.d("cursor", cursor.getString(0));
+            }
+            return Integer.parseInt(cursor.getString(0));
         }
-        return Integer.parseInt(cursor.getString(0));
+        else{
+            return -1;
+        }
     }
 
     public ArrayList<String> destinationLookup(String s) {
