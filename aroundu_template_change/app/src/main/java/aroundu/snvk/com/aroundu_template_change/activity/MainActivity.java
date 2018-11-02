@@ -266,16 +266,62 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 //toggleFabMenu();
-                if (!fabMenuOpen) {
+                if (fabMenuOpen) {
                     Log.d(TAG, "Is this working?");
-                    fabContainer.setVisibility(View.GONE);
                     Log.d(TAG, "Bus Button Clicked");
-                    addHeatMap_1();
                     Log.d(TAG, "addHeatMap_1 passed");
+
+                    List<LatLng> latLngList = new ArrayList<LatLng>();
+                    String line = "";
+                    HashMap<LatLng, String> mData = new HashMap<>();
+                    double latitude = 17.74748;
+                    double longitude = 83.346268;
+                    List<PivotTableData> markers = dbHandler.getFromPivotTableData("Bus", latitude, longitude);
+                    int a = markers.size();
+                    googleMap.getUiSettings().setMapToolbarEnabled(false);
+                    //todo get rid of this when done testing
+                    LatLng latLng = new LatLng(latitude, longitude);
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                    googleMap.animateCamera(cameraUpdate);
+                    //todo no seriously, get rid of this block
+
+                    if (markers.size() == 0) {
+                        Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
+                        msg.show();
+                    } else if (markers.size() == 1) {
+                        linear_Layout_1.setVisibility(View.VISIBLE);
+                        srcLocation = markers.get(0).name.toUpperCase();
+                        Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
+                        msg.show();
+                    } else {
+                        Toast msg = Toast.makeText(getBaseContext(), "Select source bus stop marker", Toast.LENGTH_LONG);
+                        msg.show();
+                    }
+
+                    LatLng latLng2 = null;
+                    Log.d(TAG, String.valueOf(markers));
+                    for (PivotTableData marker : markers) {
+                        latLng2 = new LatLng(marker.latitude, marker.longitude);
+                        String name = marker.name;
+
+                        mData.put(latLng2, name);
+
+                        latLngList.add(latLng2);
+                    }
+
+                    for (LatLng li : mData.keySet()) {
+                        Log.d(TAG, "Display" + mData.get(li) + "" + li);
+                        googleMap.addMarker(new MarkerOptions().position(li).title(String.valueOf(mData.get(li))));
+//                        Log.d(TAG, "Line drawing! possible?");
+//                        lines = googleMap.addPolyline(new PolylineOptions()
+//                                .add(new LatLng(17.74748, 83.346268), new LatLng(17.74766, 83.34633))
+//                                .width(5)
+//                                .color(Color.RED));
+                        //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 15));
+                    }
                 }
-                else {
-                    fabContainer.setVisibility(View.GONE);
-                }
+
+                fabContainer.setVisibility(View.GONE);
             }
         });
 
@@ -283,7 +329,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 //toggleFabMenu();
-                fabContainer.setVisibility(View.VISIBLE);
+                //todo addHeatMap_1 needs to be way more efficient, will cause ANR
+//                addHeatMap_1();
+                fabContainer.setVisibility(View.GONE);
             }
         });
     }
@@ -653,7 +701,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (list.size() == 0) {
 
         } else {
-            Log.d("HeatMapTileProvider", "Permission response: " + list);
+            Log.d("HeatMapTileProvider", "Permission response: " + list.size());
             mProvider = new HeatmapTileProvider.Builder()
                     .data(list)
                     .build();
@@ -982,25 +1030,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             //////
             if (item_selected_1.equalsIgnoreCase("Bus")) {
-                googleMap.getUiSettings().setMapToolbarEnabled(false);
-                //todo get rid of this when done testing
-                LatLng latLng = new LatLng(latitude, longitude);
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-                googleMap.animateCamera(cameraUpdate);
-                //todo no seriously, get rid of this block
-
-                if (markers.size() == 0) {
-                    Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
-                    msg.show();
-                } else if (markers.size() == 1) {
-                    linear_Layout_1.setVisibility(View.VISIBLE);
-                    srcLocation = markers.get(0).name.toUpperCase();
-                    Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
-                    msg.show();
-                } else {
-                    Toast msg = Toast.makeText(getBaseContext(), "Select source bus stop marker", Toast.LENGTH_LONG);
-                    msg.show();
-                }
+//                googleMap.getUiSettings().setMapToolbarEnabled(false);
+//                //todo get rid of this when done testing
+//                LatLng latLng = new LatLng(latitude, longitude);
+//                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+//                googleMap.animateCamera(cameraUpdate);
+//                //todo no seriously, get rid of this block
+//
+//                if (markers.size() == 0) {
+//                    Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
+//                    msg.show();
+//                } else if (markers.size() == 1) {
+//                    linear_Layout_1.setVisibility(View.VISIBLE);
+//                    srcLocation = markers.get(0).name.toUpperCase();
+//                    Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
+//                    msg.show();
+//                } else {
+//                    Toast msg = Toast.makeText(getBaseContext(), "Select source bus stop marker", Toast.LENGTH_LONG);
+//                    msg.show();
+//                }
             }
 
             LatLng latLng = null;
