@@ -101,9 +101,11 @@ import aroundu.snvk.com.aroundu_template_change.service.BackgroundService;
 import aroundu.snvk.com.aroundu_template_change.view.MoreInfoDialog;
 import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
+import aroundu.snvk.com.aroundu_template_change.vo.ReadUserLocation;
 
-
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, RecyclerViewClickListener, BottomSheetClickListener, TrackingListener {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener,
+        OnMapReadyCallback, GoogleMap.OnMarkerClickListener, RecyclerViewClickListener, BottomSheetClickListener, TrackingListener {
 
     private static final String TAG = "TestingToolbar";
     BufferedReader reader = null;
@@ -249,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab1.setLayoutParams(layoutParams);
         fab1.startAnimation(show_fab_1);
         fab1.setClickable(true);
-
+        coverage_fab.setClickable(true);
 
         //main_fab1
         fab1.setOnClickListener(new View.OnClickListener() {
@@ -270,8 +272,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Log.d(TAG, "Is this working?");
                     fabContainer.setVisibility(View.GONE);
                     Log.d(TAG, "Bus Button Clicked");
-                    addHeatMap_1();
-                    Log.d(TAG, "addHeatMap_1 passed");
                 }
                 else {
                     fabContainer.setVisibility(View.GONE);
@@ -283,7 +283,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 //toggleFabMenu();
-                fabContainer.setVisibility(View.VISIBLE);
+                fabContainer.setVisibility(View.GONE);
+                addHeatMap_1();
+                Log.d(TAG, "addHeatMap_1 passed");
             }
         });
     }
@@ -641,7 +643,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void addHeatMap_1() {
         //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15f));
+        Log.d("HeatMap", "HeatMAp");
         ArrayList<LocationInfo> locationInfoList = (ArrayList<LocationInfo>) dbHandler.readLocationInfo_1();
+        //Log.d("HeatMapTileProvider", locationInfoList.size());
         LatLng source_loc = null;
         List<LatLng> list = new ArrayList<>();
         for (LocationInfo li : locationInfoList) {

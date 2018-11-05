@@ -319,7 +319,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public List readLocationInfo_1() {
         SQLiteDatabase db = this.getReadableDatabase();
         //Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
-        //Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME + " limit 50", null);
+        //Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME + " limit 500", null);
         Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME, null);
         //List itemIds = new ArrayList<>();
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
