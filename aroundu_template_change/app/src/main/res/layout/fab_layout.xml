@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:id="@+id/fabContainerLayout"
     android:layout_gravity="center_vertical|center_horizontal"
-    android:background="#fff"
     android:visibility="gone"
     android:gravity="center_horizontal"
     android:orientation="vertical">

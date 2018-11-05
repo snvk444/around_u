@@ -1029,10 +1029,10 @@ public class MainActivity extends AppCompatActivity
                 Log.d(TAG, "Display" + mData.get(li) + "" + li);
                 googleMap.addMarker(new MarkerOptions().position(li).title(String.valueOf(mData.get(li))));
                 Log.d(TAG, "Line drawing! possible?");
-                lines = googleMap.addPolyline(new PolylineOptions()
+                /*lines = googleMap.addPolyline(new PolylineOptions()
                         .add(new LatLng(17.74748, 83.346268), new LatLng(17.74766, 83.34633))
                         .width(5)
-                        .color(Color.RED));
+                        .color(Color.RED));*/
                 //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 15));
             }
             setLocation();
