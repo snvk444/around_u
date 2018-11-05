@@ -221,6 +221,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressLint("WrongViewCast")
     public void setViews() {
+        //commented core_spinner to remove spinner. If fails, uncomment
         core_spinner = (Spinner) findViewById(R.id.core_spinner);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         fabContainer = (LinearLayout) findViewById(R.id.fabContainerLayout);
@@ -259,8 +260,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 toggleFabMenu();
                 bus_fab.setClickable(true);
-                Log.d(TAG, "bus button clicked");
-                coverage_fab.setClickable(true);
+                Log.d(TAG, "fab1 clicked");
             }
         });
 
@@ -268,10 +268,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //toggleFabMenu();
-                if (!fabMenuOpen) {
-                    Log.d(TAG, "Is this working?");
-                    fabContainer.setVisibility(View.GONE);
+                if (fabMenuOpen) {
+                    Log.d(TAG, "fabMenuOpen is false");
                     Log.d(TAG, "Bus Button Clicked");
+                    fabContainer.setVisibility(View.GONE);
+                    toggleFabMenu();
                 }
                 else {
                     fabContainer.setVisibility(View.GONE);
@@ -315,6 +316,7 @@ public class MainActivity extends AppCompatActivity
                     .start();
         } else {
             //fab1.setImageResource(R.drawable.ic_launcher_background);
+            Log.d(TAG, "else of fabmenuoption");
             int centerX = fabContainer.getWidth() / 2;
             int centerY = fabContainer.getHeight() / 2;
             int startRadius = (int) Math.hypot(fabContainer.getWidth(), fabContainer.getHeight()) / 2;
@@ -358,6 +360,7 @@ public class MainActivity extends AppCompatActivity
         //Spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.core_identifiers, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //commented core_spinner to remove spinner. If fails, uncomment
         core_spinner.setAdapter(adapter);
         core_spinner.setOnItemSelectedListener(this);
 
@@ -373,8 +376,8 @@ public class MainActivity extends AppCompatActivity
                 //fab.setRippleColor(10); //in pressed state
 
                 //display toggle
-                toggle.toggle();
-                toggle.setTextOff("TOGGLE ON");
+                //toggle.toggle();
+                //toggle.setTextOff("TOGGLE ON");
 
                 //fab - click to point out the busstop. does this work???
                 googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
