@@ -42,6 +42,7 @@ public class DBHandler extends SQLiteOpenHelper {
     // table name
     private static final String TABLE_NAME = "pivottabledata";
     private static final String LOC_TABLE_NAME = "location_info";
+    private static final String LOC_TABLE_NAME_DISTINCT = "location_info_heatmap";
     private static final String LINES_TABLE_NAME = "Lines";
     private static final String DEST_LOOKUP_TABLE_NAME = "destination_lookup_tbl";
     // Table Columns names
@@ -118,6 +119,14 @@ public class DBHandler extends SQLiteOpenHelper {
             Log.i(TAG, "Create table " + CREATE_LOCATION_TABLE);
             db.execSQL(CREATE_LOCATION_TABLE);
 
+            String CREATE_LOCATION_TABLE_1 = "CREATE TABLE " + LOC_TABLE_NAME_DISTINCT + "("
+                    + TIME_STAMP + " TEXT PRIMARY KEY,"
+                    + LATITUDE + " DECIMAL(10,7) ,"
+                    + LONGITUDE + " DECIMAL(10,7)"
+                    + ")";
+            Log.i(TAG, "Create table " + CREATE_LOCATION_TABLE_1);
+            db.execSQL(CREATE_LOCATION_TABLE_1);
+
             String CREATE_LINES_TABLE = "CREATE TABLE " + LINES_TABLE_NAME + "("
                     + LINE_ID + " INTEGER, "
                     + BUS_NO + " TEXT, "
@@ -141,6 +150,7 @@ public class DBHandler extends SQLiteOpenHelper {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + LOC_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + LOC_TABLE_NAME_DISTINCT);
         // Creating tables again
         onCreate(db);
     }
@@ -206,10 +216,10 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.i(TAG, item_selected_1);
         List<PivotTableData> markersList = new ArrayList<PivotTableData>();
         String selectQuery = null;
-        double lat1 = latitude - 0.11;
-        double lat2 = latitude + 0.11;
-        double lng1 = longitude - 0.11;
-        double lng2 = longitude + 0.11;
+        double lat1 = latitude - 0.003;
+        double lat2 = latitude + 0.003;
+        double lng1 = longitude - 0.003;
+        double lng2 = longitude + 0.003;
         double minlat;
         double minlng;
         double maxlat;
@@ -431,10 +441,14 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         Log.d("DBTest", "Result: " + cursor.getCount());
-        if(cursor.moveToFirst())
+        if(cursor.moveToFirst() && cursor != null)
         {
             Log.d("cursor",cursor.getString(0));
         }
+        else{
+
+        }
+        //todo shoud we not close the cursor here?
         return Integer.parseInt(cursor.getString(0));
     }
 

@@ -981,8 +981,8 @@ public class MainActivity extends AppCompatActivity
             //List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, currentLocation.getLatitude(), currentLocation.getLongitude());
 
             //testing the data. Assigning latnlong manually for now.
-            double latitude = 17.74748;
-            double longitude = 83.346268;
+            double latitude = 17.736706;
+            double longitude = 83.307610;
             List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
             int a = markers.size();
             Log.d("Export", "Sizeses:" + a);
