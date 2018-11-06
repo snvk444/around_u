@@ -42,6 +42,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -370,8 +371,13 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 //todo use this section to display the bus routes from source to destination that are provided by the user.
                 //get the closest bus stations from the user and the destination location the user provided. Use that info to display the list in this bottom up.
-                Snackbar.make(view, "Missing a BusStop? Locate it on the map!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Missing a BusStop? Locate it on the map!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+                String message = "Missing Bus stop? or Bus stop location not accurate? Long click (2sec) on the map to locate it. Thank you!";
+                int duration = Snackbar.LENGTH_INDEFINITE;
+
+                showSnackbar(view, message, duration);
+
                 //fab.setBackgroundTintList(ColorStateList.valueOf(5)); //in normal state
                 //fab.setRippleColor(10); //in pressed state
 
@@ -495,6 +501,33 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+
+    }
+
+    private void showSnackbar(View view, String message, int duration) {
+        final Snackbar snackbar = Snackbar.make(view, message, duration);
+
+        // styling for action text
+        snackbar.setActionTextColor(Color.WHITE);
+
+// styling for rest of text
+        View snackbarView = snackbar.getView();
+        TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.RED);
+
+// styling for background of snackbar
+        View sbView = snackbarView;
+        sbView.setBackgroundColor(Color.BLUE);
+
+        // Set an action on it, and a handler
+        snackbar.setAction("DISMISS", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+
+        snackbar.show();
 
     }
 
@@ -983,13 +1016,34 @@ public class MainActivity extends AppCompatActivity
             //testing the data. Assigning latnlong manually for now.
             double latitude = 17.736706;
             double longitude = 83.307610;
+            //below coordinates are to test the scinario where there are no bus stations near the user location.
+            //double latitude = 29.587433;
+            //double longitude = -95.682365;
             List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
-            int a = markers.size();
-            Log.d("Export", "Sizeses:" + a);
+            int busstops_1 = markers.size();
+            Log.d("Export", "Sizeses:" + busstops_1);
 
+            //todo if the size of a = 0, there are no bus stations around the users location.
+            if(busstops_1 == 0) {
+                fab.setVisibility(view.VISIBLE);
+
+                String message = "Missing Bus stop? Long click (2sec) on the map to locate it. Thank you!";
+                int duration = Snackbar.LENGTH_LONG;
+                final Snackbar snackbar = Snackbar.make(view, message, duration);
+
+                showSnackbar(view, message, duration);
+
+            }
+            //We ask user to locate the bus station near him.
             //////
             if (item_selected_1.equalsIgnoreCase("Bus")) {
                 googleMap.getUiSettings().setMapToolbarEnabled(false);
+                fab.setVisibility(view.VISIBLE);
+                String message = "Bus Stop not located accurately? Long click (2sec) on the map to Locate it";
+                int duration = Snackbar.LENGTH_INDEFINITE;
+                final Snackbar snackbar = Snackbar.make(view, message, duration);
+                showSnackbar(view, message, duration);
+
                 //todo get rid of this when done testing
                 LatLng latLng = new LatLng(latitude, longitude);
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
