@@ -98,7 +98,7 @@ import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener,
+        implements NavigationView.OnNavigationItemSelectedListener,
         OnMapReadyCallback, GoogleMap.OnMarkerClickListener, RecyclerViewClickListener, BottomSheetClickListener, TrackingListener {
 
 
@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressLint("WrongViewCast")
     public void setViews() {
         //commented core_spinner to remove spinner. If fails, uncomment
-        core_spinner = (Spinner) findViewById(R.id.core_spinner);
+        //core_spinner = (Spinner) findViewById(R.id.core_spinner);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         fabContainer = (LinearLayout) findViewById(R.id.fabContainerLayout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity
 
         llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
         bottomSheetRV = (RecyclerView) findViewById(R.id.recycler_view);
-        searchViewRV = (RecyclerView) findViewById(R.id.search_recycler_view);
+        //searchViewRV = (RecyclerView) findViewById(R.id.search_recycler_view);
 
         eText = (EditText) findViewById(R.id.editText);
         btn = (Button) findViewById(R.id.button);
@@ -268,6 +268,7 @@ public class MainActivity extends AppCompatActivity
                 if (fabMenuOpen) {
                     Log.d(TAG, "fabMenuOpen is false");
                     fabContainer.setVisibility(View.GONE);
+
                     toggleFabMenu();
 
                     List<LatLng> latLngList = new ArrayList<LatLng>();
@@ -276,8 +277,8 @@ public class MainActivity extends AppCompatActivity
                     Marker m;
 
                     //testing the data. Assigning latnlong manually for now.
-                    double latitude = 17.724742;
-                    double longitude = 83.306074;
+                    double latitude = 17.736921;
+                    double longitude = 83.307273;
 
 //below coordinates are to test the scinario where there are no bus stations near the user location.
                     //double latitude = 29.587433;
@@ -290,6 +291,7 @@ public class MainActivity extends AppCompatActivity
                     Log.d("Export", "item_selected:" + item_selected_1);
                     if (item_selected_1.equalsIgnoreCase("Bus")) {
                         googleMap.getUiSettings().setMapToolbarEnabled(false);
+                        linear_Layout_1 = (LinearLayout) findViewById(R.id.linearlayout);
                         fab.setVisibility(view.VISIBLE);
                         String message = "Long press on the map to locate the bus stop accurately. Thank you!";
                         int duration = Snackbar.LENGTH_INDEFINITE;
@@ -311,6 +313,7 @@ public class MainActivity extends AppCompatActivity
                             Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
                             msg.show();
                         } else {
+                            linear_Layout_1.setVisibility(view.VISIBLE);
                             Toast msg = Toast.makeText(getBaseContext(), "Select source bus stop marker", Toast.LENGTH_LONG);
                             msg.show();
                         }
@@ -354,6 +357,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 //toggleFabMenu();
                 fabContainer.setVisibility(View.GONE);
+                linear_Layout_1.setVisibility(view.GONE);
                 addHeatMap_1();
                 Log.d(TAG, "addHeatMap_1 passed");
             }
@@ -430,8 +434,8 @@ public class MainActivity extends AppCompatActivity
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.core_identifiers, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //commented core_spinner to remove spinner. If fails, uncomment
-        core_spinner.setAdapter(adapter);
-        core_spinner.setOnItemSelectedListener(this);
+        //core_spinner.setAdapter(adapter);
+        //core_spinner.setOnItemSelectedListener(this);
 
         //Floating Action
         fab.setOnClickListener(new View.OnClickListener() {
@@ -515,8 +519,8 @@ public class MainActivity extends AppCompatActivity
                                 public void run() {
                                     if (!searchResultClick && busDestinationSearchResults != null) {
                                         searchViewAdapter = new SearchViewAdapter(busDestinationSearchResults, recyclerViewClickListener);
-                                        searchViewRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                                        searchViewRV.setAdapter(searchViewAdapter);
+                                        //searchViewRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                        //searchViewRV.setAdapter(searchViewAdapter);
                                         searchViewAdapter.notifyDataSetChanged();
                                     }
                                 }
@@ -974,7 +978,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
+    /*@Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String item_selected = adapterView.getItemAtPosition(i).toString();
 //        Toast.makeText(adapterView.getContext(), item_selected, Toast.LENGTH_SHORT).show();
@@ -988,7 +992,7 @@ public class MainActivity extends AppCompatActivity
     public void onNothingSelected(AdapterView<?> adapterView) {
         googleMap.clear();
     }
-
+*/
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         this.googleMap = googleMap;
@@ -1041,7 +1045,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void populateMap(View view) {
+    /*public void populateMap(View view) {
 
         googleMap.clear();
         linear_Layout_1 = (LinearLayout) findViewById(R.id.linearlayout);
@@ -1150,10 +1154,10 @@ public class MainActivity extends AppCompatActivity
                 Log.d(TAG, "Display" + mData.get(li) + "" + li);
                 googleMap.addMarker(new MarkerOptions().position(li).title(String.valueOf(mData.get(li))));
                 Log.d(TAG, "Line drawing! possible?");
-                /*lines = googleMap.addPolyline(new PolylineOptions()
+                *//*lines = googleMap.addPolyline(new PolylineOptions()
                         .add(new LatLng(17.74748, 83.346268), new LatLng(17.74766, 83.34633))
                         .width(5)
-                        .color(Color.RED));*/
+                        .color(Color.RED));*//*
                 //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 15));
             }
             setLocation();
@@ -1169,7 +1173,7 @@ public class MainActivity extends AppCompatActivity
             //todo if the currentlocation is null, popup a window.
         } else googleMap.clear();
     }
-
+*/
     private void setLocation() {
         try {
             mFusedLocationClient.getLastLocation()

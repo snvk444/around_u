@@ -449,7 +449,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
         }
         //todo shoud we not close the cursor here?
-        return Integer.parseInt(cursor.getString(0));
+        //todo the below line throws error if the value is 0.
+        int a = 0;
+        a = Integer.parseInt(cursor.getString(0));
+        return a;
     }
 
     public ArrayList<String> destinationLookup(String s) {
