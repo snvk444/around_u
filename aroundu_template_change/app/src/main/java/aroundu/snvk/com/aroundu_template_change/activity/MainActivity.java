@@ -254,13 +254,13 @@ public class MainActivity extends AppCompatActivity
         fab1.startAnimation(show_fab_1);
         fab1.setClickable(true);
         coverage_fab.setClickable(true);
+        bus_fab.setClickable(true);
 
         //main_fab1
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toggleFabMenu();
-                bus_fab.setClickable(true);
                 Log.d(TAG, "fab1 clicked");
             }
         });
@@ -271,12 +271,84 @@ public class MainActivity extends AppCompatActivity
                 //toggleFabMenu();
                 if (fabMenuOpen) {
                     Log.d(TAG, "fabMenuOpen is false");
-                    Log.d(TAG, "Bus Button Clicked");
                     fabContainer.setVisibility(View.GONE);
                     toggleFabMenu();
+
+                    List<LatLng> latLngList = new ArrayList<LatLng>();
+                    String line = "";
+                    HashMap<LatLng, String> mData = new HashMap<>();
+                    Marker m;
+
+                    //testing the data. Assigning latnlong manually for now.
+                    double latitude = 17.724742;
+                    double longitude = 83.306074;
+
+//below coordinates are to test the scinario where there are no bus stations near the user location.
+                    //double latitude = 29.587433;
+                    //double longitude = -95.682365;
+                    item_selected_1 = "Bus";
+                    List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
+                    int busstops_1 = markers.size();
+                    Log.d("Export", "Sizeses:" + busstops_1);
+
+                    Log.d("Export", "item_selected:" + item_selected_1);
+                    if (item_selected_1.equalsIgnoreCase("Bus")) {
+                        googleMap.getUiSettings().setMapToolbarEnabled(false);
+                        fab.setVisibility(view.VISIBLE);
+                        String message = "Bus Stop not located accurately? Long click (2sec) on the map to Locate it";
+                        int duration = Snackbar.LENGTH_INDEFINITE;
+                        final Snackbar snackbar = Snackbar.make(view, message, duration);
+                        showSnackbar(view, message, duration);
+
+                        //todo get rid of this when done testing
+                        //LatLng latLng = new LatLng(latitude, longitude);
+                        //CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                        //googleMap.animateCamera(cameraUpdate);
+                        //todo no seriously, get rid of this block
+
+                        if (markers.size() == 0) {
+                            Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
+                            msg.show();
+                        } else if (markers.size() == 1) {
+                            linear_Layout_1.setVisibility(View.VISIBLE);
+                            srcLocation = markers.get(0).name.toUpperCase();
+                            Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
+                            msg.show();
+                        } else {
+                            Toast msg = Toast.makeText(getBaseContext(), "Select source bus stop marker", Toast.LENGTH_LONG);
+                            msg.show();
+                        }
+                    }
+
+                    LatLng latLng = null;
+                    Log.d(TAG, String.valueOf(markers));
+                    for (PivotTableData marker : markers) {
+                        latLng = new LatLng(marker.latitude, marker.longitude);
+                        String name = marker.name;
+
+                        mData.put(latLng, name);
+
+                        latLngList.add(latLng);
+                    }
+                    Log.d(TAG, "Here I am" + String.valueOf(mData));
+                    Log.d(TAG, "Rock you like a hurricane");
+
+                    for (LatLng li : mData.keySet()) {
+                        Log.d(TAG, "Display" + mData.get(li) + "" + li);
+                        googleMap.addMarker(new MarkerOptions().position(li).title(String.valueOf(mData.get(li))));
+                        Log.d(TAG, "Line drawing! possible?");
+                /*lines = googleMap.addPolyline(new PolylineOptions()
+                        .add(new LatLng(17.74748, 83.346268), new LatLng(17.74766, 83.34633))
+                        .width(5)
+                        .color(Color.RED));*/
+                        //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 15));
+                    }
+                    setLocation();
+
                 }
                 else {
                     fabContainer.setVisibility(View.GONE);
+
                 }
             }
         });
@@ -1023,7 +1095,6 @@ public class MainActivity extends AppCompatActivity
             int busstops_1 = markers.size();
             Log.d("Export", "Sizeses:" + busstops_1);
 
-            //todo if the size of a = 0, there are no bus stations around the users location.
             if(busstops_1 == 0) {
                 fab.setVisibility(view.VISIBLE);
 
