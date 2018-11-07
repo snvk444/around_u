@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.location.Criteria;
@@ -42,7 +41,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,7 +52,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -73,14 +70,11 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
-
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -102,11 +96,11 @@ import aroundu.snvk.com.aroundu_template_change.service.BackgroundService;
 import aroundu.snvk.com.aroundu_template_change.view.MoreInfoDialog;
 import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
-import aroundu.snvk.com.aroundu_template_change.vo.ReadUserLocation;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener,
         OnMapReadyCallback, GoogleMap.OnMarkerClickListener, RecyclerViewClickListener, BottomSheetClickListener, TrackingListener {
+
 
     private static final String TAG = "TestingToolbar";
     BufferedReader reader = null;
@@ -156,6 +150,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 //
         mHandler = new Handler(Looper.getMainLooper());
         mHandlerThread = new HandlerThread("BackgroundThread");
@@ -295,15 +291,15 @@ public class MainActivity extends AppCompatActivity
                     if (item_selected_1.equalsIgnoreCase("Bus")) {
                         googleMap.getUiSettings().setMapToolbarEnabled(false);
                         fab.setVisibility(view.VISIBLE);
-                        String message = "Bus Stop not located accurately? Long click (2sec) on the map to Locate it";
+                        String message = "Long press on the map to locate the bus stop accurately. Thank you!";
                         int duration = Snackbar.LENGTH_INDEFINITE;
                         final Snackbar snackbar = Snackbar.make(view, message, duration);
                         showSnackbar(view, message, duration);
 
-                        //todo get rid of this when done testing
-                        //LatLng latLng = new LatLng(latitude, longitude);
-                        //CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-                        //googleMap.animateCamera(cameraUpdate);
+                        //todo get rid of this when done testing (because the camera is already moved to the user location.
+                        LatLng latLng = new LatLng(latitude, longitude);
+                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                        googleMap.animateCamera(cameraUpdate);
                         //todo no seriously, get rid of this block
 
                         if (markers.size() == 0) {
@@ -445,7 +441,7 @@ public class MainActivity extends AppCompatActivity
                 //get the closest bus stations from the user and the destination location the user provided. Use that info to display the list in this bottom up.
                 //Snackbar.make(view, "Missing a BusStop? Locate it on the map!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
-                String message = "Missing Bus stop? or Bus stop location not accurate? Long click (2sec) on the map to locate it. Thank you!";
+                String message = "Long press on the map to locate the bus stop accurately. Thank you!";
                 int duration = Snackbar.LENGTH_INDEFINITE;
 
                 showSnackbar(view, message, duration);
@@ -1098,7 +1094,7 @@ public class MainActivity extends AppCompatActivity
             if(busstops_1 == 0) {
                 fab.setVisibility(view.VISIBLE);
 
-                String message = "Missing Bus stop? Long click (2sec) on the map to locate it. Thank you!";
+                String message = "Long press on the map to locate the bus stop accurately. Thank you!";
                 int duration = Snackbar.LENGTH_LONG;
                 final Snackbar snackbar = Snackbar.make(view, message, duration);
 
