@@ -57,8 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@mipmap/ic_launcher"
-        tools:ignore="VectorDrawableCompat"
+        app:srcCompat="@mipmap/ic_launcher_round"
         app:fabSize="mini"/>
 
     <android.support.design.widget.FloatingActionButton
