@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -58,6 +59,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.util.HttpUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -75,6 +85,13 @@ import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -83,6 +100,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import aroundu.snvk.com.aroundu_template_change.PivotTableData;
 import aroundu.snvk.com.aroundu_template_change.R;
@@ -96,12 +114,13 @@ import aroundu.snvk.com.aroundu_template_change.service.BackgroundService;
 import aroundu.snvk.com.aroundu_template_change.view.MoreInfoDialog;
 import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
+import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener,
         OnMapReadyCallback, GoogleMap.OnMarkerClickListener, RecyclerViewClickListener, BottomSheetClickListener, TrackingListener {
 
-
+    ProgressDialog prgDialog;
     private static final String TAG = "TestingToolbar";
     BufferedReader reader = null;
     private GoogleMap googleMap;
@@ -145,14 +164,17 @@ public class MainActivity extends AppCompatActivity
     private boolean expanded = false;
     private boolean fabMenuOpen = false;
     private LinearLayout fabContainer;
+    RequestQueue requestQueue;
+    String insertURL = "http://192.168.86.109/db_aru1_storeLocation.php";
+    String showURL = "http://192.168.86.109/db_aru1_showLocations.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
 //
+        prgDialog = new ProgressDialog(this);
         mHandler = new Handler(Looper.getMainLooper());
         mHandlerThread = new HandlerThread("BackgroundThread");
         mHandlerThread.start();
@@ -599,6 +621,131 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+
+//11/16/2018
+public void syncSQLiteMySQLDB(){
+    //Create AsycHttpClient object
+
+    requestQueue = Volley.newRequestQueue(getApplicationContext());
+    //showing data from the db.
+    JsonObjectRequest jsonobjectrequest = new JsonObjectRequest(Request.Method.POST, showURL, new Response.Listener<JSONObject>() {
+        @Override
+        public void onResponse(JSONObject response) {
+//if you want to show the locations readings after extracting teh data from the db.
+        }
+    }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    });
+
+    //inserting data into db
+    StringRequest request = new StringRequest(Request.Method.POST, insertURL, new Response.Listener<String>() {
+        @Override
+        public void onResponse(String response) {
+        }
+    }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    }){
+        @Override
+        protected Map<String, String> getParams() throws AuthFailureError {
+
+
+//*** reading from device successfully
+            Map<String, String> params = new HashMap<String, String>();
+            //RequestParams params = new RequestParams();
+            ArrayList<LocationInfo> userList = (ArrayList<LocationInfo>) dbHandler.readLocationInfo_1();
+
+            List<LatLng> list = new ArrayList<>();
+            for (LocationInfo li : userList) {
+                params.put("latitude", String.valueOf(li.getLatitude()));
+                params.put("longitude", String.valueOf(li.getLongitude()));
+                params.put("time_stamp", String.valueOf(li.getTime_stamp()));
+            }
+            return (Map<String, String>) params;
+//*** reading from device_successfully
+
+            //** this is working code to test
+            /*Map<String, String> parameters = new HashMap<String, String>();
+            parameters.put("latitude", String.valueOf(12345));
+            parameters.put("longitude", String.valueOf(12345));
+            parameters.put("time_stamp", String.valueOf(12345));
+            return parameters;*/
+            //** above is working code to test
+        }
+    };
+requestQueue.add(request);
+
+
+
+   /* AsyncHttpClient client = new AsyncHttpClient();
+    RequestParams params = new RequestParams();
+    List userList = dbHandler.readLocationInfo_1();
+    Log.d("Sync 1", String.valueOf(userList.size()));
+    if(userList.size()!=0){
+        if(dbHandler.dbSyncCount() != 0){
+            Log.d("Sync", "OnSuccess Function 1");
+            prgDialog.show();
+            Log.d("Sync", "OnSuccess Function 2");
+            params.add("usersJSON", dbHandler.composeJSONfromSQLite());
+            Log.d("Sync", params.toString());
+            //client.post("http://limitmyexpense.com/arounduuserdatasync/insert_location_logs.php",params ,new AsyncHttpResponseHandler() {
+            client.post("http://192.168.84.30:8080/db_aru1_storeLocation.php", params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    Log.d("Sync", "OnSuccess Function 4");
+                    Log.d("Sync", responseBody.toString());
+                    prgDialog.hide();
+                    *//*try {
+                        JSONArray arr = new JSONArray(responseBody);
+                        //for(int i=0; i<arr.length();i++){
+                            //Log.d("Sync", String.valueOf(i));
+                            JSONObject jsonParam = new JSONObject();
+                            jsonParam.put("time_stamp", 11111);
+                            jsonParam.put("latitude", 75.25252);
+                            jsonParam.put("longitude", 120.303030);
+                        Log.i("Sync", jsonParam.toString());
+                        //}
+                        Log.d("Sync", "Above line is an example");
+                        *//*
+                        Toast.makeText(getApplicationContext(), "DB Sync completed!", Toast.LENGTH_LONG).show();
+                    *//*} catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }*//*
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+// TODO Auto-generated method stub
+                    Log.d("Sync","OnFailure Function");
+                    prgDialog.hide();
+                    if(statusCode == 404){
+                        Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                    }else if(statusCode == 500){
+                        Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                    }else{
+                        Log.d("Sync", error.getMessage());
+                        Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+            });
+        }else{
+            Toast.makeText(getApplicationContext(), "SQLite and Remote MySQL DBs are in Sync!", Toast.LENGTH_LONG).show();
+        }
+    }else{
+        Toast.makeText(getApplicationContext(), "No data in SQLite DB, please do enter User name to perform Sync action", Toast.LENGTH_LONG).show();
+    }*/
+}
+
+//11/16/2018
+
     public void showAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Title");
@@ -929,11 +1076,14 @@ public class MainActivity extends AppCompatActivity
                 googleMap.clear();
                 Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
                         .show();
+                Log.d("Sync", "Starting SyncSQLiteMySQLDB");
+                syncSQLiteMySQLDB();
                 break;
             case R.id.action_settings:
                 //Intent heatmap = new Intent(this, HeatMapActivity.class);
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
                         .show();
+
                 //startActivity(heatmap);
                 break;
 
@@ -1247,4 +1397,7 @@ public class MainActivity extends AppCompatActivity
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         //todo get from database latlngs for source (variable srcLocation) and destination (variable destLocation). Clear map of markers. Draw two markers.
     }
+
+
+
 }

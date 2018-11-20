@@ -11,6 +11,9 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -19,6 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
@@ -154,6 +158,90 @@ public class DBHandler extends SQLiteOpenHelper {
         // Creating tables again
         onCreate(db);
     }
+
+
+// 11/16/2018
+    public String composeJSONfromSQLite(){
+        Log.d("Sync","in ComposeJSONfromSQLite");
+        List wordList;
+        wordList = new ArrayList();
+        String selectQuery = "SELECT  * FROM location_info limit 1";
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        Log.d("Sync",String.valueOf(cursor.getCount()));
+        LocationInfo li;
+        if (cursor.moveToFirst()) {
+            do {
+                li = new LocationInfo();
+                //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
+                li.setTime_stamp(cursor.getLong(0));
+                li.setLatitude(cursor.getDouble(1));
+                li.setLongitude(cursor.getDouble(2));
+                /*
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("time_stamp", cursor.getString(0));
+                map.put("device_uuid", cursor.getString(1));
+                map.put("latitude", cursor.getString(3));
+                map.put("longitude", cursor.getString(4));*/
+
+
+                wordList.add(li);
+            } while (cursor.moveToNext());
+        }
+        database.close();
+        Gson gson = new GsonBuilder().create();
+        //Use GSON to serialize Array List to JSON
+        Log.d("Sync", gson.toJson(wordList).toString());
+        return gson.toJson(wordList);
+    }
+
+    /**
+     * Get Sync status of SQLite
+     * @return
+     */
+    public String getSyncStatus(){
+        String msg = null;
+        if(this.dbSyncCount() == 0){
+            msg = "SQLite and Remote MySQL DBs are in Sync!";
+        }else{
+            msg = "DB Sync neededn";
+        }
+        return msg;
+    }
+
+    /**
+     * Get SQLite records that are yet to be Synced
+     * @return
+     */
+    public int dbSyncCount(){
+        int count = 0;
+        String selectQuery = "SELECT  * FROM location_info";
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        count = cursor.getCount();
+        database.close();
+        return count;
+    }
+
+
+    /**
+     * Update Sync status against each User ID
+     /* @param id
+     /* @param status
+     */
+    public void updateSyncStatus(String id, String status){
+        SQLiteDatabase database = this.getWritableDatabase();
+        String updateQuery = "Update location_info set udpateStatus = '"+ status +"' where userId="+"'"+ id +"'";
+        Log.d("Sync",updateQuery);
+        database.execSQL(updateQuery);
+        database.close();
+    }
+//11/16/2018
+
+
+
+
+
 
     //adding source data into table TABLE_SOURCE.
 
@@ -330,7 +418,7 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         //Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
         //Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME + " limit 500", null);
-        Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME, null);
+        Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME , null);
         //List itemIds = new ArrayList<>();
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
         LocationInfo li;
