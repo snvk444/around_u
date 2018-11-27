@@ -165,8 +165,8 @@ public class MainActivity extends AppCompatActivity
     private boolean fabMenuOpen = false;
     private LinearLayout fabContainer;
     RequestQueue requestQueue;
-    String insertURL = "http://192.168.86.109/db_aru1_storeLocation.php";
-    String showURL = "http://192.168.86.109/db_aru1_showLocations.php";
+    String insertURL = "http://192.168.1.81/db_aru1_storeLocation.php";
+    String showURL = "http://192.168.1.81/db_aru1_showLocations.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
