@@ -20,12 +20,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="gone"
+   >
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".60"
+            android:layout_weight=".80"
+            android:background="@color/colorAccent"
             >
 
             <EditText
@@ -33,23 +35,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:background="#fff"
                 android:hint="Enter Destination"
                 android:inputType="textPersonName" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/search_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/editText"
-                android:scrollbars="vertical" />
-
         </RelativeLayout>
 
         <Button
             android:id="@+id/button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".40"
+            android:layout_weight=".35"
             android:text="Submit" />
     </LinearLayout>
 

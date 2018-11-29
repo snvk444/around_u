@@ -4,12 +4,12 @@ import android.Manifest;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.location.Criteria;
@@ -53,13 +53,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.util.HttpUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -72,14 +80,18 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
-import org.w3c.dom.Text;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -88,6 +100,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import aroundu.snvk.com.aroundu_template_change.PivotTableData;
 import aroundu.snvk.com.aroundu_template_change.R;
@@ -101,10 +114,13 @@ import aroundu.snvk.com.aroundu_template_change.service.BackgroundService;
 import aroundu.snvk.com.aroundu_template_change.view.MoreInfoDialog;
 import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
+import cz.msebera.android.httpclient.Header;
 
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,
+        OnMapReadyCallback, GoogleMap.OnMarkerClickListener, RecyclerViewClickListener, BottomSheetClickListener, TrackingListener {
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, RecyclerViewClickListener, BottomSheetClickListener, TrackingListener {
-
+    ProgressDialog prgDialog;
     private static final String TAG = "TestingToolbar";
     BufferedReader reader = null;
     private GoogleMap googleMap;
@@ -148,12 +164,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean expanded = false;
     private boolean fabMenuOpen = false;
     private LinearLayout fabContainer;
+    RequestQueue requestQueue;
+    String insertURL = "http://192.168.1.81/db_aru1_storeLocation.php";
+    String showURL = "http://192.168.1.81/db_aru1_showLocations.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 //
+        prgDialog = new ProgressDialog(this);
         mHandler = new Handler(Looper.getMainLooper());
         mHandlerThread = new HandlerThread("BackgroundThread");
         mHandlerThread.start();
@@ -219,7 +240,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @SuppressLint("WrongViewCast")
     public void setViews() {
-        core_spinner = (Spinner) findViewById(R.id.core_spinner);
+        //commented core_spinner to remove spinner. If fails, uncomment
+        //core_spinner = (Spinner) findViewById(R.id.core_spinner);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         fabContainer = (LinearLayout) findViewById(R.id.fabContainerLayout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -231,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
         bottomSheetRV = (RecyclerView) findViewById(R.id.recycler_view);
-        searchViewRV = (RecyclerView) findViewById(R.id.search_recycler_view);
+        //searchViewRV = (RecyclerView) findViewById(R.id.search_recycler_view);
 
         eText = (EditText) findViewById(R.id.editText);
         btn = (Button) findViewById(R.id.button);
@@ -249,16 +271,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab1.setLayoutParams(layoutParams);
         fab1.startAnimation(show_fab_1);
         fab1.setClickable(true);
-
+        coverage_fab.setClickable(true);
+        bus_fab.setClickable(true);
 
         //main_fab1
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toggleFabMenu();
-                bus_fab.setClickable(true);
-                Log.d(TAG, "bus button clicked");
-                coverage_fab.setClickable(true);
+                Log.d(TAG, "fab1 clicked");
             }
         });
 
@@ -267,61 +288,89 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 //toggleFabMenu();
                 if (fabMenuOpen) {
-                    Log.d(TAG, "Is this working?");
-                    Log.d(TAG, "Bus Button Clicked");
-                    Log.d(TAG, "addHeatMap_1 passed");
+                    Log.d(TAG, "fabMenuOpen is false");
+                    fabContainer.setVisibility(View.GONE);
+
+                    toggleFabMenu();
 
                     List<LatLng> latLngList = new ArrayList<LatLng>();
                     String line = "";
                     HashMap<LatLng, String> mData = new HashMap<>();
-                    double latitude = 17.74748;
-                    double longitude = 83.346268;
-                    List<PivotTableData> markers = dbHandler.getFromPivotTableData("Bus", latitude, longitude);
-                    int a = markers.size();
-                    googleMap.getUiSettings().setMapToolbarEnabled(false);
-                    //todo get rid of this when done testing
-                    LatLng latLng = new LatLng(latitude, longitude);
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-                    googleMap.animateCamera(cameraUpdate);
-                    //todo no seriously, get rid of this block
+                    Marker m;
 
-                    if (markers.size() == 0) {
-                        Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
-                        msg.show();
-                    } else if (markers.size() == 1) {
-                        linear_Layout_1.setVisibility(View.VISIBLE);
-                        srcLocation = markers.get(0).name.toUpperCase();
-                        Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
-                        msg.show();
-                    } else {
-                        Toast msg = Toast.makeText(getBaseContext(), "Select source bus stop marker", Toast.LENGTH_LONG);
-                        msg.show();
+                    //testing the data. Assigning latnlong manually for now.
+                    double latitude = 17.736921;
+                    double longitude = 83.307273;
+
+//below coordinates are to test the scinario where there are no bus stations near the user location.
+                    //double latitude = 29.587433;
+                    //double longitude = -95.682365;
+                    item_selected_1 = "Bus";
+                    List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
+                    int busstops_1 = markers.size();
+                    Log.d("Export", "Sizeses:" + busstops_1);
+
+                    Log.d("Export", "item_selected:" + item_selected_1);
+                    if (item_selected_1.equalsIgnoreCase("Bus")) {
+                        googleMap.getUiSettings().setMapToolbarEnabled(false);
+                        linear_Layout_1 = (LinearLayout) findViewById(R.id.linearlayout);
+                        fab.setVisibility(view.VISIBLE);
+                        String message = "Long press on the map to locate the bus stop accurately. Thank you!";
+                        int duration = Snackbar.LENGTH_INDEFINITE;
+                        final Snackbar snackbar = Snackbar.make(view, message, duration);
+                        showSnackbar(view, message, duration);
+
+                        //todo get rid of this when done testing (because the camera is already moved to the user location.
+                        LatLng latLng = new LatLng(latitude, longitude);
+                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                        googleMap.animateCamera(cameraUpdate);
+                        //todo no seriously, get rid of this block
+
+                        if (markers.size() == 0) {
+                            Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
+                            msg.show();
+                        } else if (markers.size() == 1) {
+                            linear_Layout_1.setVisibility(View.VISIBLE);
+                            srcLocation = markers.get(0).name.toUpperCase();
+                            Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
+                            msg.show();
+                        } else {
+                            linear_Layout_1.setVisibility(view.VISIBLE);
+                            Toast msg = Toast.makeText(getBaseContext(), "Select source bus stop marker", Toast.LENGTH_LONG);
+                            msg.show();
+                        }
                     }
 
-                    LatLng latLng2 = null;
+                    LatLng latLng = null;
                     Log.d(TAG, String.valueOf(markers));
                     for (PivotTableData marker : markers) {
-                        latLng2 = new LatLng(marker.latitude, marker.longitude);
+                        latLng = new LatLng(marker.latitude, marker.longitude);
                         String name = marker.name;
 
-                        mData.put(latLng2, name);
+                        mData.put(latLng, name);
 
-                        latLngList.add(latLng2);
+                        latLngList.add(latLng);
                     }
+                    Log.d(TAG, "Here I am" + String.valueOf(mData));
+                    Log.d(TAG, "Rock you like a hurricane");
 
                     for (LatLng li : mData.keySet()) {
                         Log.d(TAG, "Display" + mData.get(li) + "" + li);
                         googleMap.addMarker(new MarkerOptions().position(li).title(String.valueOf(mData.get(li))));
-//                        Log.d(TAG, "Line drawing! possible?");
-//                        lines = googleMap.addPolyline(new PolylineOptions()
-//                                .add(new LatLng(17.74748, 83.346268), new LatLng(17.74766, 83.34633))
-//                                .width(5)
-//                                .color(Color.RED));
+                        Log.d(TAG, "Line drawing! possible?");
+                /*lines = googleMap.addPolyline(new PolylineOptions()
+                        .add(new LatLng(17.74748, 83.346268), new LatLng(17.74766, 83.34633))
+                        .width(5)
+                        .color(Color.RED));*/
                         //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 15));
                     }
-                }
+                    setLocation();
 
-                fabContainer.setVisibility(View.GONE);
+                }
+                else {
+                    fabContainer.setVisibility(View.GONE);
+
+                }
             }
         });
 
@@ -329,9 +378,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 //toggleFabMenu();
-                //todo addHeatMap_1 needs to be way more efficient, will cause ANR
-//                addHeatMap_1();
                 fabContainer.setVisibility(View.GONE);
+                linear_Layout_1.setVisibility(view.GONE);
+                addHeatMap_1();
+                Log.d(TAG, "addHeatMap_1 passed");
             }
         });
     }
@@ -361,6 +411,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .start();
         } else {
             //fab1.setImageResource(R.drawable.ic_launcher_background);
+            Log.d(TAG, "else of fabmenuoption");
             int centerX = fabContainer.getWidth() / 2;
             int centerY = fabContainer.getHeight() / 2;
             int startRadius = (int) Math.hypot(fabContainer.getWidth(), fabContainer.getHeight()) / 2;
@@ -404,8 +455,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.core_identifiers, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        core_spinner.setAdapter(adapter);
-        core_spinner.setOnItemSelectedListener(this);
+        //commented core_spinner to remove spinner. If fails, uncomment
+        //core_spinner.setAdapter(adapter);
+        //core_spinner.setOnItemSelectedListener(this);
 
         //Floating Action
         fab.setOnClickListener(new View.OnClickListener() {
@@ -413,14 +465,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 //todo use this section to display the bus routes from source to destination that are provided by the user.
                 //get the closest bus stations from the user and the destination location the user provided. Use that info to display the list in this bottom up.
-                Snackbar.make(view, "Missing a BusStop? Locate it on the map!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Missing a BusStop? Locate it on the map!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+                String message = "Long press on the map to locate the bus stop accurately. Thank you!";
+                int duration = Snackbar.LENGTH_INDEFINITE;
+
+                showSnackbar(view, message, duration);
+
                 //fab.setBackgroundTintList(ColorStateList.valueOf(5)); //in normal state
                 //fab.setRippleColor(10); //in pressed state
 
                 //display toggle
-                toggle.toggle();
-                toggle.setTextOff("TOGGLE ON");
+                //toggle.toggle();
+                //toggle.setTextOff("TOGGLE ON");
 
                 //fab - click to point out the busstop. does this work???
                 googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -484,8 +541,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 public void run() {
                                     if (!searchResultClick && busDestinationSearchResults != null) {
                                         searchViewAdapter = new SearchViewAdapter(busDestinationSearchResults, recyclerViewClickListener);
-                                        searchViewRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                                        searchViewRV.setAdapter(searchViewAdapter);
+                                        //searchViewRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                        //searchViewRV.setAdapter(searchViewAdapter);
                                         searchViewAdapter.notifyDataSetChanged();
                                     }
                                 }
@@ -540,6 +597,158 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
     }
+
+    private void showSnackbar(View view, String message, int duration) {
+        final Snackbar snackbar = Snackbar.make(view, message, duration);
+
+        // styling for action text
+        snackbar.setActionTextColor(Color.WHITE);
+
+// styling for rest of text
+        View snackbarView = snackbar.getView();
+        TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.RED);
+
+// styling for background of snackbar
+        View sbView = snackbarView;
+        sbView.setBackgroundColor(Color.BLUE);
+
+        // Set an action on it, and a handler
+        snackbar.setAction("DISMISS", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+
+        snackbar.show();
+
+    }
+
+
+
+
+//11/16/2018
+public void syncSQLiteMySQLDB(){
+    //Create AsycHttpClient object
+
+    requestQueue = Volley.newRequestQueue(getApplicationContext());
+    //showing data from the db.
+    JsonObjectRequest jsonobjectrequest = new JsonObjectRequest(Request.Method.POST, showURL, new Response.Listener<JSONObject>() {
+        @Override
+        public void onResponse(JSONObject response) {
+//if you want to show the locations readings after extracting teh data from the db.
+        }
+    }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    });
+
+    //inserting data into db
+    StringRequest request = new StringRequest(Request.Method.POST, insertURL, new Response.Listener<String>() {
+        @Override
+        public void onResponse(String response) {
+        }
+    }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    }){
+        @Override
+        protected Map<String, String> getParams() throws AuthFailureError {
+
+
+//*** reading from device successfully
+            Map<String, String> params = new HashMap<String, String>();
+            //RequestParams params = new RequestParams();
+            ArrayList<LocationInfo> userList = (ArrayList<LocationInfo>) dbHandler.readLocationInfo_1();
+
+            List<LatLng> list = new ArrayList<>();
+            for (LocationInfo li : userList) {
+                params.put("latitude", String.valueOf(li.getLatitude()));
+                params.put("longitude", String.valueOf(li.getLongitude()));
+                params.put("time_stamp", String.valueOf(li.getTime_stamp()));
+            }
+            return (Map<String, String>) params;
+//*** reading from device_successfully
+
+            //** this is working code to test
+            /*Map<String, String> parameters = new HashMap<String, String>();
+            parameters.put("latitude", String.valueOf(12345));
+            parameters.put("longitude", String.valueOf(12345));
+            parameters.put("time_stamp", String.valueOf(12345));
+            return parameters;*/
+            //** above is working code to test
+        }
+    };
+requestQueue.add(request);
+
+   /* AsyncHttpClient client = new AsyncHttpClient();
+    RequestParams params = new RequestParams();
+    List userList = dbHandler.readLocationInfo_1();
+    Log.d("Sync 1", String.valueOf(userList.size()));
+    if(userList.size()!=0){
+        if(dbHandler.dbSyncCount() != 0){
+            Log.d("Sync", "OnSuccess Function 1");
+            prgDialog.show();
+            Log.d("Sync", "OnSuccess Function 2");
+            params.add("usersJSON", dbHandler.composeJSONfromSQLite());
+            Log.d("Sync", params.toString());
+            //client.post("http://limitmyexpense.com/arounduuserdatasync/insert_location_logs.php",params ,new AsyncHttpResponseHandler() {
+            client.post("http://192.168.84.30:8080/db_aru1_storeLocation.php", params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    Log.d("Sync", "OnSuccess Function 4");
+                    Log.d("Sync", responseBody.toString());
+                    prgDialog.hide();
+                    *//*try {
+                        JSONArray arr = new JSONArray(responseBody);
+                        //for(int i=0; i<arr.length();i++){
+                            //Log.d("Sync", String.valueOf(i));
+                            JSONObject jsonParam = new JSONObject();
+                            jsonParam.put("time_stamp", 11111);
+                            jsonParam.put("latitude", 75.25252);
+                            jsonParam.put("longitude", 120.303030);
+                        Log.i("Sync", jsonParam.toString());
+                        //}
+                        Log.d("Sync", "Above line is an example");
+                        *//*
+                        Toast.makeText(getApplicationContext(), "DB Sync completed!", Toast.LENGTH_LONG).show();
+                    *//*} catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }*//*
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+// TODO Auto-generated method stub
+                    Log.d("Sync","OnFailure Function");
+                    prgDialog.hide();
+                    if(statusCode == 404){
+                        Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                    }else if(statusCode == 500){
+                        Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                    }else{
+                        Log.d("Sync", error.getMessage());
+                        Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+            });
+        }else{
+            Toast.makeText(getApplicationContext(), "SQLite and Remote MySQL DBs are in Sync!", Toast.LENGTH_LONG).show();
+        }
+    }else{
+        Toast.makeText(getApplicationContext(), "No data in SQLite DB, please do enter User name to perform Sync action", Toast.LENGTH_LONG).show();
+    }*/
+}
+
+//11/16/2018
 
     public void showAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -689,7 +898,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void addHeatMap_1() {
         //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15f));
+        Log.d("HeatMap", "HeatMAp");
         ArrayList<LocationInfo> locationInfoList = (ArrayList<LocationInfo>) dbHandler.readLocationInfo_1();
+        //Log.d("HeatMapTileProvider", locationInfoList.size());
         LatLng source_loc = null;
         List<LatLng> list = new ArrayList<>();
         for (LocationInfo li : locationInfoList) {
@@ -701,7 +912,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (list.size() == 0) {
 
         } else {
-            Log.d("HeatMapTileProvider", "Permission response: " + list.size());
+            Log.d("HeatMapTileProvider", "Permission response: " + list);
             mProvider = new HeatmapTileProvider.Builder()
                     .data(list)
                     .build();
@@ -869,11 +1080,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 googleMap.clear();
                 Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
                         .show();
+                Log.d("Sync", "Starting SyncSQLiteMySQLDB");
+                syncSQLiteMySQLDB();
                 break;
             case R.id.action_settings:
                 //Intent heatmap = new Intent(this, HeatMapActivity.class);
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
                         .show();
+
                 //startActivity(heatmap);
                 break;
 
@@ -914,7 +1128,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    @Override
+    /*@Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String item_selected = adapterView.getItemAtPosition(i).toString();
 //        Toast.makeText(adapterView.getContext(), item_selected, Toast.LENGTH_SHORT).show();
@@ -928,7 +1142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onNothingSelected(AdapterView<?> adapterView) {
         googleMap.clear();
     }
-
+*/
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         this.googleMap = googleMap;
@@ -981,7 +1195,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    public void populateMap(View view) {
+    /*public void populateMap(View view) {
 
         googleMap.clear();
         linear_Layout_1 = (LinearLayout) findViewById(R.id.linearlayout);
@@ -1022,33 +1236,53 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, currentLocation.getLatitude(), currentLocation.getLongitude());
 
             //testing the data. Assigning latnlong manually for now.
-            double latitude = 17.74748;
-            double longitude = 83.346268;
+            double latitude = 17.736706;
+            double longitude = 83.307610;
+            //below coordinates are to test the scinario where there are no bus stations near the user location.
+            //double latitude = 29.587433;
+            //double longitude = -95.682365;
             List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
-            int a = markers.size();
-            Log.d("Export", "Sizeses:" + a);
+            int busstops_1 = markers.size();
+            Log.d("Export", "Sizeses:" + busstops_1);
 
+            if(busstops_1 == 0) {
+                fab.setVisibility(view.VISIBLE);
+
+                String message = "Long press on the map to locate the bus stop accurately. Thank you!";
+                int duration = Snackbar.LENGTH_LONG;
+                final Snackbar snackbar = Snackbar.make(view, message, duration);
+
+                showSnackbar(view, message, duration);
+
+            }
+            //We ask user to locate the bus station near him.
             //////
             if (item_selected_1.equalsIgnoreCase("Bus")) {
-//                googleMap.getUiSettings().setMapToolbarEnabled(false);
-//                //todo get rid of this when done testing
-//                LatLng latLng = new LatLng(latitude, longitude);
-//                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-//                googleMap.animateCamera(cameraUpdate);
-//                //todo no seriously, get rid of this block
-//
-//                if (markers.size() == 0) {
-//                    Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
-//                    msg.show();
-//                } else if (markers.size() == 1) {
-//                    linear_Layout_1.setVisibility(View.VISIBLE);
-//                    srcLocation = markers.get(0).name.toUpperCase();
-//                    Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
-//                    msg.show();
-//                } else {
-//                    Toast msg = Toast.makeText(getBaseContext(), "Select source bus stop marker", Toast.LENGTH_LONG);
-//                    msg.show();
-//                }
+                googleMap.getUiSettings().setMapToolbarEnabled(false);
+                fab.setVisibility(view.VISIBLE);
+                String message = "Bus Stop not located accurately? Long click (2sec) on the map to Locate it";
+                int duration = Snackbar.LENGTH_INDEFINITE;
+                final Snackbar snackbar = Snackbar.make(view, message, duration);
+                showSnackbar(view, message, duration);
+
+                //todo get rid of this when done testing
+                LatLng latLng = new LatLng(latitude, longitude);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                googleMap.animateCamera(cameraUpdate);
+                //todo no seriously, get rid of this block
+
+                if (markers.size() == 0) {
+                    Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
+                    msg.show();
+                } else if (markers.size() == 1) {
+                    linear_Layout_1.setVisibility(View.VISIBLE);
+                    srcLocation = markers.get(0).name.toUpperCase();
+                    Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
+                    msg.show();
+                } else {
+                    Toast msg = Toast.makeText(getBaseContext(), "Select source bus stop marker", Toast.LENGTH_LONG);
+                    msg.show();
+                }
             }
 
             LatLng latLng = null;
@@ -1070,10 +1304,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d(TAG, "Display" + mData.get(li) + "" + li);
                 googleMap.addMarker(new MarkerOptions().position(li).title(String.valueOf(mData.get(li))));
                 Log.d(TAG, "Line drawing! possible?");
-                lines = googleMap.addPolyline(new PolylineOptions()
+                *//*lines = googleMap.addPolyline(new PolylineOptions()
                         .add(new LatLng(17.74748, 83.346268), new LatLng(17.74766, 83.34633))
                         .width(5)
-                        .color(Color.RED));
+                        .color(Color.RED));*//*
                 //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 15));
             }
             setLocation();
@@ -1089,7 +1323,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //todo if the currentlocation is null, popup a window.
         } else googleMap.clear();
     }
-
+*/
     private void setLocation() {
         try {
             mFusedLocationClient.getLastLocation()
@@ -1167,4 +1401,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         //todo get from database latlngs for source (variable srcLocation) and destination (variable destLocation). Clear map of markers. Draw two markers.
     }
+
+
+
 }

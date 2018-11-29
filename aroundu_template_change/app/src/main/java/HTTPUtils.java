@@ -14,26 +14,28 @@ import java.net.URLEncoder;
 public class HTTPUtils {
 
     private static final String TAG = "Network";
-    private static final String API = "https://e47ujwphnj.execute-api.us-west-1.amazonaws.com/test";
-    private static final String API_KEY = "hNK9taaLsx9MpHp7HwphH67vSgajOrch5Evuf3zt";
+    //private static final String API = "https://e47ujwphnj.execute-api.us-west-1.amazonaws.com/test";
+    //private static final String API_KEY = "hNK9taaLsx9MpHp7HwphH67vSgajOrch5Evuf3zt";
+    private static final String API = "https://192.185.4.95:3306/arounduuserdatasync/insert_location_log.php";
 
     public static void sendPost() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    URL url = new URL(API + "/locations");
+                    //URL url = new URL(API + "/locations");
+                    URL url = new URL(API);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
                     conn.setRequestProperty("Accept","application/json");
-                    conn.setRequestProperty("x-api-key", API_KEY);
+                    //conn.setRequestProperty("x-api-key", API_KEY);
                     conn.setDoOutput(true);
                     conn.setDoInput(true);
 
                     JSONObject jsonParam = new JSONObject();
                     jsonParam.put("time_stamp", 01);
-                    jsonParam.put("device_uuid", 105);
+                    //jsonParam.put("device_uuid", 105);
                     jsonParam.put("latitude", 75.25);
                     jsonParam.put("longitude", 120.30);
 

@@ -11,6 +11,9 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -19,6 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
@@ -42,6 +46,7 @@ public class DBHandler extends SQLiteOpenHelper {
     // table name
     private static final String TABLE_NAME = "pivottabledata";
     private static final String LOC_TABLE_NAME = "location_info";
+    private static final String LOC_TABLE_NAME_DISTINCT = "location_info_heatmap";
     private static final String LINES_TABLE_NAME = "Lines";
     private static final String DEST_LOOKUP_TABLE_NAME = "destination_lookup_tbl";
     // Table Columns names
@@ -118,6 +123,14 @@ public class DBHandler extends SQLiteOpenHelper {
             Log.i(TAG, "Create table " + CREATE_LOCATION_TABLE);
             db.execSQL(CREATE_LOCATION_TABLE);
 
+            String CREATE_LOCATION_TABLE_1 = "CREATE TABLE " + LOC_TABLE_NAME_DISTINCT + "("
+                    + TIME_STAMP + " TEXT PRIMARY KEY,"
+                    + LATITUDE + " DECIMAL(10,7) ,"
+                    + LONGITUDE + " DECIMAL(10,7)"
+                    + ")";
+            Log.i(TAG, "Create table " + CREATE_LOCATION_TABLE_1);
+            db.execSQL(CREATE_LOCATION_TABLE_1);
+
             String CREATE_LINES_TABLE = "CREATE TABLE " + LINES_TABLE_NAME + "("
                     + LINE_ID + " INTEGER, "
                     + BUS_NO + " TEXT, "
@@ -141,9 +154,94 @@ public class DBHandler extends SQLiteOpenHelper {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + LOC_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + LOC_TABLE_NAME_DISTINCT);
         // Creating tables again
         onCreate(db);
     }
+
+
+// 11/16/2018
+    public String composeJSONfromSQLite(){
+        Log.d("Sync","in ComposeJSONfromSQLite");
+        List wordList;
+        wordList = new ArrayList();
+        String selectQuery = "SELECT  * FROM location_info limit 1";
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        Log.d("Sync",String.valueOf(cursor.getCount()));
+        LocationInfo li;
+        if (cursor.moveToFirst()) {
+            do {
+                li = new LocationInfo();
+                //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
+                li.setTime_stamp(cursor.getLong(0));
+                li.setLatitude(cursor.getDouble(1));
+                li.setLongitude(cursor.getDouble(2));
+                /*
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("time_stamp", cursor.getString(0));
+                map.put("device_uuid", cursor.getString(1));
+                map.put("latitude", cursor.getString(3));
+                map.put("longitude", cursor.getString(4));*/
+
+
+                wordList.add(li);
+            } while (cursor.moveToNext());
+        }
+        database.close();
+        Gson gson = new GsonBuilder().create();
+        //Use GSON to serialize Array List to JSON
+        Log.d("Sync", gson.toJson(wordList).toString());
+        return gson.toJson(wordList);
+    }
+
+    /**
+     * Get Sync status of SQLite
+     * @return
+     */
+    public String getSyncStatus(){
+        String msg = null;
+        if(this.dbSyncCount() == 0){
+            msg = "SQLite and Remote MySQL DBs are in Sync!";
+        }else{
+            msg = "DB Sync neededn";
+        }
+        return msg;
+    }
+
+    /**
+     * Get SQLite records that are yet to be Synced
+     * @return
+     */
+    public int dbSyncCount(){
+        int count = 0;
+        String selectQuery = "SELECT  * FROM location_info";
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        count = cursor.getCount();
+        database.close();
+        return count;
+    }
+
+
+    /**
+     * Update Sync status against each User ID
+     /* @param id
+     /* @param status
+     */
+    public void updateSyncStatus(String id, String status){
+        SQLiteDatabase database = this.getWritableDatabase();
+        String updateQuery = "Update location_info set udpateStatus = '"+ status +"' where userId="+"'"+ id +"'";
+        Log.d("Sync",updateQuery);
+        database.execSQL(updateQuery);
+        database.close();
+    }
+//11/16/2018
+
+
+
+
+
 
     //adding source data into table TABLE_SOURCE.
 
@@ -206,10 +304,10 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.i(TAG, item_selected_1);
         List<PivotTableData> markersList = new ArrayList<PivotTableData>();
         String selectQuery = null;
-        double lat1 = latitude - 0.11;
-        double lat2 = latitude + 0.11;
-        double lng1 = longitude - 0.11;
-        double lng2 = longitude + 0.11;
+        double lat1 = latitude - 0.003;
+        double lat2 = latitude + 0.003;
+        double lng1 = longitude - 0.003;
+        double lng2 = longitude + 0.003;
         double minlat;
         double minlng;
         double maxlat;
@@ -319,8 +417,8 @@ public class DBHandler extends SQLiteOpenHelper {
     public List readLocationInfo_1() {
         SQLiteDatabase db = this.getReadableDatabase();
         //Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
-        //Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME + " limit 50", null);
-        Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME, null);
+        //Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME + " limit 500", null);
+        Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME , null);
         //List itemIds = new ArrayList<>();
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
         LocationInfo li;
@@ -431,15 +529,18 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         Log.d("DBTest", "Result: " + cursor.getCount());
-        if(cursor.getCount() != 0) {
-            if (cursor.moveToFirst()) {
-                Log.d("cursor", cursor.getString(0));
-            }
-            return Integer.parseInt(cursor.getString(0));
+        if(cursor.moveToFirst() && cursor != null)
+        {
+            Log.d("cursor",cursor.getString(0));
         }
         else{
-            return -1;
+
         }
+        //todo shoud we not close the cursor here?
+        //todo the below line throws error if the value is 0.
+        int a = 0;
+        a = Integer.parseInt(cursor.getString(0));
+        return a;
     }
 
     public ArrayList<String> destinationLookup(String s) {

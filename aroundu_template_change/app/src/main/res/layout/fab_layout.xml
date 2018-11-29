@@ -5,8 +5,9 @@
     android:layout_height="wrap_content"
     android:id="@+id/fabContainerLayout"
     android:layout_gravity="center_vertical|center_horizontal"
-    android:background="#fff"
     android:visibility="gone"
+    android:background="#f4f4f4"
+
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -23,7 +24,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:src="@android:drawable/ic_dialog_email"
-            app:backgroundTint="@color/colorPrimary" />
+            app:backgroundTint="@color/colorPrimary"
+            app:fabSize="mini"/>
 
 
         <TextView
@@ -48,7 +50,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:src="@android:drawable/ic_dialog_dialer"
-            app:backgroundTint="@color/colorPrimary" />
+            app:backgroundTint="@color/colorPrimary"
+            app:fabSize="mini"/>
 
         <TextView
             android:layout_width="wrap_content"
