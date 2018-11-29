@@ -626,6 +626,8 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
+
 //11/16/2018
 public void syncSQLiteMySQLDB(){
     //Create AsycHttpClient object
@@ -683,8 +685,6 @@ public void syncSQLiteMySQLDB(){
         }
     };
 requestQueue.add(request);
-
-
 
    /* AsyncHttpClient client = new AsyncHttpClient();
     RequestParams params = new RequestParams();
