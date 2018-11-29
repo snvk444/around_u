@@ -366,8 +366,7 @@ public class MainActivity extends AppCompatActivity
                     }
                     setLocation();
 
-                }
-                else {
+                } else {
                     fabContainer.setVisibility(View.GONE);
 
                 }
@@ -392,8 +391,8 @@ public class MainActivity extends AppCompatActivity
         if (!fabMenuOpen) {
             //fab1.setImageResource(R.drawable.ic_launcher_background);
 
-            int centerX = fabContainer.getWidth()/2;
-            int centerY = fabContainer.getHeight()/2;
+            int centerX = fabContainer.getWidth() / 2;
+            int centerY = fabContainer.getHeight() / 2;
             int startRadius = 0;
             int endRadius = (int) Math.hypot(fabContainer.getWidth(), fabContainer.getHeight()) / 2;
 
@@ -448,7 +447,6 @@ public class MainActivity extends AppCompatActivity
         }
         fabMenuOpen = !fabMenuOpen;
     }
-
 
 
     public void setListenersAndBehaviors() {
@@ -626,65 +624,69 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    //11/16/2018
+    public void syncSQLiteMySQLDB() {
+        //Create AsycHttpClient object
 
-
-//11/16/2018
-public void syncSQLiteMySQLDB(){
-    //Create AsycHttpClient object
-
-    requestQueue = Volley.newRequestQueue(getApplicationContext());
-    //showing data from the db.
-    JsonObjectRequest jsonobjectrequest = new JsonObjectRequest(Request.Method.POST, showURL, new Response.Listener<JSONObject>() {
-        @Override
-        public void onResponse(JSONObject response) {
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        //showing data from the db.
+        JsonObjectRequest jsonobjectrequest = new JsonObjectRequest(Request.Method.POST, showURL, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
 //if you want to show the locations readings after extracting teh data from the db.
-        }
-    }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
-        }
-    });
+            }
+        });
 
-    //inserting data into db
-    StringRequest request = new StringRequest(Request.Method.POST, insertURL, new Response.Listener<String>() {
-        @Override
-        public void onResponse(String response) {
-        }
-    }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
+        //inserting data into db
+        StringRequest request = new StringRequest(Request.Method.POST, insertURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
-        }
-    }){
-        @Override
-        protected Map<String, String> getParams() throws AuthFailureError {
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
 
 
 //*** reading from device successfully
-            Map<String, String> params = new HashMap<String, String>();
-            //RequestParams params = new RequestParams();
-            ArrayList<LocationInfo> userList = (ArrayList<LocationInfo>) dbHandler.readLocationInfo_1();
+                Map<String, String> params = new HashMap<String, String>();
+                //RequestParams params = new RequestParams();
+                ArrayList<LocationInfo> userList = (ArrayList<LocationInfo>) dbHandler.readLocationInfo_1();
 
-            List<LatLng> list = new ArrayList<>();
-            for (LocationInfo li : userList) {
-                params.put("latitude", String.valueOf(li.getLatitude()));
-                params.put("longitude", String.valueOf(li.getLongitude()));
-                params.put("time_stamp", String.valueOf(li.getTime_stamp()));
-            }
-            return (Map<String, String>) params;
+//                List<LatLng> list = new ArrayList<>();
+//                for (LocationInfo li : userList) {
+//                    params.put("latitude", String.valueOf(li.getLatitude()));
+//                    params.put("longitude", String.valueOf(li.getLongitude()));
+//                    params.put("time_stamp", String.valueOf(li.getTime_stamp()));
+//                }
+
+                for(int i = 0; i < userList.size(); i++){
+                    params.put("latitude" + i, String.valueOf(userList.get(i).getLatitude()));
+                    params.put("longitude" + i, String.valueOf(userList.get(i).getLongitude()));
+                    params.put("time_stamp" + i, String.valueOf(userList.get(i).getTime_stamp()));
+                }
+                return (Map<String, String>) params;
 //*** reading from device_successfully
 
-            //** this is working code to test
+                //** this is working code to test
             /*Map<String, String> parameters = new HashMap<String, String>();
             parameters.put("latitude", String.valueOf(12345));
             parameters.put("longitude", String.valueOf(12345));
             parameters.put("time_stamp", String.valueOf(12345));
             return parameters;*/
-            //** above is working code to test
-        }
-    };
-requestQueue.add(request);
+                //** above is working code to test
+            }
+        };
+        requestQueue.add(request);
 
    /* AsyncHttpClient client = new AsyncHttpClient();
     RequestParams params = new RequestParams();
@@ -746,7 +748,7 @@ requestQueue.add(request);
     }else{
         Toast.makeText(getApplicationContext(), "No data in SQLite DB, please do enter User name to perform Sync action", Toast.LENGTH_LONG).show();
     }*/
-}
+    }
 
 //11/16/2018
 
@@ -966,14 +968,13 @@ requestQueue.add(request);
         mClusterManager.addItems(locationInfoList);
     }
 
-    private void populateDestinationLookUpTable(){
+    private void populateDestinationLookUpTable() {
         Log.d("DestLookUp", "Begin");
         String line = "";
         try {
             InputStream is = getResources().openRawResource(R.raw.destination_lookup);
             reader = new BufferedReader(new InputStreamReader(is));
-            while ((line = reader.readLine()) != null)
-            {
+            while ((line = reader.readLine()) != null) {
                 String[] str = line.split(",");
                 dbHandler.addDestinationLookUpInfo(str[0], str[1]);
             }
@@ -1054,11 +1055,9 @@ requestQueue.add(request);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }
-        else if(expanded){
+        } else if (expanded) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -1148,7 +1147,7 @@ requestQueue.add(request);
         this.googleMap = googleMap;
 
         //mapstyle code below
-       try {
+        try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
             boolean success = googleMap.setMapStyle(
@@ -1401,7 +1400,6 @@ requestQueue.add(request);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         //todo get from database latlngs for source (variable srcLocation) and destination (variable destLocation). Clear map of markers. Draw two markers.
     }
-
 
 
 }

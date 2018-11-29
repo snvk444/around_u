@@ -422,21 +422,23 @@ public class DBHandler extends SQLiteOpenHelper {
         //List itemIds = new ArrayList<>();
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
         LocationInfo li;
-        while (cursor.moveToNext()) {
-            //long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(LATITUDE));
-            //Log.i(TAG, " TimeStamp: " + cursor.getDouble(0) + "Latitude:" + cursor.getDouble(1) + "Longitude:" + cursor.getDouble(2));
-            //itemIds.add(itemId);
+        if(cursor != null) {
+            while (cursor.moveToNext()) {
+                //long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(LATITUDE));
+                //Log.i(TAG, " TimeStamp: " + cursor.getDouble(0) + "Latitude:" + cursor.getDouble(1) + "Longitude:" + cursor.getDouble(2));
+                //itemIds.add(itemId);
 
-            li = new LocationInfo();
-            //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
-            li.setTime_stamp(cursor.getLong(0));
-            li.setLatitude(cursor.getDouble(1));
-            li.setLongitude(cursor.getDouble(2));
+                li = new LocationInfo();
+                //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
+                li.setTime_stamp(cursor.getLong(0));
+                li.setLatitude(cursor.getDouble(1));
+                li.setLongitude(cursor.getDouble(2));
 
-            displaypoints.add(li);
-            Log.i(TAG, " Points to Display from readLocationInfo:" + li.getLongitude());
+                displaypoints.add(li);
+                Log.i(TAG, " Points to Display from readLocationInfo:" + li.getLongitude());
+            }
+            cursor.close();
         }
-        cursor.close();
         return displaypoints;
     }
 
