@@ -5,6 +5,7 @@ import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -58,6 +59,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import org.json.JSONArray;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -97,8 +99,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -200,10 +204,10 @@ public class MainActivity extends AppCompatActivity
             backgroundHandler.post(new Runnable() {
                 @Override
                 public void run() {
-//                    Log.d("DestLookUp", "Before");
-//                    populateDatabaseWithInitialData(prefs);
-//                    Log.d("DestLookUp", "After");
-//                    populateDestinationLookUpTable();
+/*                    Log.d("DestLookUp", "Before");
+                    populateDatabaseWithInitialData(prefs);
+                    Log.d("DestLookUp", "After");
+                    populateDestinationLookUpTable();*/
 
                     dbHandler.createDataBase();
 
@@ -379,7 +383,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 //toggleFabMenu();
                 fabContainer.setVisibility(View.GONE);
-                linear_Layout_1.setVisibility(view.GONE);
+                //linear_Layout_1.setVisibility(view.GONE);
                 addHeatMap_1();
                 Log.d(TAG, "addHeatMap_1 passed");
             }
@@ -480,11 +484,17 @@ public class MainActivity extends AppCompatActivity
                 //toggle.setTextOff("TOGGLE ON");
 
                 //fab - click to point out the busstop. does this work???
-                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    public void onMapClick(LatLng point) {
+                googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                    @Override
+                    public void onMapLongClick(LatLng point) {
+                        googleMap.clear();
                         Toast.makeText(getBaseContext(),
                                 point.latitude + ", " + point.longitude,
                                 Toast.LENGTH_SHORT).show();
+                        googleMap.addMarker(new MarkerOptions()
+                                .position(point)
+                                .title("Here is the Bus Stop")
+                                .snippet("Your marker snippet")).showInfoWindow();
                     }
                 });
 
@@ -631,6 +641,7 @@ public class MainActivity extends AppCompatActivity
 //11/16/2018
 public void syncSQLiteMySQLDB(){
     //Create AsycHttpClient object
+/*
 
     requestQueue = Volley.newRequestQueue(getApplicationContext());
     //showing data from the db.
@@ -676,19 +687,22 @@ public void syncSQLiteMySQLDB(){
 //*** reading from device_successfully
 
             //** this is working code to test
-            /*Map<String, String> parameters = new HashMap<String, String>();
+            */
+/*Map<String, String> parameters = new HashMap<String, String>();
             parameters.put("latitude", String.valueOf(12345));
             parameters.put("longitude", String.valueOf(12345));
             parameters.put("time_stamp", String.valueOf(12345));
-            return parameters;*/
+            return parameters;*//*
+
             //** above is working code to test
         }
     };
 requestQueue.add(request);
+*/
 
-   /* AsyncHttpClient client = new AsyncHttpClient();
-    RequestParams params = new RequestParams();
-    List userList = dbHandler.readLocationInfo_1();
+    AsyncHttpClient client = new AsyncHttpClient();
+    final RequestParams params = new RequestParams();
+    final List userList = dbHandler.readLocationInfo_1();
     Log.d("Sync 1", String.valueOf(userList.size()));
     if(userList.size()!=0){
         if(dbHandler.dbSyncCount() != 0){
@@ -697,36 +711,45 @@ requestQueue.add(request);
             Log.d("Sync", "OnSuccess Function 2");
             params.add("usersJSON", dbHandler.composeJSONfromSQLite());
             Log.d("Sync", params.toString());
-            //client.post("http://limitmyexpense.com/arounduuserdatasync/insert_location_logs.php",params ,new AsyncHttpResponseHandler() {
-            client.post("http://192.168.84.30:8080/db_aru1_storeLocation.php", params, new AsyncHttpResponseHandler() {
+            client.post("http://limitmyexpense.com/arounduuserdatasync/insert_location_logs.php",params ,new AsyncHttpResponseHandler() {
+            //client.post("http://192.168.0.9:80/insert_location_logs.php", params, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     Log.d("Sync", "OnSuccess Function 4");
-                    Log.d("Sync", responseBody.toString());
+                    Log.d("Sync", String.valueOf(statusCode));
+                    Toast.makeText(getApplicationContext(),"Request success" + new String(responseBody), 0).show();
                     prgDialog.hide();
-                    *//*try {
-                        JSONArray arr = new JSONArray(responseBody);
-                        //for(int i=0; i<arr.length();i++){
-                            //Log.d("Sync", String.valueOf(i));
-                            JSONObject jsonParam = new JSONObject();
-                            jsonParam.put("time_stamp", 11111);
-                            jsonParam.put("latitude", 75.25252);
-                            jsonParam.put("longitude", 120.303030);
-                        Log.i("Sync", jsonParam.toString());
-                        //}
-                        Log.d("Sync", "Above line is an example");
-                        *//*
-                        Toast.makeText(getApplicationContext(), "DB Sync completed!", Toast.LENGTH_LONG).show();
-                    *//*} catch (JSONException e) {
-                        // TODO Auto-generated catch block
-                        Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
-                        e.printStackTrace();
-                    }*//*
-                }
 
+                    //dbHandler.updateSyncStatus();
+                    try {
+                        Log.d("Sync", "in try block!");
+                        String str = new String(responseBody, "UTF-8");
+                        Log.d("Sync str", String.valueOf(str.length()));
+                        JSONArray jarray = new JSONArray(str.trim());
+                        Log.d("Sync", String.valueOf(jarray.length()));
+
+                        for (int i = 0; i < jarray.length(); i++) {
+                            Log.d("Sync", String.valueOf(i));
+                            JSONObject jsonobject = jarray.getJSONObject(i);
+                            Log.d("Sync", String.valueOf(jsonobject.getLong("time_stamp")));
+                            //jsonobject.getLong("time_stamp");
+                            dbHandler.updateSyncStatus((Long) jsonobject.getLong("time_stamp"));
+                        }
+                        Log.d("Sync", "Am I here??");
+                        Log.d("Sync", String.valueOf(jarray.length()));
+                            //Log.d("Sync", );
+                            //JSONObject actor = str.getJSONObject(i);
+                            //Log.d("Sync", actor.toString());
+                            //dbHandler.updateSyncStatus((Long) actor.get("time_stamp"), actor.get("status").toString());
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-// TODO Auto-generated method stub
+                    // TODO Auto-generated method stub
                     Log.d("Sync","OnFailure Function");
                     prgDialog.hide();
                     if(statusCode == 404){
@@ -745,7 +768,7 @@ requestQueue.add(request);
         }
     }else{
         Toast.makeText(getApplicationContext(), "No data in SQLite DB, please do enter User name to perform Sync action", Toast.LENGTH_LONG).show();
-    }*/
+    }
 }
 
 //11/16/2018

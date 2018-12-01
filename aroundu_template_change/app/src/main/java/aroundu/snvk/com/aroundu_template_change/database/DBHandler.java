@@ -39,7 +39,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 5;
     // Database Name
     private static final String DATABASE_NAME = "AroundU_DB";
     private static final String DATABASE_PATH = "/data/data/aroundu.snvk.com.aroundu_template_change/databases/";
@@ -70,6 +70,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String SEQUENCE = "Sequence";
     private static final String DEST_LOOK_UP = "dest_look_up";
     private static final String ACTUAL_NAME = "actual_name";
+    private static final String STATUS = "status";
 
     private static DBHandler mInstance = null;
 
@@ -116,9 +117,11 @@ public class DBHandler extends SQLiteOpenHelper {
             db.execSQL(CREATE_CONTENTS_TABLE);
 
             String CREATE_LOCATION_TABLE = "CREATE TABLE " + LOC_TABLE_NAME + "("
-                    + TIME_STAMP + " TEXT PRIMARY KEY,"
+                    + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + TIME_STAMP + " TEXT,"
                     + LATITUDE + " DECIMAL(10,7) ,"
-                    + LONGITUDE + " DECIMAL(10,7)"
+                    + LONGITUDE + " DECIMAL(10,7) ,"
+                    + STATUS + " INTEGER"
                     + ")";
             Log.i(TAG, "Create table " + CREATE_LOCATION_TABLE);
             db.execSQL(CREATE_LOCATION_TABLE);
@@ -155,6 +158,8 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + LOC_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + LOC_TABLE_NAME_DISTINCT);
+        db.execSQL("DROP TABLE IF EXISTS " + LINES_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + DEST_LOOKUP_TABLE_NAME);
         // Creating tables again
         onCreate(db);
     }
@@ -165,7 +170,7 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.d("Sync","in ComposeJSONfromSQLite");
         List wordList;
         wordList = new ArrayList();
-        String selectQuery = "SELECT  * FROM location_info limit 1";
+        String selectQuery = "SELECT  * FROM location_info where status = 0";
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         Log.d("Sync",String.valueOf(cursor.getCount()));
@@ -174,9 +179,9 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 li = new LocationInfo();
                 //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
-                li.setTime_stamp(cursor.getLong(0));
-                li.setLatitude(cursor.getDouble(1));
-                li.setLongitude(cursor.getDouble(2));
+                li.setTime_stamp(cursor.getLong(1));
+                li.setLatitude(cursor.getDouble(2));
+                li.setLongitude(cursor.getDouble(3));
                 /*
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("time_stamp", cursor.getString(0));
@@ -204,7 +209,7 @@ public class DBHandler extends SQLiteOpenHelper {
         if(this.dbSyncCount() == 0){
             msg = "SQLite and Remote MySQL DBs are in Sync!";
         }else{
-            msg = "DB Sync neededn";
+            msg = "DB Sync needed";
         }
         return msg;
     }
@@ -215,7 +220,7 @@ public class DBHandler extends SQLiteOpenHelper {
      */
     public int dbSyncCount(){
         int count = 0;
-        String selectQuery = "SELECT  * FROM location_info";
+        String selectQuery = "SELECT  * FROM location_info where status = 0";
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         count = cursor.getCount();
@@ -229,9 +234,9 @@ public class DBHandler extends SQLiteOpenHelper {
      /* @param id
      /* @param status
      */
-    public void updateSyncStatus(String id, String status){
+    public void updateSyncStatus(Long time_stamp){
         SQLiteDatabase database = this.getWritableDatabase();
-        String updateQuery = "Update location_info set udpateStatus = '"+ status +"' where userId="+"'"+ id +"'";
+        String updateQuery = "Update location_info set status = 1 where time_stamp=" + time_stamp + "";
         Log.d("Sync",updateQuery);
         database.execSQL(updateQuery);
         database.close();
@@ -377,6 +382,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(TIME_STAMP, pt.getTime_stamp());
         values.put(LATITUDE, pt.getLatitude());
         values.put(LONGITUDE, pt.getLongitude());
+        values.put(STATUS, 0);
 
         // Inserting Row
         Log.i(TAG, "Inserting data" + values);
@@ -400,12 +406,13 @@ public class DBHandler extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             li = new LocationInfo();
             //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
-            li.setTime_stamp(cursor.getLong(0));
-            li.setLatitude(cursor.getDouble(1));
-            li.setLongitude(cursor.getDouble(2));
+            li.setTime_stamp(cursor.getLong(1));
+            li.setLatitude(cursor.getDouble(2));
+            li.setLongitude(cursor.getDouble(3));
 
             displaypoints.add(li);
-            Log.i(TAG, " Points to Display from readLocationInfo:" + li.getLongitude());
+            Log.i(TAG, " Points to Display from readLocationInfo lat:" + li.getLatitude());
+            Log.i(TAG, " Points to Display from readLocationInfo long:" + li.getLongitude());
         }
 
         cursor.close();
@@ -429,12 +436,13 @@ public class DBHandler extends SQLiteOpenHelper {
 
             li = new LocationInfo();
             //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
-            li.setTime_stamp(cursor.getLong(0));
-            li.setLatitude(cursor.getDouble(1));
-            li.setLongitude(cursor.getDouble(2));
+            li.setTime_stamp(cursor.getLong(1));
+            li.setLatitude(cursor.getDouble(2));
+            li.setLongitude(cursor.getDouble(3));
 
             displaypoints.add(li);
-            Log.i(TAG, " Points to Display from readLocationInfo:" + li.getLongitude());
+            Log.i(TAG, " Points to Display from readLocationInfo lat:" + li.getLongitude());
+            Log.i(TAG, " Points to Display from readLocationInfo long:" + li.getLongitude());
         }
         cursor.close();
         return displaypoints;
