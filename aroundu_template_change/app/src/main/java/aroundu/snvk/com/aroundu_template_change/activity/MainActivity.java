@@ -992,7 +992,7 @@ requestQueue.add(request);
     private void populateDestinationLookUpTable(){
         Log.d("DestLookUp", "Begin");
         String line = "";
-        try {
+        /*try {
             InputStream is = getResources().openRawResource(R.raw.destination_lookup);
             reader = new BufferedReader(new InputStreamReader(is));
             while ((line = reader.readLine()) != null)
@@ -1002,7 +1002,7 @@ requestQueue.add(request);
             }
         } catch (Exception e) {
             Log.d("DestLookUp", "Error: " + e.getLocalizedMessage());
-        }
+        }*/
     }
 
 
