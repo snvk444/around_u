@@ -78,6 +78,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -174,6 +175,9 @@ public class MainActivity extends AppCompatActivity
     private LinearLayout fabContainer;
     RequestQueue requestQueue;
     public LatLng user_loc_input;
+    private LatLngBounds.Builder builder;
+    private LatLngBounds bounds;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -678,7 +682,7 @@ public class MainActivity extends AppCompatActivity
                         try {
                             Log.d("Sync", "in try block!");
                             String str = new String(responseBody, "UTF-8");
-                            Log.d("Sync str", String.valueOf(str.length()));
+                            Log.d("Sync str", str);
                             JSONArray jarray = new JSONArray(str.trim());
                             Log.d("Sync", String.valueOf(jarray.length()));
 
@@ -1562,11 +1566,9 @@ requestQueue.add(request);
 
         //retrieving all the stations between source and destination.
         //dbHandler.getIntermediateStationCoordinates(srcLocation, destLocation, bus_no);
-
         for (LatLng li : mData.keySet()) {
             Log.d(TAG, "Display" + mData.get(li) + "" + li);
             googleMap.addMarker(new MarkerOptions().position(li).title("Destination: " + String.valueOf(mData.get(li)))).showInfoWindow();
-            Log.d(TAG, "Line drawing! possible?");
                 /*lines = googleMap.addPolyline(new PolylineOptions()
                         .add(new LatLng(17.74748, 83.346268), new LatLng(17.74766, 83.34633))
                         .width(5)
