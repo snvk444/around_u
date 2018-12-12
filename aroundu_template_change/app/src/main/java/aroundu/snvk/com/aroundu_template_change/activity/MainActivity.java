@@ -136,10 +136,11 @@ public class MainActivity extends AppCompatActivity
     HeatmapTileProvider mProvider;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     String provider;
-    Button btn;
+    Button btn,loc_submit,loc_cancel;
     EditText eText;
     ConstraintLayout constraint_Layout_1;
     LinearLayout linear_Layout_1;
+    LinearLayout submitlayout;
     private DBHandler dbHandler;
     private Handler mHandler;
     private RecyclerView bottomSheetRV, searchViewRV;
@@ -148,6 +149,7 @@ public class MainActivity extends AppCompatActivity
     private Location currentLocation = null;
     private String srcLocation = "";
     private String destLocation = "";
+    private String bus_no = "";
     private RecyclerViewClickListener recyclerViewClickListener;
     private BottomSheetClickListener bottomSheetClickListener;
     private ArrayList<String> busDestinationSearchResults;
@@ -199,17 +201,17 @@ public class MainActivity extends AppCompatActivity
         //initial insert of data
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         if (prefs.getBoolean("first_run", true)) {
-            Log.d("Export", "Populating the database");
+            Log.d(TAG, "Populating the database");
 
             backgroundHandler.post(new Runnable() {
                 @Override
                 public void run() {
-/*                    Log.d("DestLookUp", "Before");
+                    dbHandler.createDataBase();
+                    Log.d("DestLookUp", "Before");
                     populateDatabaseWithInitialData(prefs);
                     Log.d("DestLookUp", "After");
-                    populateDestinationLookUpTable();*/
-
-                    dbHandler.createDataBase();
+                    populateDestinationLookUpTable();
+                    //dbHandler.createDataBase();
 
                     prefs.edit().putBoolean("first_run", false).apply();
                 }
@@ -248,6 +250,7 @@ public class MainActivity extends AppCompatActivity
         //core_spinner = (Spinner) findViewById(R.id.core_spinner);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         fabContainer = (LinearLayout) findViewById(R.id.fabContainerLayout);
+        submitlayout = (LinearLayout) findViewById(R.id.submitlayout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab1 = (FloatingActionButton) findViewById(R.id.fab1);
         bus_fab = (FloatingActionButton) findViewById(R.id.bus_fab);
@@ -257,10 +260,12 @@ public class MainActivity extends AppCompatActivity
 
         llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
         bottomSheetRV = (RecyclerView) findViewById(R.id.recycler_view);
-        //searchViewRV = (RecyclerView) findViewById(R.id.search_recycler_view);
+        searchViewRV = (RecyclerView) findViewById(R.id.search_recycler_view);
 
         eText = (EditText) findViewById(R.id.editText);
         btn = (Button) findViewById(R.id.button);
+        loc_submit = (Button) findViewById(R.id.loc_submit);
+        loc_cancel = (Button) findViewById(R.id.loc_cancel);
         version = (TextView) findViewById(R.id.version_number);
 //        toggle = (ToggleButton) findViewById(R.id.toggBtn);
 
@@ -290,6 +295,22 @@ public class MainActivity extends AppCompatActivity
         bus_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                    @Override
+                    public void onMapLongClick(LatLng point) {
+                        //googleMap.clear();
+                        submitlayout.setVisibility(View.VISIBLE);
+                        Toast.makeText(getBaseContext(),
+                                point.latitude + ", " + point.longitude,
+                                Toast.LENGTH_SHORT).show();
+                        googleMap.addMarker(new MarkerOptions()
+                                .position(point)
+                                .title("Selected Location")
+                                .snippet("")).showInfoWindow();
+                    }
+                });
+
                 //toggleFabMenu();
                 if (fabMenuOpen) {
                     Log.d(TAG, "fabMenuOpen is false");
@@ -318,7 +339,7 @@ public class MainActivity extends AppCompatActivity
                     if (item_selected_1.equalsIgnoreCase("Bus")) {
                         googleMap.getUiSettings().setMapToolbarEnabled(false);
                         linear_Layout_1 = (LinearLayout) findViewById(R.id.linearlayout);
-                        fab.setVisibility(view.VISIBLE);
+                        //fab.setVisibility(view.VISIBLE);
                         String message = "Long press on the map to locate the bus stop accurately. Thank you!";
                         int duration = Snackbar.LENGTH_INDEFINITE;
                         final Snackbar snackbar = Snackbar.make(view, message, duration);
@@ -326,6 +347,7 @@ public class MainActivity extends AppCompatActivity
 
                         //todo get rid of this when done testing (because the camera is already moved to the user location.
                         LatLng latLng = new LatLng(latitude, longitude);
+                        Log.d(TAG, "Selected location " + latitude + "," + longitude);
                         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
                         googleMap.animateCamera(cameraUpdate);
                         //todo no seriously, get rid of this block
@@ -334,12 +356,12 @@ public class MainActivity extends AppCompatActivity
                             Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
                             msg.show();
                         } else if (markers.size() == 1) {
-                            linear_Layout_1.setVisibility(View.VISIBLE);
+                            //linear_Layout_1.setVisibility(View.VISIBLE);
                             srcLocation = markers.get(0).name.toUpperCase();
                             Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
                             msg.show();
                         } else {
-                            linear_Layout_1.setVisibility(view.VISIBLE);
+                            //linear_Layout_1.setVisibility(view.VISIBLE);
                             Toast msg = Toast.makeText(getBaseContext(), "Select source bus stop marker", Toast.LENGTH_LONG);
                             msg.show();
                         }
@@ -383,7 +405,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 //toggleFabMenu();
                 fabContainer.setVisibility(View.GONE);
-                //linear_Layout_1.setVisibility(view.GONE);
+                linear_Layout_1.setVisibility(view.GONE);
                 addHeatMap_1();
                 Log.d(TAG, "addHeatMap_1 passed");
             }
@@ -459,9 +481,6 @@ public class MainActivity extends AppCompatActivity
         //Spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.core_identifiers, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //commented core_spinner to remove spinner. If fails, uncomment
-        //core_spinner.setAdapter(adapter);
-        //core_spinner.setOnItemSelectedListener(this);
 
         //Floating Action
         fab.setOnClickListener(new View.OnClickListener() {
@@ -476,25 +495,19 @@ public class MainActivity extends AppCompatActivity
 
                 showSnackbar(view, message, duration);
 
-                //fab.setBackgroundTintList(ColorStateList.valueOf(5)); //in normal state
-                //fab.setRippleColor(10); //in pressed state
-
-                //display toggle
-                //toggle.toggle();
-                //toggle.setTextOff("TOGGLE ON");
-
                 //fab - click to point out the busstop. does this work???
                 googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                     @Override
                     public void onMapLongClick(LatLng point) {
                         googleMap.clear();
+                        submitlayout.setVisibility(View.VISIBLE);
                         Toast.makeText(getBaseContext(),
                                 point.latitude + ", " + point.longitude,
                                 Toast.LENGTH_SHORT).show();
                         googleMap.addMarker(new MarkerOptions()
                                 .position(point)
-                                .title("Here is the Bus Stop")
-                                .snippet("Your marker snippet")).showInfoWindow();
+                                .title("Selected Location")
+                                .snippet("")).showInfoWindow();
                     }
                 });
 
@@ -544,16 +557,26 @@ public class MainActivity extends AppCompatActivity
                         try {
                             if (!searchResultClick && eText.getText().toString().length() > 2) {
                                 busDestinationSearchResults = dbHandler.destinationLookup(eText.getText().toString());
+                                Log.d(TAG, String.valueOf(busDestinationSearchResults));
                             }
 
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
                                     if (!searchResultClick && busDestinationSearchResults != null) {
+                                        //search.setState(BottomSheetBehavior.STATE_EXPANDED);
+                                        Log.d(TAG, String.valueOf(busDestinationSearchResults));
                                         searchViewAdapter = new SearchViewAdapter(busDestinationSearchResults, recyclerViewClickListener);
-                                        //searchViewRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                                        //searchViewRV.setAdapter(searchViewAdapter);
+                                        Log.d(TAG, String.valueOf(searchViewAdapter));
+                                        searchViewRV.setAdapter(searchViewAdapter);
+                                        searchViewRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                         searchViewAdapter.notifyDataSetChanged();
+                                        Log.d(TAG, String.valueOf(busDestinationSearchResults.size()));
+
+                                        /*bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                                        bottomSheetAdapter = new BottomSheetAdapter(busList, bottomSheetClickListener);
+                                        bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                        bottomSheetRV.setAdapter(bottomSheetAdapter);*/
                                     }
                                 }
                             });
@@ -717,7 +740,7 @@ requestQueue.add(request);
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     Log.d("Sync", "OnSuccess Function 4");
                     Log.d("Sync", String.valueOf(statusCode));
-                    Toast.makeText(getApplicationContext(),"Request success" + new String(responseBody), 0).show();
+                    //Toast.makeText(getApplicationContext(),"Request success" + new String(responseBody), 0).show();
                     prgDialog.hide();
 
                     //dbHandler.updateSyncStatus();
@@ -992,7 +1015,7 @@ requestQueue.add(request);
     private void populateDestinationLookUpTable(){
         Log.d("DestLookUp", "Begin");
         String line = "";
-        /*try {
+        try {
             InputStream is = getResources().openRawResource(R.raw.destination_lookup);
             reader = new BufferedReader(new InputStreamReader(is));
             while ((line = reader.readLine()) != null)
@@ -1002,12 +1025,12 @@ requestQueue.add(request);
             }
         } catch (Exception e) {
             Log.d("DestLookUp", "Error: " + e.getLocalizedMessage());
-        }*/
+        }
     }
 
 
     private void populateDatabaseWithInitialData(SharedPreferences prefs) {
-        Log.d("DebugTest", "populateData");
+        Log.d("DBTest", "populateData");
 //        DBHandler db = new DBHandler(this);
         List<LatLng> latLngList = new ArrayList<LatLng>();
         String line = "";
@@ -1015,7 +1038,7 @@ requestQueue.add(request);
             InputStream is = getResources().openRawResource(R.raw.visakhapatnam_data_small);
             reader = new BufferedReader(new InputStreamReader(is));
         } catch (Exception e) {
-            Log.d("DebugTest", "Error creating input stream visakhapatnam: " + e.getLocalizedMessage());
+            Log.d("DBTest", "Error creating input stream visakhapatnam: " + e.getLocalizedMessage());
             Log.i(TAG, "Reading LocationReadings.csv to db failed");
         }
         //reading data into database from csv file
@@ -1035,7 +1058,7 @@ requestQueue.add(request);
                 String state = lines[0];
 
                 dbHandler.addPivotTableData(new PivotTableData(identifier, lat, lon, name, brand, address, zipcode, city, district, state));
-//                Log.i(TAG, "Reading data into table " + identifier + "," + lat + "," + lon + "," + brand + "," + name + "," + address + "," + zipcode + "," + city + "," + state);
+                Log.i(TAG, "Reading data into table " + identifier + "," + lat + "," + lon + "," + brand + "," + name + "," + address + "," + zipcode + "," + city + "," + state);
             }
         } catch (IOException e) {
             Log.i(TAG, "Reading lat long failed");
@@ -1381,6 +1404,9 @@ requestQueue.add(request);
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        //todo if user has long pressed on the map to locate the bus stop, it has to confirmed by asking the user to submit it.
+        //todo below layout(submitlayout) is used for the user to submit the location to the db.
+        submitlayout.setVisibility(View.GONE);
 
         srcLocation = marker.getTitle().toUpperCase();
 
@@ -1411,10 +1437,13 @@ requestQueue.add(request);
     @Override
     public void onMoreInfoClick(String busName, String src, String destination) {
         MoreInfoDialog dialog = new MoreInfoDialog(this, this);
+        Log.d(TAG, src + destination);
         srcLocation = src;
         destLocation = destination;
+        bus_no = busName;
         dialog.show();
         TextView numberOfStops = (TextView) dialog.findViewById(R.id.number_of_stops);
+        int result = dbHandler.getNumberOfStopsBetween(src, destination, busName);
         numberOfStops.setText(String.valueOf(dbHandler.getNumberOfStopsBetween(src, destination, busName)));
     }
 
@@ -1422,7 +1451,36 @@ requestQueue.add(request);
     @Override
     public void trackMyPath() {
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        //todo get from database latlngs for source (variable srcLocation) and destination (variable destLocation). Clear map of markers. Draw two markers.
+        List<LatLng> latLngList = new ArrayList<LatLng>();
+        String line = "";
+        HashMap<LatLng, String> mData = new HashMap<>();
+        List<PivotTableData> markers = dbHandler.getDestinationCoordinates(destLocation);
+        LatLng latLng = null;
+        Log.d(TAG, String.valueOf(markers));
+        for (PivotTableData marker : markers) {
+            latLng = new LatLng(marker.latitude, marker.longitude);
+            String name = marker.name;
+            mData.put(latLng, name);
+            latLngList.add(latLng);
+        }
+        //above code gets the destination coordinates and displays them on the map.
+        //todo but we need to show the total distance from the src to destination by retrieving all the stops between them. HOW???
+
+        //retrieving all the stations between source and destination.
+        dbHandler.getIntermediateStationCoordinates(srcLocation, destLocation, bus_no);
+
+        for (LatLng li : mData.keySet()) {
+            Log.d(TAG, "Display" + mData.get(li) + "" + li);
+            googleMap.addMarker(new MarkerOptions().position(li).title("Destination: " + String.valueOf(mData.get(li)))).showInfoWindow();
+            Log.d(TAG, "Line drawing! possible?");
+                /*lines = googleMap.addPolyline(new PolylineOptions()
+                        .add(new LatLng(17.74748, 83.346268), new LatLng(17.74766, 83.34633))
+                        .width(5)
+                        .color(Color.RED));*/
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 15));
+        }
+        setLocation();
+
     }
 
 

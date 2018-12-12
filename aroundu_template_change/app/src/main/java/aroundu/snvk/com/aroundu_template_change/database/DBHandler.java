@@ -22,12 +22,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import aroundu.snvk.com.aroundu_template_change.BusLinesData;
+import aroundu.snvk.com.aroundu_template_change.PivotTableData;
 import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
-import aroundu.snvk.com.aroundu_template_change.PivotTableData;
 
 /**
  * Created by Venkata on 5/30/2018.
@@ -39,7 +39,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 10;
     // Database Name
     private static final String DATABASE_NAME = "AroundU_DB";
     private static final String DATABASE_PATH = "/data/data/aroundu.snvk.com.aroundu_template_change/databases/";
@@ -304,9 +304,71 @@ public class DBHandler extends SQLiteOpenHelper {
         return listPivots;
     }
 
+    public List<PivotTableData> getDestinationCoordinates(String destination) {
+        List<PivotTableData> markersList = new ArrayList<PivotTableData>();
+        String selectQuery = null;
+
+        selectQuery = "SELECT * FROM " + TABLE_NAME + " " +
+                " WHERE name = '" + destination + "'";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                PivotTableData pt = new PivotTableData();
+                pt.setId(Integer.parseInt(cursor.getString(0)));
+                pt.setIdentifier(cursor.getString(1));
+                pt.setLatitude(cursor.getFloat(2));
+                pt.setLongitude(cursor.getFloat(3));
+                pt.setName(cursor.getString(4));
+                pt.setAddress(cursor.getString(5));
+                pt.setZipcode(cursor.getInt(6));
+                pt.setCity(cursor.getString(7));
+                pt.setDistrict(cursor.getString(8));
+                pt.setState(cursor.getString(9));
+
+                markersList.add(pt);
+            } while (cursor.moveToNext());
+            Log.i(TAG, "List size display points: " + markersList.size());
+        }
+        return markersList;
+    }
+
+    public List<BusLinesData> getIntermediateStationCoordinates(String src_location, String dest_location, String busNo){
+        List<BusLinesData> markersList = new ArrayList<BusLinesData>();
+        String selectQuery = null;
+        selectQuery = "select Name, latitude, longitude from " + TABLE_NAME + " " +
+                " WHERE name in (select L2.DESTINATION_STATION from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
+                + "L1." + LINE_ID + "= L2." + LINE_ID +
+                " and L1." + BUS_NO + "= L2." + BUS_NO + " and L1." +
+                DIRECTION + "= L2." + DIRECTION + ") WHERE " +
+                "L1." + SOURCE_STATION + "='" + src_location + "' AND L2." +
+                DESTINATION_STATION + "= '" + dest_location + "' AND L1." + BUS_NO + "= '" + busNo +
+                "' AND L2." + SEQUENCE + "> L1." + SEQUENCE +")" ;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                BusLinesData pt = new BusLinesData();
+                pt.setLine_id(Integer.parseInt(cursor.getString(0)));
+                pt.setBus_no(cursor.getString(1));
+                pt.setSource_station(cursor.getString(2));
+                pt.setDestination_station(cursor.getString(3));
+                pt.setDirection(cursor.getInt(6));
+                pt.setSequence(cursor.getInt(6));
+// Adding markers to list
+                markersList.add(pt);
+            } while (cursor.moveToNext());
+            Log.i(TAG, "List size display points: " + markersList.size());
+        }
+// return contact list
+
+        return markersList;
+    }
+
+
     // Getting All Markers from database
     public List<PivotTableData> getFromPivotTableData(String item_selected_1, double latitude, double longitude) {
-        Log.i(TAG, item_selected_1);
+        Log.d(TAG, item_selected_1);
         List<PivotTableData> markersList = new ArrayList<PivotTableData>();
         String selectQuery = null;
         double lat1 = latitude - 0.003;

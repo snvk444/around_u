@@ -20,14 +20,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:visibility="gone"
-   >
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".80"
-            android:background="@color/colorAccent"
             >
 
             <EditText
@@ -38,6 +36,14 @@
                 android:background="#fff"
                 android:hint="Enter Destination"
                 android:inputType="textPersonName" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/search_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editText"
+                android:scrollbars="vertical" />
+
         </RelativeLayout>
 
         <Button
@@ -46,6 +52,33 @@
             android:layout_height="wrap_content"
             android:layout_weight=".35"
             android:text="Submit" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/submitlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="60dp"
+        android:layout_below="@+id/linearlayout"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/loc_submit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".35"
+            android:text="Submit Location"
+            android:textColor="@color/colorPrimary"/>
+
+
+        <Button
+            android:id="@+id/loc_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".35"
+            android:text="Retry/Cancel"
+            android:textColor="@color/colorPrimary"/>
     </LinearLayout>
 
 

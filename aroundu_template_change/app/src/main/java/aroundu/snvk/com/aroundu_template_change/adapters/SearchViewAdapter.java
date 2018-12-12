@@ -38,6 +38,7 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Vi
     public SearchViewAdapter(ArrayList<String> destinationList, RecyclerViewClickListener listener){
         Log.d("SearchViewAdapter", "In SearchViewAdapter Constructor");
         this.destinationList = destinationList;
+        Log.d("SearchViewAdapter", String.valueOf(destinationList));
         this.mListener = listener;
     }
 
