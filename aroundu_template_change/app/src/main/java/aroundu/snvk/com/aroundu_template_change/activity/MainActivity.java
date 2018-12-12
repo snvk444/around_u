@@ -262,24 +262,17 @@ public class MainActivity extends AppCompatActivity
         coverage_fab = (FloatingActionButton) findViewById(R.id.coverage_fab);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
         bottomSheetRV = (RecyclerView) findViewById(R.id.recycler_view);
         searchViewRV = (RecyclerView) findViewById(R.id.search_recycler_view);
-
         eText = (EditText) findViewById(R.id.editText);
         btn = (Button) findViewById(R.id.button);
         loc_submit = (Button) findViewById(R.id.loc_submit);
         loc_cancel = (Button) findViewById(R.id.loc_cancel);
-
-
         version = (TextView) findViewById(R.id.version_number);
-//        toggle = (ToggleButton) findViewById(R.id.toggBtn);
-
         //Animations to fab
         Animation show_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_show);
         Animation hide_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_hide);
-
         //expanding fab
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) fab1.getLayoutParams();
         layoutParams.rightMargin += (int) (fab1.getWidth() * 1.7);
@@ -289,7 +282,6 @@ public class MainActivity extends AppCompatActivity
         fab1.setClickable(true);
         coverage_fab.setClickable(true);
         bus_fab.setClickable(true);
-
         //main_fab1
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -298,7 +290,6 @@ public class MainActivity extends AppCompatActivity
                 Log.d(TAG, "fab1 clicked");
             }
         });
-
         bus_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -335,7 +326,7 @@ public class MainActivity extends AppCompatActivity
                     double latitude = 17.736921;
                     double longitude = 83.307273;
 
-//below coordinates are to test the scinario where there are no bus stations near the user location.
+                    //below coordinates are to test the scinario where there are no bus stations near the user location.
                     //double latitude = 29.587433;
                     //double longitude = -95.682365;
                     item_selected_1 = "Bus";
@@ -581,10 +572,6 @@ public class MainActivity extends AppCompatActivity
                                         searchViewAdapter.notifyDataSetChanged();
                                         Log.d(TAG, String.valueOf(busDestinationSearchResults.size()));
 
-                                        /*bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                                        bottomSheetAdapter = new BottomSheetAdapter(busList, bottomSheetClickListener);
-                                        bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                                        bottomSheetRV.setAdapter(bottomSheetAdapter);*/
                                     }
                                 }
                             });
@@ -592,7 +579,6 @@ public class MainActivity extends AppCompatActivity
                         } catch (Exception e) {
                             Log.d(TAG, "Error: " + e.getMessage());
                         }
-
                     }
                 });
                 thread.start();
@@ -607,6 +593,15 @@ public class MainActivity extends AppCompatActivity
 //                googleMap.addMarker(new MarkerOptions().position(test).title(point.latitude+ "\n" +point.longitude)
 //                .snippet("My Snippet"+"\n"+"1st Line Text"+"\n"+"2nd Line Text"+"\n"+"3rd Line Text").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 //todo remove the marker that user added.
+            }
+        });
+
+        loc_cancel.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                user_loc_input = null;
+                submitlayout.setVisibility(View.GONE);
             }
         });
 
