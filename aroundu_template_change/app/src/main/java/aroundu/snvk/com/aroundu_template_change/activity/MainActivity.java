@@ -1467,7 +1467,7 @@ requestQueue.add(request);
         //todo but we need to show the total distance from the src to destination by retrieving all the stops between them. HOW???
 
         //retrieving all the stations between source and destination.
-        dbHandler.getIntermediateStationCoordinates(srcLocation, destLocation, bus_no);
+        //dbHandler.getIntermediateStationCoordinates(srcLocation, destLocation, bus_no);
 
         for (LatLng li : mData.keySet()) {
             Log.d(TAG, "Display" + mData.get(li) + "" + li);
