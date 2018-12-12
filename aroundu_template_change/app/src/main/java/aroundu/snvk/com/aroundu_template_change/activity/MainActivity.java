@@ -85,6 +85,8 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 import com.loopj.android.http.AsyncHttpClient;
@@ -171,8 +173,7 @@ public class MainActivity extends AppCompatActivity
     private boolean fabMenuOpen = false;
     private LinearLayout fabContainer;
     RequestQueue requestQueue;
-    String insertURL = "http://192.168.1.81/db_aru1_storeLocation.php";
-    String showURL = "http://192.168.1.81/db_aru1_showLocations.php";
+    public LatLng user_loc_input;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -266,6 +267,8 @@ public class MainActivity extends AppCompatActivity
         btn = (Button) findViewById(R.id.button);
         loc_submit = (Button) findViewById(R.id.loc_submit);
         loc_cancel = (Button) findViewById(R.id.loc_cancel);
+
+
         version = (TextView) findViewById(R.id.version_number);
 //        toggle = (ToggleButton) findViewById(R.id.toggBtn);
 
@@ -308,6 +311,7 @@ public class MainActivity extends AppCompatActivity
                                 .position(point)
                                 .title("Selected Location")
                                 .snippet("")).showInfoWindow();
+                        user_loc_input = point;
                     }
                 });
 
@@ -591,6 +595,17 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        loc_submit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                        addUserInputToDB(user_loc_input, System.currentTimeMillis());
+//                googleMap.addMarker(new MarkerOptions().position(test).title(point.latitude+ "\n" +point.longitude)
+//                .snippet("My Snippet"+"\n"+"1st Line Text"+"\n"+"2nd Line Text"+"\n"+"3rd Line Text").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                //todo remove the marker that user added.
+            }
+        });
+
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 View view = getCurrentFocus();
@@ -630,6 +645,85 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+
+    public void addUserInputToDB(LatLng userinput, long timeStamp) {
+        // adding the location data into LocationInfo table.
+        Log.i(TAG, String.valueOf(userinput));
+        LocationInfo li = new LocationInfo();
+        li.setTime_stamp(timeStamp);
+        li.setLatitude(userinput.latitude);
+        li.setLongitude(userinput.longitude);
+        ArrayList<LocationInfo> displaypoints = new ArrayList<>();
+        displaypoints.add(li);
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+        final List userList = displaypoints;
+
+        Gson gson = new GsonBuilder().create();
+
+        Log.d(TAG, String.valueOf(userList.size()));
+        if(userList.size()!=0){
+            if(dbHandler.dbSyncCount() != 0){
+                prgDialog.show();
+                params.add("usersInput", gson.toJson(displaypoints));
+                Log.d("Sync", params.toString());
+                client.post("http://limitmyexpense.com/arounduuserdatasync/insert_userinput.php",params ,new AsyncHttpResponseHandler() {
+                    //client.post("http://192.168.0.9:80/insert_location_logs.php", params, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        Log.d("Sync", "OnSuccess Function 4");
+                        Log.d("Sync", String.valueOf(statusCode));
+                        //Toast.makeText(getApplicationContext(),"Request success" + new String(responseBody), 0).show();
+                        try {
+                            Log.d("Sync", "in try block!");
+                            String str = new String(responseBody, "UTF-8");
+                            Log.d("Sync str", String.valueOf(str.length()));
+                            JSONArray jarray = new JSONArray(str.trim());
+                            Log.d("Sync", String.valueOf(jarray.length()));
+
+                            for (int i = 0; i < jarray.length(); i++) {
+                                Log.d("Sync", String.valueOf(i));
+                                JSONObject jsonobject = jarray.getJSONObject(i);
+                                Log.d("Sync", String.valueOf(jsonobject.getLong("time_stamp")));
+                            }
+                            Log.d("Sync", "Am I here??");
+                            Log.d("Sync", String.valueOf(jarray.length()));
+                            //Log.d("Sync", );
+                            //JSONObject actor = str.getJSONObject(i);
+                            //Log.d("Sync", actor.toString());
+                            //dbHandler.updateSyncStatus((Long) actor.get("time_stamp"), actor.get("status").toString());
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        prgDialog.hide();
+                    }
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        // TODO Auto-generated method stub
+                        Log.d("Sync","OnFailure Function");
+                        prgDialog.hide();
+                        if(statusCode == 404){
+                            Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                        }else if(statusCode == 500){
+                            Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                        }else{
+                            Log.d("Sync", error.getMessage());
+                            Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                });
+            }else{
+                Toast.makeText(getApplicationContext(), "SQLite and Remote MySQL DBs are in Sync!", Toast.LENGTH_LONG).show();
+            }
+        }
+        submitlayout.setVisibility(View.GONE);
+        Toast.makeText(getApplicationContext(), "Thank you for providing Bus Stop Information.", Toast.LENGTH_LONG).show();
+    }
+
 
     private void showSnackbar(View view, String message, int duration) {
         final Snackbar snackbar = Snackbar.make(view, message, duration);
