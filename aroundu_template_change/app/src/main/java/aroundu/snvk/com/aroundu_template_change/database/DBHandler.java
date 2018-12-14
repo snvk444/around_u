@@ -304,12 +304,23 @@ public class DBHandler extends SQLiteOpenHelper {
         return listPivots;
     }
 
-    public List<PivotTableData> getDestinationCoordinates(String destination) {
+    public List<PivotTableData> getDestinationCoordinates(String destination, String source, String bus_no) {
         List<PivotTableData> markersList = new ArrayList<PivotTableData>();
         String selectQuery = null;
 
-        selectQuery = "SELECT * FROM " + TABLE_NAME + " " +
-                " WHERE name = '" + destination + "'";
+        selectQuery =  "select * from " + TABLE_NAME + " where name in ( select T1.DESTINATION_STATION from " + LINES_TABLE_NAME + " T1 " +
+        "join (SELECT br1.SOURCE_STATION as begin_stop , br1.sequence as begin_seq, " +
+                "br2.DESTINATION_STATION as end_stop, br2.Sequence as end_seq, br1.direction " +
+                "FROM " +LINES_TABLE_NAME  + " br1 " +
+                "join " + LINES_TABLE_NAME + " br2 " +
+                "on (br1.line_id = br2.line_id and br1.direction = br2.direction) " +
+                "where br1.bus_no = '" + bus_no + "' and " +
+                "br1.sequence < br2.Sequence and " +
+                "br1.SOURCE_STATION = '" + source + "' and " +
+                "br2.DESTINATION_STATION = '" + destination + "'" +
+                " ) T2 " +
+                " on T1.Sequence >= T2.begin_seq and T1.Sequence <= T2.end_seq and T1.direction = T2.direction\n" +
+                " where T1.bus_no = '" + bus_no + "')";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {

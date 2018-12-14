@@ -77,6 +77,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
@@ -294,6 +295,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
+                googleMap.clear();
                 googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                     @Override
                     public void onMapLongClick(LatLng point) {
@@ -326,9 +328,6 @@ public class MainActivity extends AppCompatActivity
                     double latitude = 17.736921;
                     double longitude = 83.307273;
 
-                    //below coordinates are to test the scinario where there are no bus stations near the user location.
-                    //double latitude = 29.587433;
-                    //double longitude = -95.682365;
                     item_selected_1 = "Bus";
                     List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
                     int busstops_1 = markers.size();
@@ -403,8 +402,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //toggleFabMenu();
+                googleMap.clear();
                 fabContainer.setVisibility(View.GONE);
-                linear_Layout_1.setVisibility(view.GONE);
+                //linear_Layout_1.setVisibility(view.GONE);
                 addHeatMap_1();
                 Log.d(TAG, "addHeatMap_1 passed");
             }
@@ -1547,7 +1547,7 @@ requestQueue.add(request);
         List<LatLng> latLngList = new ArrayList<LatLng>();
         String line = "";
         HashMap<LatLng, String> mData = new HashMap<>();
-        List<PivotTableData> markers = dbHandler.getDestinationCoordinates(destLocation);
+        List<PivotTableData> markers = dbHandler.getDestinationCoordinates(destLocation, srcLocation, bus_no);
         LatLng latLng = null;
         Log.d(TAG, String.valueOf(markers));
         for (PivotTableData marker : markers) {
@@ -1563,12 +1563,19 @@ requestQueue.add(request);
         //dbHandler.getIntermediateStationCoordinates(srcLocation, destLocation, bus_no);
         for (LatLng li : mData.keySet()) {
             Log.d(TAG, "Display" + mData.get(li) + "" + li);
-            googleMap.addMarker(new MarkerOptions().position(li).title("Destination: " + String.valueOf(mData.get(li)))).showInfoWindow();
+            googleMap.addMarker(new MarkerOptions()
+                    .position(li)
+                    .title("Destination: " + String.valueOf(mData.get(li)))).showInfoWindow();
+            //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
                 /*lines = googleMap.addPolyline(new PolylineOptions()
                         .add(new LatLng(17.74748, 83.346268), new LatLng(17.74766, 83.34633))
                         .width(5)
                         .color(Color.RED));*/
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 15));
+            //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 15));
+            //googleMap.animateCamera(cameraUpdate);
+
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(li, 15);
+            googleMap.animateCamera(cameraUpdate);
         }
         setLocation();
 
