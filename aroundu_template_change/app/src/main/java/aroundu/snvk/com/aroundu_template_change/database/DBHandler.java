@@ -42,7 +42,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 11;
     // Database Name
     private static final String DATABASE_NAME = "AroundU_DB";
-    private static final String DATABASE_PATH = "/data/aroundu.snvk.com.aroundu_template_change/";
+    private static final String DATABASE_PATH = "/data/data/aroundu.snvk.com.aroundu_template_change/databases/";
     // table name
     private static final String TABLE_NAME = "pivottabledata";
     private static final String LOC_TABLE_NAME = "location_info";

@@ -215,13 +215,13 @@ public class MainActivity extends AppCompatActivity
                 public void run() {
 
                     //if running for the first time and .db file is not created yet. then exe below lines
-                    Log.d("DestLookUp", "Before");
+                    /*Log.d("DestLookUp", "Before");
                     populateDatabaseWithInitialData(prefs);
                     Log.d("DestLookUp", "After");
-                    populateDestinationLookUpTable();
+                    populateDestinationLookUpTable();*/
 
                     //if we have the .db file created, use the below line to get the data into database fast. use below for release.
-//                    dbHandler.createDataBase();
+                    dbHandler.createDataBase();
 
                     prefs.edit().putBoolean("first_run", false).apply();
                 }
