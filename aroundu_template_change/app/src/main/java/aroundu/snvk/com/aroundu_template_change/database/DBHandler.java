@@ -39,10 +39,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
     // Database Name
     private static final String DATABASE_NAME = "AroundU_DB";
-    private static final String DATABASE_PATH = "/data/data/aroundu.snvk.com.aroundu_template_change/databases/";
+    private static final String DATABASE_PATH = "/data/aroundu.snvk.com.aroundu_template_change/";
     // table name
     private static final String TABLE_NAME = "pivottabledata";
     private static final String LOC_TABLE_NAME = "location_info";
@@ -308,8 +308,9 @@ public class DBHandler extends SQLiteOpenHelper {
         List<PivotTableData> markersList = new ArrayList<PivotTableData>();
         String selectQuery = null;
 
-        selectQuery =  "select * from " + TABLE_NAME + " where name in ( select T1.DESTINATION_STATION from " + LINES_TABLE_NAME + " T1 " +
-        "join (SELECT br1.SOURCE_STATION as begin_stop , br1.sequence as begin_seq, " +
+        selectQuery =  "select PT.* from " + TABLE_NAME + " PT JOIN " +
+                "( select T1.sequence, T1.DESTINATION_STATION from " + LINES_TABLE_NAME + " T1 " +
+                "join (SELECT br1.SOURCE_STATION as begin_stop , br1.sequence as begin_seq, " +
                 "br2.DESTINATION_STATION as end_stop, br2.Sequence as end_seq, br1.direction " +
                 "FROM " +LINES_TABLE_NAME  + " br1 " +
                 "join " + LINES_TABLE_NAME + " br2 " +
@@ -319,8 +320,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 "br1.SOURCE_STATION = '" + source + "' and " +
                 "br2.DESTINATION_STATION = '" + destination + "'" +
                 " ) T2 " +
-                " on T1.Sequence >= T2.begin_seq and T1.Sequence <= T2.end_seq and T1.direction = T2.direction\n" +
-                " where T1.bus_no = '" + bus_no + "')";
+                " on T1.Sequence >= T2.begin_seq and T1.Sequence <= T2.end_seq and T1.direction = T2.direction" +
+                " where T1.bus_no = '" + bus_no + "' ) TT ON PT.NAME = TT.DESTINATION_STATION ORDER BY TT.sequence ";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
@@ -336,7 +337,6 @@ public class DBHandler extends SQLiteOpenHelper {
                 pt.setCity(cursor.getString(7));
                 pt.setDistrict(cursor.getString(8));
                 pt.setState(cursor.getString(9));
-
                 markersList.add(pt);
             } while (cursor.moveToNext());
             Log.i(TAG, "List size display points: " + markersList.size());
@@ -610,17 +610,19 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         Log.d("DBTest", "Result: " + cursor.getCount());
-        if(cursor.moveToFirst() && cursor != null)
+        int a = 0;
+        if(cursor.moveToFirst() && cursor != null && cursor.getColumnCount() >0)
         {
             Log.d("cursor",cursor.getString(0));
+            a = Integer.parseInt(cursor.getString(0));
         }
         else{
-
+//todo this situation arises when the user clicks on the bus_no and yet it is not considered..
+            //a = 0 (Error: outOfBoundsError
         }
         //todo shoud we not close the cursor here?
         //todo the below line throws error if the value is 0.
-        int a = 0;
-        a = Integer.parseInt(cursor.getString(0));
+        Log.d(TAG, String.valueOf(a));
         return a;
     }
 

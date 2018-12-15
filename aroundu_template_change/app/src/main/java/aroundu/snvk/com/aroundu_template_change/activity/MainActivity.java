@@ -77,6 +77,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -212,12 +213,15 @@ public class MainActivity extends AppCompatActivity
             backgroundHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    dbHandler.createDataBase();
+
+                    //if running for the first time and .db file is not created yet. then exe below lines
                     Log.d("DestLookUp", "Before");
                     populateDatabaseWithInitialData(prefs);
                     Log.d("DestLookUp", "After");
                     populateDestinationLookUpTable();
-                    //dbHandler.createDataBase();
+
+                    //if we have the .db file created, use the below line to get the data into database fast. use below for release.
+//                    dbHandler.createDataBase();
 
                     prefs.edit().putBoolean("first_run", false).apply();
                 }
@@ -1121,14 +1125,13 @@ requestQueue.add(request);
         }
     }
 
-
     private void populateDatabaseWithInitialData(SharedPreferences prefs) {
         Log.d("DBTest", "populateData");
 //        DBHandler db = new DBHandler(this);
         List<LatLng> latLngList = new ArrayList<LatLng>();
         String line = "";
         try {
-            InputStream is = getResources().openRawResource(R.raw.visakhapatnam_data_small);
+            InputStream is = getResources().openRawResource(R.raw.busstop_validation_v1);
             reader = new BufferedReader(new InputStreamReader(is));
         } catch (Exception e) {
             Log.d("DBTest", "Error creating input stream visakhapatnam: " + e.getLocalizedMessage());
@@ -1159,7 +1162,7 @@ requestQueue.add(request);
             e.printStackTrace();
         }
         try {
-            InputStream is = getResources().openRawResource(R.raw.visakhapatnam_bus_lines_data);
+            InputStream is = getResources().openRawResource(R.raw.busroutes_validation_v1);
             reader = new BufferedReader(new InputStreamReader(is));
         } catch (Exception e) {
             Log.d("DebugTest", "Error creating input stream bus lines: " + e.getLocalizedMessage());
@@ -1178,7 +1181,8 @@ requestQueue.add(request);
                 int direction = Integer.parseInt(lines[4]);
                 int sequence = Integer.parseInt(lines[5]);
                 dbHandler.addBusLinesData(new IdentifierBusInfo(lineid, busno, source_station, destination_station, direction, sequence));
-                Log.i(TAG, "Reading data into table " + lineid + "," + busno + "," + source_station + "," + destination_station);
+                Log.i(TAG, "Reading data into table " + lineid + "," + busno + ","
+                        + source_station + "," + destination_station + "," + direction + "," + sequence );
             }
         } catch (IOException e) {
             Log.i(TAG, "Reading lat long failed");
@@ -1500,7 +1504,6 @@ requestQueue.add(request);
         //todo if user has long pressed on the map to locate the bus stop, it has to confirmed by asking the user to submit it.
         //todo below layout(submitlayout) is used for the user to submit the location to the db.
         submitlayout.setVisibility(View.GONE);
-
         srcLocation = marker.getTitle().toUpperCase();
 
         if (item_selected_1.equalsIgnoreCase("Bus")) {
@@ -1543,42 +1546,56 @@ requestQueue.add(request);
 
     @Override
     public void trackMyPath() {
+        googleMap.clear();
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         List<LatLng> latLngList = new ArrayList<LatLng>();
         String line = "";
         HashMap<LatLng, String> mData = new HashMap<>();
         List<PivotTableData> markers = dbHandler.getDestinationCoordinates(destLocation, srcLocation, bus_no);
         LatLng latLng = null;
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
         Log.d(TAG, String.valueOf(markers));
+        Marker m1 = null;
         for (PivotTableData marker : markers) {
             latLng = new LatLng(marker.latitude, marker.longitude);
             String name = marker.name;
             mData.put(latLng, name);
             latLngList.add(latLng);
+            m1 = googleMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title(String.valueOf(mData.get(marker)))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+            m1.setTag(marker);
+            builder.include(latLng);
         }
+        m1.getTag();
+        LatLngBounds bounds = builder.build();
+        int padding = 50;
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        googleMap.animateCamera(cameraUpdate);
+        linear_Layout_1.setVisibility(View.GONE);
         //above code gets the destination coordinates and displays them on the map.
         //todo but we need to show the total distance from the src to destination by retrieving all the stops between them. HOW???
 
         //retrieving all the stations between source and destination.
         //dbHandler.getIntermediateStationCoordinates(srcLocation, destLocation, bus_no);
-        for (LatLng li : mData.keySet()) {
+        /*for (LatLng li : mData.keySet()) {
             Log.d(TAG, "Display" + mData.get(li) + "" + li);
             googleMap.addMarker(new MarkerOptions()
                     .position(li)
                     .title("Destination: " + String.valueOf(mData.get(li)))).showInfoWindow();
             //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-                /*lines = googleMap.addPolyline(new PolylineOptions()
+                *//*lines = googleMap.addPolyline(new PolylineOptions()
                         .add(new LatLng(17.74748, 83.346268), new LatLng(17.74766, 83.34633))
                         .width(5)
-                        .color(Color.RED));*/
+                        .color(Color.RED));*//*
             //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 15));
             //googleMap.animateCamera(cameraUpdate);
 
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(li, 15);
             googleMap.animateCamera(cameraUpdate);
-        }
+        }*/
         setLocation();
-
     }
 
 
