@@ -55,6 +55,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -159,14 +160,14 @@ public class MainActivity extends AppCompatActivity
     private BottomSheetClickListener bottomSheetClickListener;
     private ArrayList<String> busDestinationSearchResults;
     private boolean searchResultClick = false;
-    private TextView version;
+    private TextView version, distance_text, distance_calc;
     private Spinner core_spinner;
     private FloatingActionButton fab;
     private FloatingActionButton fab1;
     private FloatingActionButton bus_fab;
     private FloatingActionButton coverage_fab;
     private Toolbar toolbar;
-    private LinearLayout llBottomSheet;
+    private LinearLayout llBottomSheet, distancecalc_layout;
     private BottomSheetBehavior bottomSheetBehavior;
     ToggleButton toggle;
     private Handler backgroundHandler = null;
@@ -268,6 +269,7 @@ public class MainActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
+        distancecalc_layout = (LinearLayout) findViewById(R.id.distancecalc_layout);
         bottomSheetRV = (RecyclerView) findViewById(R.id.recycler_view);
         searchViewRV = (RecyclerView) findViewById(R.id.search_recycler_view);
         eText = (EditText) findViewById(R.id.editText);
@@ -275,6 +277,9 @@ public class MainActivity extends AppCompatActivity
         loc_submit = (Button) findViewById(R.id.loc_submit);
         loc_cancel = (Button) findViewById(R.id.loc_cancel);
         version = (TextView) findViewById(R.id.version_number);
+        distance_text = (TextView) findViewById(R.id.distance_text);
+        distance_calc = (TextView) findViewById(R.id.distance_calc);
+
         //Animations to fab
         Animation show_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_show);
         Animation hide_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_hide);
@@ -374,24 +379,25 @@ public class MainActivity extends AppCompatActivity
                     for (PivotTableData marker : markers) {
                         latLng = new LatLng(marker.latitude, marker.longitude);
                         String name = marker.name;
-
+                        googleMap.addMarker(new MarkerOptions().position(latLng)
+                                .title(name.toUpperCase()));
                         mData.put(latLng, name);
-
+                        Log.d(TAG, "Displayed Stops " + name);
                         latLngList.add(latLng);
                     }
                     Log.d(TAG, "Here I am" + String.valueOf(mData));
                     Log.d(TAG, "Rock you like a hurricane");
 
-                    for (LatLng li : mData.keySet()) {
+                    /*for (LatLng li : mData.keySet()) {
                         Log.d(TAG, "Display" + mData.get(li) + "" + li);
                         googleMap.addMarker(new MarkerOptions().position(li).title(String.valueOf(mData.get(li))));
                         Log.d(TAG, "Line drawing! possible?");
-                /*lines = googleMap.addPolyline(new PolylineOptions()
+                *//*lines = googleMap.addPolyline(new PolylineOptions()
                         .add(new LatLng(17.74748, 83.346268), new LatLng(17.74766, 83.34633))
                         .width(5)
-                        .color(Color.RED));*/
+                        .color(Color.RED));*//*
                         //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 15));
-                    }
+                    }*/
                     setLocation();
 
                 }
@@ -1041,7 +1047,7 @@ requestQueue.add(request);
 
     public void addHeatMap_1() {
         //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15f));
-        Log.d("HeatMap", "HeatMAp");
+        Log.d(TAG, "HeatMAp");
         ArrayList<LocationInfo> locationInfoList = (ArrayList<LocationInfo>) dbHandler.readLocationInfo_1();
         //Log.d("HeatMapTileProvider", locationInfoList.size());
         LatLng source_loc = null;
@@ -1053,15 +1059,20 @@ requestQueue.add(request);
         // Create a heat map tile provider, passing it the latlngs.
 
         if (list.size() == 0) {
-
+            Log.d(TAG, "Whats happening at this point?? What should I do??");
         } else {
             Log.d("HeatMapTileProvider", "Permission response: " + list);
             mProvider = new HeatmapTileProvider.Builder()
                     .data(list)
                     .build();
+            mProvider.setRadius(50);
             // Add a tile overlay to the map, using the heat map tile provider.
             mOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
         }
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
+                new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 5);
+        googleMap.animateCamera(cameraUpdate);
+        //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 5f));
     }
 
 
@@ -1504,6 +1515,7 @@ requestQueue.add(request);
         //todo if user has long pressed on the map to locate the bus stop, it has to confirmed by asking the user to submit it.
         //todo below layout(submitlayout) is used for the user to submit the location to the db.
         submitlayout.setVisibility(View.GONE);
+        Log.d(TAG, "selected marker info: " + marker.getTitle().toUpperCase());
         srcLocation = marker.getTitle().toUpperCase();
 
         if (item_selected_1.equalsIgnoreCase("Bus")) {
@@ -1556,6 +1568,10 @@ requestQueue.add(request);
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         Log.d(TAG, String.valueOf(markers));
         Marker m1 = null;
+        distancecalc_layout.setVisibility(View.VISIBLE);
+        double distance = 0.0;
+        int i = 0;
+        double user_lat, user_long, next_stop_lat = 0, next_stop_long = 0;
         for (PivotTableData marker : markers) {
             latLng = new LatLng(marker.latitude, marker.longitude);
             String name = marker.name;
@@ -1567,7 +1583,26 @@ requestQueue.add(request);
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
             m1.setTag(marker);
             builder.include(latLng);
+
+            if(i == 0) {
+                user_lat = currentLocation.getLatitude();
+                user_long = currentLocation.getLongitude();
+                Log.d(TAG, "User Location in distance calc: " + currentLocation.getLatitude() + "," + currentLocation.getLongitude());
+                next_stop_lat = marker.latitude;
+                next_stop_long = marker.longitude;
+            }
+            else{
+                user_lat = next_stop_lat;
+                user_long = next_stop_long;
+                next_stop_lat = marker.latitude;
+                next_stop_long = marker.longitude;
+            }
+
+            distance = distance + (Math.acos(Math.cos(Math.toRadians(90-user_lat))*
+                                Math.cos(Math.toRadians(90-user_lat))+Math.sin(Math.toRadians(90-user_lat))*
+                                Math.sin(Math.toRadians(90-user_lat))*Math.cos(Math.toRadians(user_long-next_stop_long)))*6371);
         }
+        distance_calc.setText(String.valueOf((int) distance) + "Km");
         m1.getTag();
         LatLngBounds bounds = builder.build();
         int padding = 50;

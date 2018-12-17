@@ -82,4 +82,28 @@
     </LinearLayout>
 
 
+        <LinearLayout
+            android:id="@+id/distancecalc_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/distance_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="Distance to Destination: "
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/distance_calc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="0"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+        </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
