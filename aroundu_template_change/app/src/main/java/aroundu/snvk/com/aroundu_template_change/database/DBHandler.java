@@ -561,12 +561,12 @@ public class DBHandler extends SQLiteOpenHelper {
         //selectQuery = "SELECT * FROM " + LINES_TABLE_NAME;
         //"WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
 
-        selectQuery = "select L1.line_id, L1.Bus_no, L1.Source_Station, L2.Destination_Station from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
+        selectQuery = "select L1.Bus_no, L1.Source_Station, L2.Destination_Station from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
                 + "L1." + LINE_ID + "= L2." + LINE_ID +
                 " and L1." + BUS_NO + "= L2." + BUS_NO + " and L1." +
                 DIRECTION + "= L2." + DIRECTION + ") WHERE " +
                 "L1." + SOURCE_STATION + "='" + src_location + "' AND L2." + DESTINATION_STATION + "= '" + dest_location + "' " +
-                "GROUP BY L1.line_id, L1.Bus_no, L1.Source_Station, L2.Destination_Station";
+                "GROUP BY L1.Bus_no, L1.Source_Station, L2.Destination_Station";
         Log.d("DBTest", "Query: " + selectQuery);
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -576,9 +576,9 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 IdentifierBusInfo ib = new IdentifierBusInfo();
                 //ib.setLineid(Integer.parseInt(String.valueOf(cursor.getInt(0))));
-                ib.setBusno(cursor.getString(1));
-                ib.setSourceLocation(cursor.getString(2));
-                ib.setDestinationLocation(cursor.getString(3));
+                ib.setBusno(cursor.getString(0));
+                ib.setSourceLocation(cursor.getString(1));
+                ib.setDestinationLocation(cursor.getString(2));
                 // Adding markers to list
                 markersList.add(ib);
             } while (cursor.moveToNext());

@@ -17,6 +17,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,6 +48,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -60,16 +62,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
 import org.json.JSONArray;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.util.HttpUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -142,7 +143,7 @@ public class MainActivity extends AppCompatActivity
     HeatmapTileProvider mProvider;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     String provider;
-    Button btn,loc_submit,loc_cancel;
+    Button btn, loc_submit, loc_cancel;
     EditText eText;
     ConstraintLayout constraint_Layout_1;
     LinearLayout linear_Layout_1;
@@ -176,10 +177,10 @@ public class MainActivity extends AppCompatActivity
     private boolean expanded = false;
     private boolean fabMenuOpen = false;
     private LinearLayout fabContainer;
-    RequestQueue requestQueue;
     public LatLng user_loc_input;
     private LatLngBounds.Builder builder;
     private LatLngBounds bounds;
+    SharedPreferences prefs;
 
 
     @Override
@@ -188,26 +189,22 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
 //
+        PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         prgDialog = new ProgressDialog(this);
         mHandler = new Handler(Looper.getMainLooper());
         mHandlerThread = new HandlerThread("BackgroundThread");
         mHandlerThread.start();
         backgroundHandler = new Handler(mHandlerThread.getLooper());
-
         recyclerViewClickListener = this;
         bottomSheetClickListener = this;
-
         dbHandler = DBHandler.getInstance(this);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
         setViews();
         setListenersAndBehaviors();
         setSupportActionBar(toolbar);
-
         checkLocationPermission();
 
         //initial insert of data
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         if (prefs.getBoolean("first_run", true)) {
             Log.d(TAG, "Populating the database");
 
@@ -216,14 +213,14 @@ public class MainActivity extends AppCompatActivity
                 public void run() {
 
                     //if running for the first time and .db file is not created yet. then exe below lines
-                    /*Log.d("DestLookUp", "Before");
-                    populateDatabaseWithInitialData(prefs);
+                    Log.d("DestLookUp", "Before");
+                    populateDatabaseWithInitialData();
                     Log.d("DestLookUp", "After");
-                    populateDestinationLookUpTable();*/
-
+                    populateDestinationLookUpTable();
                     //if we have the .db file created, use the below line to get the data into database fast. use below for release.
-                    dbHandler.createDataBase();
+                    //dbHandler.createDataBase();
 
+                    prefs.edit().putString("ad_id", getGoogleID());
                     prefs.edit().putBoolean("first_run", false).apply();
                 }
             });
@@ -245,25 +242,32 @@ public class MainActivity extends AppCompatActivity
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             setLocationManagerListener(LocationManager.GPS_PROVIDER);
         }
-
-        //todo check the number of bustops available within 1mile radius of the user. if there is 1 busstop, consider that busstop as the sourcelocation. if there are none,
-        //display a window saying "No Bustops near u!". If there are more than 1, show a popup window asking the user to select a bus stop from the map.
-
-        //todo if there are no buslines from the source to the destination, show a popup window saying, 'no information is available. If there is a bus line, let us know...'
-        //when the user clicks yes, he is directed to a different activity that is used to collect the missing data from the users.
-
-
-    }
+  }
 
     @SuppressLint("WrongViewCast")
     public void setViews() {
-        //commented core_spinner to remove spinner. If fails, uncomment
-        //core_spinner = (Spinner) findViewById(R.id.core_spinner);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         fabContainer = (LinearLayout) findViewById(R.id.fabContainerLayout);
         submitlayout = (LinearLayout) findViewById(R.id.submitlayout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab1 = (FloatingActionButton) findViewById(R.id.fab1);
+
+        //ShowcaseView (first time - user) tutorial
+           RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(
+           ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+           lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+           lps.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+           int margin = ((Number) (getResources().getDisplayMetrics().density * 16)).intValue();
+           lps.setMargins(margin, margin, margin, margin);
+           Target viewTarget = new ViewTarget(R.id.fab1, this);  // Add the control you need to focus by the ShowcaseView
+           ShowcaseView sv = new ShowcaseView.Builder(this)
+               .setTarget(viewTarget)
+                //.setContentTitle(R.string.title_single_shot)        // Add your string file (title_single_shot) in values/strings.xml
+                .setContentText(R.string.R_string_desc_single_shot1) // Add your string file (R_strings_desc_single_shot) in values/strings.xml
+                .singleShot(100)
+                .build();
+            sv.setButtonPosition(lps);
+
         bus_fab = (FloatingActionButton) findViewById(R.id.bus_fab);
         coverage_fab = (FloatingActionButton) findViewById(R.id.coverage_fab);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -283,7 +287,8 @@ public class MainActivity extends AppCompatActivity
         //Animations to fab
         Animation show_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_show);
         Animation hide_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_hide);
-        //expanding fab
+
+        //expanding fab1 (main floating action button)
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) fab1.getLayoutParams();
         layoutParams.rightMargin += (int) (fab1.getWidth() * 1.7);
         layoutParams.bottomMargin += (int) (fab1.getHeight() * 0.25);
@@ -292,7 +297,6 @@ public class MainActivity extends AppCompatActivity
         fab1.setClickable(true);
         coverage_fab.setClickable(true);
         bus_fab.setClickable(true);
-        //main_fab1
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -303,7 +307,6 @@ public class MainActivity extends AppCompatActivity
         bus_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 googleMap.clear();
                 googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                     @Override
@@ -400,8 +403,7 @@ public class MainActivity extends AppCompatActivity
                     }*/
                     setLocation();
 
-                }
-                else {
+                } else {
                     fabContainer.setVisibility(View.GONE);
 
                 }
@@ -427,8 +429,8 @@ public class MainActivity extends AppCompatActivity
         if (!fabMenuOpen) {
             //fab1.setImageResource(R.drawable.ic_launcher_background);
 
-            int centerX = fabContainer.getWidth()/2;
-            int centerY = fabContainer.getHeight()/2;
+            int centerX = fabContainer.getWidth() / 2;
+            int centerY = fabContainer.getHeight() / 2;
             int startRadius = 0;
             int endRadius = (int) Math.hypot(fabContainer.getWidth(), fabContainer.getHeight()) / 2;
 
@@ -483,7 +485,6 @@ public class MainActivity extends AppCompatActivity
         }
         fabMenuOpen = !fabMenuOpen;
     }
-
 
 
     public void setListenersAndBehaviors() {
@@ -599,7 +600,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onClick(View v) {
-                        addUserInputToDB(user_loc_input, System.currentTimeMillis());
+                addUserInputToDB(user_loc_input, System.currentTimeMillis());
 //                googleMap.addMarker(new MarkerOptions().position(test).title(point.latitude+ "\n" +point.longitude)
 //                .snippet("My Snippet"+"\n"+"1st Line Text"+"\n"+"2nd Line Text"+"\n"+"3rd Line Text").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 //todo remove the marker that user added.
@@ -655,6 +656,27 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private String getGoogleID() {
+        AdvertisingIdClient.Info idInfo = null;
+        try {
+            idInfo = AdvertisingIdClient.getAdvertisingIdInfo(getApplicationContext());
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String advertId = null;
+        try {
+            advertId = idInfo.getId();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        return advertId;
+    }
+
     public void addUserInputToDB(LatLng userinput, long timeStamp) {
         // adding the location data into LocationInfo table.
         Log.i(TAG, String.valueOf(userinput));
@@ -672,12 +694,13 @@ public class MainActivity extends AppCompatActivity
         Gson gson = new GsonBuilder().create();
 
         Log.d(TAG, String.valueOf(userList.size()));
-        if(userList.size()!=0){
-            if(dbHandler.dbSyncCount() != 0){
+        if (userList.size() != 0) {
+            if (dbHandler.dbSyncCount() != 0) {
                 prgDialog.show();
                 params.add("usersInput", gson.toJson(displaypoints));
+                params.add("device_id", prefs.getString("ad_id", null));
                 Log.d("Sync", params.toString());
-                client.post("http://limitmyexpense.com/arounduuserdatasync/insert_userinput.php",params ,new AsyncHttpResponseHandler() {
+                client.post("http://limitmyexpense.com/arounduuserdatasync/insert_userinput.php", params, new AsyncHttpResponseHandler() {
                     //client.post("http://192.168.0.9:80/insert_location_logs.php", params, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -709,23 +732,24 @@ public class MainActivity extends AppCompatActivity
                         }
                         prgDialog.hide();
                     }
+
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                         // TODO Auto-generated method stub
-                        Log.d("Sync","OnFailure Function");
+                        Log.d("Sync", "OnFailure Function");
                         prgDialog.hide();
-                        if(statusCode == 404){
+                        if (statusCode == 404) {
                             Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
-                        }else if(statusCode == 500){
+                        } else if (statusCode == 500) {
                             Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
-                        }else{
+                        } else {
                             Log.d("Sync", error.getMessage());
                             Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
                         }
                     }
 
                 });
-            }else{
+            } else {
                 Toast.makeText(getApplicationContext(), "SQLite and Remote MySQL DBs are in Sync!", Toast.LENGTH_LONG).show();
             }
         }
@@ -762,11 +786,9 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
-//11/16/2018
-public void syncSQLiteMySQLDB(){
-    //Create AsycHttpClient object
+    //11/16/2018
+    public void syncSQLiteMySQLDB() {
+        //Create AsycHttpClient object
 /*
 
     requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -826,76 +848,77 @@ public void syncSQLiteMySQLDB(){
 requestQueue.add(request);
 */
 
-    AsyncHttpClient client = new AsyncHttpClient();
-    final RequestParams params = new RequestParams();
-    final List userList = dbHandler.readLocationInfo_1();
-    Log.d("Sync 1", String.valueOf(userList.size()));
-    if(userList.size()!=0){
-        if(dbHandler.dbSyncCount() != 0){
-            Log.d("Sync", "OnSuccess Function 1");
-            prgDialog.show();
-            Log.d("Sync", "OnSuccess Function 2");
-            params.add("usersJSON", dbHandler.composeJSONfromSQLite());
-            Log.d("Sync", params.toString());
-            client.post("http://limitmyexpense.com/arounduuserdatasync/insert_location_logs.php",params ,new AsyncHttpResponseHandler() {
-            //client.post("http://192.168.0.9:80/insert_location_logs.php", params, new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    Log.d("Sync", "OnSuccess Function 4");
-                    Log.d("Sync", String.valueOf(statusCode));
-                    //Toast.makeText(getApplicationContext(),"Request success" + new String(responseBody), 0).show();
-                    prgDialog.hide();
+        AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+        final List userList = dbHandler.readLocationInfo_1();
+        Log.d("Sync 1", String.valueOf(userList.size()));
+        if (userList.size() != 0) {
+            if (dbHandler.dbSyncCount() != 0) {
+                Log.d("Sync", "OnSuccess Function 1");
+                prgDialog.show();
+                Log.d("Sync", "OnSuccess Function 2");
+                params.add("usersJSON", dbHandler.composeJSONfromSQLite());
+                Log.d("Sync", params.toString());
+                client.post("http://limitmyexpense.com/arounduuserdatasync/insert_location_logs.php", params, new AsyncHttpResponseHandler() {
+                    //client.post("http://192.168.0.9:80/insert_location_logs.php", params, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        Log.d("Sync", "OnSuccess Function 4");
+                        Log.d("Sync", String.valueOf(statusCode));
+                        //Toast.makeText(getApplicationContext(),"Request success" + new String(responseBody), 0).show();
+                        prgDialog.hide();
 
-                    //dbHandler.updateSyncStatus();
-                    try {
-                        Log.d("Sync", "in try block!");
-                        String str = new String(responseBody, "UTF-8");
-                        Log.d("Sync str", String.valueOf(str.length()));
-                        JSONArray jarray = new JSONArray(str.trim());
-                        Log.d("Sync", String.valueOf(jarray.length()));
+                        //dbHandler.updateSyncStatus();
+                        try {
+                            Log.d("Sync", "in try block!");
+                            String str = new String(responseBody, "UTF-8");
+                            Log.d("Sync str", String.valueOf(str.length()));
+                            JSONArray jarray = new JSONArray(str.trim());
+                            Log.d("Sync", String.valueOf(jarray.length()));
 
-                        for (int i = 0; i < jarray.length(); i++) {
-                            Log.d("Sync", String.valueOf(i));
-                            JSONObject jsonobject = jarray.getJSONObject(i);
-                            Log.d("Sync", String.valueOf(jsonobject.getLong("time_stamp")));
-                            //jsonobject.getLong("time_stamp");
-                            dbHandler.updateSyncStatus((Long) jsonobject.getLong("time_stamp"));
-                        }
-                        Log.d("Sync", "Am I here??");
-                        Log.d("Sync", String.valueOf(jarray.length()));
+                            for (int i = 0; i < jarray.length(); i++) {
+                                Log.d("Sync", String.valueOf(i));
+                                JSONObject jsonobject = jarray.getJSONObject(i);
+                                Log.d("Sync", String.valueOf(jsonobject.getLong("time_stamp")));
+                                //jsonobject.getLong("time_stamp");
+                                dbHandler.updateSyncStatus((Long) jsonobject.getLong("time_stamp"));
+                            }
+                            Log.d("Sync", "Am I here??");
+                            Log.d("Sync", String.valueOf(jarray.length()));
                             //Log.d("Sync", );
                             //JSONObject actor = str.getJSONObject(i);
                             //Log.d("Sync", actor.toString());
                             //dbHandler.updateSyncStatus((Long) actor.get("time_stamp"), actor.get("status").toString());
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    // TODO Auto-generated method stub
-                    Log.d("Sync","OnFailure Function");
-                    prgDialog.hide();
-                    if(statusCode == 404){
-                        Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
-                    }else if(statusCode == 500){
-                        Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
-                    }else{
-                        Log.d("Sync", error.getMessage());
-                        Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
-                    }
-                }
 
-            });
-        }else{
-            Toast.makeText(getApplicationContext(), "SQLite and Remote MySQL DBs are in Sync!", Toast.LENGTH_LONG).show();
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        // TODO Auto-generated method stub
+                        Log.d("Sync", "OnFailure Function");
+                        prgDialog.hide();
+                        if (statusCode == 404) {
+                            Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                        } else if (statusCode == 500) {
+                            Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                        } else {
+                            Log.d("Sync", error.getMessage());
+                            Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                });
+            } else {
+                Toast.makeText(getApplicationContext(), "SQLite and Remote MySQL DBs are in Sync!", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "No data in SQLite DB, please do enter User name to perform Sync action", Toast.LENGTH_LONG).show();
         }
-    }else{
-        Toast.makeText(getApplicationContext(), "No data in SQLite DB, please do enter User name to perform Sync action", Toast.LENGTH_LONG).show();
     }
-}
 
 //11/16/2018
 
@@ -1065,7 +1088,7 @@ requestQueue.add(request);
             mProvider = new HeatmapTileProvider.Builder()
                     .data(list)
                     .build();
-            mProvider.setRadius(50);
+            mProvider.setRadius(25);
             // Add a tile overlay to the map, using the heat map tile provider.
             mOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
         }
@@ -1120,14 +1143,13 @@ requestQueue.add(request);
         mClusterManager.addItems(locationInfoList);
     }
 
-    private void populateDestinationLookUpTable(){
+    private void populateDestinationLookUpTable() {
         Log.d("DestLookUp", "Begin");
         String line = "";
         try {
             InputStream is = getResources().openRawResource(R.raw.destination_lookup);
             reader = new BufferedReader(new InputStreamReader(is));
-            while ((line = reader.readLine()) != null)
-            {
+            while ((line = reader.readLine()) != null) {
                 String[] str = line.split(",");
                 dbHandler.addDestinationLookUpInfo(str[0], str[1]);
             }
@@ -1136,7 +1158,7 @@ requestQueue.add(request);
         }
     }
 
-    private void populateDatabaseWithInitialData(SharedPreferences prefs) {
+    private void populateDatabaseWithInitialData() {
         Log.d("DBTest", "populateData");
 //        DBHandler db = new DBHandler(this);
         List<LatLng> latLngList = new ArrayList<LatLng>();
@@ -1193,7 +1215,7 @@ requestQueue.add(request);
                 int sequence = Integer.parseInt(lines[5]);
                 dbHandler.addBusLinesData(new IdentifierBusInfo(lineid, busno, source_station, destination_station, direction, sequence));
                 Log.i(TAG, "Reading data into table " + lineid + "," + busno + ","
-                        + source_station + "," + destination_station + "," + direction + "," + sequence );
+                        + source_station + "," + destination_station + "," + direction + "," + sequence);
             }
         } catch (IOException e) {
             Log.i(TAG, "Reading lat long failed");
@@ -1208,11 +1230,9 @@ requestQueue.add(request);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }
-        else if(expanded){
+        } else if (expanded) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -1302,7 +1322,7 @@ requestQueue.add(request);
         this.googleMap = googleMap;
 
         //mapstyle code below
-       try {
+        try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
             boolean success = googleMap.setMapStyle(
@@ -1572,38 +1592,53 @@ requestQueue.add(request);
         double distance = 0.0;
         int i = 0;
         double user_lat, user_long, next_stop_lat = 0, next_stop_long = 0;
-        for (PivotTableData marker : markers) {
-            latLng = new LatLng(marker.latitude, marker.longitude);
-            String name = marker.name;
-            mData.put(latLng, name);
-            latLngList.add(latLng);
-            m1 = googleMap.addMarker(new MarkerOptions()
-                    .position(latLng)
-                    .title(String.valueOf(mData.get(marker)))
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-            m1.setTag(marker);
-            builder.include(latLng);
 
-            if(i == 0) {
+        PivotTableData src = markers.get(0);
+        PivotTableData dest = markers.get(markers.size() - 1);
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(src.latitude, src.longitude))
+                .title(src.name)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        builder.include(new LatLng(src.latitude, src.longitude));
+
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(dest.latitude, dest.longitude))
+                .title(dest.name)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        builder.include(new LatLng(dest.latitude, dest.longitude));
+
+
+        for (PivotTableData marker : markers) {
+//            latLng = new LatLng(marker.latitude, marker.longitude);
+//            String name = marker.name;
+//            mData.put(latLng, name);
+//            latLngList.add(latLng);
+//            m1 = googleMap.addMarker(new MarkerOptions()
+//                    .position(latLng)
+//                    .title(String.valueOf(mData.get(marker)))
+//                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+//            //m1.setTag(marker.getName());
+//            builder.include(latLng);
+
+            if (i == 0) {
                 user_lat = currentLocation.getLatitude();
                 user_long = currentLocation.getLongitude();
                 Log.d(TAG, "User Location in distance calc: " + currentLocation.getLatitude() + "," + currentLocation.getLongitude());
                 next_stop_lat = marker.latitude;
                 next_stop_long = marker.longitude;
-            }
-            else{
+            } else {
                 user_lat = next_stop_lat;
                 user_long = next_stop_long;
                 next_stop_lat = marker.latitude;
                 next_stop_long = marker.longitude;
             }
 
-            distance = distance + (Math.acos(Math.cos(Math.toRadians(90-user_lat))*
-                                Math.cos(Math.toRadians(90-user_lat))+Math.sin(Math.toRadians(90-user_lat))*
-                                Math.sin(Math.toRadians(90-user_lat))*Math.cos(Math.toRadians(user_long-next_stop_long)))*6371);
+            distance = distance + (Math.acos(Math.cos(Math.toRadians(90 - user_lat)) *
+                    Math.cos(Math.toRadians(90 - user_lat)) + Math.sin(Math.toRadians(90 - user_lat)) *
+                    Math.sin(Math.toRadians(90 - user_lat)) * Math.cos(Math.toRadians(user_long - next_stop_long))) * 6371);
         }
         distance_calc.setText(String.valueOf((int) distance) + "Km");
-        m1.getTag();
+//        m1.getTag();
         LatLngBounds bounds = builder.build();
         int padding = 50;
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
@@ -1632,7 +1667,6 @@ requestQueue.add(request);
         }*/
         setLocation();
     }
-
 
 
 }

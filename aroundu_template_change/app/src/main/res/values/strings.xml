@@ -19,4 +19,9 @@
         <item>College</item>
     </string-array>
     <string name="title_activity_heat_map">HeatMapActivity</string>
+    <string name="title_single_shot">AroundU!</string>
+    <string name="R_string_desc_single_shot1">Travel anywhere in Vizag. This application(beta) shows the nearest bus stop and bus
+    numbers you can hop on to reach your destination.</string>
+    <string name="title_coverage_single_shot">Explore!</string>
+    <string name="R_string_desc_title_coverage_single_shot">Colored map showing the places you have been to.</string>
 </resources>
