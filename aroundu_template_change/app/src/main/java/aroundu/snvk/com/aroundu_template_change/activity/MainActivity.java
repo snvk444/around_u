@@ -266,7 +266,10 @@ public class MainActivity extends AppCompatActivity
                 //.setContentTitle(R.string.title_single_shot)        // Add your string file (title_single_shot) in values/strings.xml
                 .setContentText(R.string.R_string_desc_single_shot1) // Add your string file (R_strings_desc_single_shot) in values/strings.xml
                 .singleShot(100)
-                .build();
+                   .blockAllTouches()
+                   .useDecorViewAsParent()
+                   .setStyle(R.style.amu_Bubble_TextAppearance_Dark)
+                   .build();
             sv.setButtonPosition(lps);
 
         bus_fab = (FloatingActionButton) findViewById(R.id.bus_fab);
@@ -360,7 +363,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //todo display popup instead of snackbar to ask users to perform long click for bus_stop locations.
-                String message = "Long press on the map to locate the bus stop accurately. Thank you!";
+                String message = "Long press on the map to locate any bus stop in your path!";
                 int duration = Snackbar.LENGTH_INDEFINITE;
                 showSnackbar(view, message, duration);
                 //fab - click to point out the busstop. does this work???
@@ -1161,8 +1164,7 @@ public class MainActivity extends AppCompatActivity
 
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(dest.latitude, dest.longitude))
-                .title(dest.name)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                .title(dest.name));
         builder.include(new LatLng(dest.latitude, dest.longitude));
 
 
