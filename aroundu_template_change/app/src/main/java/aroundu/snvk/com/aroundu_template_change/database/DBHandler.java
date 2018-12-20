@@ -22,12 +22,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import aroundu.snvk.com.aroundu_template_change.BusLinesData;
+import aroundu.snvk.com.aroundu_template_change.PivotTableData;
 import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
-import aroundu.snvk.com.aroundu_template_change.PivotTableData;
 
 /**
  * Created by Venkata on 5/30/2018.
@@ -39,7 +39,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 11;
     // Database Name
     private static final String DATABASE_NAME = "AroundU_DB";
     private static final String DATABASE_PATH = "/data/data/aroundu.snvk.com.aroundu_template_change/databases/";
@@ -70,6 +70,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String SEQUENCE = "Sequence";
     private static final String DEST_LOOK_UP = "dest_look_up";
     private static final String ACTUAL_NAME = "actual_name";
+    private static final String STATUS = "status";
 
     private static DBHandler mInstance = null;
 
@@ -116,9 +117,11 @@ public class DBHandler extends SQLiteOpenHelper {
             db.execSQL(CREATE_CONTENTS_TABLE);
 
             String CREATE_LOCATION_TABLE = "CREATE TABLE " + LOC_TABLE_NAME + "("
-                    + TIME_STAMP + " TEXT PRIMARY KEY,"
+                    + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + TIME_STAMP + " TEXT,"
                     + LATITUDE + " DECIMAL(10,7) ,"
-                    + LONGITUDE + " DECIMAL(10,7)"
+                    + LONGITUDE + " DECIMAL(10,7) ,"
+                    + STATUS + " INTEGER"
                     + ")";
             Log.i(TAG, "Create table " + CREATE_LOCATION_TABLE);
             db.execSQL(CREATE_LOCATION_TABLE);
@@ -155,6 +158,8 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + LOC_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + LOC_TABLE_NAME_DISTINCT);
+        db.execSQL("DROP TABLE IF EXISTS " + LINES_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + DEST_LOOKUP_TABLE_NAME);
         // Creating tables again
         onCreate(db);
     }
@@ -165,7 +170,7 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.d("Sync","in ComposeJSONfromSQLite");
         List wordList;
         wordList = new ArrayList();
-        String selectQuery = "SELECT  * FROM location_info limit 1";
+        String selectQuery = "SELECT  * FROM location_info where status = 0";
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         Log.d("Sync",String.valueOf(cursor.getCount()));
@@ -174,9 +179,9 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 li = new LocationInfo();
                 //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
-                li.setTime_stamp(cursor.getLong(0));
-                li.setLatitude(cursor.getDouble(1));
-                li.setLongitude(cursor.getDouble(2));
+                li.setTime_stamp(cursor.getLong(1));
+                li.setLatitude(cursor.getDouble(2));
+                li.setLongitude(cursor.getDouble(3));
                 /*
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("time_stamp", cursor.getString(0));
@@ -204,7 +209,7 @@ public class DBHandler extends SQLiteOpenHelper {
         if(this.dbSyncCount() == 0){
             msg = "SQLite and Remote MySQL DBs are in Sync!";
         }else{
-            msg = "DB Sync neededn";
+            msg = "DB Sync needed";
         }
         return msg;
     }
@@ -215,7 +220,7 @@ public class DBHandler extends SQLiteOpenHelper {
      */
     public int dbSyncCount(){
         int count = 0;
-        String selectQuery = "SELECT  * FROM location_info";
+        String selectQuery = "SELECT  * FROM location_info where status = 0";
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         count = cursor.getCount();
@@ -229,9 +234,9 @@ public class DBHandler extends SQLiteOpenHelper {
      /* @param id
      /* @param status
      */
-    public void updateSyncStatus(String id, String status){
+    public void updateSyncStatus(Long time_stamp){
         SQLiteDatabase database = this.getWritableDatabase();
-        String updateQuery = "Update location_info set udpateStatus = '"+ status +"' where userId="+"'"+ id +"'";
+        String updateQuery = "Update location_info set status = 1 where time_stamp=" + time_stamp + "";
         Log.d("Sync",updateQuery);
         database.execSQL(updateQuery);
         database.close();
@@ -299,9 +304,82 @@ public class DBHandler extends SQLiteOpenHelper {
         return listPivots;
     }
 
+    public List<PivotTableData> getDestinationCoordinates(String destination, String source, String bus_no) {
+        List<PivotTableData> markersList = new ArrayList<PivotTableData>();
+        String selectQuery = null;
+
+        selectQuery =  "select PT.* from " + TABLE_NAME + " PT JOIN " +
+                "( select T1.sequence, T1.DESTINATION_STATION from " + LINES_TABLE_NAME + " T1 " +
+                "join (SELECT br1.SOURCE_STATION as begin_stop , br1.sequence as begin_seq, " +
+                "br2.DESTINATION_STATION as end_stop, br2.Sequence as end_seq, br1.direction " +
+                "FROM " +LINES_TABLE_NAME  + " br1 " +
+                "join " + LINES_TABLE_NAME + " br2 " +
+                "on (br1.line_id = br2.line_id and br1.direction = br2.direction) " +
+                "where br1.bus_no = '" + bus_no + "' and " +
+                "br1.sequence < br2.Sequence and " +
+                "br1.SOURCE_STATION = '" + source + "' and " +
+                "br2.DESTINATION_STATION = '" + destination + "'" +
+                " ) T2 " +
+                " on T1.Sequence >= T2.begin_seq and T1.Sequence <= T2.end_seq and T1.direction = T2.direction" +
+                " where T1.bus_no = '" + bus_no + "' ) TT ON PT.NAME = TT.DESTINATION_STATION ORDER BY TT.sequence ";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                PivotTableData pt = new PivotTableData();
+                pt.setId(Integer.parseInt(cursor.getString(0)));
+                pt.setIdentifier(cursor.getString(1));
+                pt.setLatitude(cursor.getFloat(2));
+                pt.setLongitude(cursor.getFloat(3));
+                pt.setName(cursor.getString(4));
+                pt.setAddress(cursor.getString(5));
+                pt.setZipcode(cursor.getInt(6));
+                pt.setCity(cursor.getString(7));
+                pt.setDistrict(cursor.getString(8));
+                pt.setState(cursor.getString(9));
+                markersList.add(pt);
+            } while (cursor.moveToNext());
+            Log.i(TAG, "List size display points: " + markersList.size());
+        }
+        return markersList;
+    }
+
+    public List<BusLinesData> getIntermediateStationCoordinates(String src_location, String dest_location, String busNo){
+        List<BusLinesData> markersList = new ArrayList<BusLinesData>();
+        String selectQuery = null;
+        selectQuery = "select Name, latitude, longitude from " + TABLE_NAME + " " +
+                " WHERE name in (select L2.DESTINATION_STATION from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
+                + "L1." + LINE_ID + "= L2." + LINE_ID +
+                " and L1." + BUS_NO + "= L2." + BUS_NO + " and L1." +
+                DIRECTION + "= L2." + DIRECTION + ") WHERE " +
+                "L1." + SOURCE_STATION + "='" + src_location + "' AND L2." +
+                DESTINATION_STATION + "= '" + dest_location + "' AND L1." + BUS_NO + "= '" + busNo +
+                "' AND L2." + SEQUENCE + "> L1." + SEQUENCE +")" ;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                BusLinesData pt = new BusLinesData();
+                pt.setLine_id(Integer.parseInt(cursor.getString(0)));
+                pt.setBus_no(cursor.getString(1));
+                pt.setSource_station(cursor.getString(2));
+                pt.setDestination_station(cursor.getString(3));
+                pt.setDirection(cursor.getInt(6));
+                pt.setSequence(cursor.getInt(6));
+// Adding markers to list
+                markersList.add(pt);
+            } while (cursor.moveToNext());
+            Log.i(TAG, "List size display points: " + markersList.size());
+        }
+// return contact list
+
+        return markersList;
+    }
+
+
     // Getting All Markers from database
     public List<PivotTableData> getFromPivotTableData(String item_selected_1, double latitude, double longitude) {
-        Log.i(TAG, item_selected_1);
+        Log.d(TAG, item_selected_1);
         List<PivotTableData> markersList = new ArrayList<PivotTableData>();
         String selectQuery = null;
         double lat1 = latitude - 0.003;
@@ -377,6 +455,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(TIME_STAMP, pt.getTime_stamp());
         values.put(LATITUDE, pt.getLatitude());
         values.put(LONGITUDE, pt.getLongitude());
+        values.put(STATUS, 0);
 
         // Inserting Row
         Log.i(TAG, "Inserting data" + values);
@@ -400,12 +479,13 @@ public class DBHandler extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             li = new LocationInfo();
             //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
-            li.setTime_stamp(cursor.getLong(0));
-            li.setLatitude(cursor.getDouble(1));
-            li.setLongitude(cursor.getDouble(2));
+            li.setTime_stamp(cursor.getLong(1));
+            li.setLatitude(cursor.getDouble(2));
+            li.setLongitude(cursor.getDouble(3));
 
             displaypoints.add(li);
-            Log.i(TAG, " Points to Display from readLocationInfo:" + li.getLongitude());
+            Log.i(TAG, " Points to Display from readLocationInfo lat:" + li.getLatitude());
+            Log.i(TAG, " Points to Display from readLocationInfo long:" + li.getLongitude());
         }
 
         cursor.close();
@@ -422,23 +502,22 @@ public class DBHandler extends SQLiteOpenHelper {
         //List itemIds = new ArrayList<>();
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
         LocationInfo li;
-        if(cursor != null) {
-            while (cursor.moveToNext()) {
-                //long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(LATITUDE));
-                //Log.i(TAG, " TimeStamp: " + cursor.getDouble(0) + "Latitude:" + cursor.getDouble(1) + "Longitude:" + cursor.getDouble(2));
-                //itemIds.add(itemId);
+        while (cursor.moveToNext()) {
+            //long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(LATITUDE));
+            //Log.i(TAG, " TimeStamp: " + cursor.getDouble(0) + "Latitude:" + cursor.getDouble(1) + "Longitude:" + cursor.getDouble(2));
+            //itemIds.add(itemId);
 
-                li = new LocationInfo();
-                //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
-                li.setTime_stamp(cursor.getLong(0));
-                li.setLatitude(cursor.getDouble(1));
-                li.setLongitude(cursor.getDouble(2));
+            li = new LocationInfo();
+            //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
+            li.setTime_stamp(cursor.getLong(1));
+            li.setLatitude(cursor.getDouble(2));
+            li.setLongitude(cursor.getDouble(3));
 
-                displaypoints.add(li);
-                Log.i(TAG, " Points to Display from readLocationInfo:" + li.getLongitude());
-            }
-            cursor.close();
+            displaypoints.add(li);
+            Log.i(TAG, " Points to Display from readLocationInfo lat:" + li.getLongitude());
+            Log.i(TAG, " Points to Display from readLocationInfo long:" + li.getLongitude());
         }
+        cursor.close();
         return displaypoints;
     }
 
@@ -482,12 +561,12 @@ public class DBHandler extends SQLiteOpenHelper {
         //selectQuery = "SELECT * FROM " + LINES_TABLE_NAME;
         //"WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
 
-        selectQuery = "select L1.line_id, L1.Bus_no, L1.Source_Station, L2.Destination_Station from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
+        selectQuery = "select L1.Bus_no, L1.Source_Station, L2.Destination_Station from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
                 + "L1." + LINE_ID + "= L2." + LINE_ID +
                 " and L1." + BUS_NO + "= L2." + BUS_NO + " and L1." +
                 DIRECTION + "= L2." + DIRECTION + ") WHERE " +
                 "L1." + SOURCE_STATION + "='" + src_location + "' AND L2." + DESTINATION_STATION + "= '" + dest_location + "' " +
-                "GROUP BY L1.line_id, L1.Bus_no, L1.Source_Station, L2.Destination_Station";
+                "GROUP BY L1.Bus_no, L1.Source_Station, L2.Destination_Station";
         Log.d("DBTest", "Query: " + selectQuery);
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -497,9 +576,9 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 IdentifierBusInfo ib = new IdentifierBusInfo();
                 //ib.setLineid(Integer.parseInt(String.valueOf(cursor.getInt(0))));
-                ib.setBusno(cursor.getString(1));
-                ib.setSourceLocation(cursor.getString(2));
-                ib.setDestinationLocation(cursor.getString(3));
+                ib.setBusno(cursor.getString(0));
+                ib.setSourceLocation(cursor.getString(1));
+                ib.setDestinationLocation(cursor.getString(2));
                 // Adding markers to list
                 markersList.add(ib);
             } while (cursor.moveToNext());
@@ -531,17 +610,19 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         Log.d("DBTest", "Result: " + cursor.getCount());
-        if(cursor.moveToFirst() && cursor != null)
+        int a = 0;
+        if(cursor.moveToFirst() && cursor != null && cursor.getColumnCount() >0)
         {
             Log.d("cursor",cursor.getString(0));
+            a = Integer.parseInt(cursor.getString(0));
         }
         else{
-
+//todo this situation arises when the user clicks on the bus_no and yet it is not considered..
+            //a = 0 (Error: outOfBoundsError
         }
         //todo shoud we not close the cursor here?
         //todo the below line throws error if the value is 0.
-        int a = 0;
-        a = Integer.parseInt(cursor.getString(0));
+        Log.d(TAG, String.valueOf(a));
         return a;
     }
 

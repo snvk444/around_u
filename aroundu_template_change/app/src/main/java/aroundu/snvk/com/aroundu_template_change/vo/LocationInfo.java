@@ -6,6 +6,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
 public class LocationInfo implements ClusterItem {
+
+    private int id;
     private double latitude;
     private double longitude;
     private long time_stamp;
@@ -35,6 +37,14 @@ public class LocationInfo implements ClusterItem {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

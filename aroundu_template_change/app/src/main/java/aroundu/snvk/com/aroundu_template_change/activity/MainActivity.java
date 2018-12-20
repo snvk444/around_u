@@ -5,6 +5,7 @@ import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,6 +48,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -54,19 +57,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import org.json.JSONArray;
+
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.util.HttpUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -75,7 +79,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -83,6 +90,8 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 import com.loopj.android.http.AsyncHttpClient;
@@ -97,8 +106,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -132,10 +143,11 @@ public class MainActivity extends AppCompatActivity
     HeatmapTileProvider mProvider;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     String provider;
-    Button btn;
+    Button btn, loc_submit, loc_cancel;
     EditText eText;
     ConstraintLayout constraint_Layout_1;
     LinearLayout linear_Layout_1;
+    LinearLayout submitlayout;
     private DBHandler dbHandler;
     private Handler mHandler;
     private RecyclerView bottomSheetRV, searchViewRV;
@@ -144,18 +156,19 @@ public class MainActivity extends AppCompatActivity
     private Location currentLocation = null;
     private String srcLocation = "";
     private String destLocation = "";
+    private String bus_no = "";
     private RecyclerViewClickListener recyclerViewClickListener;
     private BottomSheetClickListener bottomSheetClickListener;
     private ArrayList<String> busDestinationSearchResults;
     private boolean searchResultClick = false;
-    private TextView version;
+    private TextView version, distance_text, distance_calc;
     private Spinner core_spinner;
     private FloatingActionButton fab;
     private FloatingActionButton fab1;
     private FloatingActionButton bus_fab;
     private FloatingActionButton coverage_fab;
     private Toolbar toolbar;
-    private LinearLayout llBottomSheet;
+    private LinearLayout llBottomSheet, distancecalc_layout;
     private BottomSheetBehavior bottomSheetBehavior;
     ToggleButton toggle;
     private Handler backgroundHandler = null;
@@ -164,9 +177,11 @@ public class MainActivity extends AppCompatActivity
     private boolean expanded = false;
     private boolean fabMenuOpen = false;
     private LinearLayout fabContainer;
-    RequestQueue requestQueue;
-    String insertURL = "http://192.168.1.81/db_aru1_storeLocation.php";
-    String showURL = "http://192.168.1.81/db_aru1_showLocations.php";
+    public LatLng user_loc_input;
+    private LatLngBounds.Builder builder;
+    private LatLngBounds bounds;
+    SharedPreferences prefs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,39 +189,39 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
 //
+        prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         prgDialog = new ProgressDialog(this);
         mHandler = new Handler(Looper.getMainLooper());
         mHandlerThread = new HandlerThread("BackgroundThread");
         mHandlerThread.start();
         backgroundHandler = new Handler(mHandlerThread.getLooper());
-
         recyclerViewClickListener = this;
         bottomSheetClickListener = this;
-
         dbHandler = DBHandler.getInstance(this);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
         setViews();
         setListenersAndBehaviors();
         setSupportActionBar(toolbar);
-
         checkLocationPermission();
 
         //initial insert of data
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+
         if (prefs.getBoolean("first_run", true)) {
-            Log.d("Export", "Populating the database");
+            Log.d(TAG, "Populating the database");
 
             backgroundHandler.post(new Runnable() {
                 @Override
                 public void run() {
-//                    Log.d("DestLookUp", "Before");
-//                    populateDatabaseWithInitialData(prefs);
-//                    Log.d("DestLookUp", "After");
-//                    populateDestinationLookUpTable();
 
-                    dbHandler.createDataBase();
+                    //if running for the first time and .db file is not created yet. then exe below lines
+                    Log.d("DestLookUp", "Before");
+                    populateDatabaseWithInitialData();
+                    Log.d("DestLookUp", "After");
+                    populateDestinationLookUpTable();
+                    //if we have the .db file created, use the below line to get the data into database fast. use below for release.
+                    //dbHandler.createDataBase();
 
+                    prefs.edit().putString("ad_id", getGoogleID());
                     prefs.edit().putBoolean("first_run", false).apply();
                 }
             });
@@ -228,43 +243,56 @@ public class MainActivity extends AppCompatActivity
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             setLocationManagerListener(LocationManager.GPS_PROVIDER);
         }
-
-        //todo check the number of bustops available within 1mile radius of the user. if there is 1 busstop, consider that busstop as the sourcelocation. if there are none,
-        //display a window saying "No Bustops near u!". If there are more than 1, show a popup window asking the user to select a bus stop from the map.
-
-        //todo if there are no buslines from the source to the destination, show a popup window saying, 'no information is available. If there is a bus line, let us know...'
-        //when the user clicks yes, he is directed to a different activity that is used to collect the missing data from the users.
-
-
-    }
+  }
 
     @SuppressLint("WrongViewCast")
     public void setViews() {
-        //commented core_spinner to remove spinner. If fails, uncomment
-        //core_spinner = (Spinner) findViewById(R.id.core_spinner);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         fabContainer = (LinearLayout) findViewById(R.id.fabContainerLayout);
+        submitlayout = (LinearLayout) findViewById(R.id.submitlayout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab1 = (FloatingActionButton) findViewById(R.id.fab1);
+
+        //ShowcaseView (first time - user) tutorial
+           RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(
+           ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+           lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+           lps.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+           int margin = ((Number) (getResources().getDisplayMetrics().density * 16)).intValue();
+           lps.setMargins(margin, margin, margin, margin);
+           Target viewTarget = new ViewTarget(R.id.fab1, this);  // Add the control you need to focus by the ShowcaseView
+           ShowcaseView sv = new ShowcaseView.Builder(this)
+               .setTarget(viewTarget)
+                //.setContentTitle(R.string.title_single_shot)        // Add your string file (title_single_shot) in values/strings.xml
+                .setContentText(R.string.R_string_desc_single_shot1) // Add your string file (R_strings_desc_single_shot) in values/strings.xml
+                .singleShot(100)
+                   .blockAllTouches()
+                   .useDecorViewAsParent()
+                   .setStyle(R.style.amu_Bubble_TextAppearance_Dark)
+                   .build();
+            sv.setButtonPosition(lps);
+
         bus_fab = (FloatingActionButton) findViewById(R.id.bus_fab);
         coverage_fab = (FloatingActionButton) findViewById(R.id.coverage_fab);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
+        distancecalc_layout = (LinearLayout) findViewById(R.id.distancecalc_layout);
         bottomSheetRV = (RecyclerView) findViewById(R.id.recycler_view);
-        //searchViewRV = (RecyclerView) findViewById(R.id.search_recycler_view);
-
+        searchViewRV = (RecyclerView) findViewById(R.id.search_recycler_view);
         eText = (EditText) findViewById(R.id.editText);
         btn = (Button) findViewById(R.id.button);
+        loc_submit = (Button) findViewById(R.id.loc_submit);
+        loc_cancel = (Button) findViewById(R.id.loc_cancel);
         version = (TextView) findViewById(R.id.version_number);
-//        toggle = (ToggleButton) findViewById(R.id.toggBtn);
+        distance_text = (TextView) findViewById(R.id.distance_text);
+        distance_calc = (TextView) findViewById(R.id.distance_calc);
 
         //Animations to fab
         Animation show_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_show);
         Animation hide_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_hide);
 
-        //expanding fab
+        //expanding fab1 (main floating action button)
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) fab1.getLayoutParams();
         layoutParams.rightMargin += (int) (fab1.getWidth() * 1.7);
         layoutParams.bottomMargin += (int) (fab1.getHeight() * 0.25);
@@ -273,116 +301,6 @@ public class MainActivity extends AppCompatActivity
         fab1.setClickable(true);
         coverage_fab.setClickable(true);
         bus_fab.setClickable(true);
-
-        //main_fab1
-        fab1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggleFabMenu();
-                Log.d(TAG, "fab1 clicked");
-            }
-        });
-
-        bus_fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //toggleFabMenu();
-                if (fabMenuOpen) {
-                    Log.d(TAG, "fabMenuOpen is false");
-                    fabContainer.setVisibility(View.GONE);
-
-                    toggleFabMenu();
-
-                    List<LatLng> latLngList = new ArrayList<LatLng>();
-                    String line = "";
-                    HashMap<LatLng, String> mData = new HashMap<>();
-                    Marker m;
-
-                    //testing the data. Assigning latnlong manually for now.
-                    double latitude = 17.736921;
-                    double longitude = 83.307273;
-
-//below coordinates are to test the scinario where there are no bus stations near the user location.
-                    //double latitude = 29.587433;
-                    //double longitude = -95.682365;
-                    item_selected_1 = "Bus";
-                    List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
-                    int busstops_1 = markers.size();
-                    Log.d("Export", "Sizeses:" + busstops_1);
-
-                    Log.d("Export", "item_selected:" + item_selected_1);
-                    if (item_selected_1.equalsIgnoreCase("Bus")) {
-                        googleMap.getUiSettings().setMapToolbarEnabled(false);
-                        linear_Layout_1 = (LinearLayout) findViewById(R.id.linearlayout);
-                        fab.setVisibility(view.VISIBLE);
-                        String message = "Long press on the map to locate the bus stop accurately. Thank you!";
-                        int duration = Snackbar.LENGTH_INDEFINITE;
-                        final Snackbar snackbar = Snackbar.make(view, message, duration);
-                        showSnackbar(view, message, duration);
-
-                        //todo get rid of this when done testing (because the camera is already moved to the user location.
-                        LatLng latLng = new LatLng(latitude, longitude);
-                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-                        googleMap.animateCamera(cameraUpdate);
-                        //todo no seriously, get rid of this block
-
-                        if (markers.size() == 0) {
-                            Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
-                            msg.show();
-                        } else if (markers.size() == 1) {
-                            linear_Layout_1.setVisibility(View.VISIBLE);
-                            srcLocation = markers.get(0).name.toUpperCase();
-                            Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
-                            msg.show();
-                        } else {
-                            linear_Layout_1.setVisibility(view.VISIBLE);
-                            Toast msg = Toast.makeText(getBaseContext(), "Select source bus stop marker", Toast.LENGTH_LONG);
-                            msg.show();
-                        }
-                    }
-
-                    LatLng latLng = null;
-                    Log.d(TAG, String.valueOf(markers));
-                    for (PivotTableData marker : markers) {
-                        latLng = new LatLng(marker.latitude, marker.longitude);
-                        String name = marker.name;
-
-                        mData.put(latLng, name);
-
-                        latLngList.add(latLng);
-                    }
-                    Log.d(TAG, "Here I am" + String.valueOf(mData));
-                    Log.d(TAG, "Rock you like a hurricane");
-
-                    for (LatLng li : mData.keySet()) {
-                        Log.d(TAG, "Display" + mData.get(li) + "" + li);
-                        googleMap.addMarker(new MarkerOptions().position(li).title(String.valueOf(mData.get(li))));
-                        Log.d(TAG, "Line drawing! possible?");
-                /*lines = googleMap.addPolyline(new PolylineOptions()
-                        .add(new LatLng(17.74748, 83.346268), new LatLng(17.74766, 83.34633))
-                        .width(5)
-                        .color(Color.RED));*/
-                        //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 15));
-                    }
-                    setLocation();
-
-                } else {
-                    fabContainer.setVisibility(View.GONE);
-
-                }
-            }
-        });
-
-        coverage_fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //toggleFabMenu();
-                fabContainer.setVisibility(View.GONE);
-                linear_Layout_1.setVisibility(view.GONE);
-                addHeatMap_1();
-                Log.d(TAG, "addHeatMap_1 passed");
-            }
-        });
     }
 
     //This is all for the animation for fab
@@ -399,14 +317,8 @@ public class MainActivity extends AppCompatActivity
             fabContainer.setVisibility(View.VISIBLE);
             Log.d("visibility -s", String.valueOf(fabContainer.getVisibility()));
             ViewAnimationUtils
-                    .createCircularReveal(
-                            fabContainer,
-                            centerX,
-                            centerY,
-                            startRadius,
-                            endRadius
-                    )
-                    .setDuration(1000)
+                    .createCircularReveal(fabContainer,centerX,centerY,startRadius,endRadius)
+                    .setDuration(500)
                     .start();
         } else {
             //fab1.setImageResource(R.drawable.ic_launcher_background);
@@ -415,16 +327,8 @@ public class MainActivity extends AppCompatActivity
             int centerY = fabContainer.getHeight() / 2;
             int startRadius = (int) Math.hypot(fabContainer.getWidth(), fabContainer.getHeight()) / 2;
             int endRadius = 0;
-
-            Animator animator = ViewAnimationUtils
-                    .createCircularReveal(
-                            fabContainer,
-                            centerX,
-                            centerY,
-                            startRadius,
-                            endRadius
-                    );
-            animator.setDuration(1000);
+            Animator animator = ViewAnimationUtils.createCircularReveal(fabContainer,centerX,centerY,startRadius,endRadius);
+            animator.setDuration(500);
             animator.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
@@ -453,39 +357,27 @@ public class MainActivity extends AppCompatActivity
         //Spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.core_identifiers, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //commented core_spinner to remove spinner. If fails, uncomment
-        //core_spinner.setAdapter(adapter);
-        //core_spinner.setOnItemSelectedListener(this);
 
         //Floating Action
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo use this section to display the bus routes from source to destination that are provided by the user.
-                //get the closest bus stations from the user and the destination location the user provided. Use that info to display the list in this bottom up.
-                //Snackbar.make(view, "Missing a BusStop? Locate it on the map!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
-                String message = "Long press on the map to locate the bus stop accurately. Thank you!";
+                //todo display popup instead of snackbar to ask users to perform long click for bus_stop locations.
+                String message = "Long press on the map to locate any bus stop in your path!";
                 int duration = Snackbar.LENGTH_INDEFINITE;
-
                 showSnackbar(view, message, duration);
-
-                //fab.setBackgroundTintList(ColorStateList.valueOf(5)); //in normal state
-                //fab.setRippleColor(10); //in pressed state
-
-                //display toggle
-                //toggle.toggle();
-                //toggle.setTextOff("TOGGLE ON");
-
                 //fab - click to point out the busstop. does this work???
-                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    public void onMapClick(LatLng point) {
-                        Toast.makeText(getBaseContext(),
-                                point.latitude + ", " + point.longitude,
-                                Toast.LENGTH_SHORT).show();
+                googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                    @Override
+                    public void onMapLongClick(LatLng point) {
+                        googleMap.clear();
+                        submitlayout.setVisibility(View.VISIBLE);
+                        googleMap.addMarker(new MarkerOptions()
+                                .position(point)
+                                .title("Selected Location")
+                                .snippet("")).showInfoWindow();
                     }
                 });
-
             }
         });
 
@@ -503,14 +395,11 @@ public class MainActivity extends AppCompatActivity
                     expanded = false;
                 }
             }
-
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
             }
         });
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
         eText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -532,16 +421,21 @@ public class MainActivity extends AppCompatActivity
                         try {
                             if (!searchResultClick && eText.getText().toString().length() > 2) {
                                 busDestinationSearchResults = dbHandler.destinationLookup(eText.getText().toString());
+                                Log.d(TAG, String.valueOf(busDestinationSearchResults));
                             }
 
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
                                     if (!searchResultClick && busDestinationSearchResults != null) {
+                                        //search.setState(BottomSheetBehavior.STATE_EXPANDED);
+                                        Log.d(TAG, String.valueOf(busDestinationSearchResults));
                                         searchViewAdapter = new SearchViewAdapter(busDestinationSearchResults, recyclerViewClickListener);
-                                        //searchViewRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                                        //searchViewRV.setAdapter(searchViewAdapter);
+                                        Log.d(TAG, String.valueOf(searchViewAdapter));
+                                        searchViewRV.setAdapter(searchViewAdapter);
+                                        searchViewRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                         searchViewAdapter.notifyDataSetChanged();
+                                        Log.d(TAG, String.valueOf(busDestinationSearchResults.size()));
                                     }
                                 }
                             });
@@ -549,10 +443,28 @@ public class MainActivity extends AppCompatActivity
                         } catch (Exception e) {
                             Log.d(TAG, "Error: " + e.getMessage());
                         }
-
                     }
                 });
                 thread.start();
+            }
+        });
+
+        loc_submit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                addUserInputToDB(user_loc_input, System.currentTimeMillis());
+               //todo marker created on long click should be removed but the remaining points should be still visible.
+            }
+        });
+
+        loc_cancel.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                user_loc_input = null;
+                //todo user_loc_input location on the map should be removed, remaining points should be still visible.
+                submitlayout.setVisibility(View.GONE);
             }
         });
 
@@ -563,7 +475,6 @@ public class MainActivity extends AppCompatActivity
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
-
                 ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation, eText.getText().toString().toUpperCase()));
                 Log.d("BottomSheetTest", "Size: " + busList.size());
                 if (busList.size() == 0) {
@@ -576,9 +487,6 @@ public class MainActivity extends AppCompatActivity
                     bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     bottomSheetRV.setAdapter(bottomSheetAdapter);
                 }
-
-//                Intent intent = new Intent(v.getContext(), HeatMapActivity.class);
-//                startActivity(intent);
             }
         });
 
@@ -594,23 +502,213 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleFabMenu();
+                Log.d(TAG, "fab1 clicked");
+            }
+        });
+        bus_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                googleMap.clear();
+                googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                    @Override
+                    public void onMapLongClick(LatLng point) {
+                        //googleMap.clear();
+                        submitlayout.setVisibility(View.VISIBLE);
+                        Toast.makeText(getBaseContext(),
+                                point.latitude + ", " + point.longitude,
+                                Toast.LENGTH_SHORT).show();
+                        googleMap.addMarker(new MarkerOptions()
+                                .position(point)
+                                .title("Selected Location")
+                                .snippet("")).showInfoWindow();
+                        user_loc_input = point;
+                    }
+                });
+
+                //toggleFabMenu();
+                if (fabMenuOpen) {
+                    Log.d(TAG, "fabMenuOpen is false");
+                    fabContainer.setVisibility(View.GONE);
+                    toggleFabMenu();
+                    List<LatLng> latLngList = new ArrayList<LatLng>();
+                    String line = "";
+                    HashMap<LatLng, String> mData = new HashMap<>();
+                    Marker m;
+
+                    //testing the data. Assigning latnlong manually for now.
+                    double latitude = 17.736921;
+                    double longitude = 83.307273;
+                    item_selected_1 = "Bus";
+                    List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
+                    int busstops_1 = markers.size();
+                    Log.d("Export", "Sizeses:" + busstops_1);
+                    if (item_selected_1.equalsIgnoreCase("Bus")) {
+                        googleMap.getUiSettings().setMapToolbarEnabled(false);
+                        linear_Layout_1 = (LinearLayout) findViewById(R.id.linearlayout);
+                        String message = "Long press on the map to locate the bus stop accurately. Thank you!";
+                        int duration = Snackbar.LENGTH_INDEFINITE;
+                        final Snackbar snackbar = Snackbar.make(view, message, duration);
+                        showSnackbar(view, message, duration);
+
+                        //todo get rid of this when done testing (because the camera is already moved to the user location.
+                        LatLng latLng = new LatLng(latitude, longitude);
+                        Log.d(TAG, "Selected location " + latitude + "," + longitude);
+                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                        googleMap.animateCamera(cameraUpdate);
+                        //todo no seriously, get rid of this block
+
+                        if (markers.size() == 0) {
+                            Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
+                            msg.show();
+                        } else if (markers.size() == 1) {
+                            //linear_Layout_1.setVisibility(View.VISIBLE);
+                            srcLocation = markers.get(0).name.toUpperCase();
+                            Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
+                            msg.show();
+                        } else {
+                            //linear_Layout_1.setVisibility(view.VISIBLE);
+                            Toast msg = Toast.makeText(getBaseContext(), "Select source bus stop marker", Toast.LENGTH_LONG);
+                            msg.show();
+                        }
+                    }
+
+                    LatLng latLng = null;
+                    Log.d(TAG, String.valueOf(markers));
+                    for (PivotTableData marker : markers) {
+                        latLng = new LatLng(marker.latitude, marker.longitude);
+                        String name = marker.name;
+                        googleMap.addMarker(new MarkerOptions().position(latLng)
+                                .title(name.toUpperCase()));
+                        mData.put(latLng, name);
+                        Log.d(TAG, "Displayed Stops " + name);
+                        latLngList.add(latLng);
+                    }
+                    setLocation();
+                } else {
+                    fabContainer.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        coverage_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //toggleFabMenu();
+                googleMap.clear();
+                fabContainer.setVisibility(View.GONE);
+                addHeatMap_1();
+                Log.d(TAG, "addHeatMap_1 passed");
+            }
+        });
+    }
+
+    private String getGoogleID() {
+        AdvertisingIdClient.Info idInfo = null;
+        try {
+            idInfo = AdvertisingIdClient.getAdvertisingIdInfo(getApplicationContext());
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String advertId = null;
+        try {
+            advertId = idInfo.getId();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        return advertId;
+    }
+
+    public void addUserInputToDB(LatLng userinput, long timeStamp) {
+        // adding the location data into LocationInfo table.
+        Log.i(TAG, String.valueOf(userinput));
+        LocationInfo li = new LocationInfo();
+        li.setTime_stamp(timeStamp);
+        li.setLatitude(userinput.latitude);
+        li.setLongitude(userinput.longitude);
+        ArrayList<LocationInfo> displaypoints = new ArrayList<>();
+        displaypoints.add(li);
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+        final List userList = displaypoints;
+        Gson gson = new GsonBuilder().create();
+        Log.d(TAG, String.valueOf(userList.size()));
+        if (userList.size() != 0) {
+            if (dbHandler.dbSyncCount() != 0) {
+                prgDialog.show();
+                params.add("usersInput", gson.toJson(displaypoints));
+                params.add("device_id", prefs.getString("ad_id", null));
+                Log.d("Sync", params.toString());
+                client.post("http://limitmyexpense.com/arounduuserdatasync/insert_userinput.php", params, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        Log.d("Sync", "OnSuccess Function 4");
+                        Log.d("Sync", String.valueOf(statusCode));
+                        try {
+                            Log.d("Sync", "in try block!");
+                            String str = new String(responseBody, "UTF-8");
+                            Log.d("Sync str", str);
+                            JSONArray jarray = new JSONArray(str.trim());
+                            Log.d("Sync", String.valueOf(jarray.length()));
+                            for (int i = 0; i < jarray.length(); i++) {
+                                Log.d("Sync", String.valueOf(i));
+                                JSONObject jsonobject = jarray.getJSONObject(i);
+                                Log.d("Sync", String.valueOf(jsonobject.getLong("time_stamp")));
+                            }
+                            Log.d("Sync", "Am I here??");
+                            Log.d("Sync", String.valueOf(jarray.length()));
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        prgDialog.hide();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        // TODO Auto-generated method stub
+                        Log.d("Sync", "OnFailure Function");
+                        prgDialog.hide();
+                        if (statusCode == 404) {
+                            Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                        } else if (statusCode == 500) {
+                            Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                        } else {
+                            Log.d("Sync", error.getMessage());
+                            Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                });
+            } else {
+                Toast.makeText(getApplicationContext(), "SQLite and Remote MySQL DBs are in Sync!", Toast.LENGTH_LONG).show();
+            }
+        }
+        submitlayout.setVisibility(View.GONE);
+        Toast.makeText(getApplicationContext(), "Thank you for providing Bus Stop Information.", Toast.LENGTH_LONG).show();
     }
 
     private void showSnackbar(View view, String message, int duration) {
         final Snackbar snackbar = Snackbar.make(view, message, duration);
-
         // styling for action text
         snackbar.setActionTextColor(Color.WHITE);
-
-// styling for rest of text
+        // styling for rest of text
         View snackbarView = snackbar.getView();
         TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(Color.RED);
-
-// styling for background of snackbar
+        // styling for background of snackbar
         View sbView = snackbarView;
         sbView.setBackgroundColor(Color.BLUE);
-
         // Set an action on it, and a handler
         snackbar.setAction("DISMISS", new View.OnClickListener() {
             @Override
@@ -618,165 +716,71 @@ public class MainActivity extends AppCompatActivity
                 snackbar.dismiss();
             }
         });
-
         snackbar.show();
-
     }
 
-
-    //11/16/2018
     public void syncSQLiteMySQLDB() {
-        //Create AsycHttpClient object
+        AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+        final List userList = dbHandler.readLocationInfo_1();
+        Log.d("Sync 1", String.valueOf(userList.size()));
+        if (userList.size() != 0) {
+            if (dbHandler.dbSyncCount() != 0) {
+                Log.d("Sync", "OnSuccess Function 1");
+                prgDialog.show();
+                Log.d("Sync", "OnSuccess Function 2");
+                params.add("usersJSON", dbHandler.composeJSONfromSQLite());
+                Log.d("Sync", params.toString());
+                client.post("http://limitmyexpense.com/arounduuserdatasync/insert_location_logs.php", params, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        Log.d("Sync", "OnSuccess Function 4");
+                        Log.d("Sync", String.valueOf(statusCode));
+                        prgDialog.hide();
+                        try {
+                            Log.d("Sync", "in try block!");
+                            String str = new String(responseBody, "UTF-8");
+                            Log.d("Sync str", String.valueOf(str.length()));
+                            JSONArray jarray = new JSONArray(str.trim());
+                            Log.d("Sync", String.valueOf(jarray.length()));
 
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
-        //showing data from the db.
-        JsonObjectRequest jsonobjectrequest = new JsonObjectRequest(Request.Method.POST, showURL, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-//if you want to show the locations readings after extracting teh data from the db.
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-        //inserting data into db
-        StringRequest request = new StringRequest(Request.Method.POST, insertURL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-
-//*** reading from device successfully
-                Map<String, String> params = new HashMap<String, String>();
-                //RequestParams params = new RequestParams();
-                ArrayList<LocationInfo> userList = (ArrayList<LocationInfo>) dbHandler.readLocationInfo_1();
-
-//                List<LatLng> list = new ArrayList<>();
-//                for (LocationInfo li : userList) {
-//                    params.put("latitude", String.valueOf(li.getLatitude()));
-//                    params.put("longitude", String.valueOf(li.getLongitude()));
-//                    params.put("time_stamp", String.valueOf(li.getTime_stamp()));
-//                }
-
-                for(int i = 0; i < userList.size(); i++){
-                    params.put("latitude" + i, String.valueOf(userList.get(i).getLatitude()));
-                    params.put("longitude" + i, String.valueOf(userList.get(i).getLongitude()));
-                    params.put("time_stamp" + i, String.valueOf(userList.get(i).getTime_stamp()));
-                }
-                return (Map<String, String>) params;
-//*** reading from device_successfully
-
-                //** this is working code to test
-            /*Map<String, String> parameters = new HashMap<String, String>();
-            parameters.put("latitude", String.valueOf(12345));
-            parameters.put("longitude", String.valueOf(12345));
-            parameters.put("time_stamp", String.valueOf(12345));
-            return parameters;*/
-                //** above is working code to test
-            }
-        };
-        requestQueue.add(request);
-
-   /* AsyncHttpClient client = new AsyncHttpClient();
-    RequestParams params = new RequestParams();
-    List userList = dbHandler.readLocationInfo_1();
-    Log.d("Sync 1", String.valueOf(userList.size()));
-    if(userList.size()!=0){
-        if(dbHandler.dbSyncCount() != 0){
-            Log.d("Sync", "OnSuccess Function 1");
-            prgDialog.show();
-            Log.d("Sync", "OnSuccess Function 2");
-            params.add("usersJSON", dbHandler.composeJSONfromSQLite());
-            Log.d("Sync", params.toString());
-            //client.post("http://limitmyexpense.com/arounduuserdatasync/insert_location_logs.php",params ,new AsyncHttpResponseHandler() {
-            client.post("http://192.168.84.30:8080/db_aru1_storeLocation.php", params, new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    Log.d("Sync", "OnSuccess Function 4");
-                    Log.d("Sync", responseBody.toString());
-                    prgDialog.hide();
-                    *//*try {
-                        JSONArray arr = new JSONArray(responseBody);
-                        //for(int i=0; i<arr.length();i++){
-                            //Log.d("Sync", String.valueOf(i));
-                            JSONObject jsonParam = new JSONObject();
-                            jsonParam.put("time_stamp", 11111);
-                            jsonParam.put("latitude", 75.25252);
-                            jsonParam.put("longitude", 120.303030);
-                        Log.i("Sync", jsonParam.toString());
-                        //}
-                        Log.d("Sync", "Above line is an example");
-                        *//*
-                        Toast.makeText(getApplicationContext(), "DB Sync completed!", Toast.LENGTH_LONG).show();
-                    *//*} catch (JSONException e) {
-                        // TODO Auto-generated catch block
-                        Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
-                        e.printStackTrace();
-                    }*//*
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-// TODO Auto-generated method stub
-                    Log.d("Sync","OnFailure Function");
-                    prgDialog.hide();
-                    if(statusCode == 404){
-                        Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
-                    }else if(statusCode == 500){
-                        Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
-                    }else{
-                        Log.d("Sync", error.getMessage());
-                        Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                            for (int i = 0; i < jarray.length(); i++) {
+                                Log.d("Sync", String.valueOf(i));
+                                JSONObject jsonobject = jarray.getJSONObject(i);
+                                Log.d("Sync", String.valueOf(jsonobject.getLong("time_stamp")));
+                                //jsonobject.getLong("time_stamp");
+                                dbHandler.updateSyncStatus((Long) jsonobject.getLong("time_stamp"));
+                            }
+                            Log.d("Sync", "Am I here??");
+                            Log.d("Sync", String.valueOf(jarray.length()));
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
 
-            });
-        }else{
-            Toast.makeText(getApplicationContext(), "SQLite and Remote MySQL DBs are in Sync!", Toast.LENGTH_LONG).show();
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        // TODO Auto-generated method stub
+                        Log.d("Sync", "OnFailure Function");
+                        prgDialog.hide();
+                        if (statusCode == 404) {
+                            Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                        } else if (statusCode == 500) {
+                            Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                        } else {
+                            Log.d("Sync", error.getMessage());
+                            Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            } else {
+                Toast.makeText(getApplicationContext(), "SQLite and Remote MySQL DBs are in Sync!", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "No data in SQLite DB, please do enter User name to perform Sync action", Toast.LENGTH_LONG).show();
         }
-    }else{
-        Toast.makeText(getApplicationContext(), "No data in SQLite DB, please do enter User name to perform Sync action", Toast.LENGTH_LONG).show();
-    }*/
-    }
-
-//11/16/2018
-
-    public void showAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Title");
-
-// Set up the input
-        final EditText input = new EditText(this);
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        builder.setView(input);
-
-// Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-//                m_Text = input.getText().toString();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
     }
 
     @SuppressWarnings({"MissingPermission"})
@@ -791,15 +795,6 @@ public class MainActivity extends AppCompatActivity
                 double longitude = location.getLongitude();
                 long timeStamp = System.currentTimeMillis();
                 Log.i(TAG, "timestamp" + timeStamp + " latitude" + latitude + " longitude" + longitude);
-                //LatLng present_Loc = new LatLng(latitude, longitude);
-                //add location data into table - locationinfo.
-                //addLocationInfoToDB(latitude, longitude, timeStamp);
-                //reading latlong from table - locationinfo.
-                //setUpClusterer(latitude, longitude);
-
-                //todo rework logic to prevent massive bogging down of system
-                //addHeatMap(latitude, longitude);
-                //displayLocationInfo(latitude, longitude);
             }
 
             @Override
@@ -818,18 +813,14 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-
     public boolean checkLocationPermission() {
         Log.d(TAG, "Permission requested");
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-
-            // No explanation needed, we can request the permission.
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_LOCATION);
-
         } else {
             startService(new Intent(this, BackgroundService.class));
             return false;
@@ -846,17 +837,11 @@ public class MainActivity extends AppCompatActivity
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // location-related task you need to do.
                     if (ContextCompat.checkSelfPermission(this,
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
-
                         googleMap.setMyLocationEnabled(true);
                         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-                        //Request location updates:
 
                         provider = locationManager.getBestProvider(new Criteria(), false);
                         setLocationManagerListener(provider);
@@ -864,19 +849,15 @@ public class MainActivity extends AppCompatActivity
                     }
 
                 } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                     //todo add pop up to re-request location, since the app is mostly pointless without it
+                    //todo show the user a popup with the steps to follow to give user location permission.
                 }
                 return;
             }
-
         }
     }
 
     public void addHeatMap(double latitude, double longitude) {
-        //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15f));
         ArrayList<LocationInfo> locationInfoList = dbHandler.readLocationInfo(latitude, longitude);
         LatLng source_loc = null;
         List<LatLng> list = new ArrayList<>();
@@ -884,89 +865,35 @@ public class MainActivity extends AppCompatActivity
             source_loc = new LatLng(li.getLatitude(), li.getLongitude());
             list.add(source_loc);
         }
-        // Create a heat map tile provider, passing it the latlngs.
-
         if (list.size() == 0) {
-
         } else {
             Log.d("HeatMapTileProvider", "Permission response: " + list);
-            mProvider = new HeatmapTileProvider.Builder()
-                    .data(list)
-                    .build();
-            // Add a tile overlay to the map, using the heat map tile provider.
+            mProvider = new HeatmapTileProvider.Builder().data(list).build();
             mOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
         }
     }
 
     public void addHeatMap_1() {
-        //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15f));
-        Log.d("HeatMap", "HeatMAp");
+        Log.d(TAG, "HeatMAp");
         ArrayList<LocationInfo> locationInfoList = (ArrayList<LocationInfo>) dbHandler.readLocationInfo_1();
-        //Log.d("HeatMapTileProvider", locationInfoList.size());
         LatLng source_loc = null;
         List<LatLng> list = new ArrayList<>();
         for (LocationInfo li : locationInfoList) {
             source_loc = new LatLng(li.getLatitude(), li.getLongitude());
             list.add(source_loc);
         }
-        // Create a heat map tile provider, passing it the latlngs.
-
         if (list.size() == 0) {
-
+            Log.d(TAG, "Whats happening at this point?? What should I do??");
         } else {
             Log.d("HeatMapTileProvider", "Permission response: " + list);
-            mProvider = new HeatmapTileProvider.Builder()
-                    .data(list)
-                    .build();
-            // Add a tile overlay to the map, using the heat map tile provider.
+            mProvider = new HeatmapTileProvider.Builder().data(list).build();
+            mProvider.setRadius(25);
             mOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
         }
-    }
-
-
-    private void setUpClusterer(double latitude, double longitude) {
-        // Position the map.
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15f));
-
-        // Initialize the manager with the context and the map.
-        // (Activity extends context, so we can pass 'this' in the constructor.)
-        mClusterManager = new ClusterManager<LocationInfo>(this, googleMap);
-
-        // Point the map's listeners at the listeners implemented by the cluster
-        // manager.
-        //      googleMap.setOnCameraIdleListener(mClusterManager);
-        //      googleMap.setOnMarkerClickListener(mClusterManager);
-
-        // Add cluster items (markers) to the cluster manager.
-        displayLocationInfo(latitude, longitude);
-    }
-
-
-    public void addLocationInfoToDB(final double latitude, final double longitude, final long timeStamp) {
-        // adding the location data into LocationInfo table.
-        backgroundHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                Log.i(TAG, "timestamp-start" + timeStamp + " latitude" + latitude + " longitude" + longitude);
-                LocationInfo li = new LocationInfo();
-                li.setTime_stamp(timeStamp);
-                li.setLatitude(latitude);
-                li.setLongitude(longitude);
-                dbHandler.addLocationInfo(li);
-            }
-        });
-    }
-
-
-    public void displayLocationInfo(double latitude, double longitude) {
-        ArrayList<LocationInfo> locationInfoList = dbHandler.readLocationInfo(latitude, longitude);
-        for (LocationInfo li : locationInfoList) {
-            //mMap.addMarker(new MarkerOptions().position(new LatLng(li.getLatitude(), li.getLongitude())));
-            Log.i(TAG, " Points to Display from displayLocationInfo: Latitude:" + li.getLatitude() + "longitude " + li.getLongitude());
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
+                new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 5);
+        googleMap.animateCamera(cameraUpdate);
         }
-        //db.TotalCount();
-        mClusterManager.addItems(locationInfoList);
-    }
 
     private void populateDestinationLookUpTable() {
         Log.d("DestLookUp", "Begin");
@@ -983,20 +910,16 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-    private void populateDatabaseWithInitialData(SharedPreferences prefs) {
-        Log.d("DebugTest", "populateData");
-//        DBHandler db = new DBHandler(this);
-        List<LatLng> latLngList = new ArrayList<LatLng>();
+    private void populateDatabaseWithInitialData() {
+        Log.d("DBTest", "populateData");
         String line = "";
         try {
-            InputStream is = getResources().openRawResource(R.raw.visakhapatnam_data_small);
+            InputStream is = getResources().openRawResource(R.raw.busstop_validation_v1);
             reader = new BufferedReader(new InputStreamReader(is));
         } catch (Exception e) {
-            Log.d("DebugTest", "Error creating input stream visakhapatnam: " + e.getLocalizedMessage());
+            Log.d("DBTest", "Error creating input stream visakhapatnam: " + e.getLocalizedMessage());
             Log.i(TAG, "Reading LocationReadings.csv to db failed");
         }
-        //reading data into database from csv file
         try {
             while ((line = reader.readLine()) != null) // Read until end of file
             {
@@ -1013,7 +936,7 @@ public class MainActivity extends AppCompatActivity
                 String state = lines[0];
 
                 dbHandler.addPivotTableData(new PivotTableData(identifier, lat, lon, name, brand, address, zipcode, city, district, state));
-//                Log.i(TAG, "Reading data into table " + identifier + "," + lat + "," + lon + "," + brand + "," + name + "," + address + "," + zipcode + "," + city + "," + state);
+                Log.i(TAG, "Reading data into table " + identifier + "," + lat + "," + lon + "," + brand + "," + name + "," + address + "," + zipcode + "," + city + "," + state);
             }
         } catch (IOException e) {
             Log.i(TAG, "Reading lat long failed");
@@ -1021,7 +944,7 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
         try {
-            InputStream is = getResources().openRawResource(R.raw.visakhapatnam_bus_lines_data);
+            InputStream is = getResources().openRawResource(R.raw.busroutes_validation_v1);
             reader = new BufferedReader(new InputStreamReader(is));
         } catch (Exception e) {
             Log.d("DebugTest", "Error creating input stream bus lines: " + e.getLocalizedMessage());
@@ -1040,7 +963,8 @@ public class MainActivity extends AppCompatActivity
                 int direction = Integer.parseInt(lines[4]);
                 int sequence = Integer.parseInt(lines[5]);
                 dbHandler.addBusLinesData(new IdentifierBusInfo(lineid, busno, source_station, destination_station, direction, sequence));
-                Log.i(TAG, "Reading data into table " + lineid + "," + busno + "," + source_station + "," + destination_station);
+                Log.i(TAG, "Reading data into table " + lineid + "," + busno + ","
+                        + source_station + "," + destination_station + "," + direction + "," + sequence);
             }
         } catch (IOException e) {
             Log.i(TAG, "Reading lat long failed");
@@ -1083,17 +1007,9 @@ public class MainActivity extends AppCompatActivity
                 syncSQLiteMySQLDB();
                 break;
             case R.id.action_settings:
-                //Intent heatmap = new Intent(this, HeatMapActivity.class);
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
                         .show();
-
-                //startActivity(heatmap);
                 break;
-
-//            case R.id.action_exit:
-//                Toast.makeText(this, "Exited selected", Toast.LENGTH_SHORT)
-//                        .show();
-//                break;
             default:
                 break;
         }
@@ -1103,11 +1019,8 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.profile) {
-            // Handle the camera action
         } else if (id == R.id.bus_stations) {
 
         } else if (id == R.id.explored_loc) {
@@ -1121,208 +1034,36 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    /*@Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        String item_selected = adapterView.getItemAtPosition(i).toString();
-//        Toast.makeText(adapterView.getContext(), item_selected, Toast.LENGTH_SHORT).show();
-        Log.d("Export", "Item selected: " + item_selected);
-        item_selected_1 = item_selected;
-
-        populateMap(view);
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-        googleMap.clear();
-    }
-*/
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         this.googleMap = googleMap;
-
-        //mapstyle code below
         try {
-            // Customise the styling of the base map using a JSON object defined
-            // in a raw resource file.
             boolean success = googleMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.mapstyle));
-
             if (!success) {
                 Log.e(TAG, "Style parsing failed.");
             }
         } catch (Resources.NotFoundException e) {
             Log.e(TAG, "Can't find style. Error: ", e);
         }
-        //mapstyle code above
-
         this.googleMap.setOnMarkerClickListener(this);
-
         boolean permissionAccepted = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED) {
             permissionAccepted = false;
         }
-
         if (permissionAccepted) {
             setLocation();
             googleMap.setMyLocationEnabled(true);
             googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         }
-
-//        ArrayList<DisplayInfo> displayInfo = null;
-//
-//        List<PivotTableData> markers = db.getFromPivotTableData(item_selected_1);
-////
-////            for (PivotTableData marker : markers) {
-////                double lat = marker.latitude;
-////                double lon = marker.longitude;
-////                String add = marker.address;
-////                latLngList.add(new LatLng(lat, lon));
-////            }
-//
-//        for (DisplayInfo object : displayInfo) {
-//            m = googleMap.addMarker(new MarkerOptions()
-//                    .position(object.getLatLng())
-//                    .title(object.getTitle()));
-//        }
     }
 
-
-    /*public void populateMap(View view) {
-
-        googleMap.clear();
-        linear_Layout_1 = (LinearLayout) findViewById(R.id.linearlayout);
-
-        if (!item_selected_1.equalsIgnoreCase("Bus")) {
-            //todo hide the linear layout created.
-
-            constraint_Layout_1 = (ConstraintLayout) findViewById(R.id.constraintlayout);
-            linear_Layout_1.setVisibility(view.GONE);
-        }
-
-        // TODO Set the Location to avoid crashing of app.
-//        Location location = null;
-//        double latitude = 33.587105;
-//        double longitude = -117.719604;
-
-        List<LatLng> latLngList = new ArrayList<LatLng>();
-        String line = "";
-        HashMap<LatLng, String> mData = new HashMap<>();
-        Marker m;
-
-        if(ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED && currentLocation == null){
-            String provider = null;
-            if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                provider = LocationManager.NETWORK_PROVIDER;
-            } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                provider = LocationManager.GPS_PROVIDER;
-            }
-            if(provider != null) {
-                locationManager.getLastKnownLocation(provider);
-            }
-        }
-
-        if (!item_selected_1.equals("Select...") && currentLocation != null) {
-
-            //List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, currentLocation.getLatitude(), currentLocation.getLongitude());
-
-            //testing the data. Assigning latnlong manually for now.
-            double latitude = 17.736706;
-            double longitude = 83.307610;
-            //below coordinates are to test the scinario where there are no bus stations near the user location.
-            //double latitude = 29.587433;
-            //double longitude = -95.682365;
-            List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
-            int busstops_1 = markers.size();
-            Log.d("Export", "Sizeses:" + busstops_1);
-
-            if(busstops_1 == 0) {
-                fab.setVisibility(view.VISIBLE);
-
-                String message = "Long press on the map to locate the bus stop accurately. Thank you!";
-                int duration = Snackbar.LENGTH_LONG;
-                final Snackbar snackbar = Snackbar.make(view, message, duration);
-
-                showSnackbar(view, message, duration);
-
-            }
-            //We ask user to locate the bus station near him.
-            //////
-            if (item_selected_1.equalsIgnoreCase("Bus")) {
-                googleMap.getUiSettings().setMapToolbarEnabled(false);
-                fab.setVisibility(view.VISIBLE);
-                String message = "Bus Stop not located accurately? Long click (2sec) on the map to Locate it";
-                int duration = Snackbar.LENGTH_INDEFINITE;
-                final Snackbar snackbar = Snackbar.make(view, message, duration);
-                showSnackbar(view, message, duration);
-
-                //todo get rid of this when done testing
-                LatLng latLng = new LatLng(latitude, longitude);
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-                googleMap.animateCamera(cameraUpdate);
-                //todo no seriously, get rid of this block
-
-                if (markers.size() == 0) {
-                    Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
-                    msg.show();
-                } else if (markers.size() == 1) {
-                    linear_Layout_1.setVisibility(View.VISIBLE);
-                    srcLocation = markers.get(0).name.toUpperCase();
-                    Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
-                    msg.show();
-                } else {
-                    Toast msg = Toast.makeText(getBaseContext(), "Select source bus stop marker", Toast.LENGTH_LONG);
-                    msg.show();
-                }
-            }
-
-            LatLng latLng = null;
-            Log.d(TAG, String.valueOf(markers));
-            for (PivotTableData marker : markers) {
-                latLng = new LatLng(marker.latitude, marker.longitude);
-                String name = marker.name;
-
-                mData.put(latLng, name);
-
-                latLngList.add(latLng);
-            }
-            Log.d(TAG, "Here I am" + String.valueOf(mData));
-            Log.d(TAG, "Rock you like a hurricane");
-
-            //Drawing lines
-            Polyline lines;
-            for (LatLng li : mData.keySet()) {
-                Log.d(TAG, "Display" + mData.get(li) + "" + li);
-                googleMap.addMarker(new MarkerOptions().position(li).title(String.valueOf(mData.get(li))));
-                Log.d(TAG, "Line drawing! possible?");
-                *//*lines = googleMap.addPolyline(new PolylineOptions()
-                        .add(new LatLng(17.74748, 83.346268), new LatLng(17.74766, 83.34633))
-                        .width(5)
-                        .color(Color.RED));*//*
-                //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(li, 15));
-            }
-            setLocation();
-
-//            for (LatLng point : latLngList) {
-//                googleMap.clear();
-//                LatLng test = new LatLng(point.latitude, point.longitude);
-//                googleMap.addMarker(new MarkerOptions().position(test).title(point.latitude+ "\n" +point.longitude)
-//                .snippet("My Snippet"+"\n"+"1st Line Text"+"\n"+"2nd Line Text"+"\n"+"3rd Line Text").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-//                Log.i(TAG, "Point: " + point);
-//                googleMap.moveCamera(CameraUpdateFactory.newLatLng(point));
-//            }
-            //todo if the currentlocation is null, popup a window.
-        } else googleMap.clear();
-    }
-*/
     private void setLocation() {
         try {
             mFusedLocationClient.getLastLocation()
@@ -1357,7 +1098,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-
+        submitlayout.setVisibility(View.GONE);
+        Log.d(TAG, "selected marker info: " + marker.getTitle().toUpperCase());
         srcLocation = marker.getTitle().toUpperCase();
 
         if (item_selected_1.equalsIgnoreCase("Bus")) {
@@ -1365,9 +1107,7 @@ public class MainActivity extends AppCompatActivity
             Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
             msg.show();
         }
-
         return false;
-
     }
 
     @Override
@@ -1387,19 +1127,71 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onMoreInfoClick(String busName, String src, String destination) {
         MoreInfoDialog dialog = new MoreInfoDialog(this, this);
+        Log.d(TAG, src + destination);
         srcLocation = src;
         destLocation = destination;
+        bus_no = busName;
         dialog.show();
         TextView numberOfStops = (TextView) dialog.findViewById(R.id.number_of_stops);
+        int result = dbHandler.getNumberOfStopsBetween(src, destination, busName);
         numberOfStops.setText(String.valueOf(dbHandler.getNumberOfStopsBetween(src, destination, busName)));
     }
 
-
     @Override
     public void trackMyPath() {
+        googleMap.clear();
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        //todo get from database latlngs for source (variable srcLocation) and destination (variable destLocation). Clear map of markers. Draw two markers.
+        List<LatLng> latLngList = new ArrayList<LatLng>();
+        String line = "";
+        HashMap<LatLng, String> mData = new HashMap<>();
+        List<PivotTableData> markers = dbHandler.getDestinationCoordinates(destLocation, srcLocation, bus_no);
+        LatLng latLng = null;
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        Log.d(TAG, String.valueOf(markers));
+        Marker m1 = null;
+        distancecalc_layout.setVisibility(View.VISIBLE);
+        double distance = 0.0;
+        int i = 0;
+        double user_lat, user_long, next_stop_lat = 0, next_stop_long = 0;
+
+        PivotTableData src = markers.get(0);
+        PivotTableData dest = markers.get(markers.size() - 1);
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(src.latitude, src.longitude))
+                .title(src.name)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        builder.include(new LatLng(src.latitude, src.longitude));
+
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(dest.latitude, dest.longitude))
+                .title(dest.name));
+        builder.include(new LatLng(dest.latitude, dest.longitude));
+
+
+        for (PivotTableData marker : markers) {
+            if (i == 0) {
+                user_lat = currentLocation.getLatitude();
+                user_long = currentLocation.getLongitude();
+                Log.d(TAG, "User Location in distance calc: " + currentLocation.getLatitude() + "," + currentLocation.getLongitude());
+                next_stop_lat = marker.latitude;
+                next_stop_long = marker.longitude;
+            } else {
+                user_lat = next_stop_lat;
+                user_long = next_stop_long;
+                next_stop_lat = marker.latitude;
+                next_stop_long = marker.longitude;
+            }
+
+            distance = distance + (Math.acos(Math.cos(Math.toRadians(90 - user_lat)) *
+                    Math.cos(Math.toRadians(90 - user_lat)) + Math.sin(Math.toRadians(90 - user_lat)) *
+                    Math.sin(Math.toRadians(90 - user_lat)) * Math.cos(Math.toRadians(user_long - next_stop_long))) * 6371);
+        }
+        distance_calc.setText(String.valueOf((int) distance) + "Km");
+        LatLngBounds bounds = builder.build();
+        int padding = 50;
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        googleMap.animateCamera(cameraUpdate);
+        linear_Layout_1.setVisibility(View.GONE);
+        setLocation();
     }
-
-
 }

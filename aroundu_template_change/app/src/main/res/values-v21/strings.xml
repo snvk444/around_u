@@ -2,5 +2,6 @@
 <resources>
     <string name="title_location_permission">location_permission_title</string>
     <string name="text_location_permission">location_permission_value</string>
-    <string name="ok">ok</string>
+    <string name="ok">Lets GO!</string>
+    <string name="R_string_desc_single_shot1">Get the list of buses that travel from your closest busstop to your destination.</string>
 </resources>
