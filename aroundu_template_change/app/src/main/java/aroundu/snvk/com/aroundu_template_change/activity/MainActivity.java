@@ -214,12 +214,12 @@ public class MainActivity extends AppCompatActivity
                 public void run() {
 
                     //if running for the first time and .db file is not created yet. then exe below lines
-                    Log.d("DestLookUp", "Before");
-                    populateDatabaseWithInitialData();
-                    Log.d("DestLookUp", "After");
-                    populateDestinationLookUpTable();
+//                    Log.d("DestLookUp", "Before");
+//                    populateDatabaseWithInitialData();
+//                    Log.d("DestLookUp", "After");
+//                    populateDestinationLookUpTable();
                     //if we have the .db file created, use the below line to get the data into database fast. use below for release.
-                    //dbHandler.createDataBase();
+                    dbHandler.createDataBase();
 
                     prefs.edit().putString("ad_id", getGoogleID());
                     prefs.edit().putBoolean("first_run", false).apply();
@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             setLocationManagerListener(LocationManager.GPS_PROVIDER);
         }
-  }
+    }
 
     @SuppressLint("WrongViewCast")
     public void setViews() {
@@ -254,23 +254,23 @@ public class MainActivity extends AppCompatActivity
         fab1 = (FloatingActionButton) findViewById(R.id.fab1);
 
         //ShowcaseView (first time - user) tutorial
-           RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(
-           ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-           lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-           lps.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-           int margin = ((Number) (getResources().getDisplayMetrics().density * 16)).intValue();
-           lps.setMargins(margin, margin, margin, margin);
-           Target viewTarget = new ViewTarget(R.id.fab1, this);  // Add the control you need to focus by the ShowcaseView
-           ShowcaseView sv = new ShowcaseView.Builder(this)
-               .setTarget(viewTarget)
+        RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        int margin = ((Number) (getResources().getDisplayMetrics().density * 16)).intValue();
+        lps.setMargins(margin, margin, margin, margin);
+        Target viewTarget = new ViewTarget(R.id.fab1, this);  // Add the control you need to focus by the ShowcaseView
+        ShowcaseView sv = new ShowcaseView.Builder(this)
+                .setTarget(viewTarget)
                 //.setContentTitle(R.string.title_single_shot)        // Add your string file (title_single_shot) in values/strings.xml
                 .setContentText(R.string.R_string_desc_single_shot1) // Add your string file (R_strings_desc_single_shot) in values/strings.xml
                 .singleShot(100)
-                   .blockAllTouches()
-                   .useDecorViewAsParent()
-                   .setStyle(R.style.amu_Bubble_TextAppearance_Dark)
-                   .build();
-            sv.setButtonPosition(lps);
+                .blockAllTouches()
+                .useDecorViewAsParent()
+                .setStyle(R.style.amu_Bubble_TextAppearance_Dark)
+                .build();
+        sv.setButtonPosition(lps);
 
         bus_fab = (FloatingActionButton) findViewById(R.id.bus_fab);
         coverage_fab = (FloatingActionButton) findViewById(R.id.coverage_fab);
@@ -303,6 +303,36 @@ public class MainActivity extends AppCompatActivity
         bus_fab.setClickable(true);
     }
 
+    private void closeFabMenu(){
+        //fab1.setImageResource(R.drawable.ic_launcher_background);
+        Log.d(TAG, "else of fabmenuoption");
+        int centerX = fabContainer.getWidth() / 2;
+        int centerY = fabContainer.getHeight() / 2;
+        int startRadius = (int) Math.hypot(fabContainer.getWidth(), fabContainer.getHeight()) / 2;
+        int endRadius = 0;
+        Animator animator = ViewAnimationUtils.createCircularReveal(fabContainer, centerX, centerY, startRadius, endRadius);
+        animator.setDuration(500);
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                fabContainer.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
+        animator.start();
+    }
+
     //This is all for the animation for fab
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void toggleFabMenu() {
@@ -317,37 +347,11 @@ public class MainActivity extends AppCompatActivity
             fabContainer.setVisibility(View.VISIBLE);
             Log.d("visibility -s", String.valueOf(fabContainer.getVisibility()));
             ViewAnimationUtils
-                    .createCircularReveal(fabContainer,centerX,centerY,startRadius,endRadius)
+                    .createCircularReveal(fabContainer, centerX, centerY, startRadius, endRadius)
                     .setDuration(500)
                     .start();
         } else {
-            //fab1.setImageResource(R.drawable.ic_launcher_background);
-            Log.d(TAG, "else of fabmenuoption");
-            int centerX = fabContainer.getWidth() / 2;
-            int centerY = fabContainer.getHeight() / 2;
-            int startRadius = (int) Math.hypot(fabContainer.getWidth(), fabContainer.getHeight()) / 2;
-            int endRadius = 0;
-            Animator animator = ViewAnimationUtils.createCircularReveal(fabContainer,centerX,centerY,startRadius,endRadius);
-            animator.setDuration(500);
-            animator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    fabContainer.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-                }
-            });
-            animator.start();
+            closeFabMenu();
         }
         fabMenuOpen = !fabMenuOpen;
     }
@@ -395,6 +399,7 @@ public class MainActivity extends AppCompatActivity
                     expanded = false;
                 }
             }
+
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
             }
@@ -454,7 +459,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 addUserInputToDB(user_loc_input, System.currentTimeMillis());
-               //todo marker created on long click should be removed but the remaining points should be still visible.
+                //todo marker created on long click should be removed but the remaining points should be still visible.
             }
         });
 
@@ -646,8 +651,9 @@ public class MainActivity extends AppCompatActivity
             if (dbHandler.dbSyncCount() != 0) {
                 prgDialog.show();
                 params.add("usersInput", gson.toJson(displaypoints));
-                params.add("device_id", prefs.getString("ad_id", null));
+//                params.add("device_id", prefs.getString("ad_id", null));
                 Log.d("Sync", params.toString());
+                client.addHeader("device_id", prefs.getString("ad_id", null));
                 client.post("http://limitmyexpense.com/arounduuserdatasync/insert_userinput.php", params, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -893,7 +899,7 @@ public class MainActivity extends AppCompatActivity
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
                 new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 5);
         googleMap.animateCamera(cameraUpdate);
-        }
+    }
 
     private void populateDestinationLookUpTable() {
         Log.d("DestLookUp", "Begin");
@@ -981,7 +987,13 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else if (expanded) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        } else {
+        }
+        else if(fabMenuOpen) {
+            fabMenuOpen = !fabMenuOpen;
+            closeFabMenu();
+        }
+        else
+         {
             super.onBackPressed();
         }
     }
