@@ -57,11 +57,10 @@
     <LinearLayout
         android:id="@+id/submitlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="60dp"
         android:orientation="horizontal"
-        android:layout_marginTop="60dp"
-        android:layout_below="@+id/linearlayout"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
             android:id="@+id/loc_submit"
@@ -69,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_weight=".35"
             android:text="Submit Location"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary" />
 
 
         <Button
@@ -78,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_weight=".35"
             android:text="Retry/Cancel"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary" />
     </LinearLayout>
 
 

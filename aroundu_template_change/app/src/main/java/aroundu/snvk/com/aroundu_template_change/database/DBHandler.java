@@ -91,8 +91,8 @@ public class DBHandler extends SQLiteOpenHelper {
     protected DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         mContext = context;
-        SQLiteDatabase db = getReadableDatabase();
-        db = null;
+//        SQLiteDatabase db = getReadableDatabase();
+//        db = null;
     }
 
     @Override
@@ -714,8 +714,9 @@ public class DBHandler extends SQLiteOpenHelper {
             InputStream mInput = mContext.getApplicationContext().getAssets().open(DATABASE_NAME + ".sqlite");
             String outFileName = DATABASE_PATH + DATABASE_NAME;
             OutputStream mOutput = new FileOutputStream(outFileName);
-            byte[] mBuffer = new byte[2024];
+            byte[] mBuffer = new byte[1024];
             int mLength;
+
             while ((mLength = mInput.read(mBuffer)) > 0) {
                 mOutput.write(mBuffer, 0, mLength);
             }

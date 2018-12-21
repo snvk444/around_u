@@ -61,7 +61,7 @@ public class BackgroundService extends Service {
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
                 long timeStamp = System.currentTimeMillis();
-                Log.i("ServiceTest", "timestamp" + timeStamp + " latitude" + latitude + " longitude" + longitude);
+                Log.i("Export", "timestamp" + timeStamp + " latitude" + latitude + " longitude" + longitude);
                 addLocationInfoToDB(latitude, longitude, timeStamp);
             }
 
