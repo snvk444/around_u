@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="130dp"
-    android:background="@android:color/white"
     android:layout_gravity="center"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     >
 
     <TextView
@@ -16,8 +16,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:text="# Bus Stops between source and destination"
-        android:textColor="@color/colorPrimary"
         android:textSize="15sp"
+        android:textColor="#fff"
         android:textStyle="bold"/>
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:text="0"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#fff"
         android:textSize="25sp"
         android:textStyle="bold"/>
 
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@android:color/white"
+        android:background="@color/colorPrimary"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -45,8 +45,7 @@
         <Button
             android:id="@+id/btn_no"
             android:layout_width="150dp"
-            android:layout_height="30dp"
-            android:background="@color/colorPrimary"
+            android:layout_height="40dp"
             android:clickable="true"
             android:text="Go Back"
             android:textColor="@android:color/white"
@@ -55,9 +54,8 @@
         <Button
             android:id="@+id/btn_yes"
             android:layout_width="150dp"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
-            android:background="@color/colorPrimary"
             android:clickable="true"
             android:text="Track My Path"
             android:textColor="@android:color/white"

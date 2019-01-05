@@ -26,6 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".80"
+            android:background="#33ffa8"
             >
 
             <EditText
@@ -33,7 +34,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:background="#fff"
                 android:hint="Enter Destination"
                 android:inputType="textPersonName" />
 
@@ -51,7 +51,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".35"
-            android:text="Submit" />
+            android:text="Submit"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"/>
+
+
     </LinearLayout>
 
     <LinearLayout
