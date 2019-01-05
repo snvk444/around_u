@@ -154,14 +154,14 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        // Drop older table if existed
+        /*// Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + LOC_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + LOC_TABLE_NAME_DISTINCT);
         db.execSQL("DROP TABLE IF EXISTS " + LINES_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + DEST_LOOKUP_TABLE_NAME);
         // Creating tables again
-        onCreate(db);
+        onCreate(db);*/
     }
 
 
@@ -320,8 +320,9 @@ public class DBHandler extends SQLiteOpenHelper {
                 "br1.SOURCE_STATION = '" + source + "' and " +
                 "br2.DESTINATION_STATION = '" + destination + "'" +
                 " ) T2 " +
-                " on T1.Sequence >= T2.begin_seq and T1.Sequence <= T2.end_seq and T1.direction = T2.direction" +
-                " where T1.bus_no = '" + bus_no + "' ) TT ON PT.NAME = TT.DESTINATION_STATION ORDER BY TT.sequence ";
+                " on T1.direction = T2.direction" +
+                " where T1.Sequence >= T2.begin_seq and T1.Sequence <= T2.end_seq and T1.bus_no = '" + bus_no + "' ) TT " +
+                " ON PT.NAME = TT.DESTINATION_STATION ORDER BY TT.sequence ";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {

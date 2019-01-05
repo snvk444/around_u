@@ -5,19 +5,19 @@ import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
+import android.view.Gravity;
+import android.view.ViewGroup.LayoutParams;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,15 +35,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,11 +51,11 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -71,7 +70,6 @@ import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.util.HttpUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -79,14 +77,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -98,7 +94,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -109,9 +104,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import aroundu.snvk.com.aroundu_template_change.PivotTableData;
 import aroundu.snvk.com.aroundu_template_change.R;
@@ -143,7 +136,7 @@ public class MainActivity extends AppCompatActivity
     HeatmapTileProvider mProvider;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     String provider;
-    Button btn, loc_submit, loc_cancel;
+    Button btn, loc_submit, loc_cancel, closePopupBtn;
     EditText eText;
     ConstraintLayout constraint_Layout_1;
     LinearLayout linear_Layout_1;
@@ -164,7 +157,7 @@ public class MainActivity extends AppCompatActivity
     private TextView version, distance_text, distance_calc;
     private Spinner core_spinner;
     private FloatingActionButton fab;
-    private FloatingActionButton fab1;
+    private FloatingActionButton fab_main;
     private FloatingActionButton bus_fab;
     private FloatingActionButton coverage_fab;
     private Toolbar toolbar;
@@ -180,7 +173,8 @@ public class MainActivity extends AppCompatActivity
     public LatLng user_loc_input;
     private LatLngBounds.Builder builder;
     private LatLngBounds bounds;
-    SharedPreferences prefs;
+    SharedPreferences prefs, prefs_bus, prefs_coverage;
+    PopupWindow popupWindow;
 
 
     @Override
@@ -190,6 +184,8 @@ public class MainActivity extends AppCompatActivity
 
 //
         prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        prefs_bus = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        prefs_coverage = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         prgDialog = new ProgressDialog(this);
         mHandler = new Handler(Looper.getMainLooper());
         mHandlerThread = new HandlerThread("BackgroundThread");
@@ -212,14 +208,14 @@ public class MainActivity extends AppCompatActivity
             backgroundHandler.post(new Runnable() {
                 @Override
                 public void run() {
-
+                    dbHandler.createDataBase();
                     //if running for the first time and .db file is not created yet. then exe below lines
-                    Log.d("DestLookUp", "Before");
+                    /*Log.d("DestLookUp", "Before");
                     populateDatabaseWithInitialData();
-                    Log.d("DestLookUp", "After");
+                    Log.d("DestLookUp", "After");*/
                     populateDestinationLookUpTable();
                     //if we have the .db file created, use the below line to get the data into database fast. use below for release.
-                    //dbHandler.createDataBase();
+
 
                     prefs.edit().putString("ad_id", getGoogleID());
                     prefs.edit().putBoolean("first_run", false).apply();
@@ -251,7 +247,7 @@ public class MainActivity extends AppCompatActivity
         fabContainer = (LinearLayout) findViewById(R.id.fabContainerLayout);
         submitlayout = (LinearLayout) findViewById(R.id.submitlayout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab1 = (FloatingActionButton) findViewById(R.id.fab1);
+        fab_main = (FloatingActionButton) findViewById(R.id.fab1);
 
         //ShowcaseView (first time - user) tutorial
            RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(
@@ -268,9 +264,10 @@ public class MainActivity extends AppCompatActivity
                 .singleShot(100)
                    .blockAllTouches()
                    .useDecorViewAsParent()
-                   .setStyle(R.style.amu_Bubble_TextAppearance_Dark)
+                   .setStyle(R.color.colorPrimary)
                    .build();
             sv.setButtonPosition(lps);
+
 
         bus_fab = (FloatingActionButton) findViewById(R.id.bus_fab);
         coverage_fab = (FloatingActionButton) findViewById(R.id.coverage_fab);
@@ -292,22 +289,23 @@ public class MainActivity extends AppCompatActivity
         Animation show_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_show);
         Animation hide_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_hide);
 
-        //expanding fab1 (main floating action button)
-        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) fab1.getLayoutParams();
-        layoutParams.rightMargin += (int) (fab1.getWidth() * 1.7);
-        layoutParams.bottomMargin += (int) (fab1.getHeight() * 0.25);
-        fab1.setLayoutParams(layoutParams);
-        fab1.startAnimation(show_fab_1);
-        fab1.setClickable(true);
+        //expanding fab_main (main floating action button)
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) fab_main.getLayoutParams();
+        layoutParams.rightMargin += (int) (fab_main.getWidth() * 1.7);
+        layoutParams.bottomMargin += (int) (fab_main.getHeight() * 0.25);
+        fab_main.setLayoutParams(layoutParams);
+        fab_main.startAnimation(show_fab_1);
+        fab_main.setClickable(true);
         coverage_fab.setClickable(true);
         bus_fab.setClickable(true);
+
     }
 
     //This is all for the animation for fab
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void toggleFabMenu() {
         if (!fabMenuOpen) {
-            //fab1.setImageResource(R.drawable.ic_launcher_background);
+            //fab_main.setImageResource(R.drawable.ic_launcher_background);
 
             int centerX = fabContainer.getWidth() / 2;
             int centerY = fabContainer.getHeight() / 2;
@@ -321,7 +319,7 @@ public class MainActivity extends AppCompatActivity
                     .setDuration(500)
                     .start();
         } else {
-            //fab1.setImageResource(R.drawable.ic_launcher_background);
+            //fab_main.setImageResource(R.drawable.ic_launcher_background);
             Log.d(TAG, "else of fabmenuoption");
             int centerX = fabContainer.getWidth() / 2;
             int centerY = fabContainer.getHeight() / 2;
@@ -502,16 +500,44 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        fab1.setOnClickListener(new View.OnClickListener() {
+        fab_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toggleFabMenu();
-                Log.d(TAG, "fab1 clicked");
+                Log.d(TAG, "fab_main clicked");
             }
         });
         bus_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //if (prefs_bus.getBoolean("first_run", true)) {
+                    Log.d(TAG, "Displaying text");
+
+                    //instantiate the popup.xml layout file
+                    LayoutInflater layoutInflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View customView = layoutInflater.inflate(R.layout.popup,null);
+                    closePopupBtn = (Button) customView.findViewById(R.id.closePopupBtn);
+                    TextView displayText = (TextView) customView.findViewById(R.id.popuptext);
+                    displayText.setText("Get a list of buses that travel from your closest bus stop to your destination. \n\n " +
+                            "Select a bus stop on the map and provide the destination.");
+                    //instantiate popup window
+                    popupWindow = new PopupWindow(customView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                    popupWindow.setBackgroundDrawable(new BitmapDrawable());
+                    popupWindow.setOutsideTouchable(true);
+                    //display the popup window
+                    popupWindow.showAtLocation(fabContainer, Gravity.CENTER, 0, 0);
+                    //close the popup window on button click
+                    closePopupBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            popupWindow.dismiss();
+                        }
+                    });
+
+                //}
+
+
                 googleMap.clear();
                 googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                     @Override
@@ -549,11 +575,11 @@ public class MainActivity extends AppCompatActivity
                     if (item_selected_1.equalsIgnoreCase("Bus")) {
                         googleMap.getUiSettings().setMapToolbarEnabled(false);
                         linear_Layout_1 = (LinearLayout) findViewById(R.id.linearlayout);
-                        String message = "Long press on the map to locate the bus stop accurately. Thank you!";
+                        /*String message = "Long press on the map to locate any missing bus stop accurately. Thank you!";
                         int duration = Snackbar.LENGTH_INDEFINITE;
                         final Snackbar snackbar = Snackbar.make(view, message, duration);
                         showSnackbar(view, message, duration);
-
+*/
                         //todo get rid of this when done testing (because the camera is already moved to the user location.
                         LatLng latLng = new LatLng(latitude, longitude);
                         Log.d(TAG, "Selected location " + latitude + "," + longitude);
@@ -597,6 +623,28 @@ public class MainActivity extends AppCompatActivity
         coverage_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //instantiate the popup.xml layout file
+                LayoutInflater layoutInflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View customView = layoutInflater.inflate(R.layout.popup,null);
+                closePopupBtn = (Button) customView.findViewById(R.id.closePopupBtn);
+                TextView displayText = (TextView) customView.findViewById(R.id.popuptext);
+                displayText.setText("You can see all the places you have covered in the last 1 week. \n\n" +
+                        "Zoom in/out to know more about your explorations!");
+                //instantiate popup window
+                popupWindow = new PopupWindow(customView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                popupWindow.setBackgroundDrawable(new BitmapDrawable());
+                popupWindow.setOutsideTouchable(true);
+                //display the popup window
+                popupWindow.showAtLocation(fabContainer, Gravity.CENTER, 0, 0);
+                //close the popup window on button click
+                closePopupBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+                    }
+                });
+
                 //toggleFabMenu();
                 googleMap.clear();
                 fabContainer.setVisibility(View.GONE);
@@ -1141,57 +1189,89 @@ public class MainActivity extends AppCompatActivity
     public void trackMyPath() {
         googleMap.clear();
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        List<LatLng> latLngList = new ArrayList<LatLng>();
-        String line = "";
-        HashMap<LatLng, String> mData = new HashMap<>();
         List<PivotTableData> markers = dbHandler.getDestinationCoordinates(destLocation, srcLocation, bus_no);
-        LatLng latLng = null;
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         Log.d(TAG, String.valueOf(markers));
-        Marker m1 = null;
         distancecalc_layout.setVisibility(View.VISIBLE);
         double distance = 0.0;
         int i = 0;
         double user_lat, user_long, next_stop_lat = 0, next_stop_long = 0;
 
-        PivotTableData src = markers.get(0);
-        PivotTableData dest = markers.get(markers.size() - 1);
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(src.latitude, src.longitude))
-                .title(src.name)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-        builder.include(new LatLng(src.latitude, src.longitude));
+        if (markers.size() == 0) {
+            Toast msg = Toast.makeText(getBaseContext(), "Source and Destination should be different!! Try a different destination location.", Toast.LENGTH_LONG);
+            msg.show();
+        } else {
+            PivotTableData src = markers.get(0);
+            PivotTableData dest = markers.get(markers.size() - 1);
+            googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(src.latitude, src.longitude))
+                    .title(src.name)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+            builder.include(new LatLng(src.latitude, src.longitude));
 
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(dest.latitude, dest.longitude))
-                .title(dest.name));
-        builder.include(new LatLng(dest.latitude, dest.longitude));
+            googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(dest.latitude, dest.longitude))
+                    .title(dest.name));
+            builder.include(new LatLng(dest.latitude, dest.longitude));
+
+            for (PivotTableData marker : markers) {
+
+                googleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(marker.latitude, marker.longitude))
+                        .title(marker.name)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                builder.include(new LatLng(marker.latitude, marker.longitude));
+
+                if (i == 0) {
+                    user_lat = 17.736921;
+                    user_long = 83.307273;
+                    //todo use the below user_lat and user_long for actual distance calculation.
+                    //user_lat = currentLocation.getLatitude();
+                    //user_long = currentLocation.getLongitude();
+                    Log.d(TAG, "User Location in distance calc: " + currentLocation.getLatitude() + "," + currentLocation.getLongitude());
+                    next_stop_lat = marker.latitude;
+                    next_stop_long = marker.longitude;
+                } else {
+                    user_lat = next_stop_lat;
+                    user_long = next_stop_long;
+                    next_stop_lat = marker.latitude;
+                    next_stop_long = marker.longitude;
+                }
 
 
-        for (PivotTableData marker : markers) {
-            if (i == 0) {
-                user_lat = currentLocation.getLatitude();
-                user_long = currentLocation.getLongitude();
-                Log.d(TAG, "User Location in distance calc: " + currentLocation.getLatitude() + "," + currentLocation.getLongitude());
-                next_stop_lat = marker.latitude;
-                next_stop_long = marker.longitude;
-            } else {
-                user_lat = next_stop_lat;
-                user_long = next_stop_long;
-                next_stop_lat = marker.latitude;
-                next_stop_long = marker.longitude;
+
+                double theta = user_long - next_stop_long;
+                double dist = Math.sin(deg2rad(next_stop_lat)) * Math.sin(deg2rad(user_lat)) + Math.cos(deg2rad(user_lat)) *
+                        Math.cos(deg2rad(next_stop_lat)) * Math.cos(deg2rad(theta));
+                dist = Math.acos(dist);
+                dist = rad2deg(dist);
+                distance = distance + (dist*60*1.1515);
+
+
+/*
+                distance = distance + (Math.acos(Math.cos(Math.toRadians(90 - user_lat)) *
+                        Math.cos(Math.toRadians(90 - user_lat)) + Math.sin(Math.toRadians(90 - user_lat)) *
+                        Math.sin(Math.toRadians(90 - user_lat)) * Math.cos(Math.toRadians(user_long - next_stop_long))) * 6371);
+*/
+
+
             }
-
-            distance = distance + (Math.acos(Math.cos(Math.toRadians(90 - user_lat)) *
-                    Math.cos(Math.toRadians(90 - user_lat)) + Math.sin(Math.toRadians(90 - user_lat)) *
-                    Math.sin(Math.toRadians(90 - user_lat)) * Math.cos(Math.toRadians(user_long - next_stop_long))) * 6371);
+            distance_calc.setText(String.valueOf((int) distance) + "Km");
+            LatLngBounds bounds = builder.build();
+            int padding = 50;
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            googleMap.animateCamera(cameraUpdate);
+            linear_Layout_1.setVisibility(View.GONE);
+            setLocation();
         }
-        distance_calc.setText(String.valueOf((int) distance) + "Km");
-        LatLngBounds bounds = builder.build();
-        int padding = 50;
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        googleMap.animateCamera(cameraUpdate);
-        linear_Layout_1.setVisibility(View.GONE);
-        setLocation();
     }
+
+    public double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+    public double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
+
+
 }
