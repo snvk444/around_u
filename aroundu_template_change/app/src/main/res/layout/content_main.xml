@@ -18,7 +18,7 @@
     <LinearLayout
         android:id="@+id/linearlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:visibility="gone">
 
@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".80"
-            android:background="#33ffa8"
+            android:background="#f6ddcc"
             >
 
             <EditText
@@ -35,7 +35,9 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Enter Destination"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+
+                />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/search_recycler_view"
@@ -52,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_weight=".35"
             android:text="Submit"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimary"
             android:textStyle="bold"/>
 
 
@@ -61,10 +63,10 @@
     <LinearLayout
         android:id="@+id/submitlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="60dp"
         android:layout_below="@+id/linearlayout"
+        android:background="@color/colorPrimary"
         android:visibility="gone">
 
         <Button
@@ -81,32 +83,33 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".35"
-            android:text="Retry/Cancel"
+            android:text="Cancel"
             android:textColor="@color/colorPrimary"/>
     </LinearLayout>
 
 
         <LinearLayout
             android:id="@+id/distancecalc_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
+            android:layout_below="@+id/linearlayout"
             android:visibility="gone">
 
             <TextView
                 android:id="@+id/distance_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
                 android:text="Distance to Destination: "
+                android:textColor="@color/colorPrimary"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/distance_calc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
                 android:text="0"
+                android:textColor="#dc7633"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
         </LinearLayout>
 

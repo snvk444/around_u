@@ -48,7 +48,7 @@
             android:layout_height="40dp"
             android:clickable="true"
             android:text="Go Back"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimary"
             android:textStyle="bold" />
 
         <Button
@@ -58,7 +58,7 @@
             android:layout_marginLeft="5dp"
             android:clickable="true"
             android:text="Track My Path"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimary"
             android:textStyle="bold" />
     </LinearLayout>
 

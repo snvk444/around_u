@@ -365,17 +365,7 @@ public class MainActivity extends AppCompatActivity
                 int duration = Snackbar.LENGTH_INDEFINITE;
                 showSnackbar(view, message, duration);
                 //fab - click to point out the busstop. does this work???
-                googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-                    @Override
-                    public void onMapLongClick(LatLng point) {
-                        googleMap.clear();
-                        submitlayout.setVisibility(View.VISIBLE);
-                        googleMap.addMarker(new MarkerOptions()
-                                .position(point)
-                                .title("Selected Location")
-                                .snippet("")).showInfoWindow();
-                    }
-                });
+
             }
         });
 
@@ -463,6 +453,7 @@ public class MainActivity extends AppCompatActivity
                 user_loc_input = null;
                 //todo user_loc_input location on the map should be removed, remaining points should be still visible.
                 submitlayout.setVisibility(View.GONE);
+
             }
         });
 
@@ -566,8 +557,9 @@ public class MainActivity extends AppCompatActivity
                     Marker m;
 
                     //testing the data. Assigning latnlong manually for now.
-                    double latitude = 17.736921;
-                    double longitude = 83.307273;
+                    //17.694948, 83.292365 - old head post office
+                    double latitude = 17.694948;
+                    double longitude = 83.292365;
                     item_selected_1 = "Bus";
                     List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
                     int busstops_1 = markers.size();
@@ -1032,6 +1024,8 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+
+
     }
 
     @Override
@@ -1203,15 +1197,15 @@ public class MainActivity extends AppCompatActivity
         } else {
             PivotTableData src = markers.get(0);
             PivotTableData dest = markers.get(markers.size() - 1);
-            googleMap.addMarker(new MarkerOptions()
+            /*googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(src.latitude, src.longitude))
                     .title(src.name)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));*/
             builder.include(new LatLng(src.latitude, src.longitude));
 
-            googleMap.addMarker(new MarkerOptions()
+            /*googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(dest.latitude, dest.longitude))
-                    .title(dest.name));
+                    .title(dest.name));*/
             builder.include(new LatLng(dest.latitude, dest.longitude));
 
             for (PivotTableData marker : markers) {
@@ -1223,8 +1217,10 @@ public class MainActivity extends AppCompatActivity
                 builder.include(new LatLng(marker.latitude, marker.longitude));
 
                 if (i == 0) {
-                    user_lat = 17.736921;
-                    user_long = 83.307273;
+
+                    //17.694948, 83.292365 - old head post office
+                    user_lat = 17.694948;
+                    user_long = 83.292365;
                     //todo use the below user_lat and user_long for actual distance calculation.
                     //user_lat = currentLocation.getLatitude();
                     //user_long = currentLocation.getLongitude();
@@ -1238,22 +1234,12 @@ public class MainActivity extends AppCompatActivity
                     next_stop_long = marker.longitude;
                 }
 
-
-
                 double theta = user_long - next_stop_long;
                 double dist = Math.sin(deg2rad(next_stop_lat)) * Math.sin(deg2rad(user_lat)) + Math.cos(deg2rad(user_lat)) *
                         Math.cos(deg2rad(next_stop_lat)) * Math.cos(deg2rad(theta));
                 dist = Math.acos(dist);
                 dist = rad2deg(dist);
                 distance = distance + (dist*60*1.1515);
-
-
-/*
-                distance = distance + (Math.acos(Math.cos(Math.toRadians(90 - user_lat)) *
-                        Math.cos(Math.toRadians(90 - user_lat)) + Math.sin(Math.toRadians(90 - user_lat)) *
-                        Math.sin(Math.toRadians(90 - user_lat)) * Math.cos(Math.toRadians(user_long - next_stop_long))) * 6371);
-*/
-
 
             }
             distance_calc.setText(String.valueOf((int) distance) + "Km");
@@ -1262,6 +1248,21 @@ public class MainActivity extends AppCompatActivity
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
             googleMap.animateCamera(cameraUpdate);
             linear_Layout_1.setVisibility(View.GONE);
+
+            googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                @Override
+                public void onMapLongClick(LatLng point) {
+                    googleMap.clear();
+                    distancecalc_layout.setVisibility(View.GONE);
+                    distancecalc_layout.setVisibility(View.GONE);
+                    submitlayout.setVisibility(View.VISIBLE);
+                    googleMap.addMarker(new MarkerOptions()
+                            .position(point)
+                            .title("Selected Location")
+                            .snippet("")).showInfoWindow();
+                }
+            });
+
             setLocation();
         }
     }
