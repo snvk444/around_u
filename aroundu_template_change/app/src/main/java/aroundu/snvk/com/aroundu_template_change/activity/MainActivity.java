@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity
     private LatLngBounds bounds;
     SharedPreferences prefs, prefs_bus, prefs_coverage;
     PopupWindow popupWindow;
+    boolean doubleBackToExitPressedOnce = false;
 
 
     @Override
@@ -530,7 +531,7 @@ public class MainActivity extends AppCompatActivity
 
 
                 googleMap.clear();
-                googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                /*googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                     @Override
                     public void onMapLongClick(LatLng point) {
                         //googleMap.clear();
@@ -544,7 +545,7 @@ public class MainActivity extends AppCompatActivity
                                 .snippet("")).showInfoWindow();
                         user_loc_input = point;
                     }
-                });
+                });*/
 
                 //toggleFabMenu();
                 if (fabMenuOpen) {
@@ -1016,7 +1017,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        /*DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (expanded) {
@@ -1024,7 +1025,22 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+*/
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
 
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click the button again to exit the application.", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
 
     }
 
@@ -1249,20 +1265,21 @@ public class MainActivity extends AppCompatActivity
             googleMap.animateCamera(cameraUpdate);
             linear_Layout_1.setVisibility(View.GONE);
 
-            googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-                @Override
-                public void onMapLongClick(LatLng point) {
-                    googleMap.clear();
-                    distancecalc_layout.setVisibility(View.GONE);
-                    distancecalc_layout.setVisibility(View.GONE);
-                    submitlayout.setVisibility(View.VISIBLE);
-                    googleMap.addMarker(new MarkerOptions()
-                            .position(point)
-                            .title("Selected Location")
-                            .snippet("")).showInfoWindow();
-                }
-            });
-
+            if(fab.getVisibility() != 0) {
+                googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                    @Override
+                    public void onMapLongClick(LatLng point) {
+                        googleMap.clear();
+                        distancecalc_layout.setVisibility(View.GONE);
+                        distancecalc_layout.setVisibility(View.GONE);
+                        submitlayout.setVisibility(View.VISIBLE);
+                        googleMap.addMarker(new MarkerOptions()
+                                .position(point)
+                                .title("Selected Location")
+                                .snippet("")).showInfoWindow();
+                    }
+                });
+            }
             setLocation();
         }
     }
