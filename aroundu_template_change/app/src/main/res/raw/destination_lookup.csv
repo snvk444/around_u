@@ -1,786 +1,753 @@
-ActualName,DestinationLookUp,
-A Koduru,A Koduru,TRUE
-Adarsh Nagar,Adarsh Nagar,TRUE
-Old Dairy Farm,Adarsh Nagar,FALSE
-Adduru,Adduru,TRUE
-Adivivaram,Adivivaram,TRUE
-Aganampudi ,Aganampudi ,TRUE
-Aganampudi Tollgate,Aganampudi ,FALSE
-Agraharam,Agraharam,TRUE
-ajanagiri,ajanagiri,TRUE
-ajanagiri colony,ajanagiri,FALSE
-Akkayyapalem,Akkayyapalem,TRUE
-Akkayyapalem Highway,Akkayyapalem,FALSE
-Akkireddipalem,Akkireddipalem,TRUE
-Allipuram,Allipuram,TRUE
-AMAL College Junction,AMAL College Junction,TRUE
-amanam,amanam,TRUE
-Ambedkar Colony,Ambedkar Colony,TRUE
-Ambedkar Nagar,Ambedkar Nagar,TRUE
-American Hospital,American Hospital,TRUE
-AMG School/ College,AMG School/ College,TRUE
-Amrutapuram,Amrutapuram,TRUE
-Anakapalle - RTC Complex,Anakapalle - RTC Complex,TRUE
-Anakapalle ByPass Road,Anakapalle ByPass Road,TRUE
-Anakapalle Court (near Vizianagaram Road),Anakapalle Court (near Vizianagaram Road),TRUE
-Anakapalle Four Road Junction,Anakapalle Four Road Junction,TRUE
-Anandapuram ,Anandapuram ,TRUE
-Anandapuram Junction ,Anandapuram Junction ,TRUE
-Anantapuram (Near Devarapalli),Anantapuram (Near Devarapalli),TRUE
-Ananthavaram ,Ananthavaram ,TRUE
-Ananthavaram Centre,Ananthavaram ,FALSE
-Andhra University Register Office,Andhra University Register Office,TRUE
-AU IN GATE,AU IN GATE,TRUE
-AU OUTGATE,AU OUTGATE,TRUE
-Andhra University Register Office,Andhra University,FALSE
-AU IN GATE,Andhra University,FALSE
-AU OUTGATE,Andhra University,FALSE
-ANITS College,ANITS College,TRUE
-Anjali Murthy Nagar 3rd Line ,Anjali Murthy Nagar 3rd Line ,TRUE
-Ankajosyulapalem,Ankajosyulapalem,TRUE
-Anthakapalli,Anthakapalli,TRUE
-APHB Colony Main ,APHB Colony Main ,TRUE
-Appannapalem (Near Gosthani River),Appannapalem (Near Gosthani River),TRUE
-Appannapalem (Simhapuri Colony),Appannapalem (Simhapuri Colony),TRUE
-Appikonda,Appikonda,TRUE
-Appughar,Appughar,TRUE
-Appughar(MVP MainRoad Junction),Appughar,FALSE
-AQJ College,AQJ College,TRUE
-Ardhannapalem,Ardhannapalem,TRUE
-Arilova,Arilova,TRUE
-Arilova Colony,Arilova,FALSE
-Aripaka,Aripaka,TRUE
-Arli,Arli,TRUE
-Arli Junction,Arli,FALSE
-Arts College,Arts College,TRUE
-Aruna Zute Mills,Aruna Zute Mills,TRUE
-Asakapalli,Asakapalli,TRUE
-Ashok Nagar ,Ashok Nagar ,TRUE
-Asilmetta Junction,Asilmetta Junction,TRUE
-Sampath Vinayaka Temple,Asilmetta Junction,FALSE
-Auto Nagar ,Auto Nagar ,TRUE
-Avanthi Engineering College,Avanthi Engineering College,TRUE
-Ayyannapalem,Ayyannapalem,TRUE
-Baba bazar (Lawsons Bay Colony),Baba bazar (Lawsons Bay Colony),TRUE
-Baji Junction ,Baji Junction ,TRUE
-Bakkannapalem,Bakkannapalem,TRUE
-Balaganapathi Temple ,Balaganapathi Temple ,TRUE
-Balaji Nagar,Balaji Nagar,TRUE
-BalaKrishna ,BalaKrishna ,TRUE
-Bennavaram ,Bennavaram ,TRUE
-Bhimili (Dhora thota),Bheemili,FALSE
-Bhimili Police Station,Bheemili Police Station,FALSE
-Bhimili RTC Complex,Bheemili RTC Complex,FALSE
-Bheemunipatnam Y Junction (Cross Roads),Bheemunipatnam Y Junction (Cross Roads),TRUE
-Bhimili (Dhora thota),Bhimili,FALSE
-Bhimili Police Station,Bhimili Police Station,TRUE
-Bhimili RTC Complex,Bhimili RTC Complex,TRUE
-Bheemunipatnam Y Junction (Cross Roads),Bhimili Y Junction (Cross Roads),FALSE
-Bhogapuram,Bhogapuram,TRUE
-BHPV ,BHPV ,TRUE
-Birla ,Birla ,TRUE
-Boddapalem,Boddapalem,TRUE
-Boddavalasa,Boddavalasa,TRUE
-Boravanipalem,Boravanipalem,TRUE
-Boyapalem ,Boyapalem ,TRUE
-BRTS,BRTS,TRUE
-Buchirajupalem,Buchirajupalem,TRUE
-Bullayya College (Towards Rama Talkies),Bullayya College (Towards Rama Talkies),TRUE
-Bullayya College (Towards Satyam Computers),Bullayya College (Towards Satyam Computers),TRUE
-Bullayya College (Towards Rama Talkies),Bullayya College,FALSE
-Bullayya College (Towards Satyam Computers),Bullayya College,FALSE
-Burmanguda ,Burmanguda ,TRUE
-Butchiyyapeta ,Butchiyyapeta ,TRUE
-BVK College,BVK College,TRUE
-Bypureddypalem ,Bypureddypalem ,TRUE
-Carshed,Carshed,TRUE
-PMPalem Chaitanya College,PMPalem Chaitanya College,TRUE
-PMPalem Chaitanya College,Carshed,FALSE
-Century Club ,Century Club ,TRUE
-Chaitanya School (Pedhagantyada),Chaitanya School (Pedhagantyada),TRUE
-Chandana Bros ,Chandana Bros ,TRUE
-Chandrampalem ZP High School,Chandrampalem ZP High School,TRUE
-chandrayyapeta,chandrayyapeta,TRUE
-Chavulamadam,Chavulamadam,TRUE
-Convent Junction,Chavulamadam,FALSE
-Cheemala Palli,Cheemala Palli,TRUE
-Cheemala Palli,Chimala Palli,FALSE
-Chinagadili,Chinagadili,TRUE
-Chinagudipala,Chinagudipala,TRUE
-Chinappannapalem,Chinappannapalem,TRUE
-chinayathapalem,chinayathapalem,TRUE
-Chinna Gantyada ,Chinna Gantyada ,TRUE
-Chinna Rushikonda,Chinna Rushikonda,TRUE
-Chinna Waltair,Chinna Waltair,TRUE
-Chinnamushudiwada,Chinnamushudiwada,TRUE
-Savitri Nagar,Chinnamushudiwada,FALSE
-Vuda Colony (Near Chinnamushudiwada),Chinnamushudiwada,FALSE
-Chinnapalem,Chinnapalem,TRUE
-Chinnapuram Junction,Chinnapuram Junction,TRUE
-Chinnaraopalli,Chinnaraopalli,TRUE
-Chinnayyapalem,Chinnayyapalem,TRUE
-Chintagatla,Chintagatla,TRUE
-Chintala Agraharam,Chintala Agraharam,TRUE
-Chintaladimma,Chintaladimma,TRUE
-Chintalagraharam (Near Vepagunta),Chintalagraharam (Near Vepagunta),TRUE
-Chinthalapalem,Chinthalapalem,TRUE
-Chodavaram,Chodavaram,TRUE
-Purna Theatre,Chodavaram,FALSE
-Choultry,Choultry,TRUE
-CISF Children Park,CISF Children Park,TRUE
-CMR Central,CMR Central,TRUE
-Collector Office ,Collector Office ,TRUE
-Chavulamadam,Chavulamadam,TRUE
-Chavulamadam,Convent Junction,FALSE
-Convent Junction,Convent Junction,TRUE
-Coromandal Gate,Coromandal Gate,TRUE
-CWC ,CWC ,TRUE
-D YellavaramJunction ,D YellavaramJunction ,TRUE
-Daba Gardens,Daba Gardens,TRUE
-Dasarivanipalem,Dasarivanipalem,TRUE
-Dayal Nagar,Dayal Nagar,TRUE
-Desa pathrunipalem (near Steel Plant),Desa pathrunipalem (near Steel Plant),TRUE
-Desa patrunipalem (near Kothavalasa),Desa patrunipalem (near Kothavalasa),TRUE
-Devada,Devada,TRUE
-Devada (Devarapalle Road),Devada,FALSE
-Devarapalle,Devarapalle,TRUE
-Devipuram,Devipuram,TRUE
-Devipuram Highway,Devipuram,FALSE
-Dhayala Nagar (104 Area),Dhayala Nagar (104 Area),TRUE
-Bhimili (Dhora thota),Dhora Thota,FALSE
-Dhora thota,Dhora thota,TRUE
-Dhora thota (near Bheemili),Dhora thota,FALSE
-Dibbapalem R.H Colony,Dibbapalem R.H Colony,TRUE
-District Judge Court ,District Judge Court ,TRUE
-District Judge Court ,District Judge Court ,TRUE
-Divis,Divis,TRUE
-Dockyard,Dockyard,TRUE
-NDV,NDV,TRUE
-NDV,Dockyard,FALSE
-Dolphin Office,Dolphin Office,TRUE
-Dondaparthy ,Dondaparthy ,TRUE
-Dondaparthy (Railway New Colony Road),Dondaparthy ,FALSE
-Dondapudi,Dondapudi,TRUE
-Dosuru,Dosuru,TRUE
-Drgada ,Drgada ,TRUE
-Duddupalem Junction,Duddupalem Junction,TRUE
-Dukkavanipalem,Dukkavanipalem,TRUE
-Durga Bazar,Durga Bazar,TRUE
-Durga Temple,Durga Temple,TRUE
-Duvvada Bridge,Duvvada Bridge,TRUE
-Duvvada Railway Station,Duvvada Railway Station,TRUE
-East Point Colony,East Point Colony,TRUE
-Eenadu ,Eenadu ,TRUE
-Eenadu (Towards Satyam Junction),Eenadu ,FALSE
-EMP X Roads (Lankelapalem Junction),EMP X Roads (Lankelapalem Junction),TRUE
-Endada,Endada,TRUE
-Endada (beach Rd),Endada,FALSE
-Endada Petrol Bunk,Endada,FALSE
-Endamilli  ,Endamilli  ,TRUE
-Erukunaidupalem,Erukunaidupalem,TRUE
-Essar,Essar,TRUE
-Ex-Service Men Colony,Ex-Service Men Colony,TRUE
-Eye Care Opticals ,Eye Care Opticals ,TRUE
-Fakeertakiya,Fakeertakiya,TRUE
-Fifth Town Police Station ,Fifth Town Police Station ,TRUE
-Fishing Harbour,Fishing Harbour,TRUE
-Four Road Junction  ,Four Road Junction  ,TRUE
-Fourth Town Police Station,Fourth Town Police Station,TRUE
-Gajuwaka Bus Depot,Gajuwaka Bus Depot,TRUE
-Gali bheemavaram,Gali bheemavaram,TRUE
-Gandhinagaram ,Gandhinagaram ,TRUE
-Gandigundam,Gandigundam,TRUE
-Gandipalem,Gandipalem,TRUE
-Gangadevipate ,Gangadevipate ,TRUE
-Gangavaram Colony,Gangavaram,FALSE
-Gangavaram Junction,Gangavaram,FALSE
-Garava Jaggayyapalem,Garava Jaggayyapalem,TRUE
-Gas Company (Anakapalle Rd),Gas Company (Anakapalle Rd),TRUE
-Gas Company (Gas Authority of India),Gas Company (Gas Authority of India),TRUE
-Gavara Anakapalle ,Gavara Anakapalle ,TRUE
-Geddapeta Junction,Geddapeta Junction,TRUE
-Ghat Road (Madugula),Ghat Road (Madugula),TRUE
-Gidijala,Gidijala,TRUE
-Gidijala Center,Gidijala,FALSE
-Giribabu Bypureddy ,Giribabu Bypureddy ,TRUE
-East Point Colony,Girijan Corporation,FALSE
-Gitam,Gitam,TRUE
-Gitam University (Entrance),Gitam,FALSE
-Gnanapuram,Gnanapuram,TRUE
-Gnanapuram (near Waltair Railway Station),Gnanapuram,FALSE
-Gokivada,Gokivada,TRUE
-Gokivada Junction Bus Station,Gokivada,FALSE
-Golden Layout (Saripalli),Golden Layout (Saripalli),TRUE
-Gollalapalem Bus Station,Gollalapalem Bus Station,TRUE
-Gollapalem,Gollapalem,TRUE
-Gopalapatnam ,Gopalapatnam ,TRUE
-Gorlevanipalem,Gorlevanipalem,TRUE
-Gotivada,Gotivada,TRUE
-Govada,Govada,TRUE
-Governer Bungalow,Governer Bungalow,TRUE
-Govindapalem,Govindapalem,TRUE
-Gowri Nagar Junction,Gowri Nagar Junction,TRUE
-Gowripatham ,Gowripatham ,TRUE
-Green City,Green City,TRUE
-Green Park,Green Park,TRUE
-Gudilova,Gudilova,TRUE
-Gudilova Hostel,Gudilova,FALSE
-Gullepalle,Gullepalle,TRUE
-Gullepalle Junction,Gullepalle,FALSE
-Guntaseema Bus Station,Guntaseema Bus Station,TRUE
-Gurudwara,Gurudwara,TRUE
-GVMC ,GVMC ,TRUE
-Hanumanthawaka,Hanumanthawaka,TRUE
-Hanumanthawaka (Near Market Yard),Hanumanthawaka,FALSE
-Haripalem,Haripalem,TRUE
-HB Colony Last ,HB Colony Last ,TRUE
-MMTC,MMTC,TRUE
-MMTC,HB Colony Post Office,FALSE
-HCC Company,HCC Company,TRUE
-Housing Board (PM Palem),Housing Board (PM Palem),TRUE
-ITI Junction,ITI Junction,TRUE
-ITI Junction,Industrial Estate,FALSE
-INS Circars,INS Circars,TRUE
-INS Kalinga ,INS Kalinga ,TRUE
-INS Satavahana,INS Satavahana,TRUE
-Iruvada,Iruvada,TRUE
-Islampeta,Islampeta,TRUE
-Isukathota,Isukathota,TRUE
-IT Park,IT Park,TRUE
-ITI Junction,ITI Junction,TRUE
-J K Layout,J K Layout,TRUE
-Jagadamba ,Jagadamba ,TRUE
-Chandana Bros ,Chandana Bros ,TRUE
-Lepakshi,Lepakshi,TRUE
-Chandana Bros ,Jagadamba ,FALSE
-Lepakshi,Jagadamba ,FALSE
-Jail Road ,Jail Road ,TRUE
-Jail Road Junction,Jail Road ,FALSE
-Jajulavanipalem,Jajulavanipalem,TRUE
-Jammi Devara Peta,Jammi Devara Peta,TRUE
-Nallabilli,Nallabilli,TRUE
-Nallabilli,Jammi Devara Peta,FALSE
-Janatha Colony,Janatha Colony,TRUE
-Jangala Palem ,Jangala Palem ,TRUE
-Jangalapalem near Gotivada,Jangalapalem near Gotivada,TRUE
-Jangalapalli,Jangalapalli,TRUE
-Jeerupeta Rayapalem Post,Jeerupeta Rayapalem Post,TRUE
-Jerripothulapalem,Jerripothulapalem,TRUE
-Jodugulla Palem,Jodugulla Palem,TRUE
-Jonnada,Jonnada,TRUE
-CMR Central,Judge court,FALSE
-District Judge Court ,Judge Court,FALSE
-Judge Court ,Judge Court ,TRUE
-K Chandrayyapeta,K Chandrayyapeta,TRUE
-K Kotapadu,K Kotapadu,TRUE
-K Santapalem ,K Santapalem ,TRUE
-Kailasagiri,Kailasagiri,TRUE
-Kailasagiri Rope Way,Kailasagiri Rope Way,TRUE
-Kailasagiri Rope Way,Kailasagiri,FALSE
-Kailaspuram,Kailaspuram,TRUE
-Kakani Nagar,Kakani Nagar,TRUE
-Kakani Nagar ,Kakani Nagar ,TRUE
-Kakarlova,Kakarlova,TRUE
-Kakatiya ITI Junction,Kakatiya ITI Junction,TRUE
-Kalapaka,Kalapaka,TRUE
-Kalapaka Junction,Kalapaka Junction,TRUE
-Kalinganagar ,Kalinganagar ,TRUE
-Zoo Park (Front Gate),Kambalkonda,FALSE
-Kancharapalem ,Kancharapalem ,TRUE
-Kancharapalem (Muthyamamba Temple),Kancharapalem ,FALSE
-Kantakapalli,Kantakapalli,TRUE
-Kantakapalli Railway Station Road,Kantakapalli,FALSE
-Karasa ,Karasa ,TRUE
-Karnavani Palem Bustop 1,Karnavani palem,FALSE
-Karnavani Palem Bustop 2,Karnavani palem,FALSE
-Kasimkota ,Kasimkota ,TRUE
-Kasipuram,Kasipuram,TRUE
-Kata ,Kata ,TRUE
-KG Penta1,KG Penta,FALSE
-KG Penta2,KG Penta,FALSE
-KGH ,KGH ,TRUE
-KGH Out-Patient GATE,KGH Out-Patient GATE,TRUE
-Khandivaram Village,Khandivaram Village,TRUE
-Kokkira palli,Kokkira palli,TRUE
-Kollivanipalem,Kollivanipalem,TRUE
-Kommadi Junction,Kommadi Junction,TRUE
-Kommadi Village,Kommadi Village,TRUE
-Kondakarla Junction,Kondakarla Junction,TRUE
-Konnuru,Konnuru,TRUE
-Koppaka ,Koppaka ,TRUE
-Korada ,Korada ,TRUE
-Koruvada,Koruvada,TRUE
-Kuruvada,Koruvada,FALSE
-Kotavuratla ,Kotavuratla ,TRUE
-Kotha Kovvada Road,Kotha Kovvada Road,TRUE
-KothaKota,KothaKota,TRUE
-Kothapatnam,Kothapatnam,TRUE
-Kothavalasa,Kothavalasa,TRUE
-Kothavalasa Junction,Kothavalasa Junction,TRUE
-Kothavalasa Railway Station,Kothavalasa Railway Station,TRUE
-Kothuru Anakapalle,Kothuru Anakapalle,TRUE
-Kothuru Junction,Kothuru Junction,TRUE
-Kotta nagavaram,Kotta nagavaram,TRUE
-Kottha Yellavaram ,Kottha Yellavaram ,TRUE
-Kotturu,Kotturu,TRUE
-Kovvada,Kovvada,TRUE
-Koyyalapadu Junction,Koyyalapadu Junction,TRUE
-Kranthi Nagar,Kranthi Nagar,TRUE
-Krishna College Road,Krishna College Road,TRUE
-Krishna Nagar Bhimili,Krishna Nagar Bhimili,TRUE
-Krishna Puram,Krishna Puram,TRUE
-Krishnampuram,Krishnampuram,TRUE
-Krishnaraya puram,Krishnaraya puram,TRUE
-Kummapalle,Kummapalle,TRUE
-Kurmannapalem - RTC Complex,Kurmannapalem,FALSE
-Kurmannapalem Bus Station,Kurmannapalem,FALSE
-Kurpam Market,Kurpam Market,TRUE
-Kurupam Circle,Kurupam Circle,TRUE
-Kuruvada,Kuruvada,TRUE
-Koruvada,Kuruvada,FALSE
-Lagisettipalem,Lagisettipalem,TRUE
-Lakshmi Talkies,Lakshmi Talkies,TRUE
-Lakshmipuram Village,Lakshmipuram Village,TRUE
-Lankavani palem,Lankavani palem,TRUE
-EMP X Roads (Lankelapalem Junction),EMP X Roads (Lankelapalem Junction),TRUE
-EMP X Roads (Lankelapalem Junction),Lankelapalem,FALSE
-Lankelapalem (North Towards Kannuru),Lankelapalem,FALSE
-Lankelapalem (South Towards Parawada),Lankelapalem,FALSE
-Law College,Law College,TRUE
-Lawsons Bay,Lawsons Bay,TRUE
-Lawsons Bay (Towards Vuda Park),Lawsons Bay,FALSE
-Leela Krishna Toyota,Leela Krishna Toyota,TRUE
-Lemarthi,Lemarthi,TRUE
-Lendi College,Lendi College,TRUE
-Lepakshi,Lepakshi,TRUE
-lingala tirugudu ,lingala tirugudu ,TRUE
-Lions Club,Lions Club,TRUE
-Ramnagar,Lions Club,FALSE
-Ramnagar,Ramnagar,TRUE
-Lopudi,Lopudi,TRUE
-Maddi,Maddi,TRUE
-Maddi Road ,Maddi Road ,TRUE
-Maddilapalem (Sai Ram Hotel),Maddilapalem,FALSE
-Maddilapalem Depot,Maddilapalem,FALSE
-Madhavadhara ,Madhavadhara ,TRUE
-Madhavadhara (Near Sree Kanaka Durga Function Hall),Madhavadhara ,FALSE
-Madhurawada Depot,Madhurawada Depot,TRUE
-Madhurawada Depot,Madhurwada,FALSE
-Madhurwada,Madhurwada,TRUE
-Madhurwada Junction,Madhurwada Junction,TRUE
-Madhurwada Junction,Madhurwada,FALSE
-Chandrampalem ZP High School,Chandrampalem ZP High School,TRUE
-Chandrampalem ZP High School,Madhurwada,FALSE
-Madhusudana Nagar,Madhusudana Nagar,TRUE
-Madugula,Madugula,TRUE
-Maharajupeta Junction,Maharajupeta Junction,TRUE
-Maharani peta,Maharani peta,TRUE
-Mahati English Medium School Bus Stop,Mahati English Medium School Bus Stop,TRUE
-Mahati English Medium School Bus Stop,Pavani Medicals,FALSE
-Majjivalasa,Majjivalasa,TRUE
-Malapalli Junction ,Malapalli Junction ,TRUE
-Malkapuram,Malkapuram,TRUE
-Mallinaidu palem,Mallinaidu palem,TRUE
-Mamidilova,Mamidilova,TRUE
-Sontyam,Sontyam,TRUE
-Sontyam,Mamidilova,FALSE
-Manchala Village ,Manchala Village ,TRUE
-Mangalapalem,Mangalapalem,TRUE
-Mangalapalem Highway,Mangalapalem,FALSE
-Mangamari peta,Mangamari peta,TRUE
-Marikavalasa,Marikavalasa,TRUE
-Marikavalasa Highway,Marikavalasa,FALSE
-Marripalem ,Marripalem ,TRUE
-Marripalem ,Marripalem ,TRUE
-Marripalem (104 Area),Marripalem (104 Area),TRUE
-Marripalem (Gali Bheemavaram),Marripalem (Gali Bheemavaram),TRUE
-Masjid ,Masjid ,TRUE
-Medivada Village ,Medivada Village ,TRUE
-Mental Hospital,Mental Hospital,TRUE
-Mettapalem,Mettapalem,TRUE
-Mindi,Mindi,TRUE
-Mindivani palem,Mindivani palem,TRUE
-Missionary School (Kommadi),Missionary School (Kommadi),TRUE
-Mithilapuri Vuda Colony,Mithilapuri Vuda Colony,TRUE
-MMTC,MMTC,TRUE
-MMTC,MMTC,TRUE
-Modhavalasa,Modhavalasa,TRUE
-Mogalipuram,Mogalipuram,TRUE
-Moolapeta ,Moolapeta ,TRUE
-Mopada,Mopada,TRUE
-Mudasarlova,Mudasarlova,TRUE
-Mulagapudi ,Mulagapudi ,TRUE
-Munagapaaka,Munagapaaka,TRUE
-Municipal Stadium (Pata Bus Stand),Municipal Stadium (Pata Bus Stand),TRUE
-Muralinagar (Burma Colony),Muralinagar (Burma Colony),TRUE
-Muralinagar (Nehru Nagar),Muralinagar (Nehru Nagar),TRUE
-Musiram,Musiram,TRUE
-Mutcherla,Mutcherla,TRUE
-MVP Bus Depot (Rythu Bazaar),MVP Bus Depot,FALSE
-MVP Colony Bus Depot (Muvvalavanipalem (Depot)),MVP Bus Depot,FALSE
-MVP Circle,MVP Circle,TRUE
-MVP Colony (Vijaya Hospitals),MVP Colony (Vijaya Hospitals),TRUE
-MVP Gothisons,MVP Gothisons,TRUE
-Naamavaram ,Naamavaram ,TRUE
-NAD ,NAD ,TRUE
-Nadupuru,Nadupuru,TRUE
-Nadupuru Dairy colony,Nadupuru,FALSE
-Nagarapalem,Nagarapalem,TRUE
-Naidu Thota,Naidu Thota,TRUE
-Naidu Thota Junction ,Naidu Thota Junction ,TRUE
-Naidupalem,Naidupalem,TRUE
-Nakkapalli Bus Station,Nakkapalli Bus Station,TRUE
-Nallabilli,Nallabilli,TRUE
-Nallabilli,Nallabilli,TRUE
-Jammi Devara Peta,Nallabilli,FALSE
-Nammidoddi Junction,Nammidoddi Junction,TRUE
-Narapadu,Narapadu,TRUE
-Narapam (Devada Rd),Narapam (Devada Rd),TRUE
-Narayanapuram,Narayanapuram,TRUE
-Narsipatnam - RTC Complex,Narsipatnam - RTC Complex,TRUE
-Narsipatnam Bus Depot,Narsipatnam - RTC Complex,FALSE
-Nathayyapalem,Nathayyapalem,TRUE
-Nathayyapalem Highway,Nathayyapalem,FALSE
-Nausana Baugh Entrance,Nausena Baugh,FALSE
-Nausena Baugh,Nausena Baugh,TRUE
-NDV,NDV,TRUE
-Neelakantarajapuram,Neelakantarajapuram,TRUE
-Neelakundeelu,Neelakundeelu,TRUE
-New Gajuwaka ,New Gajuwaka ,TRUE
-New Gajuwaka Market ,New Gajuwaka ,FALSE
-New Gajuwaka Theatres ,New Gajuwaka ,FALSE
-NGGO Colony,NGGO Colony,TRUE
-Nookalamma Temple,Nookalamma Temple,TRUE
-Rythu Bazaar,Nookalamma Temple ,FALSE
-NTPC Deepanjalinagar,NTPC Deepanjalinagar,TRUE
-NTPC Visakhapatnam,NTPC Visakhapatnam,TRUE
-Nunaparti,Nunaparti,TRUE
-Chodavaram (Old Bus Stand),Chodavaram (Old Bus Stand),TRUE
-Old Bus Stand (Narsipatnam),Old Bus Stand (Narsipatnam),TRUE
-Old Bus Stand (Venkannapalem),Old Bus Stand (Venkannapalem),TRUE
-Old Bypureddypalem ,Old Bypureddypalem ,TRUE
-Old CBI,Old CBI,TRUE
-Old Dairy Farm,Old Dairy Farm,TRUE
-Adarsh Nagar,Old Dairy Farm,FALSE
-Adarsh Nagar,Old Dairy Farm,FALSE
-Old Gajuwaka,Old Gajuwaka,TRUE
-Old Gajuwaka MainRoad ,Old Gajuwaka,FALSE
-Old Head Post Office (OHPO),Old Head Post Office (OHPO),TRUE
-One Town,One Town,TRUE
-One Town (Towards OHPO),One Town,FALSE
-Paderu - RTC Complex,Paderu - RTC Complex,TRUE
-Padmanabham ,Padmanabham ,TRUE
-Palavalasa,Palavalasa,TRUE
-Panchadarla,Panchadarla,TRUE
-Pandrangi,Pandrangi,TRUE
-Panthulugari Meda ,Panthulugari Meda ,TRUE
-Paradesipalem,Paradesipalem,TRUE
-Parawada,Parawada,TRUE
-Parawada Cinema Hall,Parawada Cinema Hall,TRUE
-Parawada MRO Office,Parawada MRO Office,TRUE
-Parawada Sub Station,Parawada Sub Station,TRUE
-Chinnayyapalem,Chinnayyapalem,TRUE
-Chinnayyapalem,Pataroad,FALSE
-Patha Kovvada,Patha Kovvada,TRUE
-Mahati English Medium School Bus Stop,Pavani Medicals,FALSE
-Pavani Medicals,Pavani Medicals,TRUE
-Peda Narava,Peda Narava,TRUE
-Pedabayalu ,Pedabayalu ,TRUE
-Pedagadhili,Pedagadhili,TRUE
-Pedagantyada ,Pedagantyada ,TRUE
-Pedamusidivada,Pedamusidivada,TRUE
-Pedamusidivada Highway,Pedamusidivada,FALSE
-Pedaraopalli,Pedaraopalli,TRUE
-Pedda Rushikonda,Pedda Rushikonda,TRUE
-Pedda Waltair,Pedda Waltair,TRUE
-Pedda Waltair (Towards Mental Hospital),Pedda Waltair (Towards Mental Hospital),TRUE
-Peddapalem ,Peddapalem ,TRUE
-Peddipalem,Peddipalem,TRUE
-Pendurthi,Pendurthi,TRUE
-Pendurthi (Narsipatnam Road),Pendurthi (Narsipatnam Road),TRUE
-Pendurthi General Hospital,Pendurthi General Hospital,TRUE
-Pendurthi Govt. Junior College ,Pendurthi Govt. Junior College ,TRUE
-Pendurthi Main Junction ,Pendurthi Main Junction ,TRUE
-PF Office,PF Office,TRUE
-Pinagadi Junction,Pinagadi Junction,TRUE
-Pine Apple Colony,Pine Apple Colony,TRUE
-Pittavanipalem,Pittavanipalem,TRUE
-PMPalem Chaitanya College,PMPalem Chaitanya College,TRUE
-PMPalem Chaitanya College,PMPalem Chaitanya College,TRUE
-Police Barracks ,Police Barracks ,TRUE
-Polipalli,Polipalli,TRUE
-Polipalli Junction,Polipalli Junction,TRUE
-Porlupalem,Porlupalem,TRUE
-Port Gymkhana (Old Bus Stand),Port Gymkhana (Old Bus Stand),TRUE
-Port Hospital,Port Hospital,TRUE
-Port Hospital ,Port Hospital ,TRUE
-Port Hospital (Port Quarters),Port Hospital (Port Quarters),TRUE
-Pothinamallayya Palem First Stop (P M Palem),Pothinamallayyapalem (PM Palem),FALSE
-Pothinamallayya Palem Last Stop (P M Palem),Pothinamallayyapalem (PM Palem),FALSE
-Prahaladapuram ,Prahaladapuram ,TRUE
-Prahaladapuram (Near Varahalakshmi Simha Swamy Ashram),Prahaladapuram ,FALSE
-Punjab Hotel,Punjab Hotel,TRUE
-Purna Market (Near Municipal Stadium),Purna Market (Near Municipal Stadium),TRUE
-Punjab Hotel ,Punjab Hotel ,TRUE
-Purna Market ,Purna Market ,TRUE
-Purna Theatre,Purna Theatre,TRUE
-Purushothapuram,Purushothapuram,TRUE
-Purushottapuram (Purushottam),Purushottapuram (Purushottam),TRUE
-Pydah College,Pydah College,TRUE
-Pydiwada,Pydiwada,TRUE
-Pydiwada Agraharam,Pydiwada Agraharam,TRUE
-R & B ,R & B ,TRUE
-R K Beach ,R K Beach ,TRUE
-R K Beach (Kali Temple),R K Beach ,FALSE
-R K Beach - Submarine,R K Beach - Submarine,TRUE
-R K Beach (Kali Temple),R K Beach (Kali Temple),TRUE
-Raavikamatham,Raavikamatham,TRUE
-Raghu Engineering College,Raghu Engineering College,TRUE
-Railway New Colony,Railway New Colony,TRUE
-Raiwada,Raiwada,TRUE
-Rajannapalem,Rajannapalem,TRUE
-Rajiv Nagar,Rajiv Nagar,TRUE
-Rajiv Nagar Centre,Rajiv Nagar,FALSE
-Rajula Tallavalasa ,Rajula Tallavalasa ,TRUE
-Rajupeta,Rajupeta,TRUE
-Rama Talkies ,Rama Talkies ,TRUE
-Ramakrishna Puram (R K Puram),Ramakrishna Puram (R K Puram),TRUE
-Ramalayam (P M Palem),Ramalayam (P M Palem),TRUE
-Ramanarayanam,Ramanarayanam,TRUE
-Ramapadu,Ramapadu,TRUE
-Ramavaram,Ramavaram,TRUE
-Ramayogi Agraharam,Ramayogi Agraharam,TRUE
-Rambilli,Rambilli,TRUE
-Lions Club,Ramnagar,FALSE
-Ramapuram Road ,Rampuram,FALSE
-Rampuram,Rampuram,TRUE
-Pinagadi Junction,Rampuram Road,FALSE
-Ravindra Nagar,Ravindra Nagar,TRUE
-Ravulammapalem,Ravulammapalem,TRUE
-Reading Room Junction,Reading Room Junction,TRUE
-Rebbaka,Rebbaka,TRUE
-Rell veedi,Rell veedi,TRUE
-RMHP,RMHP,TRUE
-RTC Colony,RTC Colony,TRUE
-RTC Complex LIC Building,RTC Complex LIC Building,TRUE
-Rythu Bazaar,Rythu Bazaar,TRUE
-Nookalamma Temple ,Rythu Bazaar,FALSE
-Sabbavaram Register Office,Sabbavaram Register Office,TRUE
-Sabbavaram RTC Complex,Sabbavaram RTC Complex,TRUE
-Sagar Nagar,Sagar Nagar,TRUE
-Sagar Nagar (Local),Sagar Nagar,FALSE
-Sairam Colony (Kommadi),Sairam Colony (Kommadi),TRUE
-Salagramapuram (Port Quarters),Salagramapuram (Port Quarters),TRUE
-Salagramapuram (Santhi Nagar),Salagramapuram (Santhi Nagar),TRUE
-Salapuvanipalem ,Salapuvanipalem ,TRUE
-Asilmetta Junction,sampath vinayaka Temple,FALSE
-Sampath Vinayaka Temple,Sampath Vinayaka Temple,TRUE
-Sangam Office ,Sangam Office ,TRUE
-Sanghivalasa Colony ,Sanghivalasa Colony ,TRUE
-Sanjeev Colony,Sanjeev Colony,TRUE
-Sanjiva Metta,Sanjiva Metta,TRUE
-Sankaram,Sankaram,TRUE
-Sankaram (Anakapalle),Sankaram (Anakapalle),TRUE
-Sankaram (Madugula),Sankaram (Madugula),TRUE
-Santapalem,Santapalem,TRUE
-Saraswati Park ,Saraswati Park ,TRUE
-Saripalli,Saripalli,TRUE
-Satyam Junction,Satyam Junction,TRUE
-Satyanagar ,Satyanagar ,TRUE
-Fifth Town Police Station ,Fifth Town Police Station ,TRUE
-Fifth Town Police Station ,Satyanagar ,FALSE
-Savaravilli,Savaravilli,TRUE
-Chinnamushudiwada,Chinnamushudiwada,TRUE
-Chinnamushudiwada,Savitri Nagar,FALSE
-Scindia,Scindia,TRUE
-Scindia Junction,Scindia,FALSE
-Scindia New Colony,Scindia,FALSE
-Scindia Junction,Scindia Junction,TRUE
-Scindia New Colony,Scindia New Colony,TRUE
-Sector K,Sector K,TRUE
-Seetanagaram,Seetanagaram,TRUE
-Seethammadara NE ,Seethammadhara,FALSE
-Seethammadhara,Seethammadhara,TRUE
-Seethammadhara (Towards Satyam Computers),Seethammadhara,FALSE
-Seethammadhara (Towards Venkojipalem),Seethammadhara,FALSE
-Seethammapeta,Seethammapeta,TRUE
-Seethayyapeta ,Seethayyapeta ,TRUE
-Sheela Nagar Bus Shelter,Sheela Nagar,FALSE
-Sheela Nagar Bus Shelter (local),Sheela Nagar,FALSE
-Simhachalam - RTC Complex,Simhachalam - RTC Complex,TRUE
-Simhachalam Devasthanam Bus Depot,Simhachalam Devasthanam Bus Depot,TRUE
-Simhachalam Dhevasthanam Ghoshala,Simhachalam Dhevasthanam Ghoshala,TRUE
-Simhachalam Hill Curve,Simhachalam Hill Curve,TRUE
-Simhachalam Hills,Simhachalam Hills,TRUE
-Simhachalam Hospital,Simhachalam Hospital,TRUE
-Simhadri (Donkada),Simhadri (Donkada),TRUE
-simhapuri Colony,simhapuri Colony,TRUE
-Singannadorapalem,Singannadorapalem,TRUE
-Singavaram,Singavaram,TRUE
-Sirasapalli,Sirasapalli,TRUE
-Siripuram ,Siripuram ,TRUE
-Sirlapalem,Sirlapalem,TRUE
-Sirlapalem (Kovvudu - Maddi Road),Sirlapalem (Kovvudu - Maddi Road),TRUE
-Sontyam,Sontyam,TRUE
-Mamidilova,Sontyam,FALSE
-Sontyam X Roads,Sontyam X Roads,TRUE
-Sramasakthi Nagar ,Sramasakthi Nagar ,TRUE
-Sri Nagar Street ,Sri Nagar Street ,TRUE
-Sriharipuram,Sriharipuram,TRUE
-SrikanakaMahalaxmi ,SrikanakaMahalaxmi ,TRUE
-Srinagar ,Srinagar ,TRUE
-Srinivasa Nagar (Simhachalam),Srinivasa Nagar (Simhachalam),TRUE
-SRMT,SRMT,TRUE
-St Joseph,St Joseph,TRUE
-St. Joseph College,St. Joseph College,TRUE
-Steel Plant Twp - CPS,Steel Plant Twp - CPS,TRUE
-Steel Plant Twp - DAV Public School,Steel Plant Twp - DAV Public School,TRUE
-Steel Plant Twp - Hospital,Steel Plant Twp - Hospital,TRUE
-Steel Plant Twp - Indhira Gandhi Park ,Steel Plant Twp - Indhira Gandhi Park ,TRUE
-Steel Plant Twp - Kanithi Road,Steel Plant Twp - Kanithi Road,TRUE
-Steel Plant Twp - Main Gate,Steel Plant Twp - Main Gate,TRUE
-Steel Plant Twp - Market ,Steel Plant Twp - Market ,TRUE
-Steel Plant Twp - Sector 1 ,Steel Plant Twp - Sector 1 ,TRUE
-Steel Plant Twp - Sector 11 ,Steel Plant Twp - Sector 11 ,TRUE
-Steel Plant Twp - Sector 12,Steel Plant Twp - Sector 12,TRUE
-Steel Plant Twp - Sector 3 ,Steel Plant Twp - Sector 3 ,TRUE
-Steel Plant Twp - Sector 5 ,Steel Plant Twp - Sector 5 ,TRUE
-Steel Plant Twp - Sector 6 ,Steel Plant Twp - Sector 6 ,TRUE
-Steel Plant Twp - Sector 8 ,Steel Plant Twp - Sector 8 ,TRUE
-Steel Plant Twp - Sector 9 ,Steel Plant Twp - Sector 9 ,TRUE
-Steel Plant Twp - SriChaitanya Jr. College,Steel Plant Twp - SriChaitanya Jr. College,TRUE
-Steel Plant Twp - T & DC ,Steel Plant Twp - T & DC ,TRUE
-Steel Plant Twp - Ukkunagaram ,Steel Plant Twp - Ukkunagaram ,TRUE
-Sujatha Nagar ,Sujatha Nagar ,TRUE
-Sujatha Nagar (Purushotham Bus Stop),Sujatha Nagar (Purushotham Bus Stop),TRUE
-Sundar Nagar,Sundar Nagar,TRUE
-Sundarayya Colony Bus Terminal,Sundarayya Colony Bus Terminal,TRUE
-Surireddipalem,Surireddipalem,TRUE
-SVLNS Government Stop,SVLNS Government Stop,TRUE
-Dhanunjaya Near Swarna Bharathi Indoor Stadium,Dhanunjaya Near Swarna Bharathi Indoor Stadium,TRUE
-Dhanunjaya Near Swarna Bharathi Indoor Stadium,Swarna Bharathi Indoor Stadium,FALSE
-Swarna Bharathi Indoor Stadium,Swarna Bharathi Indoor Stadium,TRUE
-Swatantra Nagar,Swatantra Nagar,TRUE
-Swayambuvaram,Swayambuvaram,TRUE
-Tagarapuvalasa (Near Tata Theatre),Tagarapuvalasa,FALSE
-Tagarapuvalasa Highway,Tagarapuvalasa,FALSE
-Tagarapuvalasa RTC Complex,Tagarapuvalasa,FALSE
-Tagarapuvalasa (Near Tata Theatre),Tagarapuvalasa (Near Tata Theatre),TRUE
-Tagarapuvalasa Highway,Tagarapuvalasa Highway,TRUE
-Tagarapuvalasa RTC Complex,Tagarapuvalasa RTC Complex,TRUE
-Tallapalem,Tallapalem,TRUE
-Tallavalasa,Tallavalasa,TRUE
-Tallavalasa NH16 Connecting Road (Degree College Stop),Tallavalasa NH16 Connecting Road (Degree College Stop),TRUE
-Tarakarama ,Tarakarama ,TRUE
-Tarluwada,Tarluwada,TRUE
-Tavvavanipalem,Tavvavanipalem,TRUE
-Temapuram Bus Station,Temapuram Bus Station,TRUE
-Tenneti Nagar (48A Bus Stop),Tenneti Nagar (48A Bus Stop),TRUE
-Tenneti Park (On Request),Tenneti Park (On Request),TRUE
-Thanam,Thanam,TRUE
-Thanam Junction,Thanam,FALSE
-Thatichetlapalem,Thatichetlapalem,TRUE
-Thatichetlapalem (Boyapalem),Thatichetlapalem,FALSE
-Thotagaruvu,Thotagaruvu,TRUE
-Thummapala ,Thummapala ,TRUE
-Tikkavanipalem,Tikkavanipalem,TRUE
-Timmapuram,Timmapuram,TRUE
-Timmarajupeta,Timmarajupeta,TRUE
-Town Kotharoad,Town Kotharoad,TRUE
-Town Kotharoad Junction,Town Kotharoad,FALSE
-Tummikapalli Gate,Tummikapalli Gate,TRUE
-Tungalam ,Tungalam ,TRUE
-Tunivalasa ,Tunivalasa ,TRUE
-Two Town (Women's College),Two Town (Women's College),TRUE
-Tyda ,Tyda ,TRUE
-Uppada,Uppada,TRUE
-Urvasi NH ,Urvasi,FALSE
-Urvasi Theatre,Urvasi,FALSE
-Ushodaya Junction,Ushodaya Junction,TRUE
-VadaCheepurupalli West,VadaCheepurupalli West,TRUE
-Vaddadi,Vaddadi,TRUE
-Vaddimetta ,Vaddimetta ,TRUE
-Vadlapudi Junction,Vadlapudi,FALSE
-Vadlapudi Railway Quarters,Vadlapudi,FALSE
-Vadlapudi Towards Kurmannapalem,Vadlapudi,FALSE
-Valandapeta ,Valandapeta ,TRUE
-Vambay Colony (Near Gajuwaka),Vambay Colony (Near Gajuwaka),TRUE
-Vangali,Vangali,TRUE
-Varada,Varada,TRUE
-Varada Santapalem,Varada Santapalem,TRUE
-Lawsons Bay (Towards Vuda Park),Lawsons Bay (Towards Vuda Park),TRUE
-Lawsons Bay (Towards Vuda Park),Vasavanipalem,FALSE
-Vechalam,Vechalam,TRUE
-Vedullanarava,Vedullanarava,TRUE
-Vellanki  ,Vellanki  ,TRUE
-Vellanki Local Road,Vellanki  ,FALSE
-Vellanki NH16 Connecting Road,Vellanki NH16 Connecting Road,TRUE
-Vellanki Village ,Vellanki Village ,TRUE
-Venkannapalem,Venkannapalem,TRUE
-Old Bus Stand (Venkannapalem),Old Bus Stand (Venkannapalem),TRUE
-Old Bus Stand (Venkannapalem),Venkannapalem,FALSE
-Venkojipalem,Venkojipalem,TRUE
-Venkojipalem(Towards Isukathota),Venkojipalem,FALSE
-Vennalapalem ,Vennalapalem ,TRUE
-Vepada,Vepada,TRUE
-Vepagunta ,Vepagunta ,TRUE
-Vepagunta (Near BRTS Road),Vepagunta ,FALSE
-Vijayaramaraju peta,Vijayaramaraju peta,TRUE
-Viman Nagar ,Viman Nagar ,TRUE
-Virat Nagar,Virat Nagar,TRUE
-Visakha Eye Hospital,Visakha Eye Hospital,TRUE
-Visakhapatnam Airport ,Visakhapatnam Airport ,TRUE
-Visakhapatnam Central Jail,Visakhapatnam Central Jail,TRUE
-Visalakshi Nagar,Visalakshi Nagar,TRUE
-Visalakshi Nagar (Near Police Quarters),Visalakshi Nagar (Near Police Quarters),TRUE
-Visalakshi Nagar (Near Police Quarters),Visalakshi Nagar,FALSE
-VITAM College,VITAM College,TRUE
-Vivekananda Nagar,Vivekananda Nagar,TRUE
-Viyyampeta (Government Hospital),Viyyampeta (Government Hospital),TRUE
-Central Bus Station / Central Bus Station / Dwaraka Bus Station,Central Bus Station / Central Bus Station / Dwaraka Bus Station,TRUE
-Central Bus Station / Dwaraka Bus Station - RTC Complex Complex,Central Bus Station / Dwaraka Bus Station - RTC Complex Complex,TRUE
-RTC Complex,RTC Complex,TRUE
-RTC Complex (222),RTC Complex (222),TRUE
-"RTC Complex (25P,25D/V,60,60C,52D)","RTC Complex (25P,25D/V,60,60C,52D)",TRUE
-"RTC Complex (6A, 400)","RTC Complex (6A, 400)",TRUE
-RTC Complex LIC Building,RTC Complex LIC Building,TRUE
-Vizag - RTC Complex,Vizag - RTC Complex,TRUE
-Waltair Bus Depot,Waltair Bus Depot,TRUE
-Central Bus Station / Central Bus Station / Dwaraka Bus Station,Vizag - RTC Complex,FALSE
-Central Bus Station / Dwaraka Bus Station - RTC Complex Complex,Vizag - RTC Complex,FALSE
-RTC Complex,Vizag - RTC Complex,FALSE
-RTC Complex (222),Vizag - RTC Complex,FALSE
-"RTC Complex (25P,25D/V,60,60C,52D)",Vizag - RTC Complex,FALSE
-"RTC Complex (6A, 400)",Vizag - RTC Complex,FALSE
-RTC Complex LIC Building,Vizag - RTC Complex,FALSE
-Vizag - RTC Complex,Vizag - RTC Complex,TRUE
-Waltair Bus Depot,Vizag - RTC Complex,FALSE
-GVMC,Vizag - RTC Complex,FALSE
-Vizag - RTC Complex InGate,Vizag - RTC Complex InGate,TRUE
-Vizianagaram - RTC Complex,Vizianagaram - RTC Complex,TRUE
-Vuda Colony ,Vuda Colony ,TRUE
-Vuda Colony (Near Chinnamushudiwada),Vuda Colony (Near Chinnamushudiwada),TRUE
-Chinnamushudiwada,Chinnamushudiwada,TRUE
-Vuda Park,Vuda Park,TRUE
-Vuda Park (The Park Hotel),Vuda Park (The Park Hotel),TRUE
-Vutagedda,Vutagedda,TRUE
-Waltair Railway Station ,Waltair Railway Station ,TRUE
-Waltair Railway Station (Station Side),Waltair Railway Station ,FALSE
-Woodpeta,Woodpeta,TRUE
-Yadava Jaggaraju Peta,Yadava Jaggaraju Peta,TRUE
-Yarada BC Colony,Yarada BC Colony,TRUE
-Yarada Old Bus Stop,Yarada Old Bus Stop,TRUE
-Yarada Village,Yarada Village,TRUE
-Yeduruvada,Yeduruvada,TRUE
-Yellamanchili ,Yellamanchili ,TRUE
-Yerravanipalem,Yerravanipalem,TRUE
-Z Junction towards Karnavanipalem,Z Junction towards Karnavanipalem,TRUE
-Zilla Parishad Bus Station,Zilla Parishad Bus Station,
-Zoo Park (Front Gate),Zoo Park,
-Zoo Park (Back Gate),Zoo Park,
-Vambay Colony (Near Gajuwaka),Ashok Nagar ,
-Ashok Nagar ,Vambay Colony (Near Gajuwaka),
-Fakeertakiya,Duvvada Bridge,
-Duvvada Bridge,Fakeertakiya,
-Kurmannapalem Bus Station,Purna Theatre (Kurmannapalem),
-Purna Theatre (Kurmannapalem),Kurmannapalem Bus Station,
+ACTUALNAME,DESTINATIONLOOKUP
+A KODURU,A KODURU
+ADARSH NAGAR,ADARSH NAGAR
+ADARSH NAGAR,OLD DAIRY FARM
+ADDURU,ADDURU
+ADIVIVARAM,ADIVIVARAM
+AGANAMPUDI ,AGANAMPUDI 
+AGANAMPUDI TOLLGATE,AGANAMPUDI 
+AGRAHARAM,AGRAHARAM
+AJANAGIRI,AJANAGIRI
+AJANAGIRI COLONY,AJANAGIRI
+AKKAYYAPALEM,AKKAYYAPALEM
+AKKAYYAPALEM HIGHWAY,AKKAYYAPALEM
+AKKIREDDIPALEM,AKKIREDDIPALEM
+ALLIPURAM,ALLIPURAM
+AMAL COLLEGE JUNCTION,AMAL COLLEGE JUNCTION
+AMANAM,AMANAM
+AMBEDKAR COLONY,AMBEDKAR COLONY
+AMBEDKAR NAGAR,AMBEDKAR NAGAR
+AMERICAN HOSPITAL,AMERICAN HOSPITAL
+AMG SCHOOL/ COLLEGE,AMG SCHOOL/ COLLEGE
+AMRUTAPURAM,AMRUTAPURAM
+ANAKAPALLE - RTC COMPLEX,ANAKAPALLE - RTC COMPLEX
+ANAKAPALLE BYPASS ROAD,ANAKAPALLE BYPASS ROAD
+ANAKAPALLE COURT (NEAR VIZIANAGARAM ROAD),ANAKAPALLE COURT (NEAR VIZIANAGARAM ROAD)
+ANAKAPALLE FOUR ROAD JUNCTION,ANAKAPALLE FOUR ROAD JUNCTION
+ANANDAPURAM ,ANANDAPURAM 
+ANANDAPURAM JUNCTION ,ANANDAPURAM
+ANANTAPURAM (NEAR DEVARAPALLI),ANANTAPURAM (NEAR DEVARAPALLI)
+ANANTHAVARAM ,ANANTHAVARAM 
+ANANTHAVARAM CENTRE,ANANTHAVARAM 
+ANDHRA UNIVERSITY REGISTER OFFICE,ANDHRA UNIVERSITY REGISTER OFFICE
+ANDHRA UNIVERSITY REGISTER OFFICE,ANDHRA UNIVERSITY
+ANITS COLLEGE,ANITS COLLEGE
+ANJALI MURTHY NAGAR 3RD LINE ,ANJALI MURTHY NAGAR 3RD LINE 
+ANKAJOSYULAPALEM,ANKAJOSYULAPALEM
+ANTHAKAPALLI,ANTHAKAPALLI
+APHB COLONY MAIN ,APHB COLONY MAIN 
+APPANNAPALEM (NEAR GOSTHANI RIVER),APPANNAPALEM (NEAR GOSTHANI RIVER)
+APPANNAPALEM (SIMHAPURI COLONY),APPANNAPALEM (SIMHAPURI COLONY)
+APPIKONDA,APPIKONDA
+APPUGHAR,APPUGHAR
+APPUGHAR(MVP MAINROAD JUNCTION),APPUGHAR
+AQJ COLLEGE,AQJ COLLEGE
+ARDHANNAPALEM,ARDHANNAPALEM
+ARILOVA,ARILOVA
+ARILOVA COLONY,ARILOVA
+ARIPAKA,ARIPAKA
+ARLI,ARLI
+ARLI JUNCTION,ARLI
+ARTS COLLEGE,ARTS COLLEGE
+ARUNA ZUTE MILLS,ARUNA ZUTE MILLS
+ASAKAPALLI,ASAKAPALLI
+ASHOK NAGAR ,ASHOK NAGAR 
+ASHOK NAGAR ,VAMBAY COLONY (NEAR GAJUWAKA)
+ASILMETTA JUNCTION,ASILMETTA JUNCTION
+ASILMETTA JUNCTION,SAMPATH VINAYAKA TEMPLE
+ANDHRA UNIVERSITY IN GATE,ANDHRA UNIVERSITY IN GATE
+ANDHRA UNIVERSITY IN GATE,ANDHRA UNIVERSITY
+ANDHRA UNIVERSITY OUT GATE,ANDHRA UNIVERSITY OUT GATE
+ANDHRA UNIVERSITY OUT GATE,ANDHRA UNIVERSITY
+AUTO NAGAR ,AUTO NAGAR 
+AVANTHI ENGINEERING COLLEGE,AVANTHI ENGINEERING COLLEGE
+AYYANNAPALEM,AYYANNAPALEM
+BABA BAZAR (LAWSONS BAY COLONY),BABA BAZAR (LAWSONS BAY COLONY)
+BAJI JUNCTION ,BAJI JUNCTION 
+BAKKANNAPALEM,BAKKANNAPALEM
+BALAGANAPATHI TEMPLE ,BALAGANAPATHI TEMPLE 
+BALAJI NAGAR,BALAJI NAGAR
+BALAKRISHNA ,BALAKRISHNA 
+BENNAVARAM ,BENNAVARAM 
+BHEEMUNIPATNAM Y JUNCTION (CROSS ROADS),BHEEMUNIPATNAM Y JUNCTION (CROSS ROADS)
+BHEEMUNIPATNAM Y JUNCTION (CROSS ROADS),BHIMILI Y JUNCTION (CROSS ROADS)
+BHIMILI (DHORA THOTA),BHEEMILI
+BHIMILI (DHORA THOTA),BHIMILI
+BHIMILI (DHORA THOTA),DHORA THOTA
+BHIMILI POLICE STATION,BHEEMILI POLICE STATION
+BHIMILI POLICE STATION,BHIMILI POLICE STATION
+BHIMILI RTC COMPLEX,BHEEMILI RTC COMPLEX
+BHIMILI RTC COMPLEX,BHIMILI RTC COMPLEX
+BHOGAPURAM,BHOGAPURAM
+BHPV ,BHPV 
+BIRLA ,BIRLA 
+BODDAPALEM,BODDAPALEM
+BODDAVALASA,BODDAVALASA
+BORAVANIPALEM,BORAVANIPALEM
+BOYAPALEM ,BOYAPALEM 
+BRTS,BRTS
+BUCHIRAJUPALEM,BUCHIRAJUPALEM
+BULLAYYA COLLEGE (TOWARDS RAMA TALKIES),BULLAYYA COLLEGE
+BULLAYYA COLLEGE (TOWARDS SATYAM COMPUTERS),BULLAYYA COLLEGE
+BURMANGUDA ,BURMANGUDA 
+BUTCHIYYAPETA ,BUTCHIYYAPETA 
+BVK COLLEGE,BVK COLLEGE
+BYPUREDDYPALEM ,BYPUREDDYPALEM 
+CARSHED,CARSHED
+CENTRAL BUS STATION / CENTRAL BUS STATION / DWARAKA BUS STATION,VIZAG - RTC COMPLEX
+CENTRAL BUS STATION / DWARAKA BUS STATION - RTC COMPLEX COMPLEX,VIZAG - RTC COMPLEX
+CENTURY CLUB ,CENTURY CLUB 
+CHAITANYA SCHOOL (PEDHAGANTYADA),CHAITANYA SCHOOL (PEDHAGANTYADA)
+CHANDANA BROS ,CHANDANA BROS 
+CHANDANA BROS ,JAGADAMBA 
+CHANDRAMPALEM ZP HIGH SCHOOL,CHANDRAMPALEM ZP HIGH SCHOOL
+CHANDRAMPALEM ZP HIGH SCHOOL,MADHURWADA
+CHANDRAYYAPETA,CHANDRAYYAPETA
+CHAVULAMADAM,CHAVULAMADAM
+CHAVULAMADAM,CONVENT JUNCTION
+CHEEMALA PALLI,CHEEMALA PALLI
+CHEEMALA PALLI,CHIMALA PALLI
+CHINAGADILI,CHINAGADILI
+CHINAGUDIPALA,CHINAGUDIPALA
+CHINAPPANNAPALEM,CHINAPPANNAPALEM
+CHINAYATHAPALEM,CHINAYATHAPALEM
+CHINNA GANTYADA ,CHINNA GANTYADA 
+CHINNA RUSHIKONDA,CHINNA RUSHIKONDA
+CHINNA WALTAIR,CHINNA WALTAIR
+CHINNAMUSHUDIWADA,CHINNAMUSHUDIWADA
+CHINNAMUSHUDIWADA,SAVITRI NAGAR
+CHINNAPALEM,CHINNAPALEM
+CHINNAPURAM JUNCTION,CHINNAPURAM JUNCTION
+CHINNARAOPALLI,CHINNARAOPALLI
+CHINNAYYAPALEM,CHINNAYYAPALEM
+CHINNAYYAPALEM,PATAROAD
+CHINTAGATLA,CHINTAGATLA
+CHINTALA AGRAHARAM,CHINTALA AGRAHARAM
+CHINTALADIMMA,CHINTALADIMMA
+CHINTALAGRAHARAM (NEAR VEPAGUNTA),CHINTALAGRAHARAM (NEAR VEPAGUNTA)
+CHINTHALAPALEM,CHINTHALAPALEM
+CHODAVARAM,CHODAVARAM
+CHODAVARAM (OLD BUS STAND),CHODAVARAM
+CHOULTRY,CHOULTRY
+CISF CHILDREN PARK,CISF CHILDREN PARK
+CMR CENTRAL,CMR CENTRAL
+CMR CENTRAL,JUDGE COURT
+COLLECTOR OFFICE ,COLLECTOR OFFICE 
+CONVENT JUNCTION,CHAVULAMADAM
+CONVENT JUNCTION,CONVENT JUNCTION
+COROMANDAL GATE,COROMANDAL GATE
+CWC ,CWC 
+D YELLAVARAMJUNCTION ,D YELLAVARAMJUNCTION 
+DABA GARDENS,DABA GARDENS
+DASARIVANIPALEM,DASARIVANIPALEM
+DAYAL NAGAR,DAYAL NAGAR
+DESA PATHRUNIPALEM (NEAR STEEL PLANT),DESA PATHRUNIPALEM (NEAR STEEL PLANT)
+DESA PATRUNIPALEM (NEAR KOTHAVALASA),DESA PATRUNIPALEM (NEAR KOTHAVALASA)
+DEVADA,DEVADA
+DEVADA (DEVARAPALLE ROAD),DEVADA
+DEVARAPALLE,DEVARAPALLE
+DEVIPURAM,DEVIPURAM
+DEVIPURAM HIGHWAY,DEVIPURAM
+DHANUNJAYA NEAR SWARNA BHARATHI INDOOR STADIUM,DHANUNJAYA NEAR SWARNA BHARATHI INDOOR STADIUM
+DHANUNJAYA NEAR SWARNA BHARATHI INDOOR STADIUM,SWARNA BHARATHI INDOOR STADIUM
+DHAYALA NAGAR (104 AREA),DHAYALA NAGAR (104 AREA)
+DHORA THOTA,DHORA THOTA
+DHORA THOTA (NEAR BHEEMILI),DHORA THOTA
+DIBBAPALEM R.H COLONY,DIBBAPALEM R.H COLONY
+DISTRICT JUDGE COURT ,DISTRICT JUDGE COURT 
+DISTRICT JUDGE COURT ,JUDGE COURT
+DIVIS,DIVIS
+DOCKYARD,DOCKYARD
+DOLPHIN OFFICE,DOLPHIN OFFICE
+DONDAPARTHY ,DONDAPARTHY 
+DONDAPARTHY (RAILWAY NEW COLONY ROAD),DONDAPARTHY 
+DONDAPUDI,DONDAPUDI
+DOSURU,DOSURU
+DRGADA ,DRGADA 
+DUDDUPALEM JUNCTION,DUDDUPALEM JUNCTION
+DUKKAVANIPALEM,DUKKAVANIPALEM
+DURGA BAZAR,DURGA BAZAR
+DURGA TEMPLE,DURGA TEMPLE
+DUVVADA BRIDGE,DUVVADA BRIDGE
+DUVVADA BRIDGE,FAKEERTAKIYA
+DUVVADA RAILWAY STATION,DUVVADA RAILWAY STATION
+EAST POINT COLONY,EAST POINT COLONY
+EAST POINT COLONY,GIRIJAN CORPORATION
+EENADU ,EENADU 
+EENADU (TOWARDS SATYAM JUNCTION),EENADU 
+EMP X ROADS (LANKELAPALEM JUNCTION),EMP X ROADS (LANKELAPALEM JUNCTION)
+EMP X ROADS (LANKELAPALEM JUNCTION),LANKELAPALEM
+ENDADA,ENDADA
+ENDADA (BEACH RD),ENDADA
+ENDADA PETROL BUNK,ENDADA
+ENDAMILLI  ,ENDAMILLI  
+ERUKUNAIDUPALEM,ERUKUNAIDUPALEM
+ESSAR,ESSAR
+EX-SERVICE MEN COLONY,EX-SERVICE MEN COLONY
+EYE CARE OPTICALS ,EYE CARE OPTICALS 
+FAKEERTAKIYA,FAKEERTAKIYA
+FAKEERTAKIYA,DUVVADA BRIDGE
+FIFTH TOWN POLICE STATION ,FIFTH TOWN POLICE STATION 
+FIFTH TOWN POLICE STATION ,SATYANAGAR 
+FISHING HARBOUR,FISHING HARBOUR
+FOUR ROAD JUNCTION  ,FOUR ROAD JUNCTION  
+FOURTH TOWN POLICE STATION,FOURTH TOWN POLICE STATION
+GAJUWAKA BUS DEPOT,GAJUWAKA BUS DEPOT
+GALI BHEEMAVARAM,GALI BHEEMAVARAM
+GANDHINAGARAM ,GANDHINAGARAM 
+GANDIGUNDAM,GANDIGUNDAM
+GANDIPALEM,GANDIPALEM
+GANGADEVIPATE ,GANGADEVIPATE 
+GANGAVARAM COLONY,GANGAVARAM
+GANGAVARAM JUNCTION,GANGAVARAM
+GARAVA JAGGAYYAPALEM,GARAVA JAGGAYYAPALEM
+GAS COMPANY (ANAKAPALLE RD),GAS COMPANY (ANAKAPALLE RD)
+GAS COMPANY (GAS AUTHORITY OF INDIA),GAS COMPANY (GAS AUTHORITY OF INDIA)
+GAVARA ANAKAPALLE ,GAVARA ANAKAPALLE 
+GEDDAPETA JUNCTION,GEDDAPETA JUNCTION
+GHAT ROAD (MADUGULA),GHAT ROAD (MADUGULA)
+GIDIJALA,GIDIJALA
+GIDIJALA CENTER,GIDIJALA
+GIRIBABU BYPUREDDY ,GIRIBABU BYPUREDDY 
+GITAM,GITAM
+GITAM UNIVERSITY (ENTRANCE),GITAM
+GNANAPURAM,GNANAPURAM
+GNANAPURAM (NEAR WALTAIR RAILWAY STATION),GNANAPURAM
+GOKIVADA,GOKIVADA
+GOKIVADA JUNCTION BUS STATION,GOKIVADA
+GOLDEN LAYOUT (SARIPALLI),GOLDEN LAYOUT (SARIPALLI)
+GOLLALAPALEM BUS STATION,GOLLALAPALEM BUS STATION
+GOLLAPALEM,GOLLAPALEM
+GOPALAPATNAM ,GOPALAPATNAM 
+GORLEVANIPALEM,GORLEVANIPALEM
+GOTIVADA,GOTIVADA
+GOVADA,GOVADA
+GOVERNER BUNGALOW,GOVERNER BUNGALOW
+GOVINDAPALEM,GOVINDAPALEM
+GOWRI NAGAR JUNCTION,GOWRI NAGAR JUNCTION
+GOWRIPATHAM ,GOWRIPATHAM 
+GREEN CITY,GREEN CITY
+GREEN PARK,GREEN PARK
+GUDILOVA,GUDILOVA
+GUDILOVA HOSTEL,GUDILOVA
+GULLEPALLE,GULLEPALLE
+GULLEPALLE JUNCTION,GULLEPALLE
+GUNTASEEMA BUS STATION,GUNTASEEMA BUS STATION
+GURUDWARA,GURUDWARA
+GVMC,VIZAG - RTC COMPLEX
+GVMC ,GVMC 
+HANUMANTHAWAKA,HANUMANTHAWAKA
+HANUMANTHAWAKA (NEAR MARKET YARD),HANUMANTHAWAKA
+HARIPALEM,HARIPALEM
+HB COLONY LAST ,HB COLONY LAST 
+HCC COMPANY,HCC COMPANY
+HOUSING BOARD (PM PALEM),HOUSING BOARD (PM PALEM)
+INS CIRCARS,INS CIRCARS
+INS KALINGA ,INS KALINGA 
+INS SATAVAHANA,INS SATAVAHANA
+IRUVADA,IRUVADA
+ISLAMPETA,ISLAMPETA
+ISUKATHOTA,ISUKATHOTA
+IT PARK,IT PARK
+ITI JUNCTION,ITI JUNCTION
+ITI JUNCTION,INDUSTRIAL ESTATE
+J K LAYOUT,J K LAYOUT
+JAGADAMBA ,JAGADAMBA 
+JAIL ROAD ,JAIL ROAD 
+JAIL ROAD JUNCTION,JAIL ROAD 
+JAJULAVANIPALEM,JAJULAVANIPALEM
+JAMMI DEVARA PETA,JAMMI DEVARA PETA
+JAMMI DEVARA PETA,NALLABILLI
+JANATHA COLONY,JANATHA COLONY
+JANGALA PALEM ,JANGALA PALEM 
+JANGALAPALEM NEAR GOTIVADA,JANGALAPALEM NEAR GOTIVADA
+JANGALAPALLI,JANGALAPALLI
+JEERUPETA RAYAPALEM POST,JEERUPETA RAYAPALEM POST
+JERRIPOTHULAPALEM,JERRIPOTHULAPALEM
+JODUGULLA PALEM,JODUGULLA PALEM
+JONNADA,JONNADA
+JUDGE COURT ,JUDGE COURT 
+K CHANDRAYYAPETA,K CHANDRAYYAPETA
+K KOTAPADU,K KOTAPADU
+K SANTAPALEM ,K SANTAPALEM 
+KAILASAGIRI,KAILASAGIRI
+KAILASAGIRI ROPE WAY,KAILASAGIRI ROPE WAY
+KAILASAGIRI ROPE WAY,KAILASAGIRI
+KAILASPURAM,KAILASPURAM
+KAKANI NAGAR,KAKANI NAGAR
+KAKARLOVA,KAKARLOVA
+KAKATIYA ITI JUNCTION,KAKATIYA ITI JUNCTION
+KALAPAKA,KALAPAKA
+KALAPAKA JUNCTION,KALAPAKA
+KALINGANAGAR ,KALINGANAGAR 
+KANCHARAPALEM ,KANCHARAPALEM 
+KANCHARAPALEM (MUTHYAMAMBA TEMPLE),KANCHARAPALEM 
+KANTAKAPALLI,KANTAKAPALLI
+KANTAKAPALLI RAILWAY STATION ROAD,KANTAKAPALLI
+KARASA ,KARASA 
+KARNAVANI PALEM BUSTOP 1,KARNAVANI PALEM
+KARNAVANI PALEM BUSTOP 2,KARNAVANI PALEM
+KASIMKOTA ,KASIMKOTA 
+KASIPURAM,KASIPURAM
+KATA ,KATA 
+KG PENTA1,KG PENTA
+KG PENTA2,KG PENTA
+KGH ,KGH 
+KGH OUT-PATIENT GATE,KGH OUT-PATIENT GATE
+KHANDIVARAM VILLAGE,KHANDIVARAM VILLAGE
+KOKKIRA PALLI,KOKKIRA PALLI
+KOLLIVANIPALEM,KOLLIVANIPALEM
+KOMMADI JUNCTION,KOMMADI JUNCTION
+KOMMADI VILLAGE,KOMMADI VILLAGE
+KONDAKARLA JUNCTION,KONDAKARLA JUNCTION
+KONNURU,KONNURU
+KOPPAKA ,KOPPAKA 
+KORADA ,KORADA 
+KORUVADA,KORUVADA
+KOTAVURATLA ,KOTAVURATLA 
+KOTHA KOVVADA ROAD,KOTHA KOVVADA ROAD
+KOTHAKOTA,KOTHAKOTA
+KOTHAPATNAM,KOTHAPATNAM
+KOTHAVALASA,KOTHAVALASA
+KOTHAVALASA JUNCTION,KOTHAVALASA JUNCTION
+KOTHAVALASA RAILWAY STATION,KOTHAVALASA RAILWAY STATION
+KOTHURU ANAKAPALLE,KOTHURU ANAKAPALLE
+KOTHURU JUNCTION,KOTHURU JUNCTION
+KOTTA NAGAVARAM,KOTTA NAGAVARAM
+KOTTHA YELLAVARAM ,KOTTHA YELLAVARAM 
+KOTTURU,KOTTURU
+KOVVADA,KOVVADA
+KOYYALAPADU JUNCTION,KOYYALAPADU JUNCTION
+KRANTHI NAGAR,KRANTHI NAGAR
+KRISHNA COLLEGE ROAD,KRISHNA COLLEGE ROAD
+KRISHNA NAGAR BHIMILI,KRISHNA NAGAR BHIMILI
+KRISHNA PURAM,KRISHNA PURAM
+KRISHNAMPURAM,KRISHNAMPURAM
+KRISHNARAYA PURAM,KRISHNARAYA PURAM
+KUMMAPALLE,KUMMAPALLE
+KURMANNAPALEM - RTC COMPLEX,KURMANNAPALEM
+KURMANNAPALEM BUS STATION,KURMANNAPALEM
+KURMANNAPALEM BUS STATION,PURNA THEATRE (KURMANNAPALEM)
+KURPAM MARKET,KURPAM MARKET
+KURUPAM CIRCLE,KURUPAM CIRCLE
+KURUVADA,KORUVADA
+KURUVADA,KURUVADA
+LAGISETTIPALEM,LAGISETTIPALEM
+LAKSHMI TALKIES,LAKSHMI TALKIES
+LAKSHMIPURAM VILLAGE,LAKSHMIPURAM VILLAGE
+LANKAVANI PALEM,LANKAVANI PALEM
+LANKELAPALEM (NORTH TOWARDS KANNURU),LANKELAPALEM
+LANKELAPALEM (SOUTH TOWARDS PARAWADA),LANKELAPALEM
+LAW COLLEGE,LAW COLLEGE
+LAWSONS BAY,LAWSONS BAY
+LAWSONS BAY (TOWARDS VUDA PARK),LAWSONS BAY
+LAWSONS BAY (TOWARDS VUDA PARK),LAWSONS BAY (TOWARDS VUDA PARK)
+LAWSONS BAY (TOWARDS VUDA PARK),VASAVANIPALEM
+LEELA KRISHNA TOYOTA,LEELA KRISHNA TOYOTA
+LEMARTHI,LEMARTHI
+LENDI COLLEGE,LENDI COLLEGE
+LEPAKSHI,LEPAKSHI
+LEPAKSHI,JAGADAMBA 
+LEPAKSHI,LEPAKSHI
+LINGALA TIRUGUDU ,LINGALA TIRUGUDU 
+LIONS CLUB,LIONS CLUB
+LIONS CLUB,RAMNAGAR
+LOPUDI,LOPUDI
+MADDI,MADDI
+MADDI ROAD ,MADDI ROAD 
+MADDILAPALEM (SAI RAM HOTEL),MADDILAPALEM
+MADDILAPALEM DEPOT,MADDILAPALEM
+MADHAVADHARA ,MADHAVADHARA 
+MADHAVADHARA (NEAR SREE KANAKA DURGA FUNCTION HALL),MADHAVADHARA 
+MADHURAWADA DEPOT,MADHURAWADA DEPOT
+MADHURAWADA DEPOT,MADHURWADA
+MADHURWADA,MADHURWADA
+MADHURWADA JUNCTION,MADHURWADA JUNCTION
+MADHURWADA JUNCTION,MADHURWADA
+MADHUSUDANA NAGAR,MADHUSUDANA NAGAR
+MADUGULA,MADUGULA
+MAHARAJUPETA JUNCTION,MAHARAJUPETA JUNCTION
+MAHARANI PETA,MAHARANI PETA
+MAHATI ENGLISH MEDIUM SCHOOL BUS STOP,MAHATI ENGLISH MEDIUM SCHOOL BUS STOP
+MAHATI ENGLISH MEDIUM SCHOOL BUS STOP,PAVANI MEDICALS
+MAJJIVALASA,MAJJIVALASA
+MALAPALLI JUNCTION ,MALAPALLI JUNCTION 
+MALKAPURAM,MALKAPURAM
+MALLINAIDU PALEM,MALLINAIDU PALEM
+MAMIDILOVA,MAMIDILOVA
+MAMIDILOVA,SONTYAM
+MANCHALA VILLAGE ,MANCHALA VILLAGE 
+MANGALAPALEM,MANGALAPALEM
+MANGALAPALEM HIGHWAY,MANGALAPALEM
+MANGAMARI PETA,MANGAMARI PETA
+MARIKAVALASA,MARIKAVALASA
+MARIKAVALASA HIGHWAY,MARIKAVALASA
+MARRIPALEM ,MARRIPALEM 
+MARRIPALEM ,MARRIPALEM 
+MARRIPALEM (104 AREA),MARRIPALEM (104 AREA)
+MARRIPALEM (GALI BHEEMAVARAM),MARRIPALEM (GALI BHEEMAVARAM)
+MASJID ,MASJID 
+MEDIVADA VILLAGE ,MEDIVADA VILLAGE 
+MENTAL HOSPITAL,MENTAL HOSPITAL
+METTAPALEM,METTAPALEM
+MINDI,MINDI
+MINDIVANI PALEM,MINDIVANI PALEM
+MISSIONARY SCHOOL (KOMMADI),MISSIONARY SCHOOL (KOMMADI)
+MITHILAPURI VUDA COLONY,MITHILAPURI VUDA COLONY
+MMTC,MMTC
+MMTC,HB COLONY POST OFFICE
+MODHAVALASA,MODHAVALASA
+MOGALIPURAM,MOGALIPURAM
+MOOLAPETA ,MOOLAPETA 
+MOPADA,MOPADA
+MUDASARLOVA,MUDASARLOVA
+MULAGAPUDI ,MULAGAPUDI 
+MUNAGAPAAKA,MUNAGAPAAKA
+MUNICIPAL STADIUM (PATA BUS STAND),MUNICIPAL STADIUM (PATA BUS STAND)
+MURALINAGAR (BURMA COLONY),MURALINAGAR (BURMA COLONY)
+MURALINAGAR (NEHRU NAGAR),MURALINAGAR (NEHRU NAGAR)
+MUSIRAM,MUSIRAM
+MUTCHERLA,MUTCHERLA
+MVP BUS DEPOT (RYTHU BAZAAR),MVP BUS DEPOT
+MVP CIRCLE,MVP CIRCLE
+MVP COLONY (VIJAYA HOSPITALS),MVP COLONY (VIJAYA HOSPITALS)
+MVP COLONY BUS DEPOT (MUVVALAVANIPALEM (DEPOT)),MVP BUS DEPOT
+MVP GOTHISONS,MVP GOTHISONS
+NAAMAVARAM ,NAAMAVARAM 
+NAD ,NAD 
+NADUPURU,NADUPURU
+NADUPURU DAIRY COLONY,NADUPURU
+NAGARAPALEM,NAGARAPALEM
+NAIDU THOTA,NAIDU THOTA
+NAIDU THOTA JUNCTION ,NAIDU THOTA JUNCTION 
+NAIDUPALEM,NAIDUPALEM
+NAKKAPALLI BUS STATION,NAKKAPALLI BUS STATION
+NALLABILLI,NALLABILLI
+NALLABILLI,JAMMI DEVARA PETA
+NAMMIDODDI JUNCTION,NAMMIDODDI JUNCTION
+NARAPADU,NARAPADU
+NARAPAM (DEVADA RD),NARAPAM (DEVADA RD)
+NARAYANAPURAM,NARAYANAPURAM
+NARSIPATNAM - RTC COMPLEX,NARSIPATNAM - RTC COMPLEX
+NARSIPATNAM BUS DEPOT,NARSIPATNAM - RTC COMPLEX
+NATHAYYAPALEM,NATHAYYAPALEM
+NATHAYYAPALEM HIGHWAY,NATHAYYAPALEM
+NAUSANA BAUGH ENTRANCE,NAUSENA BAUGH
+NAUSENA BAUGH,NAUSENA BAUGH
+NDV,NDV
+NDV,DOCKYARD
+NEELAKANTARAJAPURAM,NEELAKANTARAJAPURAM
+NEELAKUNDEELU,NEELAKUNDEELU
+NEW GAJUWAKA ,NEW GAJUWAKA 
+NEW GAJUWAKA MARKET ,NEW GAJUWAKA 
+NEW GAJUWAKA THEATRES ,NEW GAJUWAKA 
+NGGO COLONY,NGGO COLONY
+NOOKALAMMA TEMPLE,NOOKALAMMA TEMPLE
+NOOKALAMMA TEMPLE ,NOOKALAMMA TEMPLE  (RYTHU BAZAAR)
+NTPC DEEPANJALINAGAR,NTPC DEEPANJALINAGAR
+NTPC VISAKHAPATNAM,NTPC VISAKHAPATNAM
+NUNAPARTI,NUNAPARTI
+OLD BUS STAND (NARSIPATNAM),OLD BUS STAND (NARSIPATNAM)
+OLD BUS STAND (VENKANNAPALEM),OLD BUS STAND (VENKANNAPALEM)
+OLD BUS STAND (VENKANNAPALEM),VENKANNAPALEM
+OLD BYPUREDDYPALEM ,OLD BYPUREDDYPALEM 
+OLD CBI,OLD CBI
+OLD DAIRY FARM,ADARSH NAGAR
+OLD DAIRY FARM,OLD DAIRY FARM
+OLD GAJUWAKA,OLD GAJUWAKA
+OLD GAJUWAKA MAINROAD ,OLD GAJUWAKA
+OLD HEAD POST OFFICE (OHPO),OLD HEAD POST OFFICE (OHPO)
+ONE TOWN,ONE TOWN
+ONE TOWN (TOWARDS OHPO),ONE TOWN
+PADERU - RTC COMPLEX,PADERU - RTC COMPLEX
+PADMANABHAM ,PADMANABHAM 
+PALAVALASA,PALAVALASA
+PANCHADARLA,PANCHADARLA
+PANDRANGI,PANDRANGI
+PANTHULUGARI MEDA ,PANTHULUGARI MEDA 
+PARADESIPALEM,PARADESIPALEM
+PARAWADA,PARAWADA
+PARAWADA CINEMA HALL,PARAWADA CINEMA HALL
+PARAWADA MRO OFFICE,PARAWADA MRO OFFICE
+PARAWADA SUB STATION,PARAWADA SUB STATION
+PATHA KOVVADA,PATHA KOVVADA
+PAVANI MEDICALS,PAVANI MEDICALS
+PEDA NARAVA,PEDA NARAVA
+PEDABAYALU ,PEDABAYALU 
+PEDAGADHILI,PEDAGADHILI
+PEDAGANTYADA ,PEDAGANTYADA 
+PEDAMUSIDIVADA,PEDAMUSIDIVADA
+PEDAMUSIDIVADA HIGHWAY,PEDAMUSIDIVADA
+PEDARAOPALLI,PEDARAOPALLI
+PEDDA RUSHIKONDA,PEDDA RUSHIKONDA
+PEDDA WALTAIR,PEDDA WALTAIR
+PEDDA WALTAIR (TOWARDS MENTAL HOSPITAL),PEDDA WALTAIR
+PEDDAPALEM ,PEDDAPALEM 
+PEDDIPALEM,PEDDIPALEM
+PENDURTHI,PENDURTHI
+PENDURTHI (NARSIPATNAM ROAD),PENDURTHI (NARSIPATNAM ROAD)
+PENDURTHI GENERAL HOSPITAL,PENDURTHI GENERAL HOSPITAL
+PENDURTHI GOVT. JUNIOR COLLEGE ,PENDURTHI GOVT. JUNIOR COLLEGE 
+PENDURTHI MAIN JUNCTION ,PENDURTHI MAIN JUNCTION 
+PF OFFICE,PF OFFICE
+PINAGADI JUNCTION,PINAGADI JUNCTION
+PINAGADI JUNCTION,RAMPURAM ROAD
+PINE APPLE COLONY,PINE APPLE COLONY
+PITTAVANIPALEM,PITTAVANIPALEM
+PMPALEM CHAITANYA COLLEGE,PMPALEM CHAITANYA COLLEGE
+PMPALEM CHAITANYA COLLEGE,CARSHED
+POLICE BARRACKS ,POLICE BARRACKS 
+POLIPALLI,POLIPALLI
+POLIPALLI JUNCTION,POLIPALLI JUNCTION
+PORLUPALEM,PORLUPALEM
+PORT GYMKHANA (OLD BUS STAND),PORT GYMKHANA (OLD BUS STAND)
+PORT HOSPITAL,PORT HOSPITAL
+PORT HOSPITAL (PORT QUARTERS),PORT HOSPITAL (PORT QUARTERS)
+POTHINAMALLAYYA PALEM FIRST STOP (P M PALEM),POTHINAMALLAYYAPALEM (PM PALEM)
+POTHINAMALLAYYA PALEM LAST STOP (P M PALEM),POTHINAMALLAYYAPALEM (PM PALEM)
+PRAHALADAPURAM ,PRAHALADAPURAM 
+PRAHALADAPURAM (NEAR VARAHALAKSHMI SIMHA SWAMY ASHRAM),PRAHALADAPURAM 
+PUNJAB HOTEL,PUNJAB HOTEL
+PURNA MARKET ,PURNA MARKET 
+PURNA MARKET (NEAR MUNICIPAL STADIUM),PURNA MARKET (NEAR MUNICIPAL STADIUM)
+PURNA THEATRE,CHODAVARAM
+PURNA THEATRE,PURNA THEATRE
+PURNA THEATRE (KURMANNAPALEM),KURMANNAPALEM BUS STATION
+PURUSHOTHAPURAM,PURUSHOTHAPURAM
+PURUSHOTTAPURAM (PURUSHOTTAM),PURUSHOTTAPURAM (PURUSHOTTAM)
+PYDAH COLLEGE,PYDAH COLLEGE
+PYDIWADA,PYDIWADA
+PYDIWADA AGRAHARAM,PYDIWADA AGRAHARAM
+R & B ,R & B 
+R K BEACH ,R K BEACH 
+R K BEACH - SUBMARINE,R K BEACH - SUBMARINE
+R K BEACH (KALI TEMPLE),R K BEACH 
+R K BEACH (KALI TEMPLE),R K BEACH (KALI TEMPLE)
+RAAVIKAMATHAM,RAAVIKAMATHAM
+RAGHU ENGINEERING COLLEGE,RAGHU ENGINEERING COLLEGE
+RAILWAY NEW COLONY,RAILWAY NEW COLONY
+RAIWADA,RAIWADA
+RAJANNAPALEM,RAJANNAPALEM
+RAJIV NAGAR,RAJIV NAGAR
+RAJIV NAGAR CENTRE,RAJIV NAGAR
+RAJULA TALLAVALASA ,RAJULA TALLAVALASA 
+RAJUPETA,RAJUPETA
+RAMA TALKIES ,RAMA TALKIES 
+RAMAKRISHNA PURAM (R K PURAM),RAMAKRISHNA PURAM (R K PURAM)
+RAMALAYAM (P M PALEM),RAMALAYAM (P M PALEM)
+RAMANARAYANAM,RAMANARAYANAM
+RAMAPADU,RAMAPADU
+RAMAPURAM ROAD ,RAMPURAM
+RAMAVARAM,RAMAVARAM
+RAMAYOGI AGRAHARAM,RAMAYOGI AGRAHARAM
+RAMBILLI,RAMBILLI
+RAMNAGAR,LIONS CLUB
+RAMNAGAR,RAMNAGAR
+RAMPURAM,RAMPURAM
+RAVINDRA NAGAR,RAVINDRA NAGAR
+RAVULAMMAPALEM,RAVULAMMAPALEM
+READING ROOM JUNCTION,READING ROOM JUNCTION
+REBBAKA,REBBAKA
+RELL VEEDI,RELL VEEDI
+RMHP,RMHP
+RTC COLONY,RTC COLONY
+RTC COMPLEX,VIZAG - RTC COMPLEX
+RTC COMPLEX (222),VIZAG - RTC COMPLEX
+RTC COMPLEX (222),VIZAG - RTC COMPLEX
+"RTC COMPLEX (25P,25D/V,60,60C,52D)",VIZAG - RTC COMPLEX
+"RTC COMPLEX (25P,25D/V,60,60C,52D)",VIZAG - RTC COMPLEX
+"RTC COMPLEX (6A, 400)",VIZAG - RTC COMPLEX
+"RTC COMPLEX (6A, 400)",VIZAG - RTC COMPLEX
+RTC COMPLEX LIC BUILDING,VIZAG - RTC COMPLEX
+RTC COMPLEX LIC BUILDING,VIZAG - RTC COMPLEX
+RTC COMPLEX LIC BUILDING,VIZAG - RTC COMPLEX
+RYTHU BAZAAR,NOOKALAMMA TEMPLE 
+RYTHU BAZAAR,NOOKALAMMA TEMPLE  (RYTHU BAZAAR)
+SABBAVARAM REGISTER OFFICE,SABBAVARAM REGISTER OFFICE
+SABBAVARAM RTC COMPLEX,SABBAVARAM RTC COMPLEX
+SAGAR NAGAR,SAGAR NAGAR
+SAGAR NAGAR (LOCAL),SAGAR NAGAR
+SAIRAM COLONY (KOMMADI),SAIRAM COLONY (KOMMADI)
+SALAGRAMAPURAM (PORT QUARTERS),SALAGRAMAPURAM (PORT QUARTERS)
+SALAGRAMAPURAM (SANTHI NAGAR),SALAGRAMAPURAM (SANTHI NAGAR)
+SALAPUVANIPALEM ,SALAPUVANIPALEM 
+SAMPATH VINAYAKA TEMPLE,ASILMETTA JUNCTION
+SAMPATH VINAYAKA TEMPLE,SAMPATH VINAYAKA TEMPLE
+SANGAM OFFICE ,SANGAM OFFICE 
+SANGHIVALASA COLONY ,SANGHIVALASA COLONY 
+SANJEEV COLONY,SANJEEV COLONY
+SANJIVA METTA,SANJIVA METTA
+SANKARAM,SANKARAM
+SANKARAM (ANAKAPALLE),SANKARAM (ANAKAPALLE)
+SANKARAM (MADUGULA),SANKARAM (MADUGULA)
+SANTAPALEM,SANTAPALEM
+SARASWATI PARK ,SARASWATI PARK 
+SARIPALLI,SARIPALLI
+SATYAM JUNCTION,SATYAM JUNCTION
+SATYANAGAR ,SATYANAGAR 
+SAVARAVILLI,SAVARAVILLI
+SAVITRI NAGAR,CHINNAMUSHUDIWADA
+SCINDIA,SCINDIA
+SCINDIA JUNCTION,SCINDIA
+SCINDIA NEW COLONY,SCINDIA
+SECTOR K,SECTOR K
+SEETANAGARAM,SEETANAGARAM
+SEETHAMMADARA NE ,SEETHAMMADHARA
+SEETHAMMADHARA,SEETHAMMADHARA
+SEETHAMMADHARA (TOWARDS SATYAM COMPUTERS),SEETHAMMADHARA
+SEETHAMMADHARA (TOWARDS VENKOJIPALEM),SEETHAMMADHARA
+SEETHAMMAPETA,SEETHAMMAPETA
+SEETHAYYAPETA ,SEETHAYYAPETA 
+SHEELA NAGAR BUS SHELTER,SHEELA NAGAR
+SHEELA NAGAR BUS SHELTER (LOCAL),SHEELA NAGAR
+SIMHACHALAM - RTC COMPLEX,SIMHACHALAM - RTC COMPLEX
+SIMHACHALAM DEVASTHANAM BUS DEPOT,SIMHACHALAM DEVASTHANAM BUS DEPOT
+SIMHACHALAM DHEVASTHANAM GHOSHALA,SIMHACHALAM DHEVASTHANAM GHOSHALA
+SIMHACHALAM HILL CURVE,SIMHACHALAM HILL CURVE
+SIMHACHALAM HILLS,SIMHACHALAM HILLS
+SIMHACHALAM HOSPITAL,SIMHACHALAM HOSPITAL
+SIMHADRI (DONKADA),SIMHADRI (DONKADA)
+SIMHAPURI COLONY,SIMHAPURI COLONY
+SINGANNADORAPALEM,SINGANNADORAPALEM
+SINGAVARAM,SINGAVARAM
+SIRASAPALLI,SIRASAPALLI
+SIRIPURAM ,SIRIPURAM 
+SIRLAPALEM,SIRLAPALEM
+SIRLAPALEM (KOVVUDU - MADDI ROAD),SIRLAPALEM (KOVVUDU - MADDI ROAD)
+SONTYAM,SONTYAM
+SONTYAM,MAMIDILOVA
+SONTYAM X ROADS,SONTYAM X ROADS
+SRAMASAKTHI NAGAR ,SRAMASAKTHI NAGAR 
+SRI NAGAR STREET ,SRI NAGAR STREET 
+SRIHARIPURAM,SRIHARIPURAM
+SRIKANAKAMAHALAXMI ,SRIKANAKAMAHALAXMI 
+SRINAGAR ,SRINAGAR 
+SRINIVASA NAGAR (SIMHACHALAM),SRINIVASA NAGAR (SIMHACHALAM)
+SRMT,SRMT
+ST JOSEPH,ST JOSEPH
+ST. JOSEPH COLLEGE,ST. JOSEPH COLLEGE
+STEEL PLANT TWP - CPS,STEEL PLANT TWP - CPS
+STEEL PLANT TWP - DAV PUBLIC SCHOOL,STEEL PLANT TWP - DAV PUBLIC SCHOOL
+STEEL PLANT TWP - HOSPITAL,STEEL PLANT TWP - HOSPITAL
+STEEL PLANT TWP - INDHIRA GANDHI PARK ,STEEL PLANT TWP - INDHIRA GANDHI PARK 
+STEEL PLANT TWP - KANITHI ROAD,STEEL PLANT TWP - KANITHI ROAD
+STEEL PLANT TWP - MAIN GATE,STEEL PLANT TWP - MAIN GATE
+STEEL PLANT TWP - MARKET ,STEEL PLANT TWP - MARKET 
+STEEL PLANT TWP - SECTOR 1 ,STEEL PLANT TWP - SECTOR 1 
+STEEL PLANT TWP - SECTOR 11 ,STEEL PLANT TWP - SECTOR 11 
+STEEL PLANT TWP - SECTOR 12,STEEL PLANT TWP - SECTOR 12
+STEEL PLANT TWP - SECTOR 3 ,STEEL PLANT TWP - SECTOR 3 
+STEEL PLANT TWP - SECTOR 5 ,STEEL PLANT TWP - SECTOR 5 
+STEEL PLANT TWP - SECTOR 6 ,STEEL PLANT TWP - SECTOR 6 
+STEEL PLANT TWP - SECTOR 8 ,STEEL PLANT TWP - SECTOR 8 
+STEEL PLANT TWP - SECTOR 9 ,STEEL PLANT TWP - SECTOR 9 
+STEEL PLANT TWP - SRICHAITANYA JR. COLLEGE,STEEL PLANT TWP - SRICHAITANYA JR. COLLEGE
+STEEL PLANT TWP - T & DC ,STEEL PLANT TWP - T & DC 
+STEEL PLANT TWP - UKKUNAGARAM ,STEEL PLANT TWP - UKKUNAGARAM 
+SUJATHA NAGAR ,SUJATHA NAGAR 
+SUJATHA NAGAR (PURUSHOTHAM BUS STOP),SUJATHA NAGAR (PURUSHOTHAM BUS STOP)
+SUNDAR NAGAR,SUNDAR NAGAR
+SUNDARAYYA COLONY BUS TERMINAL,SUNDARAYYA COLONY BUS TERMINAL
+SURIREDDIPALEM,SURIREDDIPALEM
+SVLNS GOVERNMENT STOP,SVLNS GOVERNMENT STOP
+SWARNA BHARATHI INDOOR STADIUM,SWARNA BHARATHI INDOOR STADIUM
+SWATANTRA NAGAR,SWATANTRA NAGAR
+SWAYAMBUVARAM,SWAYAMBUVARAM
+TAGARAPUVALASA (NEAR TATA THEATRE),TAGARAPUVALASA
+TAGARAPUVALASA (NEAR TATA THEATRE),TAGARAPUVALASA (NEAR TATA THEATRE)
+TAGARAPUVALASA HIGHWAY,TAGARAPUVALASA
+TAGARAPUVALASA HIGHWAY,TAGARAPUVALASA
+TAGARAPUVALASA RTC COMPLEX,TAGARAPUVALASA
+TAGARAPUVALASA RTC COMPLEX,TAGARAPUVALASA RTC COMPLEX
+TALLAPALEM,TALLAPALEM
+TALLAVALASA,TALLAVALASA
+TALLAVALASA NH16 CONNECTING ROAD (DEGREE COLLEGE STOP),TALLAVALASA NH16 CONNECTING ROAD (DEGREE COLLEGE STOP)
+TARAKARAMA ,TARAKARAMA 
+TARLUWADA,TARLUWADA
+TAVVAVANIPALEM,TAVVAVANIPALEM
+TEMAPURAM BUS STATION,TEMAPURAM BUS STATION
+TENNETI NAGAR (48A BUS STOP),TENNETI NAGAR (48A BUS STOP)
+TENNETI PARK (ON REQUEST),TENNETI PARK (ON REQUEST)
+THANAM,THANAM
+THANAM JUNCTION,THANAM
+THATICHETLAPALEM,THATICHETLAPALEM
+THATICHETLAPALEM (BOYAPALEM),THATICHETLAPALEM
+THOTAGARUVU,THOTAGARUVU
+THUMMAPALA ,THUMMAPALA 
+TIKKAVANIPALEM,TIKKAVANIPALEM
+TIMMAPURAM,TIMMAPURAM
+TIMMARAJUPETA,TIMMARAJUPETA
+TOWN KOTHAROAD,TOWN KOTHAROAD
+TOWN KOTHAROAD JUNCTION,TOWN KOTHAROAD
+TUMMIKAPALLI GATE,TUMMIKAPALLI GATE
+TUNGALAM ,TUNGALAM 
+TUNIVALASA ,TUNIVALASA 
+TWO TOWN (WOMEN'S COLLEGE),TWO TOWN (WOMEN'S COLLEGE)
+TYDA ,TYDA 
+UPPADA,UPPADA
+URVASI NH ,URVASI
+URVASI THEATRE,URVASI
+USHODAYA JUNCTION,USHODAYA JUNCTION
+VADACHEEPURUPALLI WEST,VADACHEEPURUPALLI WEST
+VADDADI,VADDADI
+VADDIMETTA ,VADDIMETTA 
+VADLAPUDI JUNCTION,VADLAPUDI
+VADLAPUDI RAILWAY QUARTERS,VADLAPUDI
+VADLAPUDI TOWARDS KURMANNAPALEM,VADLAPUDI
+VALANDAPETA ,VALANDAPETA 
+VAMBAY COLONY (NEAR GAJUWAKA),VAMBAY COLONY (NEAR GAJUWAKA)
+VAMBAY COLONY (NEAR GAJUWAKA),ASHOK NAGAR 
+VANGALI,VANGALI
+VARADA,VARADA
+VARADA SANTAPALEM,VARADA SANTAPALEM
+VECHALAM,VECHALAM
+VEDULLANARAVA,VEDULLANARAVA
+VELLANKI  ,VELLANKI  
+VELLANKI LOCAL ROAD,VELLANKI  
+VELLANKI NH16 CONNECTING ROAD,VELLANKI NH16 CONNECTING ROAD
+VELLANKI VILLAGE ,VELLANKI VILLAGE 
+VENKANNAPALEM,VENKANNAPALEM
+VENKOJIPALEM,VENKOJIPALEM
+VENKOJIPALEM(TOWARDS ISUKATHOTA),VENKOJIPALEM
+VENNALAPALEM ,VENNALAPALEM 
+VEPADA,VEPADA
+VEPAGUNTA ,VEPAGUNTA 
+VEPAGUNTA (NEAR BRTS ROAD),VEPAGUNTA 
+VIJAYARAMARAJU PETA,VIJAYARAMARAJU PETA
+VIMAN NAGAR ,VIMAN NAGAR 
+VIRAT NAGAR,VIRAT NAGAR
+VISAKHA EYE HOSPITAL,VISAKHA EYE HOSPITAL
+VISAKHAPATNAM AIRPORT ,VISAKHAPATNAM AIRPORT 
+VISAKHAPATNAM CENTRAL JAIL,VISAKHAPATNAM CENTRAL JAIL
+VISALAKSHI NAGAR,VISALAKSHI NAGAR
+VISALAKSHI NAGAR (NEAR POLICE QUARTERS),VISALAKSHI NAGAR (NEAR POLICE QUARTERS)
+VISALAKSHI NAGAR (NEAR POLICE QUARTERS),VISALAKSHI NAGAR
+VITAM COLLEGE,VITAM COLLEGE
+VIVEKANANDA NAGAR,VIVEKANANDA NAGAR
+VIYYAMPETA (GOVERNMENT HOSPITAL),VIYYAMPETA (GOVERNMENT HOSPITAL)
+VIZAG - RTC COMPLEX,VIZAG - RTC COMPLEX
+VIZAG - RTC COMPLEX,VIZAG - RTC COMPLEX
+VIZAG - RTC COMPLEX INGATE,VIZAG - RTC COMPLEX
+VIZIANAGARAM - RTC COMPLEX,VIZIANAGARAM - RTC COMPLEX
+VUDA COLONY ,VUDA COLONY 
+VUDA COLONY (NEAR CHINNAMUSHUDIWADA),CHINNAMUSHUDIWADA
+VUDA COLONY (NEAR CHINNAMUSHUDIWADA),VUDA COLONY (NEAR CHINNAMUSHUDIWADA)
+VUDA PARK,VUDA PARK
+VUDA PARK (THE PARK HOTEL),VUDA PARK
+VUTAGEDDA,VUTAGEDDA
+WALTAIR BUS DEPOT,WALTAIR BUS DEPOT
+WALTAIR RAILWAY STATION ,WALTAIR RAILWAY STATION 
+WALTAIR RAILWAY STATION (STATION SIDE),WALTAIR RAILWAY STATION 
+WOODPETA,WOODPETA
+YADAVA JAGGARAJU PETA,YADAVA JAGGARAJU PETA
+YARADA BC COLONY,YARADA BC COLONY
+YARADA OLD BUS STOP,YARADA OLD BUS STOP
+YARADA VILLAGE,YARADA VILLAGE
+YEDURUVADA,YEDURUVADA
+YELLAMANCHILI ,YELLAMANCHILI 
+YERRAVANIPALEM,YERRAVANIPALEM
+Z JUNCTION TOWARDS KARNAVANIPALEM,Z JUNCTION TOWARDS KARNAVANIPALEM
+ZILLA PARISHAD BUS STATION,ZILLA PARISHAD BUS STATION
+ZOO PARK (BACK GATE),ZOO PARK
+ZOO PARK (FRONT GATE),KAMBALKONDA
+ZOO PARK (FRONT GATE),ZOO PARK

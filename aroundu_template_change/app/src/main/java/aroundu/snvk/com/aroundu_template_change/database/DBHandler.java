@@ -39,7 +39,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 13;
     // Database Name
     private static final String DATABASE_NAME = "AroundU_DB";
     private static final String DATABASE_PATH = "/data/data/aroundu.snvk.com.aroundu_template_change/databases/";
@@ -318,11 +318,16 @@ public class DBHandler extends SQLiteOpenHelper {
                 "where br1.bus_no = '" + bus_no + "' and " +
                 "br1.sequence < br2.Sequence and " +
                 "br1.SOURCE_STATION = '" + source + "' and " +
-                "br2.DESTINATION_STATION = '" + destination + "'" +
-                " ) T2 " +
+                "br2.DESTINATION_STATION in (SELECT DISTINCT " + ACTUAL_NAME + " FROM " + DEST_LOOKUP_TABLE_NAME + " " +
+                "WHERE " + DEST_LOOK_UP + " LIKE '%" + destination + "%'" +
+                " ) ) T2 " +
                 " on T1.direction = T2.direction" +
-                " where T1.Sequence >= T2.begin_seq and T1.Sequence <= T2.end_seq and T1.bus_no = '" + bus_no + "' ) TT " +
+                " where T1.Sequence >= T2.begin_seq and T1.Sequence <= T2.end_seq and T1.bus_no = '" + bus_no + "' " +
+                "and T1.line_id in (select distinct " + LINE_ID + " from " + LINES_TABLE_NAME + " where bus_no = '"+ bus_no + "' and " +
+                "SOURCE_STATION = '" + source + "')) TT " +
                 " ON PT.NAME = TT.DESTINATION_STATION ORDER BY TT.sequence ";
+
+        Log.d(TAG, "Query: " + selectQuery);
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
@@ -622,7 +627,7 @@ public class DBHandler extends SQLiteOpenHelper {
             //a = 0 (Error: outOfBoundsError
         }
         //todo shoud we not close the cursor here?
-        //todo the below line throws error if the value is 0.
+        //todo the else-line throws error if the value is 0.
         Log.d(TAG, String.valueOf(a));
         return a;
     }
@@ -630,7 +635,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public ArrayList<String> destinationLookup(String s) {
         ArrayList<String> results = new ArrayList<>();
 
-        String selectQuery = "SELECT DISTINCT " + ACTUAL_NAME + " FROM " + DEST_LOOKUP_TABLE_NAME + " WHERE " + DEST_LOOK_UP + " LIKE '%" + s + "%'";
+        String selectQuery = "SELECT DISTINCT " + DEST_LOOK_UP + " FROM " + DEST_LOOKUP_TABLE_NAME + " WHERE " + DEST_LOOK_UP + " LIKE '%" + s + "%'";
         Log.d("PredictiveTest", "Query: " + selectQuery);
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

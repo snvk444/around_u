@@ -213,8 +213,8 @@ public class MainActivity extends AppCompatActivity
                     //if running for the first time and .db file is not created yet. then exe below lines
                     /*Log.d("DestLookUp", "Before");
                     populateDatabaseWithInitialData();
-                    Log.d("DestLookUp", "After");*/
-                    populateDestinationLookUpTable();
+                    Log.d("DestLookUp", "After");
+                    populateDestinationLookUpTable();*/
                     //if we have the .db file created, use the below line to get the data into database fast. use below for release.
 
 
@@ -353,6 +353,7 @@ public class MainActivity extends AppCompatActivity
 
 
     public void setListenersAndBehaviors() {
+
         //Spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.core_identifiers, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -944,6 +945,7 @@ public class MainActivity extends AppCompatActivity
             reader = new BufferedReader(new InputStreamReader(is));
             while ((line = reader.readLine()) != null) {
                 String[] str = line.split(",");
+                Log.d("DestLookUp", str[1]);
                 dbHandler.addDestinationLookUpInfo(str[0], str[1]);
             }
         } catch (Exception e) {
@@ -1189,6 +1191,7 @@ public class MainActivity extends AppCompatActivity
         srcLocation = src;
         destLocation = destination;
         bus_no = busName;
+        Log.d(TAG, busName);
         dialog.show();
         TextView numberOfStops = (TextView) dialog.findViewById(R.id.number_of_stops);
         int result = dbHandler.getNumberOfStopsBetween(src, destination, busName);
@@ -1279,6 +1282,9 @@ public class MainActivity extends AppCompatActivity
                                 .snippet("")).showInfoWindow();
                     }
                 });
+            }
+            else{
+                googleMap.setOnMapLongClickListener(null);
             }
             setLocation();
         }
