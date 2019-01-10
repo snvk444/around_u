@@ -505,7 +505,6 @@ public class MainActivity extends AppCompatActivity
                 googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                     @Override
                     public void onMapLongClick(LatLng point) {
-                        googleMap.clear();
                         distancecalc_layout.setVisibility(View.GONE);
                         distancecalc_layout.setVisibility(View.GONE);
                         submitlayout.setVisibility(View.VISIBLE);
@@ -630,6 +629,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
+                googleMap.setOnMapLongClickListener(null);
+                
                 //instantiate the popup.xml layout file
                 LayoutInflater layoutInflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View customView = layoutInflater.inflate(R.layout.popup,null);
@@ -1280,12 +1281,7 @@ public class MainActivity extends AppCompatActivity
             googleMap.animateCamera(cameraUpdate);
             linear_Layout_1.setVisibility(View.GONE);
 
-            if(fab.getVisibility() != 0) {
 
-            }
-            else{
-                googleMap.setOnMapLongClickListener(null);
-            }
             setLocation();
         }
     }
