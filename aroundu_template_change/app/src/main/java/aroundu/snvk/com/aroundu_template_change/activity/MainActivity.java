@@ -213,8 +213,8 @@ public class MainActivity extends AppCompatActivity
                     //if running for the first time and .db file is not created yet. then exe below lines
                     /*Log.d("DestLookUp", "Before");
                     populateDatabaseWithInitialData();
-                    Log.d("DestLookUp", "After");
-                    populateDestinationLookUpTable();*/
+                    Log.d("DestLookUp", "After");*/
+                    populateDestinationLookUpTable();
                     //if we have the .db file created, use the below line to get the data into database fast. use below for release.
 
 
@@ -299,7 +299,6 @@ public class MainActivity extends AppCompatActivity
         fab_main.setClickable(true);
         coverage_fab.setClickable(true);
         bus_fab.setClickable(true);
-
     }
 
     //This is all for the animation for fab
@@ -367,7 +366,6 @@ public class MainActivity extends AppCompatActivity
                 int duration = Snackbar.LENGTH_INDEFINITE;
                 showSnackbar(view, message, duration);
                 //fab - click to point out the busstop. does this work???
-
             }
         });
 
@@ -503,6 +501,20 @@ public class MainActivity extends AppCompatActivity
         bus_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                    @Override
+                    public void onMapLongClick(LatLng point) {
+                        googleMap.clear();
+                        distancecalc_layout.setVisibility(View.GONE);
+                        distancecalc_layout.setVisibility(View.GONE);
+                        submitlayout.setVisibility(View.VISIBLE);
+                        googleMap.addMarker(new MarkerOptions()
+                                .position(point)
+                                .title("Selected Location")
+                                .snippet("")).showInfoWindow();
+                    }
+                });
 
                 //if (prefs_bus.getBoolean("first_run", true)) {
                     Log.d(TAG, "Displaying text");
@@ -1269,19 +1281,7 @@ public class MainActivity extends AppCompatActivity
             linear_Layout_1.setVisibility(View.GONE);
 
             if(fab.getVisibility() != 0) {
-                googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-                    @Override
-                    public void onMapLongClick(LatLng point) {
-                        googleMap.clear();
-                        distancecalc_layout.setVisibility(View.GONE);
-                        distancecalc_layout.setVisibility(View.GONE);
-                        submitlayout.setVisibility(View.VISIBLE);
-                        googleMap.addMarker(new MarkerOptions()
-                                .position(point)
-                                .title("Selected Location")
-                                .snippet("")).showInfoWindow();
-                    }
-                });
+
             }
             else{
                 googleMap.setOnMapLongClickListener(null);
