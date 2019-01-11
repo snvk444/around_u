@@ -91,9 +91,10 @@
         <LinearLayout
             android:id="@+id/distancecalc_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@+id/linearlayout"
+            android:background="@color/colorPrimary"
             android:visibility="gone">
 
             <TextView
@@ -101,16 +102,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Distance to Destination: "
-                android:textColor="@color/colorPrimary"
+                android:textColor="#FFFFFF"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:id="@+id/distance_calc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textColor="#dc7633"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+
         </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

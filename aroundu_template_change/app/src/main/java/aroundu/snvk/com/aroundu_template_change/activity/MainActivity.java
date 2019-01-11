@@ -170,13 +170,12 @@ public class MainActivity extends AppCompatActivity
     private boolean expanded = false;
     private boolean fabMenuOpen = false;
     private LinearLayout fabContainer;
-    public LatLng user_loc_input;
+    public LatLng user_loc_input, user_selected_bustop;
     private LatLngBounds.Builder builder;
     private LatLngBounds bounds;
     SharedPreferences prefs, prefs_bus, prefs_coverage;
     PopupWindow popupWindow;
     boolean doubleBackToExitPressedOnce = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -284,7 +283,7 @@ public class MainActivity extends AppCompatActivity
         loc_cancel = (Button) findViewById(R.id.loc_cancel);
         version = (TextView) findViewById(R.id.version_number);
         distance_text = (TextView) findViewById(R.id.distance_text);
-        distance_calc = (TextView) findViewById(R.id.distance_calc);
+
 
         //Animations to fab
         Animation show_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_show);
@@ -362,7 +361,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //todo display popup instead of snackbar to ask users to perform long click for bus_stop locations.
-                String message = "Long press on the map to locate any bus stop in your path!";
+                String message = "Long press on the map to locate the bus stop (accurately) in your path!";
                 int duration = Snackbar.LENGTH_INDEFINITE;
                 showSnackbar(view, message, duration);
                 //fab - click to point out the busstop. does this work???
@@ -441,6 +440,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onClick(View v) {
+
                 addUserInputToDB(user_loc_input, System.currentTimeMillis());
                //todo marker created on long click should be removed but the remaining points should be still visible.
             }
@@ -501,10 +501,12 @@ public class MainActivity extends AppCompatActivity
         bus_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                distancecalc_layout.setVisibility(View.GONE);
 
                 googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                     @Override
                     public void onMapLongClick(LatLng point) {
+                        user_loc_input = point;
                         distancecalc_layout.setVisibility(View.GONE);
                         distancecalc_layout.setVisibility(View.GONE);
                         submitlayout.setVisibility(View.VISIBLE);
@@ -539,26 +541,7 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
 
-                //}
-
-
                 googleMap.clear();
-                /*googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-                    @Override
-                    public void onMapLongClick(LatLng point) {
-                        //googleMap.clear();
-                        submitlayout.setVisibility(View.VISIBLE);
-                        Toast.makeText(getBaseContext(),
-                                point.latitude + ", " + point.longitude,
-                                Toast.LENGTH_SHORT).show();
-                        googleMap.addMarker(new MarkerOptions()
-                                .position(point)
-                                .title("Selected Location")
-                                .snippet("")).showInfoWindow();
-                        user_loc_input = point;
-                    }
-                });*/
-
                 //toggleFabMenu();
                 if (fabMenuOpen) {
                     Log.d(TAG, "fabMenuOpen is false");
@@ -580,11 +563,7 @@ public class MainActivity extends AppCompatActivity
                     if (item_selected_1.equalsIgnoreCase("Bus")) {
                         googleMap.getUiSettings().setMapToolbarEnabled(false);
                         linear_Layout_1 = (LinearLayout) findViewById(R.id.linearlayout);
-                        /*String message = "Long press on the map to locate any missing bus stop accurately. Thank you!";
-                        int duration = Snackbar.LENGTH_INDEFINITE;
-                        final Snackbar snackbar = Snackbar.make(view, message, duration);
-                        showSnackbar(view, message, duration);
-*/
+
                         //todo get rid of this when done testing (because the camera is already moved to the user location.
                         LatLng latLng = new LatLng(latitude, longitude);
                         Log.d(TAG, "Selected location " + latitude + "," + longitude);
@@ -609,9 +588,11 @@ public class MainActivity extends AppCompatActivity
 
                     LatLng latLng = null;
                     Log.d(TAG, String.valueOf(markers));
+                    int i=0;
                     for (PivotTableData marker : markers) {
                         latLng = new LatLng(marker.latitude, marker.longitude);
                         String name = marker.name;
+
                         googleMap.addMarker(new MarkerOptions().position(latLng)
                                 .title(name.toUpperCase()));
                         mData.put(latLng, name);
@@ -630,7 +611,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
 
                 googleMap.setOnMapLongClickListener(null);
-                
+                distancecalc_layout.setVisibility(View.GONE);
                 //instantiate the popup.xml layout file
                 LayoutInflater layoutInflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View customView = layoutInflater.inflate(R.layout.popup,null);
@@ -763,7 +744,7 @@ public class MainActivity extends AppCompatActivity
         textView.setTextColor(Color.RED);
         // styling for background of snackbar
         View sbView = snackbarView;
-        sbView.setBackgroundColor(Color.BLUE);
+        sbView.setBackgroundColor(Color.parseColor("#1d2498"));
         // Set an action on it, and a handler
         snackbar.setAction("DISMISS", new View.OnClickListener() {
             @Override
@@ -1172,6 +1153,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onMarkerClick(Marker marker) {
         submitlayout.setVisibility(View.GONE);
+        user_selected_bustop = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
         Log.d(TAG, "selected marker info: " + marker.getTitle().toUpperCase());
         srcLocation = marker.getTitle().toUpperCase();
 
@@ -1229,23 +1211,15 @@ public class MainActivity extends AppCompatActivity
         } else {
             PivotTableData src = markers.get(0);
             PivotTableData dest = markers.get(markers.size() - 1);
-            /*googleMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(src.latitude, src.longitude))
-                    .title(src.name)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));*/
-            builder.include(new LatLng(src.latitude, src.longitude));
-
-            /*googleMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(dest.latitude, dest.longitude))
-                    .title(dest.name));*/
-            builder.include(new LatLng(dest.latitude, dest.longitude));
+            builder.include(new LatLng(src.latitude-0.005, src.longitude-0.005));
+            builder.include(new LatLng(dest.latitude+0.005, dest.longitude+0.005));
 
             for (PivotTableData marker : markers) {
 
                 googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(marker.latitude, marker.longitude))
                         .title(marker.name)
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
                 builder.include(new LatLng(marker.latitude, marker.longitude));
 
                 if (i == 0) {
@@ -1274,7 +1248,18 @@ public class MainActivity extends AppCompatActivity
                 distance = distance + (dist*60*1.1515);
 
             }
-            distance_calc.setText(String.valueOf((int) distance) + "Km");
+
+            googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(dest.latitude, dest.longitude))
+                    .title(src.name)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+            googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(user_selected_bustop.latitude, user_selected_bustop.longitude))
+                    .title(srcLocation.toUpperCase())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+
+            distance_text.setText("Selected Bus No:" + bus_no + "\nDistance to Destination: " + String.valueOf((int) distance) + "Km");
             LatLngBounds bounds = builder.build();
             int padding = 50;
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
