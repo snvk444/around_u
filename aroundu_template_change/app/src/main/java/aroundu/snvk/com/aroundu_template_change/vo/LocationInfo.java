@@ -12,6 +12,17 @@ public class LocationInfo implements ClusterItem {
     private double longitude;
     private long time_stamp;
     private LatLng mPosition;
+
+    public String getDevice_id() {
+        return device_id;
+    }
+
+    public void setDevice_id(String device_id) {
+        this.device_id = device_id;
+    }
+
+    private String device_id;
+
     private static final String TAG = "Loc_Class";
 
     public void setLatitude(double latitude) {

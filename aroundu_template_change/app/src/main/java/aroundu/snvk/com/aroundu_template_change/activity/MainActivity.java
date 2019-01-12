@@ -646,6 +646,7 @@ public class MainActivity extends AppCompatActivity
         AdvertisingIdClient.Info idInfo = null;
         try {
             idInfo = AdvertisingIdClient.getAdvertisingIdInfo(getApplicationContext());
+            Log.d(TAG, String.valueOf(idInfo));
         } catch (GooglePlayServicesNotAvailableException e) {
             e.printStackTrace();
         } catch (GooglePlayServicesRepairableException e) {
@@ -670,6 +671,7 @@ public class MainActivity extends AppCompatActivity
         li.setTime_stamp(timeStamp);
         li.setLatitude(userinput.latitude);
         li.setLongitude(userinput.longitude);
+        li.setDevice_id(prefs.getString("ad_id", "-1"));
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
         displaypoints.add(li);
 
@@ -682,7 +684,7 @@ public class MainActivity extends AppCompatActivity
             if (dbHandler.dbSyncCount() != 0) {
                 prgDialog.show();
                 params.add("usersInput", gson.toJson(displaypoints));
-                params.add("device_id", prefs.getString("ad_id", null));
+                //params.add("device_id", prefs.getString("ad_id", null));
                 Log.d("Sync", params.toString());
                 client.post("http://limitmyexpense.com/arounduuserdatasync/insert_userinput.php", params, new AsyncHttpResponseHandler() {
                     @Override
