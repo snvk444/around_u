@@ -545,6 +545,10 @@ public class MainActivity extends AppCompatActivity
         bus_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                map_input_status = 0;
+                destination_input_click = 0;
+                dist_metric_layout = 0;
+
                 distancecalc_layout.setVisibility(View.GONE);
 
                 googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
@@ -673,9 +677,16 @@ public class MainActivity extends AppCompatActivity
         coverage_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                linear_Layout_1.setVisibility(View.GONE);
+                if(destination_input_click == 1) {
+                    linear_Layout_1.setVisibility(View.GONE);
+                    destination_input_click = 0;
+                }
+                if(dist_metric_layout == 1) {
+                    distancecalc_layout.setVisibility(View.GONE);
+                    dist_metric_layout = 0;
+                }
                 googleMap.setOnMapLongClickListener(null);
-                distancecalc_layout.setVisibility(View.GONE);
+
                 //instantiate the popup.xml layout file
                 LayoutInflater layoutInflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View customView = layoutInflater.inflate(R.layout.popup,null);
@@ -991,7 +1002,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             Log.d("HeatMapTileProvider", "Permission response: " + list);
             mProvider = new HeatmapTileProvider.Builder().data(list).build();
-            mProvider.setRadius(25);
+            mProvider.setRadius(30);
             mOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
         }
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
@@ -1236,6 +1247,7 @@ public class MainActivity extends AppCompatActivity
                     msg.show();
                 }
             }
+            
         return false;
     }
 
