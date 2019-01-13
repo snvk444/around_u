@@ -105,6 +105,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import aroundu.snvk.com.aroundu_template_change.PivotTableData;
 import aroundu.snvk.com.aroundu_template_change.R;
@@ -171,11 +172,12 @@ public class MainActivity extends AppCompatActivity
     private boolean fabMenuOpen = false;
     private LinearLayout fabContainer;
     public LatLng user_loc_input, user_selected_bustop;
-    private LatLngBounds.Builder builder;
-    private LatLngBounds bounds;
     SharedPreferences prefs, prefs_bus, prefs_coverage;
     PopupWindow popupWindow;
     boolean doubleBackToExitPressedOnce = false;
+    private String uuid ="-11";
+    private int main_fab_click, bus_fab_click, coverage_fab_click, destination_input_click, bottom_sheet_click, track_my_path_click, sub_location_layout_click, userinput_fab_click, map_input_status, dist_metric_layout;
+    HashMap<String,Marker> hashMapMarker = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,7 +203,6 @@ public class MainActivity extends AppCompatActivity
         checkLocationPermission();
 
         //initial insert of data
-
         if (prefs.getBoolean("first_run", true)) {
             Log.d(TAG, "Populating the database");
 
@@ -216,12 +217,14 @@ public class MainActivity extends AppCompatActivity
                     populateDestinationLookUpTable();
                     //if we have the .db file created, use the below line to get the data into database fast. use below for release.
 
-
-                    prefs.edit().putString("ad_id", getGoogleID());
+                    final String uuid = UUID.randomUUID().toString().replace("-", "");
+                    prefs.edit().putString("ad_id", uuid );
                     prefs.edit().putBoolean("first_run", false).apply();
                 }
             });
         }
+        uuid = UUID.randomUUID().toString().replace("-", "");
+        prefs.edit().putString("ad_id", uuid );
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -246,7 +249,7 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         fabContainer = (LinearLayout) findViewById(R.id.fabContainerLayout);
         submitlayout = (LinearLayout) findViewById(R.id.submitlayout);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.userinput_fab);
         fab_main = (FloatingActionButton) findViewById(R.id.fab1);
 
         //ShowcaseView (first time - user) tutorial
@@ -361,6 +364,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //todo display popup instead of snackbar to ask users to perform long click for bus_stop locations.
+                userinput_fab_click = 1;
                 String message = "Long press on the map to locate the bus stop (accurately) in your path!";
                 int duration = Snackbar.LENGTH_INDEFINITE;
                 showSnackbar(view, message, duration);
@@ -440,19 +444,59 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onClick(View v) {
-
-                addUserInputToDB(user_loc_input, System.currentTimeMillis());
-               //todo marker created on long click should be removed but the remaining points should be still visible.
+                linear_Layout_1.setVisibility(View.GONE);
+                if(dist_metric_layout == 0){
+                }
+                else if(dist_metric_layout == 1) {
+                    distancecalc_layout.setVisibility(View.VISIBLE);
+                }
+                    addUserInputToDB(user_loc_input, System.currentTimeMillis());
+                    //todo marker created on long click should be removed but the remaining points should be still visible.
+                /*googleMap.addMarker(new MarkerOptions()
+                        .position(user_loc_input)
+                        .title("Suggested BusStop Location"))
+                        .showInfoWindow();*/
+                    map_input_status = 0;
+                    userinput_fab_click = 0;
+                    //after user submits the location, it has to be removed from the map
+                    Marker marker = hashMapMarker.get("Selected Location");
+                    Log.d(TAG, marker.getTitle());
+                    marker.remove();
+                    hashMapMarker.remove("SelectedLocation");
             }
         });
+
+
 
         loc_cancel.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                if(dist_metric_layout == 0){
+                }
+                else if(dist_metric_layout == 1) {
+                    distancecalc_layout.setVisibility(View.VISIBLE);
+                }
+                if(destination_input_click == 0) {
+                }
+                else if(destination_input_click ==1){
+                    destination_input_click = 0;
+                    linear_Layout_1.setVisibility(View.GONE);
+                }
+
+                //user might have selected a location but doesnt want to submit it. in that case, the selected location on the map (marker) should be deleted.
+                Marker marker = hashMapMarker.get("Selected Location");
+                Log.d(TAG, marker.getTitle());
+                marker.remove();
+                hashMapMarker.remove("SelectedLocation");
+
                 user_loc_input = null;
-                //todo user_loc_input location on the map should be removed, remaining points should be still visible.
                 submitlayout.setVisibility(View.GONE);
+                if(destination_input_click == 1) {
+
+                }
+                userinput_fab_click = 0;
+                map_input_status = 0;
 
             }
         });
@@ -506,14 +550,36 @@ public class MainActivity extends AppCompatActivity
                 googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                     @Override
                     public void onMapLongClick(LatLng point) {
-                        user_loc_input = point;
-                        distancecalc_layout.setVisibility(View.GONE);
-                        distancecalc_layout.setVisibility(View.GONE);
-                        submitlayout.setVisibility(View.VISIBLE);
-                        googleMap.addMarker(new MarkerOptions()
-                                .position(point)
-                                .title("Selected Location")
-                                .snippet("")).showInfoWindow();
+
+                        if(map_input_status == 0) {
+                            //user can submit one bus stop at a time. map_input_status checks if the user has already onpressed on the map.
+                            user_loc_input = point;
+                            distancecalc_layout.setVisibility(View.GONE);
+                            submitlayout.setVisibility(View.VISIBLE);
+                            Marker marker = googleMap.addMarker(new MarkerOptions()
+                                    .position(point)
+                                    .title("Selected Location"));
+                            marker.showInfoWindow();
+                            map_input_status = 1;
+                            hashMapMarker.put("Selected Location",marker);
+                            Log.d("markers on map: ", String.valueOf(hashMapMarker.size()));
+                        }
+                        else {
+                            Marker marker = hashMapMarker.get("Selected Location");
+                            Log.d(TAG, marker.getTitle());
+                            marker.remove();
+                            hashMapMarker.remove("SelectedLocation");
+
+                            user_loc_input = point;
+                            distancecalc_layout.setVisibility(View.GONE);
+                            submitlayout.setVisibility(View.VISIBLE);
+                            marker = googleMap.addMarker(new MarkerOptions()
+                                    .position(point)
+                                    .title("Selected Location"));
+                            marker.showInfoWindow();
+                            hashMapMarker.put("Selected Location",marker);
+                            Log.d("markers on map: ", String.valueOf(hashMapMarker.size()));
+                        }
                     }
                 });
 
@@ -588,11 +654,9 @@ public class MainActivity extends AppCompatActivity
 
                     LatLng latLng = null;
                     Log.d(TAG, String.valueOf(markers));
-                    int i=0;
                     for (PivotTableData marker : markers) {
                         latLng = new LatLng(marker.latitude, marker.longitude);
                         String name = marker.name;
-
                         googleMap.addMarker(new MarkerOptions().position(latLng)
                                 .title(name.toUpperCase()));
                         mData.put(latLng, name);
@@ -609,7 +673,7 @@ public class MainActivity extends AppCompatActivity
         coverage_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                linear_Layout_1.setVisibility(View.GONE);
                 googleMap.setOnMapLongClickListener(null);
                 distancecalc_layout.setVisibility(View.GONE);
                 //instantiate the popup.xml layout file
@@ -671,7 +735,7 @@ public class MainActivity extends AppCompatActivity
         li.setTime_stamp(timeStamp);
         li.setLatitude(userinput.latitude);
         li.setLongitude(userinput.longitude);
-        li.setDevice_id(prefs.getString("ad_id", "-1"));
+        li.setDevice_id(uuid);
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
         displaypoints.add(li);
 
@@ -684,6 +748,7 @@ public class MainActivity extends AppCompatActivity
             if (dbHandler.dbSyncCount() != 0) {
                 prgDialog.show();
                 params.add("usersInput", gson.toJson(displaypoints));
+                Toast.makeText(getApplicationContext(), "device_id:" + uuid, Toast.LENGTH_LONG).show();
                 //params.add("device_id", prefs.getString("ad_id", null));
                 Log.d("Sync", params.toString());
                 client.post("http://limitmyexpense.com/arounduuserdatasync/insert_userinput.php", params, new AsyncHttpResponseHandler() {
@@ -755,6 +820,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
         snackbar.show();
+        userinput_fab_click = 0;
     }
 
     public void syncSQLiteMySQLDB() {
@@ -1062,10 +1128,13 @@ public class MainActivity extends AppCompatActivity
                 Log.d("Sync", "Starting SyncSQLiteMySQLDB");
                 syncSQLiteMySQLDB();
                 break;
-            case R.id.action_settings:
+            /*case R.id.action_settings:
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
                         .show();
-                break;
+                break;*/
+            case R.id.action_exit:
+                finish();
+                //System.exit(0);
             default:
                 break;
         }
@@ -1155,15 +1224,18 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onMarkerClick(Marker marker) {
         submitlayout.setVisibility(View.GONE);
-        user_selected_bustop = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
-        Log.d(TAG, "selected marker info: " + marker.getTitle().toUpperCase());
-        srcLocation = marker.getTitle().toUpperCase();
+            user_selected_bustop = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
+            Log.d(TAG, "selected marker info: " + marker.getTitle().toUpperCase());
+            srcLocation = marker.getTitle().toUpperCase();
 
-        if (item_selected_1.equalsIgnoreCase("Bus")) {
-            linear_Layout_1.setVisibility(View.VISIBLE);
-            Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
-            msg.show();
-        }
+            if (dist_metric_layout == 0) {
+                if (item_selected_1.equalsIgnoreCase("Bus")) {
+                    linear_Layout_1.setVisibility(View.VISIBLE);
+                    Toast msg = Toast.makeText(getBaseContext(), "Enter destination", Toast.LENGTH_LONG);
+                    destination_input_click = 1;
+                    msg.show();
+                }
+            }
         return false;
     }
 
@@ -1203,6 +1275,7 @@ public class MainActivity extends AppCompatActivity
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         Log.d(TAG, String.valueOf(markers));
         distancecalc_layout.setVisibility(View.VISIBLE);
+        dist_metric_layout = 1;
         double distance = 0.0;
         int i = 0;
         double user_lat, user_long, next_stop_lat = 0, next_stop_long = 0;
