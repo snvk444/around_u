@@ -1074,10 +1074,11 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
                         .show();
                 break;
-            /*case R.id.action_settings:
-                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+            case R.id.action_feedback:
+                Toast.makeText(this, "Feedback selected", Toast.LENGTH_SHORT)
                         .show();
-                break;*/
+                //todo call the fragment_feedback.xml and show the user the fragment.
+                break;
             case R.id.action_exit:
                 finish();
                 //System.exit(0);
