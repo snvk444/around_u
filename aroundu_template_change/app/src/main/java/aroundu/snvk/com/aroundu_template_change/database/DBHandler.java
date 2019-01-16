@@ -23,6 +23,7 @@ import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import aroundu.snvk.com.aroundu_template_change.BusLinesData;
 import aroundu.snvk.com.aroundu_template_change.PivotTableData;
@@ -71,7 +72,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DEST_LOOK_UP = "dest_look_up";
     private static final String ACTUAL_NAME = "actual_name";
     private static final String STATUS = "status";
-
+    private String uuid ="-11";
     private static DBHandler mInstance = null;
 
 //    public DBHandler(Context context) {
@@ -126,13 +127,13 @@ public class DBHandler extends SQLiteOpenHelper {
             Log.i(TAG, "Create table " + CREATE_LOCATION_TABLE);
             db.execSQL(CREATE_LOCATION_TABLE);
 
-            String CREATE_LOCATION_TABLE_1 = "CREATE TABLE " + LOC_TABLE_NAME_DISTINCT + "("
+           /* String CREATE_LOCATION_TABLE_1 = "CREATE TABLE " + LOC_TABLE_NAME_DISTINCT + "("
                     + TIME_STAMP + " TEXT PRIMARY KEY,"
                     + LATITUDE + " DECIMAL(10,7) ,"
                     + LONGITUDE + " DECIMAL(10,7)"
                     + ")";
             Log.i(TAG, "Create table " + CREATE_LOCATION_TABLE_1);
-            db.execSQL(CREATE_LOCATION_TABLE_1);
+            db.execSQL(CREATE_LOCATION_TABLE_1);*/
 
             String CREATE_LINES_TABLE = "CREATE TABLE " + LINES_TABLE_NAME + "("
                     + LINE_ID + " INTEGER, "
@@ -182,6 +183,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 li.setTime_stamp(cursor.getLong(1));
                 li.setLatitude(cursor.getDouble(2));
                 li.setLongitude(cursor.getDouble(3));
+                li.setDevice_id(uuid);
                 /*
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("time_stamp", cursor.getString(0));
@@ -508,6 +510,7 @@ public class DBHandler extends SQLiteOpenHelper {
         //List itemIds = new ArrayList<>();
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
         LocationInfo li;
+        uuid = UUID.randomUUID().toString().replace("-", "");
         while (cursor.moveToNext()) {
             //long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(LATITUDE));
             //Log.i(TAG, " TimeStamp: " + cursor.getDouble(0) + "Latitude:" + cursor.getDouble(1) + "Longitude:" + cursor.getDouble(2));
@@ -518,6 +521,7 @@ public class DBHandler extends SQLiteOpenHelper {
             li.setTime_stamp(cursor.getLong(1));
             li.setLatitude(cursor.getDouble(2));
             li.setLongitude(cursor.getDouble(3));
+            li.setDevice_id(uuid);
 
             displaypoints.add(li);
             Log.i(TAG, " Points to Display from readLocationInfo lat:" + li.getLongitude());

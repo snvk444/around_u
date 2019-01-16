@@ -759,7 +759,7 @@ public class MainActivity extends AppCompatActivity
             if (dbHandler.dbSyncCount() != 0) {
                 prgDialog.show();
                 params.add("usersInput", gson.toJson(displaypoints));
-                Toast.makeText(getApplicationContext(), "device_id:" + uuid, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "device_id:" + uuid, Toast.LENGTH_LONG).show();
                 //params.add("device_id", prefs.getString("ad_id", null));
                 Log.d("Sync", params.toString());
                 client.post("http://limitmyexpense.com/arounduuserdatasync/insert_userinput.php", params, new AsyncHttpResponseHandler() {
@@ -778,7 +778,6 @@ public class MainActivity extends AppCompatActivity
                                 JSONObject jsonobject = jarray.getJSONObject(i);
                                 Log.d("Sync", String.valueOf(jsonobject.getLong("time_stamp")));
                             }
-                            Log.d("Sync", "Am I here??");
                             Log.d("Sync", String.valueOf(jarray.length()));
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
@@ -834,69 +833,7 @@ public class MainActivity extends AppCompatActivity
         userinput_fab_click = 0;
     }
 
-    public void syncSQLiteMySQLDB() {
-        AsyncHttpClient client = new AsyncHttpClient();
-        final RequestParams params = new RequestParams();
-        final List userList = dbHandler.readLocationInfo_1();
-        Log.d("Sync 1", String.valueOf(userList.size()));
-        if (userList.size() != 0) {
-            if (dbHandler.dbSyncCount() != 0) {
-                Log.d("Sync", "OnSuccess Function 1");
-                prgDialog.show();
-                Log.d("Sync", "OnSuccess Function 2");
-                params.add("usersJSON", dbHandler.composeJSONfromSQLite());
-                Log.d("Sync", params.toString());
-                client.post("http://limitmyexpense.com/arounduuserdatasync/insert_location_logs.php", params, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        Log.d("Sync", "OnSuccess Function 4");
-                        Log.d("Sync", String.valueOf(statusCode));
-                        prgDialog.hide();
-                        try {
-                            Log.d("Sync", "in try block!");
-                            String str = new String(responseBody, "UTF-8");
-                            Log.d("Sync str", String.valueOf(str.length()));
-                            JSONArray jarray = new JSONArray(str.trim());
-                            Log.d("Sync", String.valueOf(jarray.length()));
 
-                            for (int i = 0; i < jarray.length(); i++) {
-                                Log.d("Sync", String.valueOf(i));
-                                JSONObject jsonobject = jarray.getJSONObject(i);
-                                Log.d("Sync", String.valueOf(jsonobject.getLong("time_stamp")));
-                                //jsonobject.getLong("time_stamp");
-                                dbHandler.updateSyncStatus((Long) jsonobject.getLong("time_stamp"));
-                            }
-                            Log.d("Sync", "Am I here??");
-                            Log.d("Sync", String.valueOf(jarray.length()));
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        // TODO Auto-generated method stub
-                        Log.d("Sync", "OnFailure Function");
-                        prgDialog.hide();
-                        if (statusCode == 404) {
-                            Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
-                        } else if (statusCode == 500) {
-                            Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
-                        } else {
-                            Log.d("Sync", error.getMessage());
-                            Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-            } else {
-                Toast.makeText(getApplicationContext(), "SQLite and Remote MySQL DBs are in Sync!", Toast.LENGTH_LONG).show();
-            }
-        } else {
-            Toast.makeText(getApplicationContext(), "No data in SQLite DB, please do enter User name to perform Sync action", Toast.LENGTH_LONG).show();
-        }
-    }
 
     @SuppressWarnings({"MissingPermission"})
     public void setLocationManagerListener(String provider) {
@@ -1136,8 +1073,6 @@ public class MainActivity extends AppCompatActivity
                 googleMap.clear();
                 Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
                         .show();
-                Log.d("Sync", "Starting SyncSQLiteMySQLDB");
-                syncSQLiteMySQLDB();
                 break;
             /*case R.id.action_settings:
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
@@ -1247,7 +1182,7 @@ public class MainActivity extends AppCompatActivity
                     msg.show();
                 }
             }
-            
+
         return false;
     }
 
