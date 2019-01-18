@@ -18,5 +18,12 @@ public class feedback extends Fragment {
         return inflater.inflate(R.layout.fragment_feedback, container, false);
     }
 
+public feedback() {
+}
+
+    public static feedback newInstance() {
+        return new feedback();
+    }
+
 
 }

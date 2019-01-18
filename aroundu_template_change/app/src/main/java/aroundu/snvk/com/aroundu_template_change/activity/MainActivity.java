@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.support.v4.app.FragmentManager;
 import android.view.Gravity;
 import android.view.ViewGroup.LayoutParams;
 import android.os.Build;
@@ -54,6 +56,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -112,6 +115,7 @@ import aroundu.snvk.com.aroundu_template_change.R;
 import aroundu.snvk.com.aroundu_template_change.adapters.BottomSheetAdapter;
 import aroundu.snvk.com.aroundu_template_change.adapters.SearchViewAdapter;
 import aroundu.snvk.com.aroundu_template_change.database.DBHandler;
+import aroundu.snvk.com.aroundu_template_change.feedback;
 import aroundu.snvk.com.aroundu_template_change.interfaces.BottomSheetClickListener;
 import aroundu.snvk.com.aroundu_template_change.interfaces.RecyclerViewClickListener;
 import aroundu.snvk.com.aroundu_template_change.interfaces.TrackingListener;
@@ -178,6 +182,7 @@ public class MainActivity extends AppCompatActivity
     private String uuid ="-11";
     private int main_fab_click, bus_fab_click, coverage_fab_click, destination_input_click, bottom_sheet_click, track_my_path_click, sub_location_layout_click, userinput_fab_click, map_input_status, dist_metric_layout;
     HashMap<String,Marker> hashMapMarker = new HashMap<>();
+    LinearLayout feedback_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,7 +265,7 @@ public class MainActivity extends AppCompatActivity
            int margin = ((Number) (getResources().getDisplayMetrics().density * 16)).intValue();
            lps.setMargins(margin, margin, margin, margin);
            Target viewTarget = new ViewTarget(R.id.fab1, this);  // Add the control you need to focus by the ShowcaseView
-           ShowcaseView sv = new ShowcaseView.Builder(this)
+           /*ShowcaseView sv = new ShowcaseView.Builder(this)
                .setTarget(viewTarget)
                 //.setContentTitle(R.string.title_single_shot)        // Add your string file (title_single_shot) in values/strings.xml
                 .setContentText(R.string.R_string_desc_single_shot1) // Add your string file (R_strings_desc_single_shot) in values/strings.xml
@@ -269,9 +274,10 @@ public class MainActivity extends AppCompatActivity
                    .useDecorViewAsParent()
                    .setStyle(R.color.colorPrimary)
                    .build();
-            sv.setButtonPosition(lps);
+            sv.setButtonPosition(lps);*/
 
-
+        feedback_layout = (LinearLayout) findViewById(R.id.feedbackLinearLayout);
+        feedback_layout.setVisibility(View.GONE);
         bus_fab = (FloatingActionButton) findViewById(R.id.bus_fab);
         coverage_fab = (FloatingActionButton) findViewById(R.id.coverage_fab);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -1078,6 +1084,17 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, "Feedback selected", Toast.LENGTH_SHORT)
                         .show();
                 //todo call the fragment_feedback.xml and show the user the fragment.
+                Log.d("FEEDBACK", "feedback button clicked");
+                feedback_layout.setVisibility(View.VISIBLE);
+                feedback fragment = feedback.newInstance();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                Log.d("FEEDBACK", "fragment transaction object created");
+                fragmentTransaction.add(R.id.feedbackLinearLayout, fragment);
+                Log.d("FEEDBACK", "feedback layout assigned");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
                 break;
             case R.id.action_exit:
                 finish();
