@@ -1,8 +1,10 @@
 package aroundu.snvk.com.aroundu_template_change.service;
 
+import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -11,24 +13,17 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.google.android.gms.common.util.DbUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
 import java.util.List;
-
 import aroundu.snvk.com.aroundu_template_change.database.DBHandler;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
 import cz.msebera.android.httpclient.Header;
-import java.util.Calendar;
 
 public class BackgroundService extends Service {
 
@@ -50,17 +45,11 @@ public class BackgroundService extends Service {
         handler = new Handler();
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         setLocationManager();
-        //dbHandler.dbSyncCount();
-
-        Date currentTime = Calendar.getInstance().getTime();
-        Date newDate = new Date(currentTime.getTime() - 604800000L); // 7 * 24 * 60 * 60 * 1000
-
-        Log.d("Time wonder", String.valueOf(currentTime));
-
-        if(dbHandler.dbSyncCount() == 10000){
+        if((dbHandler.dbSyncCount() >= 1000)){
             //pull the data from the device where status=0 in locationInfo table.
             Log.d("Sync", "Starting SyncSQLiteMySQLDB");
             syncSQLiteMySQLDB();
+            dbHandler.updateloctable();
 
         }else{
         //nothing to do
@@ -114,12 +103,12 @@ public class BackgroundService extends Service {
     public void onDestroy() {
         /* IF YOU WANT THIS SERVICE KILLED WITH THE APP THEN UNCOMMENT THE FOLLOWING LINE */
         //handler.removeCallbacks(runnable);
-        Toast.makeText(this, "Service stopped", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Service stopped", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onStart(Intent intent, int startid) {
-        Toast.makeText(this, "Service started by user.", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Service started by user.", Toast.LENGTH_LONG).show();
     }
 
     public void addLocationInfoToDB(double latitude, double longitude, long timeStamp) {
@@ -135,12 +124,10 @@ public class BackgroundService extends Service {
     public void syncSQLiteMySQLDB() {
         AsyncHttpClient client = new AsyncHttpClient();
         final RequestParams params = new RequestParams();
-        final List userList = dbHandler.readLocationInfo_1();
+        final List userList = dbHandler.UpdateServerLocationInfo();
         Log.d("Sync 1", String.valueOf(userList.size()));
         if (userList.size() != 0) {
             if (dbHandler.dbSyncCount() != 0) {
-                Log.d("Sync", "OnSuccess Function 1");
-                //prgDialog.show();
                 Log.d("Sync", "OnSuccess Function 2");
                 params.add("usersJSON", dbHandler.composeJSONfromSQLite());
                 Log.d("Sync", params.toString());
@@ -189,10 +176,10 @@ public class BackgroundService extends Service {
                     }
                 });
             } else {
-                Toast.makeText(getApplicationContext(), "SQLite and Remote MySQL DBs are in Sync!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "SQLite and Remote MySQL DBs are in Sync!", Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(getApplicationContext(), "No data in SQLite DB, please do enter User name to perform Sync action", Toast.LENGTH_LONG).show();
+            //Database is in Sync
         }
     }
 }

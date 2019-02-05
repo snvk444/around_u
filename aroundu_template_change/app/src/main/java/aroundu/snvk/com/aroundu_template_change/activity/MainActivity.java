@@ -4,7 +4,6 @@ import android.Manifest;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +16,6 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.support.v4.app.FragmentManager;
 import android.view.Gravity;
 import android.view.ViewGroup.LayoutParams;
 import android.os.Build;
@@ -56,7 +54,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -67,7 +64,6 @@ import android.widget.ToggleButton;
 
 import org.json.JSONArray;
 
-import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.Target;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
@@ -115,7 +111,6 @@ import aroundu.snvk.com.aroundu_template_change.R;
 import aroundu.snvk.com.aroundu_template_change.adapters.BottomSheetAdapter;
 import aroundu.snvk.com.aroundu_template_change.adapters.SearchViewAdapter;
 import aroundu.snvk.com.aroundu_template_change.database.DBHandler;
-import aroundu.snvk.com.aroundu_template_change.feedback;
 import aroundu.snvk.com.aroundu_template_change.interfaces.BottomSheetClickListener;
 import aroundu.snvk.com.aroundu_template_change.interfaces.RecyclerViewClickListener;
 import aroundu.snvk.com.aroundu_template_change.interfaces.TrackingListener;
@@ -123,7 +118,9 @@ import aroundu.snvk.com.aroundu_template_change.service.BackgroundService;
 import aroundu.snvk.com.aroundu_template_change.view.MoreInfoDialog;
 import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
+import aroundu.snvk.com.aroundu_template_change.vo.FeedbackInfo;
 import cz.msebera.android.httpclient.Header;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -141,8 +138,8 @@ public class MainActivity extends AppCompatActivity
     HeatmapTileProvider mProvider;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     String provider;
-    Button btn, loc_submit, loc_cancel, closePopupBtn;
-    EditText eText;
+    Button btn, loc_submit, loc_cancel, closePopupBtn, feedback_submit, feedback_cancel;
+    EditText eText, EditTextFeedbackBody;
     ConstraintLayout constraint_Layout_1;
     LinearLayout linear_Layout_1;
     LinearLayout submitlayout;
@@ -176,7 +173,7 @@ public class MainActivity extends AppCompatActivity
     private boolean fabMenuOpen = false;
     private LinearLayout fabContainer;
     public LatLng user_loc_input, user_selected_bustop;
-    SharedPreferences prefs, prefs_bus, prefs_coverage;
+    SharedPreferences prefs;
     PopupWindow popupWindow;
     boolean doubleBackToExitPressedOnce = false;
     private String uuid ="-11";
@@ -191,8 +188,8 @@ public class MainActivity extends AppCompatActivity
 
 //
         prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        prefs_bus = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        prefs_coverage = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        //prefs_bus = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        //prefs_coverage = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         prgDialog = new ProgressDialog(this);
         mHandler = new Handler(Looper.getMainLooper());
         mHandlerThread = new HandlerThread("BackgroundThread");
@@ -223,13 +220,16 @@ public class MainActivity extends AppCompatActivity
                     //if we have the .db file created, use the below line to get the data into database fast. use below for release.
 
                     final String uuid = UUID.randomUUID().toString().replace("-", "");
-                    prefs.edit().putString("ad_id", uuid );
-                    prefs.edit().putBoolean("first_run", false).apply();
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("ad_id", uuid );
+                    editor.putBoolean("first_run", false);
+                    editor.apply();
+
                 }
             });
         }
-        uuid = UUID.randomUUID().toString().replace("-", "");
-        prefs.edit().putString("ad_id", uuid );
+        //uuid = UUID.randomUUID().toString().replace("-", "");
+        //prefs.edit().putString("ad_id", uuid );
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -276,8 +276,10 @@ public class MainActivity extends AppCompatActivity
                    .build();
             sv.setButtonPosition(lps);*/
 
-        feedback_layout = (LinearLayout) findViewById(R.id.feedbackLinearLayout);
-        feedback_layout.setVisibility(View.GONE);
+        //feedback_layout = (LinearLayout) findViewById(R.id.feedbackLinearLayout);
+        //feedback_framelayout = (LinearLayout) findViewById(R.id.feedbackFrameLayout);
+        //feedback_layout.setVisibility(View.GONE);
+        feedback_layout = (LinearLayout) findViewById(R.id.feedback_layout);
         bus_fab = (FloatingActionButton) findViewById(R.id.bus_fab);
         coverage_fab = (FloatingActionButton) findViewById(R.id.coverage_fab);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -292,6 +294,8 @@ public class MainActivity extends AppCompatActivity
         loc_cancel = (Button) findViewById(R.id.loc_cancel);
         version = (TextView) findViewById(R.id.version_number);
         distance_text = (TextView) findViewById(R.id.distance_text);
+        //feedback_submit = (Button) findViewById(R.id.ButtonSendFeedback);
+        //feedback_cancel = (Button) findViewById(R.id.ButtonCancelFeedback);
 
 
         //Animations to fab
@@ -473,7 +477,6 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-
         loc_cancel.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -630,8 +633,8 @@ public class MainActivity extends AppCompatActivity
 
                     //testing the data. Assigning latnlong manually for now.
                     //17.694948, 83.292365 - old head post office
-                    double latitude = 17.694948;
-                    double longitude = 83.292365;
+                    double latitude = 17.80300;
+                    double longitude = 83.353;
                     item_selected_1 = "Bus";
                     List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
                     int busstops_1 = markers.size();
@@ -721,6 +724,7 @@ public class MainActivity extends AppCompatActivity
                 Log.d(TAG, "addHeatMap_1 passed");
             }
         });
+
     }
 
     private String getGoogleID() {
@@ -909,6 +913,7 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     //todo add pop up to re-request location, since the app is mostly pointless without it
                     //todo show the user a popup with the steps to follow to give user location permission.
+
                 }
                 return;
             }
@@ -933,12 +938,17 @@ public class MainActivity extends AppCompatActivity
 
     public void addHeatMap_1() {
         Log.d(TAG, "HeatMAp");
+        //todo check location permission
+        setLocation();
         ArrayList<LocationInfo> locationInfoList = (ArrayList<LocationInfo>) dbHandler.readLocationInfo_1();
         LatLng source_loc = null;
         List<LatLng> list = new ArrayList<>();
         for (LocationInfo li : locationInfoList) {
             source_loc = new LatLng(li.getLatitude(), li.getLongitude());
             list.add(source_loc);
+            //todo if currentLocation is null, get the current location coordinates
+            currentLocation.setLatitude(li.getLatitude());
+            currentLocation.setLongitude(li.getLongitude());
         }
         if (list.size() == 0) {
             Log.d(TAG, "Whats happening at this point?? What should I do??");
@@ -948,9 +958,10 @@ public class MainActivity extends AppCompatActivity
             mProvider.setRadius(30);
             mOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
         }
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
-                new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 5);
-        googleMap.animateCamera(cameraUpdate);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
+                        new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 5);
+                googleMap.animateCamera(cameraUpdate);
+
         }
 
     private void populateDestinationLookUpTable() {
@@ -1035,23 +1046,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        /*DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (expanded) {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        } else {
-            super.onBackPressed();
-        }
-*/
+
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;
         }
-
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Please click the button again to exit the application.", Toast.LENGTH_SHORT).show();
-
         new Handler().postDelayed(new Runnable() {
 
             @Override
@@ -1059,7 +1060,6 @@ public class MainActivity extends AppCompatActivity
                 doubleBackToExitPressedOnce=false;
             }
         }, 2000);
-
     }
 
     @Override
@@ -1081,19 +1081,108 @@ public class MainActivity extends AppCompatActivity
                         .show();
                 break;
             case R.id.action_feedback:
-                Toast.makeText(this, "Feedback selected", Toast.LENGTH_SHORT)
+
+                Intent homeIntent = new Intent(this, feedback_activity.class);
+                startActivity(homeIntent);
+
+
+
+              /*  Toast.makeText(this, "Feedback selected", Toast.LENGTH_SHORT)
                         .show();
-                //todo call the fragment_feedback.xml and show the user the fragment.
-                Log.d("FEEDBACK", "feedback button clicked");
-                feedback_layout.setVisibility(View.VISIBLE);
-                feedback fragment = feedback.newInstance();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Log.d("FEEDBACK", "fragment transaction object created");
-                fragmentTransaction.add(R.id.feedbackLinearLayout, fragment);
-                Log.d("FEEDBACK", "feedback layout assigned");
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                //todo call the Feedback.xml the user the fragment.
+                Log.d("FEEDBACK", "Feedback button clicked");
+                LayoutInflater layoutInflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View customView = layoutInflater.inflate(R.layout.Feedback,null);
+                Log.d("FEEDBACK", "Feedback button clicked_1");
+                feedback_submit = (Button) customView.findViewById(R.id.feedback_submit);
+                feedback_cancel = (Button) customView.findViewById(R.id.feedback_cancel);
+                //instantiate popup window
+                popupWindow = new PopupWindow(customView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                popupWindow.setBackgroundDrawable(new BitmapDrawable());
+                Log.d("FEEDBACK", "Feedback button clicked_2");
+                popupWindow.setOutsideTouchable(true);
+                Log.d("FEEDBACK", "Feedback button clicked_3");
+                //display the popup window
+                popupWindow.showAtLocation(fabContainer, Gravity.CENTER, 0, 0);
+                Log.d("FEEDBACK", "Feedback button clicked_4");
+
+                EditTextFeedbackBody = (EditText) customView.findViewById(R.id.EditTextFeedbackBody);
+                EditTextFeedbackBody.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("EDITTEXT", "Has focus: " + EditTextFeedbackBody.hasFocus());
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+                        *//*if (EditTextFeedbackBody.requestFocus()) {
+
+                            customView.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+                                }
+                            }, 20000);
+                        }*//*
+                }
+                });*/
+                //close the popup window on button click
+                /*feedback_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+                    }
+                });
+
+                feedback_submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if(EditTextFeedbackBody.getText().toString().length() > 0){
+                            FeedbackInfo fi = new FeedbackInfo();
+                            fi.setId(uuid);
+                            fi.setFeedback(EditTextFeedbackBody.getText().toString());
+                            ArrayList<FeedbackInfo> displaypoints = new ArrayList<>();
+                            displaypoints.add(fi);
+                            AsyncHttpClient client = new AsyncHttpClient();
+                            final RequestParams params = new RequestParams();
+                            final List userList = displaypoints;
+                            Gson gson = new GsonBuilder().create();
+                            Log.d(TAG, String.valueOf(userList.size()));
+                            prgDialog.show();
+                            params.add("usersFeedback", gson.toJson(displaypoints));
+                            client.post("http://limitmyexpense.com/arounduuserdatasync/insert_userinput.php", params, new AsyncHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                                    Log.d("Sync", "OnSuccess Function 4");
+                                    Log.d("Sync", String.valueOf(statusCode));
+                                    prgDialog.hide();
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                                    // TODO Auto-generated method stub
+                                    Log.d("Sync", "OnFailure Function");
+                                    prgDialog.hide();
+                                    if (statusCode == 404) {
+                                        Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                                    } else if (statusCode == 500) {
+                                        Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Log.d("Sync", error.getMessage());
+                                        Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+
+                            });
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Please provide your Feedback before submitting.", Toast.LENGTH_LONG).show();
+                        }
+
+                        popupWindow.dismiss();
+                    }
+                });
+*/
+
 
                 break;
             case R.id.action_exit:
@@ -1246,13 +1335,14 @@ public class MainActivity extends AppCompatActivity
         double user_lat, user_long, next_stop_lat = 0, next_stop_long = 0;
 
         if (markers.size() == 0) {
-            Toast msg = Toast.makeText(getBaseContext(), "Source and Destination should be different!! Try a different destination location.", Toast.LENGTH_LONG);
+            distancecalc_layout.setVisibility(View.VISIBLE);
+            Toast msg = Toast.makeText(getBaseContext(), "Either Source and Destination are the same!! Try a different destination location.", Toast.LENGTH_LONG);
             msg.show();
         } else {
             PivotTableData src = markers.get(0);
             PivotTableData dest = markers.get(markers.size() - 1);
-            builder.include(new LatLng(src.latitude-0.005, src.longitude-0.005));
-            builder.include(new LatLng(dest.latitude+0.005, dest.longitude+0.005));
+            builder.include(new LatLng(src.latitude+0.015, src.longitude+0.015));
+            builder.include(new LatLng(dest.latitude+0.01, dest.longitude+0.01));
 
             for (PivotTableData marker : markers) {
 
@@ -1264,9 +1354,8 @@ public class MainActivity extends AppCompatActivity
 
                 if (i == 0) {
 
-                    //17.694948, 83.292365 - old head post office
-                    user_lat = 17.694948;
-                    user_long = 83.292365;
+                    user_lat = 17.803009;
+                    user_long = 83.353;
                     //todo use the below user_lat and user_long for actual distance calculation.
                     //user_lat = currentLocation.getLatitude();
                     //user_long = currentLocation.getLongitude();
@@ -1299,7 +1388,7 @@ public class MainActivity extends AppCompatActivity
                     .title(srcLocation.toUpperCase())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
 
-            distance_text.setText("Selected Bus No:" + bus_no + "\nDistance to Destination: " + String.valueOf((int) distance) + "Km");
+            distance_text.setText("Selected Bus No:" + bus_no );
             LatLngBounds bounds = builder.build();
             int padding = 50;
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);

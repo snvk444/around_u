@@ -10,10 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -22,6 +20,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,7 +36,7 @@ import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
 
 public class DBHandler extends SQLiteOpenHelper {
 
-    private static final String TAG = "databaseses";
+    private static final String TAG = "DATABASE_LOG";
 
 
     // Database Version
@@ -74,11 +74,6 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String STATUS = "status";
     private String uuid ="-11";
     private static DBHandler mInstance = null;
-
-//    public DBHandler(Context context) {
-//        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-//    }
-
     protected Context mContext;
 
     public synchronized static DBHandler getInstance(Context context) {
@@ -87,7 +82,6 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         return mInstance;
     }
-
 
     protected DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -127,14 +121,6 @@ public class DBHandler extends SQLiteOpenHelper {
             Log.i(TAG, "Create table " + CREATE_LOCATION_TABLE);
             db.execSQL(CREATE_LOCATION_TABLE);
 
-           /* String CREATE_LOCATION_TABLE_1 = "CREATE TABLE " + LOC_TABLE_NAME_DISTINCT + "("
-                    + TIME_STAMP + " TEXT PRIMARY KEY,"
-                    + LATITUDE + " DECIMAL(10,7) ,"
-                    + LONGITUDE + " DECIMAL(10,7)"
-                    + ")";
-            Log.i(TAG, "Create table " + CREATE_LOCATION_TABLE_1);
-            db.execSQL(CREATE_LOCATION_TABLE_1);*/
-
             String CREATE_LINES_TABLE = "CREATE TABLE " + LINES_TABLE_NAME + "("
                     + LINE_ID + " INTEGER, "
                     + BUS_NO + " TEXT, "
@@ -155,74 +141,36 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        /*// Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + LOC_TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + LOC_TABLE_NAME_DISTINCT);
-        db.execSQL("DROP TABLE IF EXISTS " + LINES_TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + DEST_LOOKUP_TABLE_NAME);
-        // Creating tables again
-        onCreate(db);*/
     }
 
-
-// 11/16/2018
     public String composeJSONfromSQLite(){
-        Log.d("Sync","in ComposeJSONfromSQLite");
+        Log.d(TAG,"in ComposeJSONfromSQLite");
         List wordList;
         wordList = new ArrayList();
-        String selectQuery = "SELECT  * FROM location_info where status = 0";
+        String selectQuery = "SELECT * FROM " + LOC_TABLE_NAME + " where status = 0";
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
-        Log.d("Sync",String.valueOf(cursor.getCount()));
+        Log.d(TAG,String.valueOf(cursor.getCount()));
         LocationInfo li;
         if (cursor.moveToFirst()) {
             do {
                 li = new LocationInfo();
-                //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
                 li.setTime_stamp(cursor.getLong(1));
                 li.setLatitude(cursor.getDouble(2));
                 li.setLongitude(cursor.getDouble(3));
                 li.setDevice_id(uuid);
-                /*
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("time_stamp", cursor.getString(0));
-                map.put("device_uuid", cursor.getString(1));
-                map.put("latitude", cursor.getString(3));
-                map.put("longitude", cursor.getString(4));*/
-
-
                 wordList.add(li);
             } while (cursor.moveToNext());
         }
         database.close();
         Gson gson = new GsonBuilder().create();
-        //Use GSON to serialize Array List to JSON
-        Log.d("Sync", gson.toJson(wordList).toString());
+        Log.d(TAG, gson.toJson(wordList).toString());
         return gson.toJson(wordList);
     }
 
-    /**
-     * Get Sync status of SQLite
-     * @return
-     */
-    public String getSyncStatus(){
-        String msg = null;
-        if(this.dbSyncCount() == 0){
-            msg = "SQLite and Remote MySQL DBs are in Sync!";
-        }else{
-            msg = "DB Sync needed";
-        }
-        return msg;
-    }
-
-    /**
-     * Get SQLite records that are yet to be Synced
-     * @return
-     */
-    public int dbSyncCount(){
+   public int dbSyncCount(){
         int count = 0;
-        String selectQuery = "SELECT  * FROM location_info where status = 0";
+        String selectQuery = "SELECT  * FROM " + LOC_TABLE_NAME + " where status = 0";
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         count = cursor.getCount();
@@ -230,30 +178,27 @@ public class DBHandler extends SQLiteOpenHelper {
         return count;
     }
 
-
-    /**
-     * Update Sync status against each User ID
-     /* @param id
-     /* @param status
-     */
     public void updateSyncStatus(Long time_stamp){
         SQLiteDatabase database = this.getWritableDatabase();
-        String updateQuery = "Update location_info set status = 1 where time_stamp=" + time_stamp + "";
-        Log.d("Sync",updateQuery);
+        String updateQuery = "Update " + LOC_TABLE_NAME + " set status = 1 where time_stamp=" + time_stamp + "";
+        Log.d(TAG,updateQuery);
         database.execSQL(updateQuery);
         database.close();
     }
-//11/16/2018
 
-
-
-
-
+    public void updateloctable(){
+        SQLiteDatabase database = this.getWritableDatabase();
+        Date currentTime = Calendar.getInstance().getTime();
+        Date newDate = new Date(currentTime.getTime() - 604800000L);
+        String updateQuery = "delete from " + LOC_TABLE_NAME + " where time_stamp < " + newDate.getTime() + " and status = 1";
+        Log.d(TAG,updateQuery);
+        database.execSQL(updateQuery);
+        database.close();
+    }
 
     //adding source data into table TABLE_SOURCE.
-
     public void addPivotTableData(PivotTableData pt) {
-        Log.d("DebugTest", "addPivotTableData");
+        Log.d(TAG, "addPivotTableData");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(IDENTIFIER, pt.getIdentifier());
@@ -266,20 +211,18 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(CITY, pt.getCity());
         values.put(DISTRICT, pt.getDistrict());
         values.put(STATE, pt.getState());
-
         // Inserting Row
         Log.i(TAG, "Inserting data" + values);
         long result = db.insertOrThrow(TABLE_NAME, null, values);
         Log.i(TAG, "Result" + result);
-        db.close(); // Closing database connection
+        // Closing database connection
+        db.close();
     }
 
     public ArrayList<PivotTableData> getIntoPivotTableData(String identifier) {
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query(TABLE_NAME, new String[]{KEY_ID, IDENTIFIER, LATITUDE, LONGITUDE, NAME, BRAND, ADDRESS, ZIPCODE, CITY, DISTRICT, STATE},
                 IDENTIFIER + "=?", new String[]{identifier}, null, null, null, null);
-
         ArrayList<PivotTableData> listPivots = new ArrayList<PivotTableData>();
         if (cursor != null) {
             Log.i(TAG, "Cursor size: " + cursor.getCount());
@@ -296,24 +239,21 @@ public class DBHandler extends SQLiteOpenHelper {
                     pivot.setName(cursor.getString(cursor.getColumnIndex("name")));
                     pivot.setState(cursor.getString(cursor.getColumnIndex("state")));
                     listPivots.add(pivot);
-//                    Log.i(TAG, "Retrieving data - " + pivot);
                 }
                 while (cursor.moveToNext());
             }
             Log.i(TAG, "List size: " + listPivots.size());
         }
-// return shop
         return listPivots;
     }
 
     public List<PivotTableData> getDestinationCoordinates(String destination, String source, String bus_no) {
         List<PivotTableData> markersList = new ArrayList<PivotTableData>();
         String selectQuery = null;
-
-        selectQuery =  "select PT.* from " + TABLE_NAME + " PT JOIN " +
+        selectQuery =  "select distinct PT.* from " + TABLE_NAME + " PT JOIN " +
                 "( select T1.sequence, T1.DESTINATION_STATION from " + LINES_TABLE_NAME + " T1 " +
                 "join (SELECT br1.SOURCE_STATION as begin_stop , br1.sequence as begin_seq, " +
-                "br2.DESTINATION_STATION as end_stop, br2.Sequence as end_seq, br1.direction " +
+                "br2.DESTINATION_STATION as end_stop, br2.Sequence as end_seq, br1.direction, br1.line_id as line_id " +
                 "FROM " +LINES_TABLE_NAME  + " br1 " +
                 "join " + LINES_TABLE_NAME + " br2 " +
                 "on (br1.line_id = br2.line_id and br1.direction = br2.direction) " +
@@ -324,7 +264,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 "WHERE " + DEST_LOOK_UP + " LIKE '%" + destination + "%'" +
                 " ) ) T2 " +
                 " on T1.direction = T2.direction" +
-                " where T1.Sequence >= T2.begin_seq and T1.Sequence <= T2.end_seq and T1.bus_no = '" + bus_no + "' " +
+                " where T1.Sequence >= T2.begin_seq and T1.Sequence <= T2.end_seq and T1.bus_no = '" + bus_no + "' and T1.line_id = T2.line_id " +
                 "and T1.line_id in (select distinct " + LINE_ID + " from " + LINES_TABLE_NAME + " where bus_no = '"+ bus_no + "' and " +
                 "SOURCE_STATION = '" + source + "')) TT " +
                 " ON PT.NAME = TT.DESTINATION_STATION ORDER BY TT.sequence ";
@@ -351,39 +291,6 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         return markersList;
     }
-
-    public List<BusLinesData> getIntermediateStationCoordinates(String src_location, String dest_location, String busNo){
-        List<BusLinesData> markersList = new ArrayList<BusLinesData>();
-        String selectQuery = null;
-        selectQuery = "select Name, latitude, longitude from " + TABLE_NAME + " " +
-                " WHERE name in (select L2.DESTINATION_STATION from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
-                + "L1." + LINE_ID + "= L2." + LINE_ID +
-                " and L1." + BUS_NO + "= L2." + BUS_NO + " and L1." +
-                DIRECTION + "= L2." + DIRECTION + ") WHERE " +
-                "L1." + SOURCE_STATION + "='" + src_location + "' AND L2." +
-                DESTINATION_STATION + "= '" + dest_location + "' AND L1." + BUS_NO + "= '" + busNo +
-                "' AND L2." + SEQUENCE + "> L1." + SEQUENCE +")" ;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        if (cursor.moveToFirst()) {
-            do {
-                BusLinesData pt = new BusLinesData();
-                pt.setLine_id(Integer.parseInt(cursor.getString(0)));
-                pt.setBus_no(cursor.getString(1));
-                pt.setSource_station(cursor.getString(2));
-                pt.setDestination_station(cursor.getString(3));
-                pt.setDirection(cursor.getInt(6));
-                pt.setSequence(cursor.getInt(6));
-// Adding markers to list
-                markersList.add(pt);
-            } while (cursor.moveToNext());
-            Log.i(TAG, "List size display points: " + markersList.size());
-        }
-// return contact list
-
-        return markersList;
-    }
-
 
     // Getting All Markers from database
     public List<PivotTableData> getFromPivotTableData(String item_selected_1, double latitude, double longitude) {
@@ -415,23 +322,19 @@ public class DBHandler extends SQLiteOpenHelper {
         }
 
         if (item_selected_1.equals(null)) {
-            // Select All Query
-            selectQuery = "SELECT * FROM " + TABLE_NAME;
-            Log.i(TAG, "Select Query:" + selectQuery);
+           //todo when the user is in a location where there is no bus stop around him.
         } else {
-            // Select specific identifier data Query
             selectQuery = "SELECT * FROM " + TABLE_NAME + " " +
                     " WHERE identifier= '" + item_selected_1 +
                     "' and LATITUDE >= " + minlat + " " +
                     " and LATITUDE <= " + maxlat + " " +
                     " and LONGITUDE >= " + minlng + " " +
                     "and LONGITUDE <= " + maxlng;
-//            selectQuery = "SELECT * FROM " + TABLE_NAME;
         }
         Log.i(TAG, selectQuery);
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-// looping through all rows and adding to list
+        // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 PivotTableData pt = new PivotTableData();
@@ -445,14 +348,12 @@ public class DBHandler extends SQLiteOpenHelper {
                 pt.setCity(cursor.getString(7));
                 pt.setDistrict(cursor.getString(8));
                 pt.setState(cursor.getString(9));
-
-// Adding markers to list
+                // Adding markers to list
                 markersList.add(pt);
             } while (cursor.moveToNext());
             Log.i(TAG, "List size display points: " + markersList.size());
         }
 // return contact list
-
         return markersList;
     }
 
@@ -464,7 +365,6 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(LATITUDE, pt.getLatitude());
         values.put(LONGITUDE, pt.getLongitude());
         values.put(STATUS, 0);
-
         // Inserting Row
         Log.i(TAG, "Inserting data" + values);
         long result = db.insertOrThrow(LOC_TABLE_NAME, null, values);
@@ -478,59 +378,57 @@ public class DBHandler extends SQLiteOpenHelper {
         double maxlat = latitude ;
         double minlng = longitude;
         double maxlng = longitude;
-        //Cursor cursor = db.rawQuery("Select * from " +LOC_TABLE_NAME+ " where
-        // LATITUDE >= " +minlat+ " and LATITUDE <= " +maxlat+ " and LONGITUDE >= " +minlng+ " and LONGITUDE <= " +maxlng, null);
         Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME, null);
 
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
         LocationInfo li;
         while (cursor.moveToNext()) {
             li = new LocationInfo();
-            //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
             li.setTime_stamp(cursor.getLong(1));
             li.setLatitude(cursor.getDouble(2));
             li.setLongitude(cursor.getDouble(3));
-
             displaypoints.add(li);
-            Log.i(TAG, " Points to Display from readLocationInfo lat:" + li.getLatitude());
-            Log.i(TAG, " Points to Display from readLocationInfo long:" + li.getLongitude());
         }
-
         cursor.close();
         return displaypoints;
     }
-
 
     @SuppressLint("LongLogTag")
     public List readLocationInfo_1() {
         SQLiteDatabase db = this.getReadableDatabase();
-        //Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
-        //Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME + " limit 500", null);
         Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME , null);
-        //List itemIds = new ArrayList<>();
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
         LocationInfo li;
         uuid = UUID.randomUUID().toString().replace("-", "");
         while (cursor.moveToNext()) {
-            //long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(LATITUDE));
-            //Log.i(TAG, " TimeStamp: " + cursor.getDouble(0) + "Latitude:" + cursor.getDouble(1) + "Longitude:" + cursor.getDouble(2));
-            //itemIds.add(itemId);
-
             li = new LocationInfo();
-            //li = new LocationInfo(cursor.getDouble(1), cursor.getDouble(2));
             li.setTime_stamp(cursor.getLong(1));
             li.setLatitude(cursor.getDouble(2));
             li.setLongitude(cursor.getDouble(3));
             li.setDevice_id(uuid);
-
             displaypoints.add(li);
-            Log.i(TAG, " Points to Display from readLocationInfo lat:" + li.getLongitude());
-            Log.i(TAG, " Points to Display from readLocationInfo long:" + li.getLongitude());
         }
         cursor.close();
         return displaypoints;
     }
 
+    public List UpdateServerLocationInfo() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME + " where status = 0 ", null);
+        ArrayList<LocationInfo> displaypoints = new ArrayList<>();
+        LocationInfo li;
+        uuid = UUID.randomUUID().toString().replace("-", "");
+        while (cursor.moveToNext()) {
+            li = new LocationInfo();
+            li.setTime_stamp(cursor.getLong(1));
+            li.setLatitude(cursor.getDouble(2));
+            li.setLongitude(cursor.getDouble(3));
+            li.setDevice_id(uuid);
+            displaypoints.add(li);
+        }
+        cursor.close();
+        return displaypoints;
+    }
 
     @SuppressLint("LongLogTag")
     public List TotalCount() {
@@ -547,7 +445,6 @@ public class DBHandler extends SQLiteOpenHelper {
         return itemIds;
     }
 
-
     //******** BusRoutes RELATED DBHANDLERS *******//
     public void addBusLinesData(IdentifierBusInfo ib) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -558,56 +455,41 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(DESTINATION_STATION, ib.getDestinationLocation());
         values.put(DIRECTION, ib.getDirection());
         values.put(SEQUENCE, ib.getSequence());
-
         long result = db.insertOrThrow(LINES_TABLE_NAME, null, values);
-        Log.d("DBTest", "inserting: " + result);
+        Log.d(TAG, "inserting: " + result);
     }
 
     public List<IdentifierBusInfo> getBusLinesData(String src_location, String dest_location) {
         List<IdentifierBusInfo> markersList = new ArrayList<IdentifierBusInfo>();
         String selectQuery = null;
         Log.i(TAG, "Destination " + dest_location + " Source " + src_location);
-//        selectQuery = "SELECT * FROM " + LINES_TABLE_NAME + " WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
-        //selectQuery = "SELECT * FROM " + LINES_TABLE_NAME;
-        //"WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
-
         selectQuery = "select L1.Bus_no, L1.Source_Station, L2.Destination_Station from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
                 + "L1." + LINE_ID + "= L2." + LINE_ID +
                 " and L1." + BUS_NO + "= L2." + BUS_NO + " and L1." +
                 DIRECTION + "= L2." + DIRECTION + ") WHERE " +
                 "L1." + SOURCE_STATION + "='" + src_location + "' AND L2." + DESTINATION_STATION + "= '" + dest_location + "' " +
                 "GROUP BY L1.Bus_no, L1.Source_Station, L2.Destination_Station";
-        Log.d("DBTest", "Query: " + selectQuery);
-
+        Log.d(TAG, "Query: " + selectQuery);
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 IdentifierBusInfo ib = new IdentifierBusInfo();
-                //ib.setLineid(Integer.parseInt(String.valueOf(cursor.getInt(0))));
                 ib.setBusno(cursor.getString(0));
                 ib.setSourceLocation(cursor.getString(1));
                 ib.setDestinationLocation(cursor.getString(2));
-                // Adding markers to list
                 markersList.add(ib);
             } while (cursor.moveToNext());
-
             Log.i(TAG, "Total points available for that selected Identifier: " + markersList.size());
         }
-        Log.d("DBTest", "Marker list: " + markersList.size());
+        Log.d(TAG, "Marker list: " + markersList.size());
         return markersList;
     }
 
     public int getNumberOfStopsBetween(String src_location, String dest_location, String busNo) {
-        List<IdentifierBusInfo> markersList = new ArrayList<IdentifierBusInfo>();
         String selectQuery = null;
-
         Log.i(TAG, "Destination " + dest_location + " Source " + src_location);
-//        selectQuery = "SELECT * FROM " + LINES_TABLE_NAME + " WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
-        //selectQuery = "SELECT * FROM " + LINES_TABLE_NAME;
-        //"WHERE SOURCE_STATION= '" + src_location + "' AND DESTINATION_STATION= '" + dest_location + "'";
-
         selectQuery = "select abs(L2." + SEQUENCE + "-L1." + SEQUENCE + ") from " + LINES_TABLE_NAME + " L1 JOIN " + LINES_TABLE_NAME + " L2 ON ("
                 + "L1." + LINE_ID + "= L2." + LINE_ID +
                 " and L1." + BUS_NO + "= L2." + BUS_NO + " and L1." +
@@ -615,19 +497,18 @@ public class DBHandler extends SQLiteOpenHelper {
                 "L1." + SOURCE_STATION + "='" + src_location + "' AND L2." +
                 DESTINATION_STATION + "= '" + dest_location + "' AND L1." + BUS_NO + "= '" + busNo +
                 "' AND L2." + SEQUENCE + "> L1." + SEQUENCE +"" ;
-        Log.d("DBTest", "Query: " + selectQuery);
-
+        Log.d(TAG, "Query: " + selectQuery);
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-        Log.d("DBTest", "Result: " + cursor.getCount());
+        Log.d(TAG, "Result: " + cursor.getCount());
         int a = 0;
         if(cursor.moveToFirst() && cursor != null && cursor.getColumnCount() >0)
         {
-            Log.d("cursor",cursor.getString(0));
+            Log.d(TAG,cursor.getString(0));
             a = Integer.parseInt(cursor.getString(0));
         }
         else{
-//todo this situation arises when the user clicks on the bus_no and yet it is not considered..
+            //todo this situation arises when the user clicks on the bus_no and yet it is not considered..
             //a = 0 (Error: outOfBoundsError
         }
         //todo shoud we not close the cursor here?
@@ -638,39 +519,17 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public ArrayList<String> destinationLookup(String s) {
         ArrayList<String> results = new ArrayList<>();
-
         String selectQuery = "SELECT DISTINCT " + DEST_LOOK_UP + " FROM " + DEST_LOOKUP_TABLE_NAME + " WHERE " + DEST_LOOK_UP + " LIKE '%" + s + "%'";
-        Log.d("PredictiveTest", "Query: " + selectQuery);
+        Log.d(TAG, "Query: " + selectQuery);
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-        Log.d("PredictiveTest", "Query results: " + cursor.getCount());
+        Log.d(TAG, "Query results: " + cursor.getCount());
         if (cursor.moveToFirst()) {
             do {
                 results.add(cursor.getString(0));
             } while (cursor.moveToNext());
-
-            Log.d("PredictiveTest", "Total names: " + results);
+            Log.d(TAG, "Total names: " + results);
         }
-
-        return results;
-    }
-
-    public ArrayList<String> destinationLookupByCity(String s) {
-        ArrayList<String> results = new ArrayList<>();
-
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + CITY + " LIKE '%" + s + "%'";
-        Log.d("PredictiveTest", "Query: " + selectQuery);
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        Log.d("PredictiveTest", "Query results: " + cursor.getCount());
-        if (cursor.moveToFirst()) {
-            do {
-                results.add(cursor.getString(0));
-            } while (cursor.moveToNext());
-
-            Log.d("PredictiveTest", "Total names: " + results);
-        }
-
         return results;
     }
 
@@ -679,30 +538,29 @@ public class DBHandler extends SQLiteOpenHelper {
      */
     public void exportDB() {
         // TODO Auto-generated method stub
-        Log.d("Export", "Method called");
+        Log.d(TAG, "Method called");
 
         try {
             File sd = Environment.getExternalStorageDirectory();
             File data = Environment.getDataDirectory();
 
             if (sd.canWrite()) {
-                Log.d("Export", "Begin copy");
+                Log.d(TAG, "Begin copy");
                 String currentDBPath = "//data//" + "aroundu.snvk.com.aroundu_template_change"
                         + "//databases//" + "AroundU_DB";
                 String backupDBPath = "/AroundUDatabases/AroundU_DB.sqlite";
                 File direct = new File(Environment.getExternalStorageDirectory() + "/AroundUDatabases");
 
                 if (!direct.exists())
-                    Log.d("Export", "Directory does not exist");
+                    Log.d(TAG, "Directory does not exist");
                 {
                     if (direct.mkdir()) {
-                        Log.d("Export", "Directory created");
+                        Log.d(TAG, "Directory created");
                         //directory is created;
                     }
                 }
                 File currentDB = new File(data, currentDBPath);
                 File backupDB = new File(sd, backupDBPath);
-
                 FileChannel src = new FileInputStream(currentDB).getChannel();
                 FileChannel dst = new FileOutputStream(backupDB).getChannel();
                 dst.transferFrom(src, 0, src.size());
@@ -713,14 +571,14 @@ public class DBHandler extends SQLiteOpenHelper {
 
             }
         } catch (Exception e) {
-            Log.d("Export", "Error: " + e.toString());
+            Log.d(TAG, "Error: " + e.toString());
         }
     }
 
     public void importDatabase() {
         //Open your local db as the input stream
         try {
-            Log.d("Export", "Begin import");
+            Log.d(TAG, "Begin import");
             InputStream mInput = mContext.getApplicationContext().getAssets().open(DATABASE_NAME + ".sqlite");
             String outFileName = DATABASE_PATH + DATABASE_NAME;
             OutputStream mOutput = new FileOutputStream(outFileName);
@@ -732,9 +590,9 @@ public class DBHandler extends SQLiteOpenHelper {
             mOutput.flush();
             mOutput.close();
             mInput.close();
-            Log.d("Export", "Import successful");
+            Log.d(TAG, "Import successful");
         } catch (IOException e) {
-            Log.d("Export", "Failure: " + e);
+            Log.d(TAG, "Failure: " + e);
             e.printStackTrace();
         }
     }
@@ -745,7 +603,7 @@ public class DBHandler extends SQLiteOpenHelper {
      **/
     public void createDataBase() {
         boolean mDataBaseExist = checkDataBase();
-        Log.d("Export", "Database exists: " + mDataBaseExist);
+        Log.d(TAG, "Database exists: " + mDataBaseExist);
         if (!mDataBaseExist) {
             this.getReadableDatabase();
         }
@@ -777,7 +635,6 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(DEST_LOOK_UP, destLookUp);
 
         long result = db.insertOrThrow(DEST_LOOKUP_TABLE_NAME, null, values);
-        Log.d("DestLookUp", "inserting: " + result);
+        Log.d(TAG, "inserting: " + result);
     }
-
 }
