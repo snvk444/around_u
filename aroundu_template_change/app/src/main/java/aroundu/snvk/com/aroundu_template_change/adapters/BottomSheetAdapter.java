@@ -7,12 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 import aroundu.snvk.com.aroundu_template_change.R;
@@ -25,21 +19,21 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
     private int position;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public TextView busName, busSource, busDestination, moreInfo;
+        public TextView busName, lineId, busSource, busDestination, moreInfo;
 
         public ViewHolder(View v){
             super(v);
             busName = (TextView) v.findViewById(R.id.bus_name);
+            lineId = (TextView) v.findViewById(R.id.line_id);
             busSource = (TextView) v.findViewById(R.id.bus_source);
             busDestination = (TextView) v.findViewById(R.id.bus_destination);
             moreInfo = (TextView) v.findViewById(R.id.more_info);
-            Log.d("bottomsheetitem5", String.valueOf(busName.toString()));
+            Log.d("Bottomsheet", String.valueOf(lineId.toString()) + "," + String.valueOf(busName.toString()) + "," + String.valueOf(busSource.toString()) + "," + String.valueOf(busDestination.toString()));
             v.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    //IdentifierBusInfo item = busList.get(position);
-                    mListener.onMoreInfoClick(busName.getText().toString(), busSource.getText().toString(), busDestination.getText().toString());
+                    mListener.onMoreInfoClick(busName.getText().toString(), busSource.getText().toString(), busDestination.getText().toString(), lineId.getText().toString());
                     Log.d("bottomsheetitem2", String.valueOf(busName.getText().toString()));
                 }
             });
@@ -48,18 +42,14 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
         @Override
         public void onClick(View v) {
             IdentifierBusInfo item = busList.get(position);
-            mListener.onMoreInfoClick(item.busno, item.sourceLocation, item.destinationLocation);
-            Log.d("bottomsheetitem2", String.valueOf(item.busno));
-        }
+            mListener.onMoreInfoClick(item.busno, item.sourceLocation, item.destinationLocation, item.lineid);
+            }
     }
 
     public BottomSheetAdapter(ArrayList<IdentifierBusInfo> busList, BottomSheetClickListener listener){
         this.busList = busList;
         this.mListener = listener;
-        Log.d("bottomsheetitem1", String.valueOf(busList));
     }
-
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -72,8 +62,8 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         IdentifierBusInfo busInfo = busList.get(position);
-        Log.d("bottomsheetitemselected", String.valueOf(busInfo.busno));
         holder.busName.setText(busInfo.busno);
+        holder.lineId.setText(busInfo.lineid);
         holder.busSource.setText(busInfo.sourceLocation);
         holder.busDestination.setText(busInfo.destinationLocation);
         holder.moreInfo.setPaintFlags(holder.moreInfo.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);

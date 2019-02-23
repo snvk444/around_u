@@ -396,15 +396,15 @@ public class DBHandler extends SQLiteOpenHelper {
     @SuppressLint("LongLogTag")
     public List readLocationInfo_1() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME , null);
+        Cursor cursor = db.rawQuery("Select round(latitude,3), round(longitude,3) from " + LOC_TABLE_NAME + " group by round(latitude,3), round(longitude,3)" , null);
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
         LocationInfo li;
         uuid = UUID.randomUUID().toString().replace("-", "");
         while (cursor.moveToNext()) {
             li = new LocationInfo();
-            li.setTime_stamp(cursor.getLong(1));
-            li.setLatitude(cursor.getDouble(2));
-            li.setLongitude(cursor.getDouble(3));
+            //li.setTime_stamp(cursor.getLong(1));
+            li.setLatitude(cursor.getDouble(0));
+            li.setLongitude(cursor.getDouble(1));
             li.setDevice_id(uuid);
             displaypoints.add(li);
         }
@@ -476,9 +476,11 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 IdentifierBusInfo ib = new IdentifierBusInfo();
-                ib.setBusno(cursor.getString(0));
-                ib.setSourceLocation(cursor.getString(1));
-                ib.setDestinationLocation(cursor.getString(2));
+                //uncommented because of the issue of classcast. line id is initially int but later tried it to change to string.
+                //ib.setLineid(cursor.getInt(0));
+                ib.setBusno(cursor.getString(1));
+                ib.setSourceLocation(cursor.getString(2));
+                ib.setDestinationLocation(cursor.getString(3));
                 markersList.add(ib);
             } while (cursor.moveToNext());
             Log.i(TAG, "Total points available for that selected Identifier: " + markersList.size());
@@ -532,6 +534,15 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         return results;
     }
+
+    public void deletedestinationLookup() {
+        ArrayList<String> results = new ArrayList<>();
+        String selectQuery = "DELETE FROM " + DEST_LOOKUP_TABLE_NAME + "";
+        Log.d(TAG, "Query: " + selectQuery);
+        SQLiteDatabase db = this.getWritableDatabase();
+    }
+
+
 
     /**
      * Exports the database to local storage on the users device under a created folder called SignalTrackerDatabases

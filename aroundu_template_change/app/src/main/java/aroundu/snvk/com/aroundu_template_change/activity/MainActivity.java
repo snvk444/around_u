@@ -104,7 +104,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import aroundu.snvk.com.aroundu_template_change.PivotTableData;
 import aroundu.snvk.com.aroundu_template_change.R;
@@ -118,7 +117,7 @@ import aroundu.snvk.com.aroundu_template_change.service.BackgroundService;
 import aroundu.snvk.com.aroundu_template_change.view.MoreInfoDialog;
 import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;
-import aroundu.snvk.com.aroundu_template_change.vo.FeedbackInfo;
+import aroundu.snvk.com.aroundu_template_change.vo.BusRoutesInfo;
 import cz.msebera.android.httpclient.Header;
 
 
@@ -152,6 +151,7 @@ public class MainActivity extends AppCompatActivity
     private String srcLocation = "";
     private String destLocation = "";
     private String bus_no = "";
+    private String line_id;
     private RecyclerViewClickListener recyclerViewClickListener;
     private BottomSheetClickListener bottomSheetClickListener;
     private ArrayList<String> busDestinationSearchResults;
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity
     private boolean expanded = false;
     private boolean fabMenuOpen = false;
     private LinearLayout fabContainer;
-    public LatLng user_loc_input, user_selected_bustop;
+    public LatLng user_loc_input, user_selected_bustop, coordinate;
     SharedPreferences prefs;
     PopupWindow popupWindow;
     boolean doubleBackToExitPressedOnce = false;
@@ -180,6 +180,7 @@ public class MainActivity extends AppCompatActivity
     private int main_fab_click, bus_fab_click, coverage_fab_click, destination_input_click, bottom_sheet_click, track_my_path_click, sub_location_layout_click, userinput_fab_click, map_input_status, dist_metric_layout;
     HashMap<String,Marker> hashMapMarker = new HashMap<>();
     LinearLayout feedback_layout;
+    List<BusRoutesInfo> busrouteList = new ArrayList<BusRoutesInfo>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,6 +205,11 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         checkLocationPermission();
 
+        //Log.d(TAG, "Deleting");
+        //dbHandler.deletedestinationLookup();
+        //Log.d(TAG, "Populating");
+        //populateDestinationLookUpTable();
+
         //initial insert of data
         if (prefs.getBoolean("first_run", true)) {
             Log.d(TAG, "Populating the database");
@@ -211,11 +217,14 @@ public class MainActivity extends AppCompatActivity
             backgroundHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    dbHandler.createDataBase();
+
+                    populateDestinationLookUpTable();
+                    //working code
+                    /*dbHandler.createDataBase();
                     //if running for the first time and .db file is not created yet. then exe below lines
-                    /*Log.d("DestLookUp", "Before");
+                    //*Log.d("DestLookUp", "Before");
                     populateDatabaseWithInitialData();
-                    Log.d("DestLookUp", "After");*/
+                    Log.d("DestLookUp", "After");
                     populateDestinationLookUpTable();
                     //if we have the .db file created, use the below line to get the data into database fast. use below for release.
 
@@ -223,7 +232,8 @@ public class MainActivity extends AppCompatActivity
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putString("ad_id", uuid );
                     editor.putBoolean("first_run", false);
-                    editor.apply();
+                    editor.apply();*/
+
 
                 }
             });
@@ -254,6 +264,7 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         fabContainer = (LinearLayout) findViewById(R.id.fabContainerLayout);
         submitlayout = (LinearLayout) findViewById(R.id.submitlayout);
+        linear_Layout_1 = (LinearLayout) findViewById(R.id.linearlayout);
         fab = (FloatingActionButton) findViewById(R.id.userinput_fab);
         fab_main = (FloatingActionButton) findViewById(R.id.fab1);
 
@@ -454,7 +465,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onClick(View v) {
-                linear_Layout_1.setVisibility(View.GONE);
+                //linear_Layout_1.setVisibility(View.GONE);
                 if(dist_metric_layout == 0){
                 }
                 else if(dist_metric_layout == 1) {
@@ -517,7 +528,9 @@ public class MainActivity extends AppCompatActivity
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
-                ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation, eText.getText().toString().toUpperCase()));
+
+                //working code below
+                /*ArrayList busList = new ArrayList(dbHandler.getBusLinesData(srcLocation, eText.getText().toString().toUpperCase()));
                 Log.d("BottomSheetTest", "Size: " + busList.size());
                 if (busList.size() == 0) {
 //                    showAlertDialog();
@@ -528,7 +541,82 @@ public class MainActivity extends AppCompatActivity
                     bottomSheetAdapter = new BottomSheetAdapter(busList, bottomSheetClickListener);
                     bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     bottomSheetRV.setAdapter(bottomSheetAdapter);
-                }
+                }*/
+                //working code above
+
+                //testing code below
+                //srcLocation = "BHIMILI POLICE STATION";
+                //todo add a dialog window (uncomment the below)
+                //dialog.show();
+                destLocation = eText.getText().toString();
+                AsyncHttpClient client = new AsyncHttpClient();
+                final RequestParams params = new RequestParams();
+                ArrayList<HashMap<String, String>> wordList;
+                wordList = new ArrayList<HashMap<String, String>>();
+                Gson gson = new GsonBuilder().create();
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("srcLocation", srcLocation.toUpperCase());
+                map.put("destLocation", destLocation.toUpperCase());
+                wordList.add(map);
+                Log.d(TAG, "Sending Data: " + destLocation + "," + srcLocation);
+                params.put("busList",gson.toJson(wordList));
+                Log.d(TAG, params.toString());
+                client.post("http://limitmyexpense.com/arounduuserdatasync/get_bus_list.php", params, new AsyncHttpResponseHandler() {
+                    @SuppressLint("RestrictedApi")
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        JSONArray arr= null;
+                        try {
+                            Log.d(TAG, "success in try");
+                            List<IdentifierBusInfo> markersList = new ArrayList<IdentifierBusInfo>();
+                            arr = new JSONArray(new String(responseBody));
+                            Log.d(TAG, String.valueOf(arr.length()));
+                            for(int i=0; i<arr.length();i++) {
+                                IdentifierBusInfo ib = new IdentifierBusInfo();
+                                JSONObject obj = (JSONObject)arr.get(i);
+                                line_id = (String) obj.get("line_id");
+                                bus_no = (String) obj.get("bus_no");
+                                ib.setLineid((String) obj.get("line_id"));
+                                ib.setBusno((String) obj.get("bus_no"));
+                                ib.setSourceLocation((String) obj.get("source_station"));
+                                ib.setDestinationLocation((String) obj.get("destination_station"));
+                                markersList.add(ib);
+                            }
+
+                            ArrayList busList = new ArrayList(markersList);
+                            if (busList.size() == 0) {
+                                Toast msg = Toast.makeText(getBaseContext(), "No results", Toast.LENGTH_LONG);
+                                msg.show();
+                            } else if (busList.size() > 0) {
+                                Log.d(TAG, String.valueOf(busList.get(0)));
+                                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                                bottomSheetAdapter = new BottomSheetAdapter(busList, bottomSheetClickListener);
+                                bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                bottomSheetRV.setAdapter(bottomSheetAdapter);
+                            }
+
+                            //fab_info.setVisibility(view.VISIBLE);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.d(TAG, "success in catch");
+                        }
+                        //Log.d(TAG,arr.toString());
+                        //Toast.makeText(getApplicationContext(), "successful - but nothing happenin on ui: ", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        Log.d(TAG, "Failed to send latlong to server");
+                    }
+                });
+//testing code above
+
+
+
+
+
+
+
             }
         });
 
@@ -553,7 +641,7 @@ public class MainActivity extends AppCompatActivity
         });
         bus_fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 map_input_status = 0;
                 destination_input_click = 0;
                 dist_metric_layout = 0;
@@ -630,12 +718,19 @@ public class MainActivity extends AppCompatActivity
                     String line = "";
                     HashMap<LatLng, String> mData = new HashMap<>();
                     Marker m;
+                    setLocation();
 
+
+                    //double latitude = coordinate.latitude;
+                    //double longitude = coordinate.longitude;
                     //testing the data. Assigning latnlong manually for now.
                     //17.694948, 83.292365 - old head post office
-                    double latitude = 17.80300;
-                    double longitude = 83.353;
-                    item_selected_1 = "Bus";
+                    double latitude = 17.724767;
+                    double longitude = 83.306253;
+
+
+                    ///* Working code below
+                    /*item_selected_1 = "Bus";
                     List<PivotTableData> markers = dbHandler.getFromPivotTableData(item_selected_1, latitude, longitude);
                     int busstops_1 = markers.size();
                     Log.d("Export", "Sizeses:" + busstops_1);
@@ -679,7 +774,77 @@ public class MainActivity extends AppCompatActivity
                     setLocation();
                 } else {
                     fabContainer.setVisibility(View.GONE);
-                }
+                }*/
+                    //*/ working Code (above)
+
+
+                    //testing below
+                    //List<LatLng> latlong = new ArrayList<LatLng>();
+                    //uncomment the below line
+                    //dialog.show();
+                    LatLng latlong = new LatLng(latitude, longitude);
+                    AsyncHttpClient client = new AsyncHttpClient();
+                    final RequestParams params = new RequestParams();
+                    Gson gson = new GsonBuilder().create();
+                    //Use GSON to serialize Array List to JSON
+                    Log.d(TAG, gson.toJson(latlong));
+                    //params.put("latitude", latlong.latitude);
+                    //params.put("longitude", latlong.longitude);
+                    params.put("userLocation",gson.toJson(latlong));
+                    Log.d(TAG, "params " + params.toString());
+                    client.post("http://limitmyexpense.com/arounduuserdatasync/get_pivot_data.php", params, new AsyncHttpResponseHandler() {
+                        @SuppressLint("RestrictedApi")
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                            JSONArray arr= null;
+                            Log.d(TAG, "Successful retrival of bustops around the user");
+                            try {
+                                Log.d(TAG, "no of busstops around the passed coordinates");
+                                arr = new JSONArray(new String(responseBody));
+                                if(arr.length() > 0) {
+                                    for (int i = 0; i < arr.length(); i++) {
+                                        JSONObject obj = (JSONObject) arr.get(i);
+                                        String stop_lat = (String) obj.get("latitude");
+                                        String stop_long = (String) obj.get("longitude");
+                                        LatLng stop_details = new LatLng(Double.parseDouble(stop_lat), Double.parseDouble(stop_long));
+                                        String stop_name = (String) obj.get("stop_name");
+                                        Log.d(TAG, "Busstop_AroundUser:" + (String) obj.get("stop_name") + "," + (String) obj.get("latitude") + "," + (String) obj.get("longitude") );
+
+                                        googleMap.addMarker(new MarkerOptions().position(stop_details)
+                                                .title(stop_name.toUpperCase()));
+                                        srcLocation = (String) ((String) obj.get("stop_name")).toUpperCase();
+                                        if(i == arr.length()-1){
+                                            //todo get rid of this when done testing (because the camera is already moved to the user location.
+                                            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(stop_details, 15);
+                                            googleMap.animateCamera(cameraUpdate);
+                                            //todo no seriously, get rid of this block
+                                        }
+                                    }
+
+                                    int markers = arr.length();
+                                    if (markers == 0) {
+                                        Toast msg = Toast.makeText(getBaseContext(), "No results found", Toast.LENGTH_LONG);
+                                        msg.show();
+                                    } else if (markers >= 1) {
+                                        Toast msg = Toast.makeText(getBaseContext(), "Select source bus stop marker", Toast.LENGTH_LONG);
+                                        msg.show();
+                                    }
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "No Bus stations found around you. Locate them by long pressing on the map! ", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.d(TAG, "In Catch block of userLocation");
+                                }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                            Log.d(TAG, "Failed to retrieve data. are you connected to internet?");
+                        }
+                    }); }
+                    //testing above
             }
         });
 
@@ -695,13 +860,15 @@ public class MainActivity extends AppCompatActivity
                     dist_metric_layout = 0;
                 }
                 googleMap.setOnMapLongClickListener(null);
+                linear_Layout_1.setVisibility(View.GONE);
+
 
                 //instantiate the popup.xml layout file
                 LayoutInflater layoutInflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View customView = layoutInflater.inflate(R.layout.popup,null);
                 closePopupBtn = (Button) customView.findViewById(R.id.closePopupBtn);
                 TextView displayText = (TextView) customView.findViewById(R.id.popuptext);
-                displayText.setText("You can see all the places you have covered in the last 1 week. \n\n" +
+                displayText.setText("You can see all the places you have covered in the last 1 month. \n\n" +
                         "Zoom in/out to know more about your explorations!");
                 //instantiate popup window
                 popupWindow = new PopupWindow(customView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -760,6 +927,8 @@ public class MainActivity extends AppCompatActivity
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
         displaypoints.add(li);
 
+        //todo uncomment the below line
+        //dialog.show();
         AsyncHttpClient client = new AsyncHttpClient();
         final RequestParams params = new RequestParams();
         final List userList = displaypoints;
@@ -946,9 +1115,6 @@ public class MainActivity extends AppCompatActivity
         for (LocationInfo li : locationInfoList) {
             source_loc = new LatLng(li.getLatitude(), li.getLongitude());
             list.add(source_loc);
-            //todo if currentLocation is null, get the current location coordinates
-            currentLocation.setLatitude(li.getLatitude());
-            currentLocation.setLongitude(li.getLongitude());
         }
         if (list.size() == 0) {
             Log.d(TAG, "Whats happening at this point?? What should I do??");
@@ -959,7 +1125,7 @@ public class MainActivity extends AppCompatActivity
             mOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
         }
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
-                        new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 5);
+                        new LatLng(coordinate.latitude, coordinate.longitude), 11);
                 googleMap.animateCamera(cameraUpdate);
 
         }
@@ -1032,7 +1198,9 @@ public class MainActivity extends AppCompatActivity
                 String destination_station = lines[3];
                 int direction = Integer.parseInt(lines[4]);
                 int sequence = Integer.parseInt(lines[5]);
-                dbHandler.addBusLinesData(new IdentifierBusInfo(lineid, busno, source_station, destination_station, direction, sequence));
+                //uncommented because of the string to integer cast issue that was arising for line_id.
+                //line_id is int initially but the data retrieval from server is done as string.
+                //dbHandler.addBusLinesData(new IdentifierBusInfo(lineid, busno, source_station, destination_station, direction, sequence));
                 Log.i(TAG, "Reading data into table " + lineid + "," + busno + ","
                         + source_station + "," + destination_station + "," + direction + "," + sequence);
             }
@@ -1252,7 +1420,7 @@ public class MainActivity extends AppCompatActivity
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
                                 // Logic to handle location object
-                                LatLng coordinate = new LatLng(location.getLatitude(), location.getLongitude());
+                                coordinate = new LatLng(location.getLatitude(), location.getLongitude());
                                 CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15);
                                 //todo uncomment this...maybe
 //                                googleMap.animateCamera(yourLocation);
@@ -1277,6 +1445,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onMarkerClick(Marker marker) {
         submitlayout.setVisibility(View.GONE);
+        linear_Layout_1.setVisibility(View.VISIBLE);
             user_selected_bustop = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
             Log.d(TAG, "selected marker info: " + marker.getTitle().toUpperCase());
             srcLocation = marker.getTitle().toUpperCase();
@@ -1307,25 +1476,105 @@ public class MainActivity extends AppCompatActivity
         searchViewAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onMoreInfoClick(String busName, String src, String destination) {
+     @Override
+    public void onMoreInfoClick(String busName, String src, String destination, String lineid) {
         MoreInfoDialog dialog = new MoreInfoDialog(this, this);
         Log.d(TAG, src + destination);
         srcLocation = src;
         destLocation = destination;
         bus_no = busName;
-        Log.d(TAG, busName);
+        line_id = lineid;
+        Log.d(TAG, String.valueOf(srcLocation) + "," + String.valueOf(destLocation) + "," + String.valueOf(bus_no) + "," + String.valueOf(line_id) );
         dialog.show();
-        TextView numberOfStops = (TextView) dialog.findViewById(R.id.number_of_stops);
-        int result = dbHandler.getNumberOfStopsBetween(src, destination, busName);
-        numberOfStops.setText(String.valueOf(dbHandler.getNumberOfStopsBetween(src, destination, busName)));
+        final TextView numberOfStops = (TextView) dialog.findViewById(R.id.number_of_stops);
+        //dbHandler.getNumberOfStopsBetween(src, destination, busName);
+        //numberOfStops.setText(String.valueOf(dbHandler.getNumberOfStopsBetween(src, destination, busName)));
+
+        //testing code below
+        //todo uncomment the below line
+        //dialog.show();
+        AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+        ArrayList<HashMap<String, String>> wordList;
+        wordList = new ArrayList<HashMap<String, String>>();
+        Gson gson = new GsonBuilder().create();
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("srcLocation", srcLocation.toUpperCase());
+        map.put("destLocation", destLocation.toUpperCase());
+        map.put("line_id", String.valueOf(lineid));
+        map.put("bus_no", String.valueOf(bus_no));
+        wordList.add(map);
+        Log.d(TAG, "Sending Data: " + destLocation + "," + srcLocation + "," + line_id);
+        params.put("routeList",gson.toJson(wordList));
+        Log.d(TAG, params.toString());
+        client.post("http://limitmyexpense.com/arounduuserdatasync/get_bus_route.php", params, new AsyncHttpResponseHandler() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Log.d(TAG, "success");
+                JSONArray arr= null;
+                try {
+                    busrouteList.clear();
+                    Log.d(TAG, "Getting Bus Route");
+                    //List<BusRoutesInfo> markersList = new ArrayList<BusRoutesInfo>();
+                    arr = new JSONArray(new String(responseBody));
+                    Log.d(TAG, String.valueOf(arr.length()));
+                    for(int i=0; i<arr.length();i++) {
+                        BusRoutesInfo ib = new BusRoutesInfo();
+                        JSONObject obj = (JSONObject)arr.get(i);
+                        ib.setStop_name((String) obj.get("stop_name"));
+                        ib.setLatitude(Double.parseDouble(String.valueOf(obj.get("latitude"))));
+                        ib.setLongitude(Double.parseDouble(String.valueOf(obj.get("longitude"))));
+                        Log.d(TAG, "Stop:" + i + "");
+                        busrouteList.add(ib);
+                    }
+
+                    numberOfStops.setText(String.valueOf(busrouteList.size()));
+
+                    /*ArrayList busList = new ArrayList(markersList);
+                    Log.d("BottomSheetTest", "Size: " + busList.size());
+                    if (busList.size() == 0) {
+//                    showAlertDialog();
+                        Toast msg = Toast.makeText(getBaseContext(), "No results", Toast.LENGTH_LONG);
+                        msg.show();
+                    } else if (busList.size() > 0) {
+                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        bottomSheetAdapter = new BottomSheetAdapter(busList, bottomSheetClickListener);
+                        bottomSheetRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                        bottomSheetRV.setAdapter(bottomSheetAdapter);
+                    }*/
+
+                    //fab_info.setVisibility(view.VISIBLE);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "success in catch");
+                }
+                //Log.d(TAG,arr.toString());
+                //Toast.makeText(getApplicationContext(), "successful - but nothing happenin on ui: ", Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.d(TAG, "Failed to send latlong to server");
+            }
+        });
+        //testing code above
     }
+
+
 
     @Override
     public void trackMyPath() {
         googleMap.clear();
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        List<PivotTableData> markers = dbHandler.getDestinationCoordinates(destLocation, srcLocation, bus_no);
+        linear_Layout_1.setVisibility(View.GONE);
+
+        //List<PivotTableData> markers = dbHandler.getDestinationCoordinates(destLocation, srcLocation, bus_no);
+        List<BusRoutesInfo> markers = new ArrayList<BusRoutesInfo>();
+        markers = busrouteList;
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         Log.d(TAG, String.valueOf(markers));
         distancecalc_layout.setVisibility(View.VISIBLE);
@@ -1335,33 +1584,34 @@ public class MainActivity extends AppCompatActivity
         double user_lat, user_long, next_stop_lat = 0, next_stop_long = 0;
 
         if (markers.size() == 0) {
-            distancecalc_layout.setVisibility(View.VISIBLE);
-            Toast msg = Toast.makeText(getBaseContext(), "Either Source and Destination are the same!! Try a different destination location.", Toast.LENGTH_LONG);
+            //distancecalc_layout.setVisibility(View.VISIBLE);
+            Toast msg = Toast.makeText(getBaseContext(), "Try Again. If no results found, give us a feedback by clicking on FEEDBACK on top-right corner...", Toast.LENGTH_LONG);
             msg.show();
         } else {
-            PivotTableData src = markers.get(0);
-            PivotTableData dest = markers.get(markers.size() - 1);
+            BusRoutesInfo src = markers.get(0);
+            BusRoutesInfo dest = markers.get(markers.size() - 1);
             builder.include(new LatLng(src.latitude+0.015, src.longitude+0.015));
             builder.include(new LatLng(dest.latitude+0.01, dest.longitude+0.01));
 
-            for (PivotTableData marker : markers) {
+            for (BusRoutesInfo marker : markers) {
 
                 googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(marker.latitude, marker.longitude))
-                        .title(marker.name)
+                        .title(marker.stop_name)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
                 builder.include(new LatLng(marker.latitude, marker.longitude));
 
                 if (i == 0) {
-
-                    user_lat = 17.803009;
-                    user_long = 83.353;
+                    user_lat = 17.724767;
+                    user_long = 83.306253;
                     //todo use the below user_lat and user_long for actual distance calculation.
                     //user_lat = currentLocation.getLatitude();
                     //user_long = currentLocation.getLongitude();
-                    Log.d(TAG, "User Location in distance calc: " + currentLocation.getLatitude() + "," + currentLocation.getLongitude());
+                    //Log.d(TAG, "User Location in distance calc: " + currentLocation.getLatitude() + "," + currentLocation.getLongitude());
+                    Log.d(TAG, "User Location in distance calc: " + user_lat + "," + user_long);
                     next_stop_lat = marker.latitude;
                     next_stop_long = marker.longitude;
+                    i++;
                 } else {
                     user_lat = next_stop_lat;
                     user_long = next_stop_long;
@@ -1375,12 +1625,13 @@ public class MainActivity extends AppCompatActivity
                 dist = Math.acos(dist);
                 dist = rad2deg(dist);
                 distance = distance + (dist*60*1.1515);
+                Log.d(TAG, String.valueOf(dist*60*1.1515));
 
             }
 
             googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(dest.latitude, dest.longitude))
-                    .title(src.name)
+                    .title(dest.stop_name)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
             googleMap.addMarker(new MarkerOptions()
@@ -1388,7 +1639,7 @@ public class MainActivity extends AppCompatActivity
                     .title(srcLocation.toUpperCase())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
 
-            distance_text.setText("Selected Bus No:" + bus_no );
+            distance_text.setText(" Selected Bus No:" + bus_no + "\n Distance: " + Math.round(distance*1.6) + "Km (approx)");
             LatLngBounds bounds = builder.build();
             int padding = 50;
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);

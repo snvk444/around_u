@@ -1,17 +1,52 @@
 package aroundu.snvk.com.aroundu_template_change.vo;
 
 public class IdentifierBusInfo {
-    public int lineid;
+    public String lineid;
     public String busno;
     public String sourceLocation;
     public String destinationLocation;
     public int direction;
     public int sequence;
+    public String stop_name;
+    public double latitude;
+    public double longitude;
+
+    public String getStop_name() {
+        return stop_name;
+    }
+
+    public void setStop_name(String stop_name) {
+        this.stop_name = stop_name;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 
     public IdentifierBusInfo(){}
 
 
-    public IdentifierBusInfo(int lineid, String busno, String source_station, String destination_station, int direction, int sequence) {
+    public String getLineid() {
+        return lineid;
+    }
+
+    public void setLineid(String lineid) {
+        this.lineid = lineid;
+    }
+
+    public IdentifierBusInfo(String lineid, String busno, String source_station, String destination_station, int direction, int sequence) {
         this.lineid = lineid;
         this.busno = busno;
         this.sourceLocation = source_station;
@@ -21,13 +56,6 @@ public class IdentifierBusInfo {
     }
 
 
-    public int getLineid() {
-        return lineid;
-    }
-
-    public void setLineid(int lineid) {
-        this.lineid = lineid;
-    }
 
     public String getBusno() {
         return busno;

@@ -2,13 +2,10 @@ package aroundu.snvk.com.aroundu_template_change.view;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-
 import aroundu.snvk.com.aroundu_template_change.R;
 import aroundu.snvk.com.aroundu_template_change.interfaces.TrackingListener;
 
@@ -40,7 +37,6 @@ public class MoreInfoDialog extends Dialog implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
-                //launch next popup
                 mListener.trackMyPath();
                 break;
             case R.id.btn_no:
