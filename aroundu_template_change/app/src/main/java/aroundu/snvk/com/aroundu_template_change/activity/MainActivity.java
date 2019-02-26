@@ -1577,7 +1577,9 @@ public class MainActivity extends AppCompatActivity
         markers = busrouteList;
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         Log.d(TAG, String.valueOf(markers));
-        distancecalc_layout.setVisibility(View.VISIBLE);
+
+        //distancecalc_layout.setVisibility(View.VISIBLE);
+
         dist_metric_layout = 1;
         double distance = 0.0;
         int i = 0;

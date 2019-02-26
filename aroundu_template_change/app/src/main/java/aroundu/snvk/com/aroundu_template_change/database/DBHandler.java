@@ -25,7 +25,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import aroundu.snvk.com.aroundu_template_change.BusLinesData;
 import aroundu.snvk.com.aroundu_template_change.PivotTableData;
 import aroundu.snvk.com.aroundu_template_change.vo.IdentifierBusInfo;
 import aroundu.snvk.com.aroundu_template_change.vo.LocationInfo;

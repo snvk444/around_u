@@ -22,14 +22,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        android:hardwareAccelerated="false"
-        android:largeHeap="true"
+
         <activity
-            android:name=".activity.MainActivity"
+            android:name="aroundu.snvk.com.aroundu_template_change.activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustNothing"></activity>
+            android:windowSoftInputMode="adjustNothing"
+            android:hardwareAccelerated="false"
+        >
+
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -39,7 +42,7 @@
             android:value="AIzaSyDzX0mgNlwHWNIDY1DcZXcVAhRCZo6RJd4" />
 
         <activity
-            android:name=".activity.HomeActivity"
+            android:name="aroundu.snvk.com.aroundu_template_change.activity.HomeActivity"
             android:label="Around U! (Beta)"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -50,10 +53,10 @@
         </activity>
 
         <service
-            android:name=".service.BackgroundService"
+            android:name="aroundu.snvk.com.aroundu_template_change.service.BackgroundService"
             android:exported="false" />
 
-        <activity android:name=".activity.feedback_activity"></activity>
+        <activity android:name="aroundu.snvk.com.aroundu_template_change.activity.feedback_activity"></activity>
     </application>
 
 </manifest>

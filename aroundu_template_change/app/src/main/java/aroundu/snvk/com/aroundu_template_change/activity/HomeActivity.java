@@ -1,12 +1,8 @@
 package aroundu.snvk.com.aroundu_template_change.activity;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,15 +10,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import aroundu.snvk.com.aroundu_template_change.R;
-import aroundu.snvk.com.aroundu_template_change.service.BackgroundService;
-
-import static aroundu.snvk.com.aroundu_template_change.activity.MainActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 
 public class HomeActivity extends AppCompatActivity {
 
