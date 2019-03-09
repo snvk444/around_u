@@ -1,755 +1,755 @@
-ACTUALNAME,DESTINATIONLOOKUP,
-A KODURU,A KODURU,"Insert into destination_lookup (actualname, destinationlookup) values ('A KODURU','A KODURU');"
-ADARSH NAGAR,OLD DAIRY FARM,"Insert into destination_lookup (actualname, destinationlookup) values ('ADARSH NAGAR','OLD DAIRY FARM');"
-ADARSH NAGAR,ADARSH NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('ADARSH NAGAR','ADARSH NAGAR');"
-ADDURU,ADDURU,"Insert into destination_lookup (actualname, destinationlookup) values ('ADDURU','ADDURU');"
-ADIVIVARAM,ADIVIVARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('ADIVIVARAM','ADIVIVARAM');"
-AGANAMPUDI,AGANAMPUDI,"Insert into destination_lookup (actualname, destinationlookup) values ('AGANAMPUDI','AGANAMPUDI');"
-AGANAMPUDI TOLLGATE,AGANAMPUDI,"Insert into destination_lookup (actualname, destinationlookup) values ('AGANAMPUDI TOLLGATE','AGANAMPUDI');"
-AGRAHARAM,AGRAHARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('AGRAHARAM','AGRAHARAM');"
-AJANAGIRI,AJANAGIRI,"Insert into destination_lookup (actualname, destinationlookup) values ('AJANAGIRI','AJANAGIRI');"
-AJANAGIRI COLONY,AJANAGIRI,"Insert into destination_lookup (actualname, destinationlookup) values ('AJANAGIRI COLONY','AJANAGIRI');"
-AKKAYYAPALEM,AKKAYYAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('AKKAYYAPALEM','AKKAYYAPALEM');"
-AKKAYYAPALEM HIGHWAY,AKKAYYAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('AKKAYYAPALEM HIGHWAY','AKKAYYAPALEM');"
-AKKIREDDIPALEM,AKKIREDDIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('AKKIREDDIPALEM','AKKIREDDIPALEM');"
-ALLIPURAM,ALLIPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('ALLIPURAM','ALLIPURAM');"
-AMAL COLLEGE JUNCTION,AMAL COLLEGE JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('AMAL COLLEGE JUNCTION','AMAL COLLEGE JUNCTION');"
-AMANAM,AMANAM,"Insert into destination_lookup (actualname, destinationlookup) values ('AMANAM','AMANAM');"
-AMBEDKAR COLONY,AMBEDKAR COLONY,"Insert into destination_lookup (actualname, destinationlookup) values ('AMBEDKAR COLONY','AMBEDKAR COLONY');"
-AMBEDKAR NAGAR,AMBEDKAR NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('AMBEDKAR NAGAR','AMBEDKAR NAGAR');"
-AMERICAN HOSPITAL,AMERICAN HOSPITAL,"Insert into destination_lookup (actualname, destinationlookup) values ('AMERICAN HOSPITAL','AMERICAN HOSPITAL');"
-AMG SCHOOL/ COLLEGE,AMG SCHOOL/ COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('AMG SCHOOL/ COLLEGE','AMG SCHOOL/ COLLEGE');"
-AMRUTAPURAM,AMRUTAPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('AMRUTAPURAM','AMRUTAPURAM');"
-ANAKAPALLE - RTC COMPLEX,ANAKAPALLE - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('ANAKAPALLE - RTC COMPLEX','ANAKAPALLE - RTC COMPLEX');"
-ANAKAPALLE BYPASS ROAD,ANAKAPALLE BYPASS ROAD,"Insert into destination_lookup (actualname, destinationlookup) values ('ANAKAPALLE BYPASS ROAD','ANAKAPALLE BYPASS ROAD');"
-ANAKAPALLE COURT (NEAR VIZIANAGARAM ROAD),ANAKAPALLE COURT (NEAR VIZIANAGARAM ROAD),"Insert into destination_lookup (actualname, destinationlookup) values ('ANAKAPALLE COURT (NEAR VIZIANAGARAM ROAD)','ANAKAPALLE COURT (NEAR VIZIANAGARAM ROAD)');"
-ANAKAPALLE FOUR ROAD JUNCTION,ANAKAPALLE FOUR ROAD JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('ANAKAPALLE FOUR ROAD JUNCTION','ANAKAPALLE FOUR ROAD JUNCTION');"
-ANANDAPURAM,ANANDAPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('ANANDAPURAM','ANANDAPURAM');"
-ANANDAPURAM JUNCTION,ANANDAPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('ANANDAPURAM JUNCTION','ANANDAPURAM');"
-ANANTAPURAM (NEAR DEVARAPALLI),ANANTAPURAM (NEAR DEVARAPALLI),"Insert into destination_lookup (actualname, destinationlookup) values ('ANANTAPURAM (NEAR DEVARAPALLI)','ANANTAPURAM (NEAR DEVARAPALLI)');"
-ANANTHAVARAM,ANANTHAVARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('ANANTHAVARAM','ANANTHAVARAM');"
-ANANTHAVARAM CENTRE,ANANTHAVARAM ,"Insert into destination_lookup (actualname, destinationlookup) values ('ANANTHAVARAM CENTRE','ANANTHAVARAM ');"
-ANDHRA UNIVERSITY IN GATE,ANDHRA UNIVERSITY,"Insert into destination_lookup (actualname, destinationlookup) values ('ANDHRA UNIVERSITY IN GATE','ANDHRA UNIVERSITY');"
-ANDHRA UNIVERSITY IN GATE,ANDHRA UNIVERSITY IN GATE,"Insert into destination_lookup (actualname, destinationlookup) values ('ANDHRA UNIVERSITY IN GATE','ANDHRA UNIVERSITY IN GATE');"
-ANDHRA UNIVERSITY OUT GATE,ANDHRA UNIVERSITY,"Insert into destination_lookup (actualname, destinationlookup) values ('ANDHRA UNIVERSITY OUT GATE','ANDHRA UNIVERSITY');"
-ANDHRA UNIVERSITY OUT GATE,ANDHRA UNIVERSITY OUT GATE,"Insert into destination_lookup (actualname, destinationlookup) values ('ANDHRA UNIVERSITY OUT GATE','ANDHRA UNIVERSITY OUT GATE');"
-ANDHRA UNIVERSITY REGISTER OFFICE,ANDHRA UNIVERSITY,"Insert into destination_lookup (actualname, destinationlookup) values ('ANDHRA UNIVERSITY REGISTER OFFICE','ANDHRA UNIVERSITY');"
-ANDHRA UNIVERSITY REGISTER OFFICE,ANDHRA UNIVERSITY REGISTER OFFICE,"Insert into destination_lookup (actualname, destinationlookup) values ('ANDHRA UNIVERSITY REGISTER OFFICE','ANDHRA UNIVERSITY REGISTER OFFICE');"
-ANITS COLLEGE,ANITS COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('ANITS COLLEGE','ANITS COLLEGE');"
-ANJALI MURTHY NAGAR 3RD LINE,ANJALI MURTHY NAGAR 3RD LINE,"Insert into destination_lookup (actualname, destinationlookup) values ('ANJALI MURTHY NAGAR 3RD LINE','ANJALI MURTHY NAGAR 3RD LINE');"
-ANKAJOSYULAPALEM,ANKAJOSYULAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('ANKAJOSYULAPALEM','ANKAJOSYULAPALEM');"
-ANTHAKAPALLI,ANTHAKAPALLI,"Insert into destination_lookup (actualname, destinationlookup) values ('ANTHAKAPALLI','ANTHAKAPALLI');"
-APHB COLONY MAIN,APHB COLONY MAIN,"Insert into destination_lookup (actualname, destinationlookup) values ('APHB COLONY MAIN','APHB COLONY MAIN');"
-APPANNAPALEM (KRISHNAMPALEM),APPANNAPALEM (KRISHNAMPALEM),"Insert into destination_lookup (actualname, destinationlookup) values ('APPANNAPALEM (KRISHNAMPALEM)','APPANNAPALEM (KRISHNAMPALEM)');"
-APPANNAPALEM (NEAR GOSTHANI RIVER),APPANNAPALEM (NEAR GOSTHANI RIVER),"Insert into destination_lookup (actualname, destinationlookup) values ('APPANNAPALEM (NEAR GOSTHANI RIVER)','APPANNAPALEM (NEAR GOSTHANI RIVER)');"
-APPANNAPALEM (SIMHAPURI COLONY),APPANNAPALEM (SIMHAPURI COLONY),"Insert into destination_lookup (actualname, destinationlookup) values ('APPANNAPALEM (SIMHAPURI COLONY)','APPANNAPALEM (SIMHAPURI COLONY)');"
-APPIKONDA,APPIKONDA,"Insert into destination_lookup (actualname, destinationlookup) values ('APPIKONDA','APPIKONDA');"
-APPUGHAR,APPUGHAR,"Insert into destination_lookup (actualname, destinationlookup) values ('APPUGHAR','APPUGHAR');"
-APPUGHAR(MVP MAINROAD JUNCTION),APPUGHAR,"Insert into destination_lookup (actualname, destinationlookup) values ('APPUGHAR(MVP MAINROAD JUNCTION)','APPUGHAR');"
-AQJ COLLEGE,AQJ COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('AQJ COLLEGE','AQJ COLLEGE');"
-ARDHANNAPALEM,ARDHANNAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('ARDHANNAPALEM','ARDHANNAPALEM');"
-ARILOVA,ARILOVA,"Insert into destination_lookup (actualname, destinationlookup) values ('ARILOVA','ARILOVA');"
-ARILOVA COLONY,ARILOVA,"Insert into destination_lookup (actualname, destinationlookup) values ('ARILOVA COLONY','ARILOVA');"
-ARIPAKA,ARIPAKA,"Insert into destination_lookup (actualname, destinationlookup) values ('ARIPAKA','ARIPAKA');"
-ARLI,ARLI,"Insert into destination_lookup (actualname, destinationlookup) values ('ARLI','ARLI');"
-ARLI JUNCTION,ARLI,"Insert into destination_lookup (actualname, destinationlookup) values ('ARLI JUNCTION','ARLI');"
-ARTS COLLEGE,ARTS COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('ARTS COLLEGE','ARTS COLLEGE');"
-ARUKU - RTC COMPLEX,ARUKU - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('ARUKU - RTC COMPLEX','ARUKU - RTC COMPLEX');"
-ARUNA ZUTE MILLS,ARUNA ZUTE MILLS,"Insert into destination_lookup (actualname, destinationlookup) values ('ARUNA ZUTE MILLS','ARUNA ZUTE MILLS');"
-ASAKAPALLI,ASAKAPALLI,"Insert into destination_lookup (actualname, destinationlookup) values ('ASAKAPALLI','ASAKAPALLI');"
-ASHOK NAGAR,VAMBAY COLONY (NEAR GAJUWAKA),"Insert into destination_lookup (actualname, destinationlookup) values ('ASHOK NAGAR','VAMBAY COLONY (NEAR GAJUWAKA)');"
-ASHOK NAGAR,ASHOK NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('ASHOK NAGAR','ASHOK NAGAR');"
-ASILMETTA JUNCTION,SAMPATH VINAYAKA TEMPLE,"Insert into destination_lookup (actualname, destinationlookup) values ('ASILMETTA JUNCTION','SAMPATH VINAYAKA TEMPLE');"
-ASILMETTA JUNCTION,ASILMETTA JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('ASILMETTA JUNCTION','ASILMETTA JUNCTION');"
-ASILMETTA JUNCTION,VIZAG - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('ASILMETTA JUNCTION','VIZAG - RTC COMPLEX');"
-AUTO NAGAR,AUTO NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('AUTO NAGAR','AUTO NAGAR');"
-AVANTHI ENGINEERING COLLEGE,AVANTHI ENGINEERING COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('AVANTHI ENGINEERING COLLEGE','AVANTHI ENGINEERING COLLEGE');"
-AYYANNAPALEM,AYYANNAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('AYYANNAPALEM','AYYANNAPALEM');"
-BABA BAZAR (LAWSONS BAY COLONY),BABA BAZAR (LAWSONS BAY COLONY),"Insert into destination_lookup (actualname, destinationlookup) values ('BABA BAZAR (LAWSONS BAY COLONY)','BABA BAZAR (LAWSONS BAY COLONY)');"
-BAJI JUNCTION,BAJI JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('BAJI JUNCTION','BAJI JUNCTION');"
-BAKKANNAPALEM,BAKKANNAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('BAKKANNAPALEM','BAKKANNAPALEM');"
-BALAGANAPATHI TEMPLE,BALAGANAPATHI TEMPLE,"Insert into destination_lookup (actualname, destinationlookup) values ('BALAGANAPATHI TEMPLE','BALAGANAPATHI TEMPLE');"
-BALAJI NAGAR,BALAJI NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('BALAJI NAGAR','BALAJI NAGAR');"
-BALAKRISHNA,BALAKRISHNA,"Insert into destination_lookup (actualname, destinationlookup) values ('BALAKRISHNA','BALAKRISHNA');"
-BEHARA POLYTECHNICAL COLLEGE (NARAVA),BEHARA POLYTECHNICAL COLLEGE (NARAVA),"Insert into destination_lookup (actualname, destinationlookup) values ('BEHARA POLYTECHNICAL COLLEGE (NARAVA)','BEHARA POLYTECHNICAL COLLEGE (NARAVA)');"
-BENNAVARAM,BENNAVARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('BENNAVARAM','BENNAVARAM');"
-BHEEMUNIPATNAM Y JUNCTION (CROSS ROADS),BHEEMUNIPATNAM Y JUNCTION (CROSS ROADS),"Insert into destination_lookup (actualname, destinationlookup) values ('BHEEMUNIPATNAM Y JUNCTION (CROSS ROADS)','BHEEMUNIPATNAM Y JUNCTION (CROSS ROADS)');"
-BHEEMUNIPATNAM Y JUNCTION (CROSS ROADS),BHIMILI Y JUNCTION (CROSS ROADS),"Insert into destination_lookup (actualname, destinationlookup) values ('BHEEMUNIPATNAM Y JUNCTION (CROSS ROADS)','BHIMILI Y JUNCTION (CROSS ROADS)');"
-BHIMILI (DHORA THOTA),DHORA THOTA,"Insert into destination_lookup (actualname, destinationlookup) values ('BHIMILI (DHORA THOTA)','DHORA THOTA');"
-BHIMILI (DHORA THOTA),BHIMILI,"Insert into destination_lookup (actualname, destinationlookup) values ('BHIMILI (DHORA THOTA)','BHIMILI');"
-BHIMILI (DHORA THOTA),BHEEMILI,"Insert into destination_lookup (actualname, destinationlookup) values ('BHIMILI (DHORA THOTA)','BHEEMILI');"
-BHIMILI POLICE STATION,BHIMILI POLICE STATION,"Insert into destination_lookup (actualname, destinationlookup) values ('BHIMILI POLICE STATION','BHIMILI POLICE STATION');"
-BHIMILI POLICE STATION,BHEEMILI POLICE STATION,"Insert into destination_lookup (actualname, destinationlookup) values ('BHIMILI POLICE STATION','BHEEMILI POLICE STATION');"
-BHIMILI RTC COMPLEX (OLD BUS STAND),BHIMILI RTC COMPLEX (OLD BUS STAND),"Insert into destination_lookup (actualname, destinationlookup) values ('BHIMILI RTC COMPLEX (OLD BUS STAND)','BHIMILI RTC COMPLEX (OLD BUS STAND)');"
-BHOGAPURAM,BHOGAPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('BHOGAPURAM','BHOGAPURAM');"
-BHPV,BHPV,"Insert into destination_lookup (actualname, destinationlookup) values ('BHPV','BHPV');"
-BIRLA,BIRLA,"Insert into destination_lookup (actualname, destinationlookup) values ('BIRLA','BIRLA');"
-BODDAPALEM,BODDAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('BODDAPALEM','BODDAPALEM');"
-BODDAVALASA,BODDAVALASA,"Insert into destination_lookup (actualname, destinationlookup) values ('BODDAVALASA','BODDAVALASA');"
-BORAVANIPALEM,BORAVANIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('BORAVANIPALEM','BORAVANIPALEM');"
-BOYAPALEM,BOYAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('BOYAPALEM','BOYAPALEM');"
-BOYAPALEM,PYDAH COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('BOYAPALEM','PYDAH COLLEGE');"
-BRTS,BRTS,"Insert into destination_lookup (actualname, destinationlookup) values ('BRTS','BRTS');"
-BUCHIRAJUPALEM,BUCHIRAJUPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('BUCHIRAJUPALEM','BUCHIRAJUPALEM');"
-BULLAYYA COLLEGE (TOWARDS RAMA TALKIES),BULLAYYA COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('BULLAYYA COLLEGE (TOWARDS RAMA TALKIES)','BULLAYYA COLLEGE');"
-BULLAYYA COLLEGE (TOWARDS SATYAM COMPUTERS),BULLAYYA COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('BULLAYYA COLLEGE (TOWARDS SATYAM COMPUTERS)','BULLAYYA COLLEGE');"
-BURMANGUDA,BURMANGUDA,"Insert into destination_lookup (actualname, destinationlookup) values ('BURMANGUDA','BURMANGUDA');"
-BUTCHIYYAPETA,BUTCHIYYAPETA,"Insert into destination_lookup (actualname, destinationlookup) values ('BUTCHIYYAPETA','BUTCHIYYAPETA');"
-BVK COLLEGE,BVK COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('BVK COLLEGE','BVK COLLEGE');"
-BYPUREDDYPALEM,BYPUREDDYPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('BYPUREDDYPALEM','BYPUREDDYPALEM');"
-CARSHED,CARSHED,"Insert into destination_lookup (actualname, destinationlookup) values ('CARSHED','CARSHED');"
-CENTURY CLUB,CENTURY CLUB,"Insert into destination_lookup (actualname, destinationlookup) values ('CENTURY CLUB','CENTURY CLUB');"
-CHAITANYA SCHOOL (PEDHAGANTYADA),CHAITANYA SCHOOL (PEDHAGANTYADA),"Insert into destination_lookup (actualname, destinationlookup) values ('CHAITANYA SCHOOL (PEDHAGANTYADA)','CHAITANYA SCHOOL (PEDHAGANTYADA)');"
-CHANDANA BROS,JAGADAMBA,"Insert into destination_lookup (actualname, destinationlookup) values ('CHANDANA BROS','JAGADAMBA');"
-CHANDANA BROS,CHANDANA BROS,"Insert into destination_lookup (actualname, destinationlookup) values ('CHANDANA BROS','CHANDANA BROS');"
-CHANDRAMPALEM ZP HIGH SCHOOL,MADHURWADA,"Insert into destination_lookup (actualname, destinationlookup) values ('CHANDRAMPALEM ZP HIGH SCHOOL','MADHURWADA');"
-CHANDRAMPALEM ZP HIGH SCHOOL,CHANDRAMPALEM ZP HIGH SCHOOL,"Insert into destination_lookup (actualname, destinationlookup) values ('CHANDRAMPALEM ZP HIGH SCHOOL','CHANDRAMPALEM ZP HIGH SCHOOL');"
-CHANDRAYYAPETA,CHANDRAYYAPETA,"Insert into destination_lookup (actualname, destinationlookup) values ('CHANDRAYYAPETA','CHANDRAYYAPETA');"
-CHAVULAMADAM,CONVENT JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('CHAVULAMADAM','CONVENT JUNCTION');"
-CHAVULAMADAM,CHAVULAMADAM,"Insert into destination_lookup (actualname, destinationlookup) values ('CHAVULAMADAM','CHAVULAMADAM');"
-CHEEMALA PALLI,CHIMALA PALLI,"Insert into destination_lookup (actualname, destinationlookup) values ('CHEEMALA PALLI','CHIMALA PALLI');"
-CHEEMALA PALLI,CHEEMALA PALLI,"Insert into destination_lookup (actualname, destinationlookup) values ('CHEEMALA PALLI','CHEEMALA PALLI');"
-CHINAGADILI,CHINAGADILI,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINAGADILI','CHINAGADILI');"
-CHINAGUDIPALA,CHINAGUDIPALA,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINAGUDIPALA','CHINAGUDIPALA');"
-CHINAPPANNAPALEM,CHINAPPANNAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINAPPANNAPALEM','CHINAPPANNAPALEM');"
-CHINAYATHAPALEM,CHINAYATHAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINAYATHAPALEM','CHINAYATHAPALEM');"
-CHINNA GANTYADA,CHINNA GANTYADA,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINNA GANTYADA','CHINNA GANTYADA');"
-CHINNA RUSHIKONDA,CHINNA RUSHIKONDA,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINNA RUSHIKONDA','CHINNA RUSHIKONDA');"
-CHINNA WALTAIR,CHINNA WALTAIR,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINNA WALTAIR','CHINNA WALTAIR');"
-CHINNAMUSHUDIWADA,SAVITRI NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINNAMUSHUDIWADA','SAVITRI NAGAR');"
-CHINNAMUSHUDIWADA,CHINNAMUSHUDIWADA,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINNAMUSHUDIWADA','CHINNAMUSHUDIWADA');"
-CHINNAPALEM,CHINNAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINNAPALEM','CHINNAPALEM');"
-CHINNAPURAM JUNCTION,CHINNAPURAM JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINNAPURAM JUNCTION','CHINNAPURAM JUNCTION');"
-CHINNARAOPALLI,CHINNARAOPALLI,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINNARAOPALLI','CHINNARAOPALLI');"
-CHINNAYYAPALEM,PATAROAD,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINNAYYAPALEM','PATAROAD');"
-CHINNAYYAPALEM,CHINNAYYAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINNAYYAPALEM','CHINNAYYAPALEM');"
-CHINTAGATLA,CHINTAGATLA,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINTAGATLA','CHINTAGATLA');"
-CHINTALA AGRAHARAM,CHINTALA AGRAHARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINTALA AGRAHARAM','CHINTALA AGRAHARAM');"
-CHINTALADIMMA,CHINTALADIMMA,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINTALADIMMA','CHINTALADIMMA');"
-CHINTALAGRAHARAM (NEAR VEPAGUNTA),CHINTALAGRAHARAM (NEAR VEPAGUNTA),"Insert into destination_lookup (actualname, destinationlookup) values ('CHINTALAGRAHARAM (NEAR VEPAGUNTA)','CHINTALAGRAHARAM (NEAR VEPAGUNTA)');"
-CHINTHALAPALEM,CHINTHALAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('CHINTHALAPALEM','CHINTHALAPALEM');"
-CHODAVARAM,CHODAVARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('CHODAVARAM','CHODAVARAM');"
-CHODAVARAM (OLD BUS STAND),CHODAVARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('CHODAVARAM (OLD BUS STAND)','CHODAVARAM');"
-CHOULTRY,CHOULTRY,"Insert into destination_lookup (actualname, destinationlookup) values ('CHOULTRY','CHOULTRY');"
-CISF CHILDREN PARK,CISF CHILDREN PARK,"Insert into destination_lookup (actualname, destinationlookup) values ('CISF CHILDREN PARK','CISF CHILDREN PARK');"
-CMR CENTRAL,JUDGE COURT,"Insert into destination_lookup (actualname, destinationlookup) values ('CMR CENTRAL','JUDGE COURT');"
-CMR CENTRAL,CMR CENTRAL,"Insert into destination_lookup (actualname, destinationlookup) values ('CMR CENTRAL','CMR CENTRAL');"
-COLLECTOR OFFICE,COLLECTOR OFFICE,"Insert into destination_lookup (actualname, destinationlookup) values ('COLLECTOR OFFICE','COLLECTOR OFFICE');"
-CONVENT JUNCTION,CONVENT JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('CONVENT JUNCTION','CONVENT JUNCTION');"
-CONVENT JUNCTION,CHAVULAMADAM,"Insert into destination_lookup (actualname, destinationlookup) values ('CONVENT JUNCTION','CHAVULAMADAM');"
-COROMANDAL GATE,COROMANDAL GATE,"Insert into destination_lookup (actualname, destinationlookup) values ('COROMANDAL GATE','COROMANDAL GATE');"
-CWC,CWC,"Insert into destination_lookup (actualname, destinationlookup) values ('CWC','CWC');"
-D YELLAVARAMJUNCTION,D YELLAVARAMJUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('D YELLAVARAMJUNCTION','D YELLAVARAMJUNCTION');"
-DABA GARDENS,DABA GARDENS,"Insert into destination_lookup (actualname, destinationlookup) values ('DABA GARDENS','DABA GARDENS');"
-DASARIVANIPALEM,DASARIVANIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('DASARIVANIPALEM','DASARIVANIPALEM');"
-DAYAL NAGAR,DAYAL NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('DAYAL NAGAR','DAYAL NAGAR');"
-DESA PATHRUNIPALEM (NEAR STEEL PLANT),DESA PATHRUNIPALEM (NEAR STEEL PLANT),"Insert into destination_lookup (actualname, destinationlookup) values ('DESA PATHRUNIPALEM (NEAR STEEL PLANT)','DESA PATHRUNIPALEM (NEAR STEEL PLANT)');"
-DESA PATRUNIPALEM (NEAR KOTHAVALASA),DESA PATRUNIPALEM (NEAR KOTHAVALASA),"Insert into destination_lookup (actualname, destinationlookup) values ('DESA PATRUNIPALEM (NEAR KOTHAVALASA)','DESA PATRUNIPALEM (NEAR KOTHAVALASA)');"
-DEVADA,DEVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('DEVADA','DEVADA');"
-DEVADA (DEVARAPALLE ROAD),DEVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('DEVADA (DEVARAPALLE ROAD)','DEVADA');"
-DEVARAPALLE,DEVARAPALLE,"Insert into destination_lookup (actualname, destinationlookup) values ('DEVARAPALLE','DEVARAPALLE');"
-DEVIPURAM,DEVIPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('DEVIPURAM','DEVIPURAM');"
-DEVIPURAM HIGHWAY,DEVIPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('DEVIPURAM HIGHWAY','DEVIPURAM');"
-DHANUNJAYA NEAR SWARNA BHARATHI INDOOR STADIUM,SWARNA BHARATHI INDOOR STADIUM,"Insert into destination_lookup (actualname, destinationlookup) values ('DHANUNJAYA NEAR SWARNA BHARATHI INDOOR STADIUM','SWARNA BHARATHI INDOOR STADIUM');"
-DHANUNJAYA NEAR SWARNA BHARATHI INDOOR STADIUM,DHANUNJAYA NEAR SWARNA BHARATHI INDOOR STADIUM,"Insert into destination_lookup (actualname, destinationlookup) values ('DHANUNJAYA NEAR SWARNA BHARATHI INDOOR STADIUM','DHANUNJAYA NEAR SWARNA BHARATHI INDOOR STADIUM');"
-DHAYALA NAGAR (104 AREA),DHAYALA NAGAR (104 AREA),"Insert into destination_lookup (actualname, destinationlookup) values ('DHAYALA NAGAR (104 AREA)','DHAYALA NAGAR (104 AREA)');"
-DHORA THOTA,DHORA THOTA,"Insert into destination_lookup (actualname, destinationlookup) values ('DHORA THOTA','DHORA THOTA');"
-DHORA THOTA (NEAR BHEEMILI),DHORA THOTA,"Insert into destination_lookup (actualname, destinationlookup) values ('DHORA THOTA (NEAR BHEEMILI)','DHORA THOTA');"
-DIBBAPALEM R.H COLONY,DIBBAPALEM R.H COLONY,"Insert into destination_lookup (actualname, destinationlookup) values ('DIBBAPALEM R.H COLONY','DIBBAPALEM R.H COLONY');"
-DISTRICT JUDGE COURT,JUDGE COURT,"Insert into destination_lookup (actualname, destinationlookup) values ('DISTRICT JUDGE COURT','JUDGE COURT');"
-DISTRICT JUDGE COURT,DISTRICT JUDGE COURT,"Insert into destination_lookup (actualname, destinationlookup) values ('DISTRICT JUDGE COURT','DISTRICT JUDGE COURT');"
-DIVIS,DIVIS,"Insert into destination_lookup (actualname, destinationlookup) values ('DIVIS','DIVIS');"
-DOCKYARD,DOCKYARD,"Insert into destination_lookup (actualname, destinationlookup) values ('DOCKYARD','DOCKYARD');"
-DOLPHIN OFFICE,DOLPHIN OFFICE,"Insert into destination_lookup (actualname, destinationlookup) values ('DOLPHIN OFFICE','DOLPHIN OFFICE');"
-DONDAPARTHY,DONDAPARTHY,"Insert into destination_lookup (actualname, destinationlookup) values ('DONDAPARTHY','DONDAPARTHY');"
-DONDAPARTHY (RAILWAY NEW COLONY ROAD),DONDAPARTHY,"Insert into destination_lookup (actualname, destinationlookup) values ('DONDAPARTHY (RAILWAY NEW COLONY ROAD)','DONDAPARTHY');"
-DONDAPUDI,DONDAPUDI,"Insert into destination_lookup (actualname, destinationlookup) values ('DONDAPUDI','DONDAPUDI');"
-DOSURU,DOSURU,"Insert into destination_lookup (actualname, destinationlookup) values ('DOSURU','DOSURU');"
-DRGADA,DRGADA,"Insert into destination_lookup (actualname, destinationlookup) values ('DRGADA','DRGADA');"
-DUDDUPALEM JUNCTION,DUDDUPALEM JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('DUDDUPALEM JUNCTION','DUDDUPALEM JUNCTION');"
-DUKKAVANIPALEM,DUKKAVANIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('DUKKAVANIPALEM','DUKKAVANIPALEM');"
-DURGA BAZAR,DURGA BAZAR,"Insert into destination_lookup (actualname, destinationlookup) values ('DURGA BAZAR','DURGA BAZAR');"
-DURGA TEMPLE,DURGA TEMPLE,"Insert into destination_lookup (actualname, destinationlookup) values ('DURGA TEMPLE','DURGA TEMPLE');"
-DUVVADA BRIDGE,FAKEERTAKIYA,"Insert into destination_lookup (actualname, destinationlookup) values ('DUVVADA BRIDGE','FAKEERTAKIYA');"
-DUVVADA BRIDGE,DUVVADA BRIDGE,"Insert into destination_lookup (actualname, destinationlookup) values ('DUVVADA BRIDGE','DUVVADA BRIDGE');"
-DUVVADA RAILWAY STATION,DUVVADA RAILWAY STATION,"Insert into destination_lookup (actualname, destinationlookup) values ('DUVVADA RAILWAY STATION','DUVVADA RAILWAY STATION');"
-EAST POINT COLONY,GIRIJAN CORPORATION,"Insert into destination_lookup (actualname, destinationlookup) values ('EAST POINT COLONY','GIRIJAN CORPORATION');"
-EAST POINT COLONY,EAST POINT COLONY,"Insert into destination_lookup (actualname, destinationlookup) values ('EAST POINT COLONY','EAST POINT COLONY');"
-EENADU,EENADU,"Insert into destination_lookup (actualname, destinationlookup) values ('EENADU','EENADU');"
-EENADU (TOWARDS SATYAM JUNCTION),EENADU,"Insert into destination_lookup (actualname, destinationlookup) values ('EENADU (TOWARDS SATYAM JUNCTION)','EENADU');"
-EMP X ROADS (LANKELAPALEM JUNCTION),LANKELAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('EMP X ROADS (LANKELAPALEM JUNCTION)','LANKELAPALEM');"
-EMP X ROADS (LANKELAPALEM JUNCTION),EMP X ROADS (LANKELAPALEM JUNCTION),"Insert into destination_lookup (actualname, destinationlookup) values ('EMP X ROADS (LANKELAPALEM JUNCTION)','EMP X ROADS (LANKELAPALEM JUNCTION)');"
-ENDADA,ENDADA,"Insert into destination_lookup (actualname, destinationlookup) values ('ENDADA','ENDADA');"
-ENDADA (BEACH RD),ENDADA,"Insert into destination_lookup (actualname, destinationlookup) values ('ENDADA (BEACH RD)','ENDADA');"
-ENDADA PETROL BUNK,ENDADA,"Insert into destination_lookup (actualname, destinationlookup) values ('ENDADA PETROL BUNK','ENDADA');"
-ENDAMILLI,ENDAMILLI,"Insert into destination_lookup (actualname, destinationlookup) values ('ENDAMILLI','ENDAMILLI');"
-ERUKUNAIDUPALEM,ERUKUNAIDUPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('ERUKUNAIDUPALEM','ERUKUNAIDUPALEM');"
-ESSAR,ESSAR,"Insert into destination_lookup (actualname, destinationlookup) values ('ESSAR','ESSAR');"
-EX-SERVICE MEN COLONY,EX-SERVICE MEN COLONY,"Insert into destination_lookup (actualname, destinationlookup) values ('EX-SERVICE MEN COLONY','EX-SERVICE MEN COLONY');"
-EYE CARE OPTICALS,EYE CARE OPTICALS,"Insert into destination_lookup (actualname, destinationlookup) values ('EYE CARE OPTICALS','EYE CARE OPTICALS');"
-FAKEERTAKIYA,DUVVADA BRIDGE,"Insert into destination_lookup (actualname, destinationlookup) values ('FAKEERTAKIYA','DUVVADA BRIDGE');"
-FAKEERTAKIYA,FAKEERTAKIYA,"Insert into destination_lookup (actualname, destinationlookup) values ('FAKEERTAKIYA','FAKEERTAKIYA');"
-FIFTH TOWN POLICE STATION,SATYANAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('FIFTH TOWN POLICE STATION','SATYANAGAR');"
-FIFTH TOWN POLICE STATION,FIFTH TOWN POLICE STATION,"Insert into destination_lookup (actualname, destinationlookup) values ('FIFTH TOWN POLICE STATION','FIFTH TOWN POLICE STATION');"
-FISHING HARBOUR,FISHING HARBOUR,"Insert into destination_lookup (actualname, destinationlookup) values ('FISHING HARBOUR','FISHING HARBOUR');"
-FOUR ROAD JUNCTION,FOUR ROAD JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('FOUR ROAD JUNCTION','FOUR ROAD JUNCTION');"
-FOURTH TOWN POLICE STATION,FOURTH TOWN POLICE STATION,"Insert into destination_lookup (actualname, destinationlookup) values ('FOURTH TOWN POLICE STATION','FOURTH TOWN POLICE STATION');"
-GAJUWAKA BUS DEPOT,GAJUWAKA BUS DEPOT,"Insert into destination_lookup (actualname, destinationlookup) values ('GAJUWAKA BUS DEPOT','GAJUWAKA BUS DEPOT');"
-GALI BHEEMAVARAM,GALI BHEEMAVARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('GALI BHEEMAVARAM','GALI BHEEMAVARAM');"
-GANDHINAGARAM,GANDHINAGARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('GANDHINAGARAM','GANDHINAGARAM');"
-GANDIGUNDAM,GANDIGUNDAM,"Insert into destination_lookup (actualname, destinationlookup) values ('GANDIGUNDAM','GANDIGUNDAM');"
-GANDIPALEM,GANDIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('GANDIPALEM','GANDIPALEM');"
-GANGADEVIPATE,GANGADEVIPATE,"Insert into destination_lookup (actualname, destinationlookup) values ('GANGADEVIPATE','GANGADEVIPATE');"
-GANGAVARAM COLONY,GANGAVARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('GANGAVARAM COLONY','GANGAVARAM');"
-GANGAVARAM JUNCTION,GANGAVARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('GANGAVARAM JUNCTION','GANGAVARAM');"
-GARAVA JAGGAYYAPALEM,GARAVA JAGGAYYAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('GARAVA JAGGAYYAPALEM','GARAVA JAGGAYYAPALEM');"
-GAS COMPANY (ANAKAPALLE RD),GAS COMPANY (ANAKAPALLE RD),"Insert into destination_lookup (actualname, destinationlookup) values ('GAS COMPANY (ANAKAPALLE RD)','GAS COMPANY (ANAKAPALLE RD)');"
-GAS COMPANY (GAS AUTHORITY OF INDIA),GAS COMPANY (GAS AUTHORITY OF INDIA),"Insert into destination_lookup (actualname, destinationlookup) values ('GAS COMPANY (GAS AUTHORITY OF INDIA)','GAS COMPANY (GAS AUTHORITY OF INDIA)');"
-GAVARA ANAKAPALLE,GAVARA ANAKAPALLE,"Insert into destination_lookup (actualname, destinationlookup) values ('GAVARA ANAKAPALLE','GAVARA ANAKAPALLE');"
-GEDDAPETA JUNCTION,GEDDAPETA JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('GEDDAPETA JUNCTION','GEDDAPETA JUNCTION');"
-GHAT ROAD (MADUGULA),GHAT ROAD (MADUGULA),"Insert into destination_lookup (actualname, destinationlookup) values ('GHAT ROAD (MADUGULA)','GHAT ROAD (MADUGULA)');"
-GIDIJALA,GIDIJALA,"Insert into destination_lookup (actualname, destinationlookup) values ('GIDIJALA','GIDIJALA');"
-GIDIJALA CENTER,GIDIJALA,"Insert into destination_lookup (actualname, destinationlookup) values ('GIDIJALA CENTER','GIDIJALA');"
-GIRIBABU BYPUREDDY,GIRIBABU BYPUREDDY,"Insert into destination_lookup (actualname, destinationlookup) values ('GIRIBABU BYPUREDDY','GIRIBABU BYPUREDDY');"
-GITAM,GITAM,"Insert into destination_lookup (actualname, destinationlookup) values ('GITAM','GITAM');"
-GITAM UNIVERSITY (ENTRANCE),GITAM,"Insert into destination_lookup (actualname, destinationlookup) values ('GITAM UNIVERSITY (ENTRANCE)','GITAM');"
-GNANAPURAM,GNANAPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('GNANAPURAM','GNANAPURAM');"
-GNANAPURAM (NEAR WALTAIR RAILWAY STATION),GNANAPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('GNANAPURAM (NEAR WALTAIR RAILWAY STATION)','GNANAPURAM');"
-GOKIVADA,GOKIVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('GOKIVADA','GOKIVADA');"
-GOKIVADA JUNCTION BUS STATION,GOKIVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('GOKIVADA JUNCTION BUS STATION','GOKIVADA');"
-GOLDEN LAYOUT (SARIPALLI),GOLDEN LAYOUT (SARIPALLI),"Insert into destination_lookup (actualname, destinationlookup) values ('GOLDEN LAYOUT (SARIPALLI)','GOLDEN LAYOUT (SARIPALLI)');"
-GOLLALAPALEM BUS STATION,GOLLALAPALEM BUS STATION,"Insert into destination_lookup (actualname, destinationlookup) values ('GOLLALAPALEM BUS STATION','GOLLALAPALEM BUS STATION');"
-GOLLAPALEM,GOLLAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('GOLLAPALEM','GOLLAPALEM');"
-GOPALAPATNAM,GOPALAPATNAM,"Insert into destination_lookup (actualname, destinationlookup) values ('GOPALAPATNAM','GOPALAPATNAM');"
-GORLEVANIPALEM,GORLEVANIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('GORLEVANIPALEM','GORLEVANIPALEM');"
-GOTIVADA,GOTIVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('GOTIVADA','GOTIVADA');"
-GOTIVADA (NEAR NAKKAVANIPALEM),GOTIVADA (NEAR NAKKAVANIPALEM),"Insert into destination_lookup (actualname, destinationlookup) values ('GOTIVADA (NEAR NAKKAVANIPALEM)','GOTIVADA (NEAR NAKKAVANIPALEM)');"
-GOVADA,GOVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('GOVADA','GOVADA');"
-GOVERNER BUNGALOW,GOVERNER BUNGALOW,"Insert into destination_lookup (actualname, destinationlookup) values ('GOVERNER BUNGALOW','GOVERNER BUNGALOW');"
-GOVINDAPALEM,GOVINDAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('GOVINDAPALEM','GOVINDAPALEM');"
-GOWRI NAGAR JUNCTION,GOWRI NAGAR JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('GOWRI NAGAR JUNCTION','GOWRI NAGAR JUNCTION');"
-GOWRIPATHAM,GOWRIPATHAM,"Insert into destination_lookup (actualname, destinationlookup) values ('GOWRIPATHAM','GOWRIPATHAM');"
-GREEN CITY,GREEN CITY,"Insert into destination_lookup (actualname, destinationlookup) values ('GREEN CITY','GREEN CITY');"
-GREEN PARK,GREEN PARK,"Insert into destination_lookup (actualname, destinationlookup) values ('GREEN PARK','GREEN PARK');"
-GUDILOVA,GUDILOVA,"Insert into destination_lookup (actualname, destinationlookup) values ('GUDILOVA','GUDILOVA');"
-GUDILOVA HOSTEL,GUDILOVA,"Insert into destination_lookup (actualname, destinationlookup) values ('GUDILOVA HOSTEL','GUDILOVA');"
-GULLEPALLE,GULLEPALLE,"Insert into destination_lookup (actualname, destinationlookup) values ('GULLEPALLE','GULLEPALLE');"
-GULLEPALLE JUNCTION,GULLEPALLE,"Insert into destination_lookup (actualname, destinationlookup) values ('GULLEPALLE JUNCTION','GULLEPALLE');"
-GUNTASEEMA BUS STATION,GUNTASEEMA BUS STATION,"Insert into destination_lookup (actualname, destinationlookup) values ('GUNTASEEMA BUS STATION','GUNTASEEMA BUS STATION');"
-GURRAMPALEM,GURRAMPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('GURRAMPALEM','GURRAMPALEM');"
-GURUDWARA,GURUDWARA,"Insert into destination_lookup (actualname, destinationlookup) values ('GURUDWARA','GURUDWARA');"
-GVMC,VIZAG - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('GVMC','VIZAG - RTC COMPLEX');"
-GVMC,GVMC,"Insert into destination_lookup (actualname, destinationlookup) values ('GVMC','GVMC');"
-HANUMANTHAWAKA,HANUMANTHAWAKA,"Insert into destination_lookup (actualname, destinationlookup) values ('HANUMANTHAWAKA','HANUMANTHAWAKA');"
-HANUMANTHAWAKA (NEAR MARKET YARD),HANUMANTHAWAKA,"Insert into destination_lookup (actualname, destinationlookup) values ('HANUMANTHAWAKA (NEAR MARKET YARD)','HANUMANTHAWAKA');"
-HARIPALEM,HARIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('HARIPALEM','HARIPALEM');"
-HB COLONY LAST,HB COLONY LAST,"Insert into destination_lookup (actualname, destinationlookup) values ('HB COLONY LAST','HB COLONY LAST');"
-HCC COMPANY,HCC COMPANY,"Insert into destination_lookup (actualname, destinationlookup) values ('HCC COMPANY','HCC COMPANY');"
-HOUSING BOARD (PM PALEM),POTHINAMALLAYYAPALEM (PM PALEM),"Insert into destination_lookup (actualname, destinationlookup) values ('HOUSING BOARD (PM PALEM)','POTHINAMALLAYYAPALEM (PM PALEM)');"
-HOUSING BOARD (PM PALEM),HOUSING BOARD (PM PALEM),"Insert into destination_lookup (actualname, destinationlookup) values ('HOUSING BOARD (PM PALEM)','HOUSING BOARD (PM PALEM)');"
-INS CIRCARS,INS CIRCARS,"Insert into destination_lookup (actualname, destinationlookup) values ('INS CIRCARS','INS CIRCARS');"
-INS KALINGA,INS KALINGA,"Insert into destination_lookup (actualname, destinationlookup) values ('INS KALINGA','INS KALINGA');"
-INS SATAVAHANA,INS SATAVAHANA,"Insert into destination_lookup (actualname, destinationlookup) values ('INS SATAVAHANA','INS SATAVAHANA');"
-IPPILAVANIPALEM,IPPILAVANIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('IPPILAVANIPALEM','IPPILAVANIPALEM');"
-IRUVADA,IRUVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('IRUVADA','IRUVADA');"
-ISLAMPETA,ISLAMPETA,"Insert into destination_lookup (actualname, destinationlookup) values ('ISLAMPETA','ISLAMPETA');"
-ISUKATHOTA,ISUKATHOTA,"Insert into destination_lookup (actualname, destinationlookup) values ('ISUKATHOTA','ISUKATHOTA');"
-IT PARK,IT PARK,"Insert into destination_lookup (actualname, destinationlookup) values ('IT PARK','IT PARK');"
-ITI JUNCTION,INDUSTRIAL ESTATE,"Insert into destination_lookup (actualname, destinationlookup) values ('ITI JUNCTION','INDUSTRIAL ESTATE');"
-ITI JUNCTION,ITI JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('ITI JUNCTION','ITI JUNCTION');"
-J K LAYOUT,J K LAYOUT,"Insert into destination_lookup (actualname, destinationlookup) values ('J K LAYOUT','J K LAYOUT');"
-JAGADAMBA,JAGADAMBA,"Insert into destination_lookup (actualname, destinationlookup) values ('JAGADAMBA','JAGADAMBA');"
-JAIL ROAD,JAIL ROAD,"Insert into destination_lookup (actualname, destinationlookup) values ('JAIL ROAD','JAIL ROAD');"
-JAIL ROAD JUNCTION,JAIL ROAD,"Insert into destination_lookup (actualname, destinationlookup) values ('JAIL ROAD JUNCTION','JAIL ROAD');"
-JAJULAVANIPALEM,JAJULAVANIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('JAJULAVANIPALEM','JAJULAVANIPALEM');"
-JAMMI DEVARA PETA,NALLABILLI,"Insert into destination_lookup (actualname, destinationlookup) values ('JAMMI DEVARA PETA','NALLABILLI');"
-JAMMI DEVARA PETA,JAMMI DEVARA PETA,"Insert into destination_lookup (actualname, destinationlookup) values ('JAMMI DEVARA PETA','JAMMI DEVARA PETA');"
-JANATHA COLONY,JANATHA COLONY,"Insert into destination_lookup (actualname, destinationlookup) values ('JANATHA COLONY','JANATHA COLONY');"
-JANGALA PALEM,JANGALA PALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('JANGALA PALEM','JANGALA PALEM');"
-JANGALAPALEM NEAR GOTIVADA,JANGALAPALEM NEAR GOTIVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('JANGALAPALEM NEAR GOTIVADA','JANGALAPALEM NEAR GOTIVADA');"
-JANGALAPALLI,JANGALAPALLI,"Insert into destination_lookup (actualname, destinationlookup) values ('JANGALAPALLI','JANGALAPALLI');"
-JEERUPETA RAYAPALEM POST,JEERUPETA RAYAPALEM POST,"Insert into destination_lookup (actualname, destinationlookup) values ('JEERUPETA RAYAPALEM POST','JEERUPETA RAYAPALEM POST');"
-JERRIPOTHULAPALEM,JERRIPOTHULAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('JERRIPOTHULAPALEM','JERRIPOTHULAPALEM');"
-JODUGULLA PALEM,JODUGULLA PALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('JODUGULLA PALEM','JODUGULLA PALEM');"
-JONNADA,JONNADA,"Insert into destination_lookup (actualname, destinationlookup) values ('JONNADA','JONNADA');"
-JUDGE COURT,JUDGE COURT,"Insert into destination_lookup (actualname, destinationlookup) values ('JUDGE COURT','JUDGE COURT');"
-K CHANDRAYYAPETA,K CHANDRAYYAPETA,"Insert into destination_lookup (actualname, destinationlookup) values ('K CHANDRAYYAPETA','K CHANDRAYYAPETA');"
-K KOTAPADU,K KOTAPADU,"Insert into destination_lookup (actualname, destinationlookup) values ('K KOTAPADU','K KOTAPADU');"
-K SANTAPALEM,K SANTAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('K SANTAPALEM','K SANTAPALEM');"
-KAILASAGIRI,KAILASAGIRI,"Insert into destination_lookup (actualname, destinationlookup) values ('KAILASAGIRI','KAILASAGIRI');"
-KAILASAGIRI ROPE WAY,KAILASAGIRI,"Insert into destination_lookup (actualname, destinationlookup) values ('KAILASAGIRI ROPE WAY','KAILASAGIRI');"
-KAILASAGIRI ROPE WAY,KAILASAGIRI ROPE WAY,"Insert into destination_lookup (actualname, destinationlookup) values ('KAILASAGIRI ROPE WAY','KAILASAGIRI ROPE WAY');"
-KAILASPURAM,KAILASPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('KAILASPURAM','KAILASPURAM');"
-KAKANI NAGAR (TOWARDS AIRPORT),KAKANI NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('KAKANI NAGAR (TOWARDS AIRPORT)','KAKANI NAGAR');"
-KAKANI NAGAR (TOWARDS NAD),KAKANI NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('KAKANI NAGAR (TOWARDS NAD)','KAKANI NAGAR');"
-KAKARLOVA,KAKARLOVA,"Insert into destination_lookup (actualname, destinationlookup) values ('KAKARLOVA','KAKARLOVA');"
-KAKATIYA ITI JUNCTION,KAKATIYA ITI JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('KAKATIYA ITI JUNCTION','KAKATIYA ITI JUNCTION');"
-KALAPAKA,KALAPAKA,"Insert into destination_lookup (actualname, destinationlookup) values ('KALAPAKA','KALAPAKA');"
-KALAPAKA JUNCTION,KALAPAKA,"Insert into destination_lookup (actualname, destinationlookup) values ('KALAPAKA JUNCTION','KALAPAKA');"
-KALINGANAGAR,KALINGANAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('KALINGANAGAR','KALINGANAGAR');"
-KANCHARAPALEM,KANCHARAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('KANCHARAPALEM','KANCHARAPALEM');"
-KANCHARAPALEM (MUTHYAMAMBA TEMPLE),KANCHARAPALEM ,"Insert into destination_lookup (actualname, destinationlookup) values ('KANCHARAPALEM (MUTHYAMAMBA TEMPLE)','KANCHARAPALEM ');"
-KANTAKAPALLI,KANTAKAPALLI,"Insert into destination_lookup (actualname, destinationlookup) values ('KANTAKAPALLI','KANTAKAPALLI');"
-KANTAKAPALLI RAILWAY STATION ROAD,KANTAKAPALLI,"Insert into destination_lookup (actualname, destinationlookup) values ('KANTAKAPALLI RAILWAY STATION ROAD','KANTAKAPALLI');"
-KARASA,KARASA,"Insert into destination_lookup (actualname, destinationlookup) values ('KARASA','KARASA');"
-KARNAVANI PALEM BUSTOP 1,KARNAVANI PALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('KARNAVANI PALEM BUSTOP 1','KARNAVANI PALEM');"
-KARNAVANI PALEM BUSTOP 2,KARNAVANI PALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('KARNAVANI PALEM BUSTOP 2','KARNAVANI PALEM');"
-KASIMKOTA,KASIMKOTA,"Insert into destination_lookup (actualname, destinationlookup) values ('KASIMKOTA','KASIMKOTA');"
-KASIPURAM,KASIPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('KASIPURAM','KASIPURAM');"
-KATA,KATA,"Insert into destination_lookup (actualname, destinationlookup) values ('KATA','KATA');"
-KG PENTA1,KG PENTA,"Insert into destination_lookup (actualname, destinationlookup) values ('KG PENTA1','KG PENTA');"
-KG PENTA2,KG PENTA,"Insert into destination_lookup (actualname, destinationlookup) values ('KG PENTA2','KG PENTA');"
-KGH,KGH,"Insert into destination_lookup (actualname, destinationlookup) values ('KGH','KGH');"
-KGH OUT-PATIENT GATE,KGH OUT-PATIENT GATE,"Insert into destination_lookup (actualname, destinationlookup) values ('KGH OUT-PATIENT GATE','KGH OUT-PATIENT GATE');"
-KHANDIVARAM VILLAGE,KHANDIVARAM VILLAGE,"Insert into destination_lookup (actualname, destinationlookup) values ('KHANDIVARAM VILLAGE','KHANDIVARAM VILLAGE');"
-KOKKIRA PALLI,KOKKIRA PALLI,"Insert into destination_lookup (actualname, destinationlookup) values ('KOKKIRA PALLI','KOKKIRA PALLI');"
-KOLLIVANIPALEM,KOLLIVANIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('KOLLIVANIPALEM','KOLLIVANIPALEM');"
-KOMMADI JUNCTION,KOMMADI JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('KOMMADI JUNCTION','KOMMADI JUNCTION');"
-KOMMADI VILLAGE,KOMMADI VILLAGE,"Insert into destination_lookup (actualname, destinationlookup) values ('KOMMADI VILLAGE','KOMMADI VILLAGE');"
-KONDAKARLA JUNCTION,KONDAKARLA JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('KONDAKARLA JUNCTION','KONDAKARLA JUNCTION');"
-KONNURU,KONNURU,"Insert into destination_lookup (actualname, destinationlookup) values ('KONNURU','KONNURU');"
-KOPPAKA,KOPPAKA,"Insert into destination_lookup (actualname, destinationlookup) values ('KOPPAKA','KOPPAKA');"
-KORADA,KORADA,"Insert into destination_lookup (actualname, destinationlookup) values ('KORADA','KORADA');"
-KORUVADA,KORUVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('KORUVADA','KORUVADA');"
-KOTA (PEDA NARAVA),KOTA (PEDA NARAVA),"Insert into destination_lookup (actualname, destinationlookup) values ('KOTA (PEDA NARAVA)','KOTA (PEDA NARAVA)');"
-KOTA NARAVA,KOTA NARAVA,"Insert into destination_lookup (actualname, destinationlookup) values ('KOTA NARAVA','KOTA NARAVA');"
-KOTAVURATLA,KOTAVURATLA,"Insert into destination_lookup (actualname, destinationlookup) values ('KOTAVURATLA','KOTAVURATLA');"
-KOTHA KOVVADA ROAD,KOTHA KOVVADA ROAD,"Insert into destination_lookup (actualname, destinationlookup) values ('KOTHA KOVVADA ROAD','KOTHA KOVVADA ROAD');"
-KOTHAKOTA,KOTHAKOTA,"Insert into destination_lookup (actualname, destinationlookup) values ('KOTHAKOTA','KOTHAKOTA');"
-KOTHAPATNAM,KOTHAPATNAM,"Insert into destination_lookup (actualname, destinationlookup) values ('KOTHAPATNAM','KOTHAPATNAM');"
-KOTHAVALASA,KOTHAVALASA,"Insert into destination_lookup (actualname, destinationlookup) values ('KOTHAVALASA','KOTHAVALASA');"
-KOTHAVALASA JUNCTION,KOTHAVALASA JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('KOTHAVALASA JUNCTION','KOTHAVALASA JUNCTION');"
-KOTHAVALASA RAILWAY STATION,KOTHAVALASA RAILWAY STATION,"Insert into destination_lookup (actualname, destinationlookup) values ('KOTHAVALASA RAILWAY STATION','KOTHAVALASA RAILWAY STATION');"
-KOTHURU ANAKAPALLE,KOTHURU ANAKAPALLE,"Insert into destination_lookup (actualname, destinationlookup) values ('KOTHURU ANAKAPALLE','KOTHURU ANAKAPALLE');"
-KOTHURU JUNCTION,KOTHURU JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('KOTHURU JUNCTION','KOTHURU JUNCTION');"
-KOTTA NAGAVARAM,KOTTA NAGAVARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('KOTTA NAGAVARAM','KOTTA NAGAVARAM');"
-KOTTHA YELLAVARAM,KOTTHA YELLAVARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('KOTTHA YELLAVARAM','KOTTHA YELLAVARAM');"
-KOTTURU,KOTTURU,"Insert into destination_lookup (actualname, destinationlookup) values ('KOTTURU','KOTTURU');"
-KOVVADA,KOVVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('KOVVADA','KOVVADA');"
-KOYYALAPADU JUNCTION,KOYYALAPADU JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('KOYYALAPADU JUNCTION','KOYYALAPADU JUNCTION');"
-KRANTHI NAGAR,KRANTHI NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('KRANTHI NAGAR','KRANTHI NAGAR');"
-KRISHNA COLLEGE ROAD,KRISHNA COLLEGE ROAD,"Insert into destination_lookup (actualname, destinationlookup) values ('KRISHNA COLLEGE ROAD','KRISHNA COLLEGE ROAD');"
-KRISHNA NAGAR BHIMILI,KRISHNA NAGAR BHIMILI,"Insert into destination_lookup (actualname, destinationlookup) values ('KRISHNA NAGAR BHIMILI','KRISHNA NAGAR BHIMILI');"
-KRISHNA PURAM,KRISHNA PURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('KRISHNA PURAM','KRISHNA PURAM');"
-KRISHNAMPURAM,KRISHNAMPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('KRISHNAMPURAM','KRISHNAMPURAM');"
-KRISHNARAYA PURAM,KRISHNARAYA PURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('KRISHNARAYA PURAM','KRISHNARAYA PURAM');"
-KUMMAPALLE,KUMMAPALLE,"Insert into destination_lookup (actualname, destinationlookup) values ('KUMMAPALLE','KUMMAPALLE');"
-KURMANNAPALEM - RTC COMPLEX,KURMANNAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('KURMANNAPALEM - RTC COMPLEX','KURMANNAPALEM');"
-KURMANNAPALEM BUS STATION,PURNA THEATRE (KURMANNAPALEM),"Insert into destination_lookup (actualname, destinationlookup) values ('KURMANNAPALEM BUS STATION','PURNA THEATRE (KURMANNAPALEM)');"
-KURMANNAPALEM BUS STATION,KURMANNAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('KURMANNAPALEM BUS STATION','KURMANNAPALEM');"
-KURPAM MARKET,KURPAM MARKET,"Insert into destination_lookup (actualname, destinationlookup) values ('KURPAM MARKET','KURPAM MARKET');"
-KURUPAM CIRCLE,KURUPAM CIRCLE,"Insert into destination_lookup (actualname, destinationlookup) values ('KURUPAM CIRCLE','KURUPAM CIRCLE');"
-KURUVADA,KURUVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('KURUVADA','KURUVADA');"
-KURUVADA,KORUVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('KURUVADA','KORUVADA');"
-LAGISETTIPALEM,LAGISETTIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('LAGISETTIPALEM','LAGISETTIPALEM');"
-LAKSHMI TALKIES,LAKSHMI TALKIES,"Insert into destination_lookup (actualname, destinationlookup) values ('LAKSHMI TALKIES','LAKSHMI TALKIES');"
-LAKSHMIPURAM VILLAGE,LAKSHMIPURAM VILLAGE,"Insert into destination_lookup (actualname, destinationlookup) values ('LAKSHMIPURAM VILLAGE','LAKSHMIPURAM VILLAGE');"
-LANKAVANI PALEM,LANKAVANI PALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('LANKAVANI PALEM','LANKAVANI PALEM');"
-LANKELAPALEM (NORTH TOWARDS KANNURU),LANKELAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('LANKELAPALEM (NORTH TOWARDS KANNURU)','LANKELAPALEM');"
-LANKELAPALEM (SOUTH TOWARDS PARAWADA),LANKELAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('LANKELAPALEM (SOUTH TOWARDS PARAWADA)','LANKELAPALEM');"
-LAW COLLEGE,LAW COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('LAW COLLEGE','LAW COLLEGE');"
-LAWSONS BAY,LAWSONS BAY,"Insert into destination_lookup (actualname, destinationlookup) values ('LAWSONS BAY','LAWSONS BAY');"
-LAWSONS BAY (TOWARDS VUDA PARK),VASAVANIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('LAWSONS BAY (TOWARDS VUDA PARK)','VASAVANIPALEM');"
-LAWSONS BAY (TOWARDS VUDA PARK),LAWSONS BAY (TOWARDS VUDA PARK),"Insert into destination_lookup (actualname, destinationlookup) values ('LAWSONS BAY (TOWARDS VUDA PARK)','LAWSONS BAY (TOWARDS VUDA PARK)');"
-LAWSONS BAY (TOWARDS VUDA PARK),LAWSONS BAY,"Insert into destination_lookup (actualname, destinationlookup) values ('LAWSONS BAY (TOWARDS VUDA PARK)','LAWSONS BAY');"
-LEELA KRISHNA TOYOTA,LEELA KRISHNA TOYOTA,"Insert into destination_lookup (actualname, destinationlookup) values ('LEELA KRISHNA TOYOTA','LEELA KRISHNA TOYOTA');"
-LEMARTHI,LEMARTHI,"Insert into destination_lookup (actualname, destinationlookup) values ('LEMARTHI','LEMARTHI');"
-LENDI COLLEGE,LENDI COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('LENDI COLLEGE','LENDI COLLEGE');"
-LEPAKSHI,LEPAKSHI,"Insert into destination_lookup (actualname, destinationlookup) values ('LEPAKSHI','LEPAKSHI');"
-LEPAKSHI,JAGADAMBA ,"Insert into destination_lookup (actualname, destinationlookup) values ('LEPAKSHI','JAGADAMBA ');"
-LINGALA TIRUGUDU,LINGALA TIRUGUDU,"Insert into destination_lookup (actualname, destinationlookup) values ('LINGALA TIRUGUDU','LINGALA TIRUGUDU');"
-LIONS CLUB (RAMNAGAR),RAMNAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('LIONS CLUB (RAMNAGAR)','RAMNAGAR');"
-LIONS CLUB (RAMNAGAR),LIONS CLUB (RAMNAGAR),"Insert into destination_lookup (actualname, destinationlookup) values ('LIONS CLUB (RAMNAGAR)','LIONS CLUB (RAMNAGAR)');"
-LOPUDI,LOPUDI,"Insert into destination_lookup (actualname, destinationlookup) values ('LOPUDI','LOPUDI');"
-MADDI,MADDI,"Insert into destination_lookup (actualname, destinationlookup) values ('MADDI','MADDI');"
-MADDI ROAD,MADDI ROAD,"Insert into destination_lookup (actualname, destinationlookup) values ('MADDI ROAD','MADDI ROAD');"
-MADDILAPALEM (SAI RAM HOTEL),MADDILAPALEM DEPOT,"Insert into destination_lookup (actualname, destinationlookup) values ('MADDILAPALEM (SAI RAM HOTEL)','MADDILAPALEM');"
-MADDILAPALEM DEPOT,MADDILAPALEM DEPOT,"Insert into destination_lookup (actualname, destinationlookup) values ('MADDILAPALEM DEPOT','MADDILAPALEM');"
-MADHAVADHARA,MADHAVADHARA,"Insert into destination_lookup (actualname, destinationlookup) values ('MADHAVADHARA','MADHAVADHARA');"
-MADHAVADHARA (NEAR SREE KANAKA DURGA FUNCTION HALL),MADHAVADHARA,"Insert into destination_lookup (actualname, destinationlookup) values ('MADHAVADHARA (NEAR SREE KANAKA DURGA FUNCTION HALL)','MADHAVADHARA');"
-MADHURAWADA DEPOT,MADHURWADA,"Insert into destination_lookup (actualname, destinationlookup) values ('MADHURAWADA DEPOT','MADHURWADA');"
-MADHURAWADA DEPOT,MADHURAWADA DEPOT,"Insert into destination_lookup (actualname, destinationlookup) values ('MADHURAWADA DEPOT','MADHURAWADA DEPOT');"
-MADHURWADA,MADHURWADA,"Insert into destination_lookup (actualname, destinationlookup) values ('MADHURWADA','MADHURWADA');"
-MADHURWADA JUNCTION,MADHURWADA,"Insert into destination_lookup (actualname, destinationlookup) values ('MADHURWADA JUNCTION','MADHURWADA');"
-MADHURWADA JUNCTION,MADHURWADA JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('MADHURWADA JUNCTION','MADHURWADA JUNCTION');"
-MADHUSUDANA NAGAR,MADHUSUDANA NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('MADHUSUDANA NAGAR','MADHUSUDANA NAGAR');"
-MADUGULA,MADUGULA,"Insert into destination_lookup (actualname, destinationlookup) values ('MADUGULA','MADUGULA');"
-MAHARAJUPETA JUNCTION,MAHARAJUPETA JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('MAHARAJUPETA JUNCTION','MAHARAJUPETA JUNCTION');"
-MAHARANI PETA,MAHARANI PETA,"Insert into destination_lookup (actualname, destinationlookup) values ('MAHARANI PETA','MAHARANI PETA');"
-MAHATI ENGLISH MEDIUM SCHOOL BUS STOP,PAVANI MEDICALS,"Insert into destination_lookup (actualname, destinationlookup) values ('MAHATI ENGLISH MEDIUM SCHOOL BUS STOP','PAVANI MEDICALS');"
-MAHATI ENGLISH MEDIUM SCHOOL BUS STOP,MAHATI ENGLISH MEDIUM SCHOOL BUS STOP,"Insert into destination_lookup (actualname, destinationlookup) values ('MAHATI ENGLISH MEDIUM SCHOOL BUS STOP','MAHATI ENGLISH MEDIUM SCHOOL BUS STOP');"
-MAJJIVALASA,MAJJIVALASA,"Insert into destination_lookup (actualname, destinationlookup) values ('MAJJIVALASA','MAJJIVALASA');"
-MALAPALLI JUNCTION,MALAPALLI JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('MALAPALLI JUNCTION','MALAPALLI JUNCTION');"
-MALKAPURAM,MALKAPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('MALKAPURAM','MALKAPURAM');"
-MALLINAIDU PALEM,MALLINAIDU PALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('MALLINAIDU PALEM','MALLINAIDU PALEM');"
-MAMIDILOVA,SONTYAM,"Insert into destination_lookup (actualname, destinationlookup) values ('MAMIDILOVA','SONTYAM');"
-MAMIDILOVA,MAMIDILOVA,"Insert into destination_lookup (actualname, destinationlookup) values ('MAMIDILOVA','MAMIDILOVA');"
-MANCHALA VILLAGE,MANCHALA VILLAGE,"Insert into destination_lookup (actualname, destinationlookup) values ('MANCHALA VILLAGE','MANCHALA VILLAGE');"
-MANGALAPALEM,MANGALAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('MANGALAPALEM','MANGALAPALEM');"
-MANGALAPALEM HIGHWAY,MANGALAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('MANGALAPALEM HIGHWAY','MANGALAPALEM');"
-MANGAMARI PETA,MANGAMARI PETA,"Insert into destination_lookup (actualname, destinationlookup) values ('MANGAMARI PETA','MANGAMARI PETA');"
-MARIKAVALASA,MARIKAVALASA,"Insert into destination_lookup (actualname, destinationlookup) values ('MARIKAVALASA','MARIKAVALASA');"
-MARIKAVALASA HIGHWAY,MARIKAVALASA,"Insert into destination_lookup (actualname, destinationlookup) values ('MARIKAVALASA HIGHWAY','MARIKAVALASA');"
-MARRIPALEM (104 AREA),MARRIPALEM (104 AREA),"Insert into destination_lookup (actualname, destinationlookup) values ('MARRIPALEM (104 AREA)','MARRIPALEM (104 AREA)');"
-MARRIPALEM (GALI BHEEMAVARAM),MARRIPALEM (GALI BHEEMAVARAM),"Insert into destination_lookup (actualname, destinationlookup) values ('MARRIPALEM (GALI BHEEMAVARAM)','MARRIPALEM (GALI BHEEMAVARAM)');"
-MARRIPALEM (NEAR POTHALA CHERUVU),MARRIPALEM (NEAR POTHALA CHERUVU),"Insert into destination_lookup (actualname, destinationlookup) values ('MARRIPALEM (NEAR POTHALA CHERUVU)','MARRIPALEM (NEAR POTHALA CHERUVU)');"
-MASJID,MASJID,"Insert into destination_lookup (actualname, destinationlookup) values ('MASJID','MASJID');"
-MEDIVADA VILLAGE,MEDIVADA VILLAGE,"Insert into destination_lookup (actualname, destinationlookup) values ('MEDIVADA VILLAGE','MEDIVADA VILLAGE');"
-MENTAL HOSPITAL,MENTAL HOSPITAL,"Insert into destination_lookup (actualname, destinationlookup) values ('MENTAL HOSPITAL','MENTAL HOSPITAL');"
-METTAPALEM,METTAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('METTAPALEM','METTAPALEM');"
-MINDI,MINDI,"Insert into destination_lookup (actualname, destinationlookup) values ('MINDI','MINDI');"
-MINDIVANI PALEM,MINDIVANI PALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('MINDIVANI PALEM','MINDIVANI PALEM');"
-MISSIONARY SCHOOL (KOMMADI),MISSIONARY SCHOOL (KOMMADI),"Insert into destination_lookup (actualname, destinationlookup) values ('MISSIONARY SCHOOL (KOMMADI)','MISSIONARY SCHOOL (KOMMADI)');"
-MITHILAPURI VUDA COLONY,MITHILAPURI VUDA COLONY,"Insert into destination_lookup (actualname, destinationlookup) values ('MITHILAPURI VUDA COLONY','MITHILAPURI VUDA COLONY');"
-MMTC,HB COLONY POST OFFICE,"Insert into destination_lookup (actualname, destinationlookup) values ('MMTC','HB COLONY POST OFFICE');"
-MMTC,MMTC,"Insert into destination_lookup (actualname, destinationlookup) values ('MMTC','MMTC');"
-MODHAVALASA,MODHAVALASA,"Insert into destination_lookup (actualname, destinationlookup) values ('MODHAVALASA','MODHAVALASA');"
-MOGALIPURAM,MOGALIPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('MOGALIPURAM','MOGALIPURAM');"
-MOOLAPETA,MOOLAPETA,"Insert into destination_lookup (actualname, destinationlookup) values ('MOOLAPETA','MOOLAPETA');"
-MOPADA,MOPADA,"Insert into destination_lookup (actualname, destinationlookup) values ('MOPADA','MOPADA');"
-MUDASARLOVA,MUDASARLOVA,"Insert into destination_lookup (actualname, destinationlookup) values ('MUDASARLOVA','MUDASARLOVA');"
-MULAGAPUDI,MULAGAPUDI,"Insert into destination_lookup (actualname, destinationlookup) values ('MULAGAPUDI','MULAGAPUDI');"
-MUNAGAPAAKA,MUNAGAPAAKA,"Insert into destination_lookup (actualname, destinationlookup) values ('MUNAGAPAAKA','MUNAGAPAAKA');"
-MUNICIPAL STADIUM (PATA BUS STAND),MUNICIPAL STADIUM (PATA BUS STAND),"Insert into destination_lookup (actualname, destinationlookup) values ('MUNICIPAL STADIUM (PATA BUS STAND)','MUNICIPAL STADIUM (PATA BUS STAND)');"
-MURALINAGAR (BURMA COLONY),MURALINAGAR (BURMA COLONY),"Insert into destination_lookup (actualname, destinationlookup) values ('MURALINAGAR (BURMA COLONY)','MURALINAGAR (BURMA COLONY)');"
-MURALINAGAR (NEHRU NAGAR),MURALINAGAR (NEHRU NAGAR),"Insert into destination_lookup (actualname, destinationlookup) values ('MURALINAGAR (NEHRU NAGAR)','MURALINAGAR (NEHRU NAGAR)');"
-MUSIRAM,MUSIRAM,"Insert into destination_lookup (actualname, destinationlookup) values ('MUSIRAM','MUSIRAM');"
-MUTCHERLA,MUTCHERLA,"Insert into destination_lookup (actualname, destinationlookup) values ('MUTCHERLA','MUTCHERLA');"
-MVP BUS DEPOT (RYTHU BAZAAR),MVP BUS DEPOT,"Insert into destination_lookup (actualname, destinationlookup) values ('MVP BUS DEPOT (RYTHU BAZAAR)','MVP BUS DEPOT');"
-MVP CIRCLE,MVP CIRCLE,"Insert into destination_lookup (actualname, destinationlookup) values ('MVP CIRCLE','MVP CIRCLE');"
-MVP COLONY (VIJAYA HOSPITALS),MVP COLONY (VIJAYA HOSPITALS),"Insert into destination_lookup (actualname, destinationlookup) values ('MVP COLONY (VIJAYA HOSPITALS)','MVP COLONY (VIJAYA HOSPITALS)');"
-MVP COLONY BUS DEPOT (MUVVALAVANIPALEM (DEPOT)),MVP BUS DEPOT,"Insert into destination_lookup (actualname, destinationlookup) values ('MVP COLONY BUS DEPOT (MUVVALAVANIPALEM (DEPOT))','MVP BUS DEPOT');"
-MVP GOTHISONS,MVP GOTHISONS,"Insert into destination_lookup (actualname, destinationlookup) values ('MVP GOTHISONS','MVP GOTHISONS');"
-NAAMAVARAM,NAAMAVARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('NAAMAVARAM','NAAMAVARAM');"
-NAD,NAD,"Insert into destination_lookup (actualname, destinationlookup) values ('NAD','NAD');"
-NADUPURU,NADUPURU,"Insert into destination_lookup (actualname, destinationlookup) values ('NADUPURU','NADUPURU');"
-NADUPURU DAIRY COLONY,NADUPURU,"Insert into destination_lookup (actualname, destinationlookup) values ('NADUPURU DAIRY COLONY','NADUPURU');"
-NAGARAPALEM,NAGARAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('NAGARAPALEM','NAGARAPALEM');"
-NAIDU THOTA,NAIDU THOTA,"Insert into destination_lookup (actualname, destinationlookup) values ('NAIDU THOTA','NAIDU THOTA');"
-NAIDU THOTA JUNCTION,NAIDU THOTA JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('NAIDU THOTA JUNCTION','NAIDU THOTA JUNCTION');"
-NAIDUPALEM,NAIDUPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('NAIDUPALEM','NAIDUPALEM');"
-NAKKAPALLI BUS STATION,NAKKAPALLI BUS STATION,"Insert into destination_lookup (actualname, destinationlookup) values ('NAKKAPALLI BUS STATION','NAKKAPALLI BUS STATION');"
-NALLABILLI,JAMMI DEVARA PETA,"Insert into destination_lookup (actualname, destinationlookup) values ('NALLABILLI','JAMMI DEVARA PETA');"
-NALLABILLI,NALLABILLI,"Insert into destination_lookup (actualname, destinationlookup) values ('NALLABILLI','NALLABILLI');"
-NAMMIDODDI JUNCTION,NAMMIDODDI JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('NAMMIDODDI JUNCTION','NAMMIDODDI JUNCTION');"
-NARAPADU,NARAPADU,"Insert into destination_lookup (actualname, destinationlookup) values ('NARAPADU','NARAPADU');"
-NARAPAM (DEVADA RD),NARAPAM (DEVADA RD),"Insert into destination_lookup (actualname, destinationlookup) values ('NARAPAM (DEVADA RD)','NARAPAM (DEVADA RD)');"
-NARAYANAPURAM,NARAYANAPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('NARAYANAPURAM','NARAYANAPURAM');"
-NARSIPATNAM - RTC COMPLEX,NARSIPATNAM - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('NARSIPATNAM - RTC COMPLEX','NARSIPATNAM - RTC COMPLEX');"
-NARSIPATNAM BUS DEPOT,NARSIPATNAM - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('NARSIPATNAM BUS DEPOT','NARSIPATNAM - RTC COMPLEX');"
-NATHAYYAPALEM,NATHAYYAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('NATHAYYAPALEM','NATHAYYAPALEM');"
-NATHAYYAPALEM HIGHWAY,NATHAYYAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('NATHAYYAPALEM HIGHWAY','NATHAYYAPALEM');"
-NAUSANA BAUGH ENTRANCE,NAUSENA BAUGH,"Insert into destination_lookup (actualname, destinationlookup) values ('NAUSANA BAUGH ENTRANCE','NAUSENA BAUGH');"
-NAUSENA BAUGH,NAUSENA BAUGH,"Insert into destination_lookup (actualname, destinationlookup) values ('NAUSENA BAUGH','NAUSENA BAUGH');"
-NDV,DOCKYARD,"Insert into destination_lookup (actualname, destinationlookup) values ('NDV','DOCKYARD');"
-NDV,NDV,"Insert into destination_lookup (actualname, destinationlookup) values ('NDV','NDV');"
-NEELAKANTARAJAPURAM,NEELAKANTARAJAPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('NEELAKANTARAJAPURAM','NEELAKANTARAJAPURAM');"
-NEELAKUNDEELU,NEELAKUNDEELU,"Insert into destination_lookup (actualname, destinationlookup) values ('NEELAKUNDEELU','NEELAKUNDEELU');"
-NEW GAJUWAKA,NEW GAJUWAKA,"Insert into destination_lookup (actualname, destinationlookup) values ('NEW GAJUWAKA','NEW GAJUWAKA');"
-NEW GAJUWAKA MARKET,NEW GAJUWAKA,"Insert into destination_lookup (actualname, destinationlookup) values ('NEW GAJUWAKA MARKET','NEW GAJUWAKA');"
-NEW GAJUWAKA THEATRES,NEW GAJUWAKA,"Insert into destination_lookup (actualname, destinationlookup) values ('NEW GAJUWAKA THEATRES','NEW GAJUWAKA');"
-NGGO COLONY,NGGO COLONY,"Insert into destination_lookup (actualname, destinationlookup) values ('NGGO COLONY','NGGO COLONY');"
-NOOKALAMMA TEMPLE,NOOKALAMMA TEMPLE,"Insert into destination_lookup (actualname, destinationlookup) values ('NOOKALAMMA TEMPLE','NOOKALAMMA TEMPLE');"
-NOOKALAMMA TEMPLE,NOOKALAMMA TEMPLE  (RYTHU BAZAAR),"Insert into destination_lookup (actualname, destinationlookup) values ('NOOKALAMMA TEMPLE','NOOKALAMMA TEMPLE  (RYTHU BAZAAR)');"
-NTPC DEEPANJALINAGAR,NTPC DEEPANJALINAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('NTPC DEEPANJALINAGAR','NTPC DEEPANJALINAGAR');"
-NTPC VISAKHAPATNAM,NTPC VISAKHAPATNAM,"Insert into destination_lookup (actualname, destinationlookup) values ('NTPC VISAKHAPATNAM','NTPC VISAKHAPATNAM');"
-NUNAPARTI,NUNAPARTI,"Insert into destination_lookup (actualname, destinationlookup) values ('NUNAPARTI','NUNAPARTI');"
-OLD BUS STAND (NARSIPATNAM),OLD BUS STAND (NARSIPATNAM),"Insert into destination_lookup (actualname, destinationlookup) values ('OLD BUS STAND (NARSIPATNAM)','OLD BUS STAND (NARSIPATNAM)');"
-OLD BUS STAND (VENKANNAPALEM),VENKANNAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('OLD BUS STAND (VENKANNAPALEM)','VENKANNAPALEM');"
-OLD BUS STAND (VENKANNAPALEM),OLD BUS STAND (VENKANNAPALEM),"Insert into destination_lookup (actualname, destinationlookup) values ('OLD BUS STAND (VENKANNAPALEM)','OLD BUS STAND (VENKANNAPALEM)');"
-OLD BYPUREDDYPALEM,OLD BYPUREDDYPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('OLD BYPUREDDYPALEM','OLD BYPUREDDYPALEM');"
-OLD CBI,OLD CBI,"Insert into destination_lookup (actualname, destinationlookup) values ('OLD CBI','OLD CBI');"
-OLD DAIRY FARM,OLD DAIRY FARM,"Insert into destination_lookup (actualname, destinationlookup) values ('OLD DAIRY FARM','OLD DAIRY FARM');"
-OLD DAIRY FARM,ADARSH NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('OLD DAIRY FARM','ADARSH NAGAR');"
-OLD GAJUWAKA,OLD GAJUWAKA,"Insert into destination_lookup (actualname, destinationlookup) values ('OLD GAJUWAKA','OLD GAJUWAKA');"
-OLD GAJUWAKA MAINROAD,OLD GAJUWAKA,"Insert into destination_lookup (actualname, destinationlookup) values ('OLD GAJUWAKA MAINROAD','OLD GAJUWAKA');"
-OLD HEAD POST OFFICE (OHPO),OLD HEAD POST OFFICE (OHPO),"Insert into destination_lookup (actualname, destinationlookup) values ('OLD HEAD POST OFFICE (OHPO)','OLD HEAD POST OFFICE (OHPO)');"
-ONE TOWN,ONE TOWN,"Insert into destination_lookup (actualname, destinationlookup) values ('ONE TOWN','ONE TOWN');"
-ONE TOWN (TOWARDS OHPO),ONE TOWN,"Insert into destination_lookup (actualname, destinationlookup) values ('ONE TOWN (TOWARDS OHPO)','ONE TOWN');"
-PADERU - RTC COMPLEX,PADERU - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('PADERU - RTC COMPLEX','PADERU - RTC COMPLEX');"
-PADMANABHAM,PADMANABHAM,"Insert into destination_lookup (actualname, destinationlookup) values ('PADMANABHAM','PADMANABHAM');"
-PALAVALASA,PALAVALASA,"Insert into destination_lookup (actualname, destinationlookup) values ('PALAVALASA','PALAVALASA');"
-PANCHADARLA,PANCHADARLA,"Insert into destination_lookup (actualname, destinationlookup) values ('PANCHADARLA','PANCHADARLA');"
-PANDRANGI,PANDRANGI,"Insert into destination_lookup (actualname, destinationlookup) values ('PANDRANGI','PANDRANGI');"
-PANTHULUGARI MEDA,PANTHULUGARI MEDA,"Insert into destination_lookup (actualname, destinationlookup) values ('PANTHULUGARI MEDA','PANTHULUGARI MEDA');"
-PARADESIPALEM,PARADESIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('PARADESIPALEM','PARADESIPALEM');"
-PARAWADA,PARAWADA,"Insert into destination_lookup (actualname, destinationlookup) values ('PARAWADA','PARAWADA');"
-PARAWADA CINEMA HALL,PARAWADA CINEMA HALL,"Insert into destination_lookup (actualname, destinationlookup) values ('PARAWADA CINEMA HALL','PARAWADA CINEMA HALL');"
-PARAWADA MRO OFFICE,PARAWADA MRO OFFICE,"Insert into destination_lookup (actualname, destinationlookup) values ('PARAWADA MRO OFFICE','PARAWADA MRO OFFICE');"
-PARAWADA SUB STATION,PARAWADA SUB STATION,"Insert into destination_lookup (actualname, destinationlookup) values ('PARAWADA SUB STATION','PARAWADA SUB STATION');"
-PATHA KOVVADA,PATHA KOVVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('PATHA KOVVADA','PATHA KOVVADA');"
-PAVANI MEDICALS,PAVANI MEDICALS,"Insert into destination_lookup (actualname, destinationlookup) values ('PAVANI MEDICALS','PAVANI MEDICALS');"
-PEDA NARAVA,PEDA NARAVA,"Insert into destination_lookup (actualname, destinationlookup) values ('PEDA NARAVA','PEDA NARAVA');"
-PEDABAYALU,PEDABAYALU,"Insert into destination_lookup (actualname, destinationlookup) values ('PEDABAYALU','PEDABAYALU');"
-PEDAGADHILI,PEDAGADHILI,"Insert into destination_lookup (actualname, destinationlookup) values ('PEDAGADHILI','PEDAGADHILI');"
-PEDAGANTYADA,PEDAGANTYADA,"Insert into destination_lookup (actualname, destinationlookup) values ('PEDAGANTYADA','PEDAGANTYADA');"
-PEDAMUSIDIVADA,PEDAMUSIDIVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('PEDAMUSIDIVADA','PEDAMUSIDIVADA');"
-PEDAMUSIDIVADA HIGHWAY,PEDAMUSIDIVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('PEDAMUSIDIVADA HIGHWAY','PEDAMUSIDIVADA');"
-PEDARAOPALLI,PEDARAOPALLI,"Insert into destination_lookup (actualname, destinationlookup) values ('PEDARAOPALLI','PEDARAOPALLI');"
-PEDDA RUSHIKONDA,PEDDA RUSHIKONDA,"Insert into destination_lookup (actualname, destinationlookup) values ('PEDDA RUSHIKONDA','PEDDA RUSHIKONDA');"
-PEDDA WALTAIR,PEDDA WALTAIR,"Insert into destination_lookup (actualname, destinationlookup) values ('PEDDA WALTAIR','PEDDA WALTAIR');"
-PEDDA WALTAIR (TOWARDS MENTAL HOSPITAL),PEDDA WALTAIR,"Insert into destination_lookup (actualname, destinationlookup) values ('PEDDA WALTAIR (TOWARDS MENTAL HOSPITAL)','PEDDA WALTAIR');"
-PEDDAPALEM,PEDDAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('PEDDAPALEM','PEDDAPALEM');"
-PEDDIPALEM,PEDDIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('PEDDIPALEM','PEDDIPALEM');"
-PENDURTHI,PENDURTHI,"Insert into destination_lookup (actualname, destinationlookup) values ('PENDURTHI','PENDURTHI');"
-PENDURTHI (NARSIPATNAM ROAD),PENDURTHI (NARSIPATNAM ROAD),"Insert into destination_lookup (actualname, destinationlookup) values ('PENDURTHI (NARSIPATNAM ROAD)','PENDURTHI (NARSIPATNAM ROAD)');"
-PENDURTHI GENERAL HOSPITAL,PENDURTHI GENERAL HOSPITAL,"Insert into destination_lookup (actualname, destinationlookup) values ('PENDURTHI GENERAL HOSPITAL','PENDURTHI GENERAL HOSPITAL');"
-PENDURTHI GOVT. JUNIOR COLLEGE,PENDURTHI GOVT. JUNIOR COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('PENDURTHI GOVT. JUNIOR COLLEGE','PENDURTHI GOVT. JUNIOR COLLEGE');"
-PENDURTHI MAIN JUNCTION,PENDURTHI MAIN JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('PENDURTHI MAIN JUNCTION','PENDURTHI MAIN JUNCTION');"
-PF OFFICE,PF OFFICE,"Insert into destination_lookup (actualname, destinationlookup) values ('PF OFFICE','PF OFFICE');"
-PINAGADI JUNCTION,RAMPURAM ROAD,"Insert into destination_lookup (actualname, destinationlookup) values ('PINAGADI JUNCTION','RAMPURAM ROAD');"
-PINAGADI JUNCTION,PINAGADI JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('PINAGADI JUNCTION','PINAGADI JUNCTION');"
-PINE APPLE COLONY,PINE APPLE COLONY,"Insert into destination_lookup (actualname, destinationlookup) values ('PINE APPLE COLONY','PINE APPLE COLONY');"
-PITTAVANIPALEM,PITTAVANIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('PITTAVANIPALEM','PITTAVANIPALEM');"
-PMPALEM CHAITANYA COLLEGE,CARSHED,"Insert into destination_lookup (actualname, destinationlookup) values ('PMPALEM CHAITANYA COLLEGE','CARSHED');"
-PMPALEM CHAITANYA COLLEGE,PMPALEM CHAITANYA COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('PMPALEM CHAITANYA COLLEGE','PMPALEM CHAITANYA COLLEGE');"
-POLICE BARRACKS,POLICE BARRACKS,"Insert into destination_lookup (actualname, destinationlookup) values ('POLICE BARRACKS','POLICE BARRACKS');"
-POLIPALLI,POLIPALLI,"Insert into destination_lookup (actualname, destinationlookup) values ('POLIPALLI','POLIPALLI');"
-POLIPALLI JUNCTION,POLIPALLI JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('POLIPALLI JUNCTION','POLIPALLI JUNCTION');"
-PORLUPALEM,PORLUPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('PORLUPALEM','PORLUPALEM');"
-PORT GYMKHANA (OLD BUS STAND),PORT GYMKHANA (OLD BUS STAND),"Insert into destination_lookup (actualname, destinationlookup) values ('PORT GYMKHANA (OLD BUS STAND)','PORT GYMKHANA (OLD BUS STAND)');"
-PORT HOSPITAL,PORT HOSPITAL,"Insert into destination_lookup (actualname, destinationlookup) values ('PORT HOSPITAL','PORT HOSPITAL');"
-PORT HOSPITAL (PORT QUARTERS),PORT HOSPITAL (PORT QUARTERS),"Insert into destination_lookup (actualname, destinationlookup) values ('PORT HOSPITAL (PORT QUARTERS)','PORT HOSPITAL (PORT QUARTERS)');"
-PORT HOSPITAL (TOWARDS AKKAYYAPALEM),PORT HOSPITAL,"Insert into destination_lookup (actualname, destinationlookup) values ('PORT HOSPITAL (TOWARDS AKKAYYAPALEM)','PORT HOSPITAL');"
-POTHINAMALLAYYA PALEM FIRST STOP (P M PALEM),POTHINAMALLAYYAPALEM (PM PALEM),"Insert into destination_lookup (actualname, destinationlookup) values ('POTHINAMALLAYYA PALEM FIRST STOP (P M PALEM)','POTHINAMALLAYYAPALEM (PM PALEM)');"
-POTHINAMALLAYYA PALEM LAST STOP (P M PALEM),POTHINAMALLAYYAPALEM (PM PALEM),"Insert into destination_lookup (actualname, destinationlookup) values ('POTHINAMALLAYYA PALEM LAST STOP (P M PALEM)','POTHINAMALLAYYAPALEM (PM PALEM)');"
-PRAHALADAPURAM,PRAHALADAPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('PRAHALADAPURAM','PRAHALADAPURAM');"
-PRAHALADAPURAM (NEAR VARAHALAKSHMI SIMHA SWAMY ASHRAM),PRAHALADAPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('PRAHALADAPURAM (NEAR VARAHALAKSHMI SIMHA SWAMY ASHRAM)','PRAHALADAPURAM');"
-PUNJAB HOTEL,PUNJAB HOTEL,"Insert into destination_lookup (actualname, destinationlookup) values ('PUNJAB HOTEL','PUNJAB HOTEL');"
-PURNA MARKET,PURNA MARKET,"Insert into destination_lookup (actualname, destinationlookup) values ('PURNA MARKET','PURNA MARKET');"
-PURNA MARKET (NEAR MUNICIPAL STADIUM),PURNA MARKET (NEAR MUNICIPAL STADIUM),"Insert into destination_lookup (actualname, destinationlookup) values ('PURNA MARKET (NEAR MUNICIPAL STADIUM)','PURNA MARKET (NEAR MUNICIPAL STADIUM)');"
-PURNA THEATRE,PURNA THEATRE,"Insert into destination_lookup (actualname, destinationlookup) values ('PURNA THEATRE','PURNA THEATRE');"
-PURNA THEATRE,CHODAVARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('PURNA THEATRE','CHODAVARAM');"
-PURNA THEATRE (KURMANNAPALEM),KURMANNAPALEM BUS STATION,"Insert into destination_lookup (actualname, destinationlookup) values ('PURNA THEATRE (KURMANNAPALEM)','KURMANNAPALEM BUS STATION');"
-PURUSHOTHAPURAM,PURUSHOTHAPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('PURUSHOTHAPURAM','PURUSHOTHAPURAM');"
-PURUSHOTTAPURAM (PURUSHOTTAM),PURUSHOTTAPURAM (PURUSHOTTAM),"Insert into destination_lookup (actualname, destinationlookup) values ('PURUSHOTTAPURAM (PURUSHOTTAM)','PURUSHOTTAPURAM (PURUSHOTTAM)');"
-PYDAH COLLEGE,PYDAH COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('PYDAH COLLEGE','PYDAH COLLEGE');"
-PYDAH COLLEGE,BOYAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('PYDAH COLLEGE','BOYAPALEM');"
-PYDIWADA,PYDIWADA,"Insert into destination_lookup (actualname, destinationlookup) values ('PYDIWADA','PYDIWADA');"
-PYDIWADA AGRAHARAM,PYDIWADA AGRAHARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('PYDIWADA AGRAHARAM','PYDIWADA AGRAHARAM');"
-R & B,R & B,"Insert into destination_lookup (actualname, destinationlookup) values ('R & B','R & B');"
-R K BEACH,R K BEACH,"Insert into destination_lookup (actualname, destinationlookup) values ('R K BEACH','R K BEACH');"
-R K BEACH - SUBMARINE,R K BEACH - SUBMARINE,"Insert into destination_lookup (actualname, destinationlookup) values ('R K BEACH - SUBMARINE','R K BEACH - SUBMARINE');"
-R K BEACH (KALI TEMPLE),R K BEACH (KALI TEMPLE),"Insert into destination_lookup (actualname, destinationlookup) values ('R K BEACH (KALI TEMPLE)','R K BEACH (KALI TEMPLE)');"
-R K BEACH (KALI TEMPLE),R K BEACH ,"Insert into destination_lookup (actualname, destinationlookup) values ('R K BEACH (KALI TEMPLE)','R K BEACH ');"
-RAAVIKAMATHAM,RAAVIKAMATHAM,"Insert into destination_lookup (actualname, destinationlookup) values ('RAAVIKAMATHAM','RAAVIKAMATHAM');"
-RAGHU ENGINEERING COLLEGE,RAGHU ENGINEERING COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('RAGHU ENGINEERING COLLEGE','RAGHU ENGINEERING COLLEGE');"
-RAILWAY NEW COLONY,RAILWAY NEW COLONY,"Insert into destination_lookup (actualname, destinationlookup) values ('RAILWAY NEW COLONY','RAILWAY NEW COLONY');"
-RAIWADA,RAIWADA,"Insert into destination_lookup (actualname, destinationlookup) values ('RAIWADA','RAIWADA');"
-RAJANNAPALEM,RAJANNAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('RAJANNAPALEM','RAJANNAPALEM');"
-RAJIV NAGAR,RAJIV NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('RAJIV NAGAR','RAJIV NAGAR');"
-RAJIV NAGAR CENTRE,RAJIV NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('RAJIV NAGAR CENTRE','RAJIV NAGAR');"
-RAJULA TALLAVALASA,RAJULA TALLAVALASA,"Insert into destination_lookup (actualname, destinationlookup) values ('RAJULA TALLAVALASA','RAJULA TALLAVALASA');"
-RAJUPETA,RAJUPETA,"Insert into destination_lookup (actualname, destinationlookup) values ('RAJUPETA','RAJUPETA');"
-RAMA TALKIES,RAMA TALKIES,"Insert into destination_lookup (actualname, destinationlookup) values ('RAMA TALKIES','RAMA TALKIES');"
-RAMAKRISHNA PURAM (R K PURAM),RAMAKRISHNA PURAM (R K PURAM),"Insert into destination_lookup (actualname, destinationlookup) values ('RAMAKRISHNA PURAM (R K PURAM)','RAMAKRISHNA PURAM (R K PURAM)');"
-RAMALAYAM (P M PALEM),RAMALAYAM (P M PALEM),"Insert into destination_lookup (actualname, destinationlookup) values ('RAMALAYAM (P M PALEM)','RAMALAYAM (P M PALEM)');"
-RAMANARAYANAM,RAMANARAYANAM,"Insert into destination_lookup (actualname, destinationlookup) values ('RAMANARAYANAM','RAMANARAYANAM');"
-RAMAPADU,RAMAPADU,"Insert into destination_lookup (actualname, destinationlookup) values ('RAMAPADU','RAMAPADU');"
-RAMAPURAM,RAMAPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('RAMAPURAM','RAMAPURAM');"
-RAMAPURAM ROAD,RAMPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('RAMAPURAM ROAD','RAMPURAM');"
-RAMAVARAM,RAMAVARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('RAMAVARAM','RAMAVARAM');"
-RAMAYOGI AGRAHARAM,RAMAYOGI AGRAHARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('RAMAYOGI AGRAHARAM','RAMAYOGI AGRAHARAM');"
-RAMBILLI,RAMBILLI,"Insert into destination_lookup (actualname, destinationlookup) values ('RAMBILLI','RAMBILLI');"
-RAVINDRA NAGAR,RAVINDRA NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('RAVINDRA NAGAR','RAVINDRA NAGAR');"
-RAVULAMMAPALEM,RAVULAMMAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('RAVULAMMAPALEM','RAVULAMMAPALEM');"
-READING ROOM JUNCTION,READING ROOM JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('READING ROOM JUNCTION','READING ROOM JUNCTION');"
-REBBAKA,REBBAKA,"Insert into destination_lookup (actualname, destinationlookup) values ('REBBAKA','REBBAKA');"
-RELL VEEDI,RELL VEEDI,"Insert into destination_lookup (actualname, destinationlookup) values ('RELL VEEDI','RELL VEEDI');"
-RMHP,RMHP,"Insert into destination_lookup (actualname, destinationlookup) values ('RMHP','RMHP');"
-RTC COLONY,RTC COLONY,"Insert into destination_lookup (actualname, destinationlookup) values ('RTC COLONY','RTC COLONY');"
-RYTHU BAZAAR,NOOKALAMMA TEMPLE  (RYTHU BAZAAR),"Insert into destination_lookup (actualname, destinationlookup) values ('RYTHU BAZAAR','NOOKALAMMA TEMPLE  (RYTHU BAZAAR)');"
-RYTHU BAZAAR,NOOKALAMMA TEMPLE ,"Insert into destination_lookup (actualname, destinationlookup) values ('RYTHU BAZAAR','NOOKALAMMA TEMPLE ');"
-SABBAVARAM REGISTER OFFICE,SABBAVARAM REGISTER OFFICE,"Insert into destination_lookup (actualname, destinationlookup) values ('SABBAVARAM REGISTER OFFICE','SABBAVARAM REGISTER OFFICE');"
-SABBAVARAM RTC COMPLEX,SABBAVARAM RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('SABBAVARAM RTC COMPLEX','SABBAVARAM RTC COMPLEX');"
-SAGAR NAGAR,SAGAR NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('SAGAR NAGAR','SAGAR NAGAR');"
-SAGAR NAGAR (LOCAL),SAGAR NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('SAGAR NAGAR (LOCAL)','SAGAR NAGAR');"
-SAIRAM COLONY (KOMMADI),SAIRAM COLONY (KOMMADI),"Insert into destination_lookup (actualname, destinationlookup) values ('SAIRAM COLONY (KOMMADI)','SAIRAM COLONY (KOMMADI)');"
-SALAGRAMAPURAM (PORT QUARTERS),SALAGRAMAPURAM (PORT QUARTERS),"Insert into destination_lookup (actualname, destinationlookup) values ('SALAGRAMAPURAM (PORT QUARTERS)','SALAGRAMAPURAM (PORT QUARTERS)');"
-SALAGRAMAPURAM (SANTHI NAGAR),SALAGRAMAPURAM (SANTHI NAGAR),"Insert into destination_lookup (actualname, destinationlookup) values ('SALAGRAMAPURAM (SANTHI NAGAR)','SALAGRAMAPURAM (SANTHI NAGAR)');"
-SALAPUVANIPALEM,SALAPUVANIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('SALAPUVANIPALEM','SALAPUVANIPALEM');"
-SAMPATH VINAYAKA TEMPLE,SAMPATH VINAYAKA TEMPLE,"Insert into destination_lookup (actualname, destinationlookup) values ('SAMPATH VINAYAKA TEMPLE','SAMPATH VINAYAKA TEMPLE');"
-SAMPATH VINAYAKA TEMPLE,ASILMETTA JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('SAMPATH VINAYAKA TEMPLE','ASILMETTA JUNCTION');"
-SANGAM OFFICE,SANGAM OFFICE,"Insert into destination_lookup (actualname, destinationlookup) values ('SANGAM OFFICE','SANGAM OFFICE');"
-SANGHIVALASA COLONY,SANGHIVALASA COLONY,"Insert into destination_lookup (actualname, destinationlookup) values ('SANGHIVALASA COLONY','SANGHIVALASA COLONY');"
-SANJEEV COLONY,SANJEEV COLONY,"Insert into destination_lookup (actualname, destinationlookup) values ('SANJEEV COLONY','SANJEEV COLONY');"
-SANJIVA METTA,SANJIVA METTA,"Insert into destination_lookup (actualname, destinationlookup) values ('SANJIVA METTA','SANJIVA METTA');"
-SANKARAM,SANKARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('SANKARAM','SANKARAM');"
-SANKARAM (ANAKAPALLE),SANKARAM (ANAKAPALLE),"Insert into destination_lookup (actualname, destinationlookup) values ('SANKARAM (ANAKAPALLE)','SANKARAM (ANAKAPALLE)');"
-SANKARAM (MADUGULA),SANKARAM (MADUGULA),"Insert into destination_lookup (actualname, destinationlookup) values ('SANKARAM (MADUGULA)','SANKARAM (MADUGULA)');"
-SANTAPALEM,SANTAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('SANTAPALEM','SANTAPALEM');"
-SARASWATI PARK,SARASWATI PARK,"Insert into destination_lookup (actualname, destinationlookup) values ('SARASWATI PARK','SARASWATI PARK');"
-SARIPALLI,SARIPALLI,"Insert into destination_lookup (actualname, destinationlookup) values ('SARIPALLI','SARIPALLI');"
-SATHIVANI PALEM (SANTUVANI PALEM),SATHIVANI PALEM (SANTUVANI PALEM),"Insert into destination_lookup (actualname, destinationlookup) values ('SATHIVANI PALEM (SANTUVANI PALEM)','SATHIVANI PALEM (SANTUVANI PALEM)');"
-SATYAM JUNCTION,SATYAM JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('SATYAM JUNCTION','SATYAM JUNCTION');"
-SATYANAGAR ,SATYANAGAR ,"Insert into destination_lookup (actualname, destinationlookup) values ('SATYANAGAR ','SATYANAGAR ');"
-SAVARAVILLI,SAVARAVILLI,"Insert into destination_lookup (actualname, destinationlookup) values ('SAVARAVILLI','SAVARAVILLI');"
-SCINDIA,SCINDIA,"Insert into destination_lookup (actualname, destinationlookup) values ('SCINDIA','SCINDIA');"
-SCINDIA JUNCTION,SCINDIA,"Insert into destination_lookup (actualname, destinationlookup) values ('SCINDIA JUNCTION','SCINDIA');"
-SCINDIA NEW COLONY,SCINDIA,"Insert into destination_lookup (actualname, destinationlookup) values ('SCINDIA NEW COLONY','SCINDIA');"
-SECTOR K,SECTOR K,"Insert into destination_lookup (actualname, destinationlookup) values ('SECTOR K','SECTOR K');"
-SEETANAGARAM,SEETANAGARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('SEETANAGARAM','SEETANAGARAM');"
-SEETHAMMADARA (NORTH EXTENSION),SEETHAMMADARA,"Insert into destination_lookup (actualname, destinationlookup) values ('SEETHAMMADARA (NORTH EXTENSION)','SEETHAMMADARA');"
-SEETHAMMADARA (NORTH EXTENSION),SEETHAMMADHARA,"Insert into destination_lookup (actualname, destinationlookup) values ('SEETHAMMADARA (NORTH EXTENSION)','SEETHAMMADHARA');"
-SEETHAMMADHARA,SEETHAMMADHARA,"Insert into destination_lookup (actualname, destinationlookup) values ('SEETHAMMADHARA','SEETHAMMADHARA');"
-SEETHAMMADHARA (TOWARDS SATYAM COMPUTERS),SEETHAMMADHARA,"Insert into destination_lookup (actualname, destinationlookup) values ('SEETHAMMADHARA (TOWARDS SATYAM COMPUTERS)','SEETHAMMADHARA');"
-SEETHAMMADHARA (TOWARDS VENKOJIPALEM),SEETHAMMADHARA,"Insert into destination_lookup (actualname, destinationlookup) values ('SEETHAMMADHARA (TOWARDS VENKOJIPALEM)','SEETHAMMADHARA');"
-SEETHAMMAPETA,SEETHAMMAPETA,"Insert into destination_lookup (actualname, destinationlookup) values ('SEETHAMMAPETA','SEETHAMMAPETA');"
-SEETHAYYAPETA,SEETHAYYAPETA,"Insert into destination_lookup (actualname, destinationlookup) values ('SEETHAYYAPETA','SEETHAYYAPETA');"
-SHEELA NAGAR BUS SHELTER,SHEELA NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('SHEELA NAGAR BUS SHELTER','SHEELA NAGAR');"
-SHEELA NAGAR BUS SHELTER (LOCAL),SHEELA NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('SHEELA NAGAR BUS SHELTER (LOCAL)','SHEELA NAGAR');"
-SIMHACHALAM - RTC COMPLEX,SIMHACHALAM - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('SIMHACHALAM - RTC COMPLEX','SIMHACHALAM - RTC COMPLEX');"
-SIMHACHALAM DEVASTHANAM BUS DEPOT,SIMHACHALAM DEVASTHANAM BUS DEPOT,"Insert into destination_lookup (actualname, destinationlookup) values ('SIMHACHALAM DEVASTHANAM BUS DEPOT','SIMHACHALAM DEVASTHANAM BUS DEPOT');"
-SIMHACHALAM DHEVASTHANAM GHOSHALA,SIMHACHALAM DHEVASTHANAM GHOSHALA,"Insert into destination_lookup (actualname, destinationlookup) values ('SIMHACHALAM DHEVASTHANAM GHOSHALA','SIMHACHALAM DHEVASTHANAM GHOSHALA');"
-SIMHACHALAM HILL CURVE,SIMHACHALAM HILL CURVE,"Insert into destination_lookup (actualname, destinationlookup) values ('SIMHACHALAM HILL CURVE','SIMHACHALAM HILL CURVE');"
-SIMHACHALAM HILLS,SIMHACHALAM HILLS,"Insert into destination_lookup (actualname, destinationlookup) values ('SIMHACHALAM HILLS','SIMHACHALAM HILLS');"
-SIMHACHALAM HOSPITAL,SIMHACHALAM HOSPITAL,"Insert into destination_lookup (actualname, destinationlookup) values ('SIMHACHALAM HOSPITAL','SIMHACHALAM HOSPITAL');"
-SIMHADRI (DONKADA),SIMHADRI (DONKADA),"Insert into destination_lookup (actualname, destinationlookup) values ('SIMHADRI (DONKADA)','SIMHADRI (DONKADA)');"
-SIMHAPURI COLONY,SIMHAPURI COLONY,"Insert into destination_lookup (actualname, destinationlookup) values ('SIMHAPURI COLONY','SIMHAPURI COLONY');"
-SINGANNADORAPALEM,SINGANNADORAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('SINGANNADORAPALEM','SINGANNADORAPALEM');"
-SINGAVARAM,SINGAVARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('SINGAVARAM','SINGAVARAM');"
-SIRASAPALLI,SIRASAPALLI,"Insert into destination_lookup (actualname, destinationlookup) values ('SIRASAPALLI','SIRASAPALLI');"
-SIRIPURAM,SIRIPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('SIRIPURAM','SIRIPURAM');"
-SIRLAPALEM,SIRLAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('SIRLAPALEM','SIRLAPALEM');"
-SIRLAPALEM (KOVVUDU - MADDI ROAD),SIRLAPALEM (KOVVUDU - MADDI ROAD),"Insert into destination_lookup (actualname, destinationlookup) values ('SIRLAPALEM (KOVVUDU - MADDI ROAD)','SIRLAPALEM (KOVVUDU - MADDI ROAD)');"
-SONTYAM,MAMIDILOVA,"Insert into destination_lookup (actualname, destinationlookup) values ('SONTYAM','MAMIDILOVA');"
-SONTYAM,SONTYAM,"Insert into destination_lookup (actualname, destinationlookup) values ('SONTYAM','SONTYAM');"
-SONTYAM X ROADS,SONTYAM X ROADS,"Insert into destination_lookup (actualname, destinationlookup) values ('SONTYAM X ROADS','SONTYAM X ROADS');"
-SRAMASAKTHI NAGAR,SRAMASAKTHI NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('SRAMASAKTHI NAGAR','SRAMASAKTHI NAGAR');"
-SRI NAGAR STREET,SRI NAGAR STREET,"Insert into destination_lookup (actualname, destinationlookup) values ('SRI NAGAR STREET','SRI NAGAR STREET');"
-SRIHARIPURAM,SRIHARIPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('SRIHARIPURAM','SRIHARIPURAM');"
-SRIKANAKAMAHALAXMI,SRIKANAKAMAHALAXMI,"Insert into destination_lookup (actualname, destinationlookup) values ('SRIKANAKAMAHALAXMI','SRIKANAKAMAHALAXMI');"
-SRINAGAR,SRINAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('SRINAGAR','SRINAGAR');"
-SRINIVASA NAGAR (SIMHACHALAM),SRINIVASA NAGAR (SIMHACHALAM),"Insert into destination_lookup (actualname, destinationlookup) values ('SRINIVASA NAGAR (SIMHACHALAM)','SRINIVASA NAGAR (SIMHACHALAM)');"
-SRMT,SRMT,"Insert into destination_lookup (actualname, destinationlookup) values ('SRMT','SRMT');"
-ST JOSEPH,ST JOSEPH,"Insert into destination_lookup (actualname, destinationlookup) values ('ST JOSEPH','ST JOSEPH');"
-ST. JOSEPH COLLEGE,ST. JOSEPH COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('ST. JOSEPH COLLEGE','ST. JOSEPH COLLEGE');"
-STEEL PLANT TWP - CPS,STEEL PLANT TWP - CPS,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - CPS','STEEL PLANT TWP - CPS');"
-STEEL PLANT TWP - DAV PUBLIC SCHOOL,STEEL PLANT TWP - DAV PUBLIC SCHOOL,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - DAV PUBLIC SCHOOL','STEEL PLANT TWP - DAV PUBLIC SCHOOL');"
-STEEL PLANT TWP - HOSPITAL,STEEL PLANT TWP - HOSPITAL,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - HOSPITAL','STEEL PLANT TWP - HOSPITAL');"
-STEEL PLANT TWP - INDHIRA GANDHI PARK,STEEL PLANT TWP - INDHIRA GANDHI PARK,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - INDHIRA GANDHI PARK','STEEL PLANT TWP - INDHIRA GANDHI PARK');"
-STEEL PLANT TWP - KANITHI ROAD,STEEL PLANT TWP - KANITHI ROAD,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - KANITHI ROAD','STEEL PLANT TWP - KANITHI ROAD');"
-STEEL PLANT TWP - MAIN GATE,STEEL PLANT TWP - MAIN GATE,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - MAIN GATE','STEEL PLANT TWP - MAIN GATE');"
-STEEL PLANT TWP - MAIN GATE,KURMANNAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - MAIN GATE','KURMANNAPALEM');"
-STEEL PLANT TWP - MARKET,STEEL PLANT TWP - MARKET,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - MARKET','STEEL PLANT TWP - MARKET');"
-STEEL PLANT TWP - SECTOR 1,STEEL PLANT TWP - SECTOR 1,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - SECTOR 1','STEEL PLANT TWP - SECTOR 1');"
-STEEL PLANT TWP - SECTOR 11,STEEL PLANT TWP - SECTOR 11,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - SECTOR 11','STEEL PLANT TWP - SECTOR 11');"
-STEEL PLANT TWP - SECTOR 12,STEEL PLANT TWP - SECTOR 12,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - SECTOR 12','STEEL PLANT TWP - SECTOR 12');"
-STEEL PLANT TWP - SECTOR 3,STEEL PLANT TWP - SECTOR 3,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - SECTOR 3','STEEL PLANT TWP - SECTOR 3');"
-STEEL PLANT TWP - SECTOR 5,STEEL PLANT TWP - SECTOR 5,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - SECTOR 5','STEEL PLANT TWP - SECTOR 5');"
-STEEL PLANT TWP - SECTOR 6,STEEL PLANT TWP - SECTOR 6,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - SECTOR 6','STEEL PLANT TWP - SECTOR 6');"
-STEEL PLANT TWP - SECTOR 8,STEEL PLANT TWP - SECTOR 8,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - SECTOR 8','STEEL PLANT TWP - SECTOR 8');"
-STEEL PLANT TWP - SECTOR 9,STEEL PLANT TWP - SECTOR 9,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - SECTOR 9','STEEL PLANT TWP - SECTOR 9');"
-STEEL PLANT TWP - SRICHAITANYA JR. COLLEGE,STEEL PLANT TWP - SRICHAITANYA JR. COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - SRICHAITANYA JR. COLLEGE','STEEL PLANT TWP - SRICHAITANYA JR. COLLEGE');"
-STEEL PLANT TWP - T & DC,STEEL PLANT TWP - T & DC,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - T & DC','STEEL PLANT TWP - T & DC');"
-STEEL PLANT TWP - UKKUNAGARAM,STEEL PLANT TWP - UKKUNAGARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('STEEL PLANT TWP - UKKUNAGARAM','STEEL PLANT TWP - UKKUNAGARAM');"
-SUJATHA NAGAR,SUJATHA NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('SUJATHA NAGAR','SUJATHA NAGAR');"
-SUJATHA NAGAR (PURUSHOTHAM BUS STOP),SUJATHA NAGAR (PURUSHOTHAM BUS STOP),"Insert into destination_lookup (actualname, destinationlookup) values ('SUJATHA NAGAR (PURUSHOTHAM BUS STOP)','SUJATHA NAGAR (PURUSHOTHAM BUS STOP)');"
-SUNDAR NAGAR,SUNDAR NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('SUNDAR NAGAR','SUNDAR NAGAR');"
-SUNDARAYYA COLONY BUS TERMINAL,SUNDARAYYA COLONY BUS TERMINAL,"Insert into destination_lookup (actualname, destinationlookup) values ('SUNDARAYYA COLONY BUS TERMINAL','SUNDARAYYA COLONY BUS TERMINAL');"
-SURIREDDIPALEM,SURIREDDIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('SURIREDDIPALEM','SURIREDDIPALEM');"
-SVLNS GOVERNMENT STOP,SVLNS GOVERNMENT STOP,"Insert into destination_lookup (actualname, destinationlookup) values ('SVLNS GOVERNMENT STOP','SVLNS GOVERNMENT STOP');"
-SWARNA BHARATHI INDOOR STADIUM,SWARNA BHARATHI INDOOR STADIUM,"Insert into destination_lookup (actualname, destinationlookup) values ('SWARNA BHARATHI INDOOR STADIUM','SWARNA BHARATHI INDOOR STADIUM');"
-SWATANTRA NAGAR,SWATANTRA NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('SWATANTRA NAGAR','SWATANTRA NAGAR');"
-SWAYAMBUVARAM,SWAYAMBUVARAM,"Insert into destination_lookup (actualname, destinationlookup) values ('SWAYAMBUVARAM','SWAYAMBUVARAM');"
-TAGARAPUVALASA (NEAR TATA THEATRE),TAGARAPUVALASA (NEAR TATA THEATRE),"Insert into destination_lookup (actualname, destinationlookup) values ('TAGARAPUVALASA (NEAR TATA THEATRE)','TAGARAPUVALASA (NEAR TATA THEATRE)');"
-TAGARAPUVALASA (NEAR TATA THEATRE),TAGARAPUVALASA,"Insert into destination_lookup (actualname, destinationlookup) values ('TAGARAPUVALASA (NEAR TATA THEATRE)','TAGARAPUVALASA');"
-TAGARAPUVALASA HIGHWAY,TAGARAPUVALASA,"Insert into destination_lookup (actualname, destinationlookup) values ('TAGARAPUVALASA HIGHWAY','TAGARAPUVALASA');"
-TAGARAPUVALASA RTC COMPLEX,TAGARAPUVALASA RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('TAGARAPUVALASA RTC COMPLEX','TAGARAPUVALASA RTC COMPLEX');"
-TAGARAPUVALASA RTC COMPLEX,TAGARAPUVALASA,"Insert into destination_lookup (actualname, destinationlookup) values ('TAGARAPUVALASA RTC COMPLEX','TAGARAPUVALASA');"
-TALLAPALEM,TALLAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('TALLAPALEM','TALLAPALEM');"
-TALLAVALASA,TALLAVALASA,"Insert into destination_lookup (actualname, destinationlookup) values ('TALLAVALASA','TALLAVALASA');"
-TALLAVALASA NH16 CONNECTING ROAD (DEGREE COLLEGE STOP),TALLAVALASA NH16 CONNECTING ROAD (DEGREE COLLEGE STOP),"Insert into destination_lookup (actualname, destinationlookup) values ('TALLAVALASA NH16 CONNECTING ROAD (DEGREE COLLEGE STOP)','TALLAVALASA NH16 CONNECTING ROAD (DEGREE COLLEGE STOP)');"
-TARAKARAMA,TARAKARAMA,"Insert into destination_lookup (actualname, destinationlookup) values ('TARAKARAMA','TARAKARAMA');"
-TARLUWADA,TARLUWADA,"Insert into destination_lookup (actualname, destinationlookup) values ('TARLUWADA','TARLUWADA');"
-TAVVAVANIPALEM,TAVVAVANIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('TAVVAVANIPALEM','TAVVAVANIPALEM');"
-TEMAPURAM BUS STATION,TEMAPURAM BUS STATION,"Insert into destination_lookup (actualname, destinationlookup) values ('TEMAPURAM BUS STATION','TEMAPURAM BUS STATION');"
-TENNETI NAGAR (48A BUS STOP),TENNETI NAGAR (48A BUS STOP),"Insert into destination_lookup (actualname, destinationlookup) values ('TENNETI NAGAR (48A BUS STOP)','TENNETI NAGAR (48A BUS STOP)');"
-TENNETI PARK,TENNETI PARK,"Insert into destination_lookup (actualname, destinationlookup) values ('TENNETI PARK','TENNETI PARK');"
-THANAM,THANAM,"Insert into destination_lookup (actualname, destinationlookup) values ('THANAM','THANAM');"
-THANAM JUNCTION,THANAM,"Insert into destination_lookup (actualname, destinationlookup) values ('THANAM JUNCTION','THANAM');"
-THATICHETLAPALEM,THATICHETLAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('THATICHETLAPALEM','THATICHETLAPALEM');"
-THATICHETLAPALEM (BOYAPALEM),THATICHETLAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('THATICHETLAPALEM (BOYAPALEM)','THATICHETLAPALEM');"
-THOTAGARUVU,THOTAGARUVU,"Insert into destination_lookup (actualname, destinationlookup) values ('THOTAGARUVU','THOTAGARUVU');"
-THUMMAPALA,THUMMAPALA,"Insert into destination_lookup (actualname, destinationlookup) values ('THUMMAPALA','THUMMAPALA');"
-TIKKAVANIPALEM,TIKKAVANIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('TIKKAVANIPALEM','TIKKAVANIPALEM');"
-TIMMAPURAM,TIMMAPURAM,"Insert into destination_lookup (actualname, destinationlookup) values ('TIMMAPURAM','TIMMAPURAM');"
-TIMMARAJUPETA,TIMMARAJUPETA,"Insert into destination_lookup (actualname, destinationlookup) values ('TIMMARAJUPETA','TIMMARAJUPETA');"
-TOWN KOTHAROAD,TOWN KOTHAROAD,"Insert into destination_lookup (actualname, destinationlookup) values ('TOWN KOTHAROAD','TOWN KOTHAROAD');"
-TOWN KOTHAROAD JUNCTION,TOWN KOTHAROAD,"Insert into destination_lookup (actualname, destinationlookup) values ('TOWN KOTHAROAD JUNCTION','TOWN KOTHAROAD');"
-TUMMIKAPALLI GATE,TUMMIKAPALLI GATE,"Insert into destination_lookup (actualname, destinationlookup) values ('TUMMIKAPALLI GATE','TUMMIKAPALLI GATE');"
-TUNGALAM,TUNGALAM,"Insert into destination_lookup (actualname, destinationlookup) values ('TUNGALAM','TUNGALAM');"
-TUNIVALASA,TUNIVALASA,"Insert into destination_lookup (actualname, destinationlookup) values ('TUNIVALASA','TUNIVALASA');"
-TWO TOWN (WOMENS COLLEGE),TWO TOWN (WOMENS COLLEGE),"Insert into destination_lookup (actualname, destinationlookup) values ('TWO TOWN (WOMENS COLLEGE)','TWO TOWN (WOMENS COLLEGE)');"
-TYDA,TYDA,"Insert into destination_lookup (actualname, destinationlookup) values ('TYDA','TYDA');"
-UPPADA,UPPADA,"Insert into destination_lookup (actualname, destinationlookup) values ('UPPADA','UPPADA');"
-URVASI NH,URVASI,"Insert into destination_lookup (actualname, destinationlookup) values ('URVASI NH','URVASI');"
-URVASI THEATRE,URVASI,"Insert into destination_lookup (actualname, destinationlookup) values ('URVASI THEATRE','URVASI');"
-USHODAYA JUNCTION,USHODAYA JUNCTION,"Insert into destination_lookup (actualname, destinationlookup) values ('USHODAYA JUNCTION','USHODAYA JUNCTION');"
-VADACHEEPURUPALLI WEST,VADACHEEPURUPALLI WEST,"Insert into destination_lookup (actualname, destinationlookup) values ('VADACHEEPURUPALLI WEST','VADACHEEPURUPALLI WEST');"
-VADDADI,VADDADI,"Insert into destination_lookup (actualname, destinationlookup) values ('VADDADI','VADDADI');"
-VADDIMETTA,VADDIMETTA,"Insert into destination_lookup (actualname, destinationlookup) values ('VADDIMETTA','VADDIMETTA');"
-VADLAPUDI JUNCTION,VADLAPUDI,"Insert into destination_lookup (actualname, destinationlookup) values ('VADLAPUDI JUNCTION','VADLAPUDI');"
-VADLAPUDI RAILWAY QUARTERS,VADLAPUDI,"Insert into destination_lookup (actualname, destinationlookup) values ('VADLAPUDI RAILWAY QUARTERS','VADLAPUDI');"
-VADLAPUDI TOWARDS KURMANNAPALEM,VADLAPUDI,"Insert into destination_lookup (actualname, destinationlookup) values ('VADLAPUDI TOWARDS KURMANNAPALEM','VADLAPUDI');"
-VALANDAPETA,VALANDAPETA,"Insert into destination_lookup (actualname, destinationlookup) values ('VALANDAPETA','VALANDAPETA');"
-VAMBAY COLONY (NEAR GAJUWAKA),VAMBAY COLONY (NEAR GAJUWAKA),"Insert into destination_lookup (actualname, destinationlookup) values ('VAMBAY COLONY (NEAR GAJUWAKA)','VAMBAY COLONY (NEAR GAJUWAKA)');"
-VAMBAY COLONY (NEAR GAJUWAKA),ASHOK NAGAR ,"Insert into destination_lookup (actualname, destinationlookup) values ('VAMBAY COLONY (NEAR GAJUWAKA)','ASHOK NAGAR ');"
-VANGALI,VANGALI,"Insert into destination_lookup (actualname, destinationlookup) values ('VANGALI','VANGALI');"
-VARADA,VARADA,"Insert into destination_lookup (actualname, destinationlookup) values ('VARADA','VARADA');"
-VARADA SANTAPALEM,VARADA SANTAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('VARADA SANTAPALEM','VARADA SANTAPALEM');"
-VECHALAM,VECHALAM,"Insert into destination_lookup (actualname, destinationlookup) values ('VECHALAM','VECHALAM');"
-VEDULLANARAVA,VEDULLANARAVA,"Insert into destination_lookup (actualname, destinationlookup) values ('VEDULLANARAVA','VEDULLANARAVA');"
-VELLANKI,VELLANKI,"Insert into destination_lookup (actualname, destinationlookup) values ('VELLANKI','VELLANKI');"
-VELLANKI LOCAL ROAD,VELLANKI,"Insert into destination_lookup (actualname, destinationlookup) values ('VELLANKI LOCAL ROAD','VELLANKI');"
-VELLANKI NH16 CONNECTING ROAD,VELLANKI NH16 CONNECTING ROAD,"Insert into destination_lookup (actualname, destinationlookup) values ('VELLANKI NH16 CONNECTING ROAD','VELLANKI NH16 CONNECTING ROAD');"
-VELLANKI VILLAGE,VELLANKI VILLAGE,"Insert into destination_lookup (actualname, destinationlookup) values ('VELLANKI VILLAGE','VELLANKI VILLAGE');"
-VENKANNAPALEM,VENKANNAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('VENKANNAPALEM','VENKANNAPALEM');"
-VENKOJIPALEM,VENKOJIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('VENKOJIPALEM','VENKOJIPALEM');"
-VENKOJIPALEM(TOWARDS ISUKATHOTA),VENKOJIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('VENKOJIPALEM(TOWARDS ISUKATHOTA)','VENKOJIPALEM');"
-VENNALAPALEM,VENNALAPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('VENNALAPALEM','VENNALAPALEM');"
-VEPADA,VEPADA,"Insert into destination_lookup (actualname, destinationlookup) values ('VEPADA','VEPADA');"
-VEPAGUNTA,VEPAGUNTA,"Insert into destination_lookup (actualname, destinationlookup) values ('VEPAGUNTA','VEPAGUNTA');"
-VEPAGUNTA (NEAR BRTS ROAD),VEPAGUNTA,"Insert into destination_lookup (actualname, destinationlookup) values ('VEPAGUNTA (NEAR BRTS ROAD)','VEPAGUNTA');"
-VIJAYARAMARAJU PETA,VIJAYARAMARAJU PETA,"Insert into destination_lookup (actualname, destinationlookup) values ('VIJAYARAMARAJU PETA','VIJAYARAMARAJU PETA');"
-VIMAN NAGAR,VIMAN NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('VIMAN NAGAR','VIMAN NAGAR');"
-VIRAT NAGAR,VIRAT NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('VIRAT NAGAR','VIRAT NAGAR');"
-VISAKHA EYE HOSPITAL,VISAKHA EYE HOSPITAL,"Insert into destination_lookup (actualname, destinationlookup) values ('VISAKHA EYE HOSPITAL','VISAKHA EYE HOSPITAL');"
-VISAKHAPATNAM AIRPORT,VISAKHAPATNAM AIRPORT,"Insert into destination_lookup (actualname, destinationlookup) values ('VISAKHAPATNAM AIRPORT','VISAKHAPATNAM AIRPORT');"
-VISAKHAPATNAM CENTRAL JAIL,VISAKHAPATNAM CENTRAL JAIL,"Insert into destination_lookup (actualname, destinationlookup) values ('VISAKHAPATNAM CENTRAL JAIL','VISAKHAPATNAM CENTRAL JAIL');"
-VISALAKSHI NAGAR,VISALAKSHI NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('VISALAKSHI NAGAR','VISALAKSHI NAGAR');"
-VISALAKSHI NAGAR (NEAR POLICE QUARTERS),VISALAKSHI NAGAR (NEAR POLICE QUARTERS),"Insert into destination_lookup (actualname, destinationlookup) values ('VISALAKSHI NAGAR (NEAR POLICE QUARTERS)','VISALAKSHI NAGAR (NEAR POLICE QUARTERS)');"
-VISALAKSHI NAGAR (NEAR POLICE QUARTERS),VISALAKSHI NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('VISALAKSHI NAGAR (NEAR POLICE QUARTERS)','VISALAKSHI NAGAR');"
-VITAM COLLEGE,VITAM COLLEGE,"Insert into destination_lookup (actualname, destinationlookup) values ('VITAM COLLEGE','VITAM COLLEGE');"
-VIVEKANANDA NAGAR,VIVEKANANDA NAGAR,"Insert into destination_lookup (actualname, destinationlookup) values ('VIVEKANANDA NAGAR','VIVEKANANDA NAGAR');"
-VIYYAMPETA (GOVERNMENT HOSPITAL),VIYYAMPETA (GOVERNMENT HOSPITAL),"Insert into destination_lookup (actualname, destinationlookup) values ('VIYYAMPETA (GOVERNMENT HOSPITAL)','VIYYAMPETA (GOVERNMENT HOSPITAL)');"
-VIZAG - RTC COMPLEX,VIZAG - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('VIZAG - RTC COMPLEX','VIZAG - RTC COMPLEX');"
-VIZAG - RTC COMPLEX (222),VIZAG - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('VIZAG - RTC COMPLEX (222)','VIZAG - RTC COMPLEX');"
-"VIZAG - RTC COMPLEX (25P,25D/V,60,60C,52D)",VIZAG - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('VIZAG - RTC COMPLEX (25P,25D/V,60,60C,52D)','VIZAG - RTC COMPLEX');"
-"VIZAG - RTC COMPLEX (6A, 400)",VIZAG - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('VIZAG - RTC COMPLEX (6A, 400)','VIZAG - RTC COMPLEX');"
-VIZAG - RTC COMPLEX (PALLE VELUGU STOP),VIZAG - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('VIZAG - RTC COMPLEX (PALLE VELUGU STOP)','VIZAG - RTC COMPLEX');"
-VIZAG - RTC COMPLEX INGATE,VIZAG - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('VIZAG - RTC COMPLEX INGATE','VIZAG - RTC COMPLEX');"
-VIZAG - RTC COMPLEX LIC BUILDING,VIZAG - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('VIZAG - RTC COMPLEX LIC BUILDING','VIZAG - RTC COMPLEX');"
-VIZIANAGARAM - RTC COMPLEX,VIZIANAGARAM - RTC COMPLEX,"Insert into destination_lookup (actualname, destinationlookup) values ('VIZIANAGARAM - RTC COMPLEX','VIZIANAGARAM - RTC COMPLEX');"
-VUDA COLONY,VUDA COLONY,"Insert into destination_lookup (actualname, destinationlookup) values ('VUDA COLONY','VUDA COLONY');"
-VUDA COLONY (NEAR CHINNAMUSHUDIWADA),CHINNAMUSHUDIWADA,"Insert into destination_lookup (actualname, destinationlookup) values ('VUDA COLONY (NEAR CHINNAMUSHUDIWADA)','CHINNAMUSHUDIWADA');"
-VUDA COLONY (NEAR CHINNAMUSHUDIWADA),VUDA COLONY (NEAR CHINNAMUSHUDIWADA),"Insert into destination_lookup (actualname, destinationlookup) values ('VUDA COLONY (NEAR CHINNAMUSHUDIWADA)','VUDA COLONY (NEAR CHINNAMUSHUDIWADA)');"
-VUDA PARK,VUDA PARK,"Insert into destination_lookup (actualname, destinationlookup) values ('VUDA PARK','VUDA PARK');"
-VUDA PARK (THE PARK HOTEL),VUDA PARK,"Insert into destination_lookup (actualname, destinationlookup) values ('VUDA PARK (THE PARK HOTEL)','VUDA PARK');"
-VUTAGEDDA,VUTAGEDDA,"Insert into destination_lookup (actualname, destinationlookup) values ('VUTAGEDDA','VUTAGEDDA');"
-WALTAIR BUS DEPOT,WALTAIR BUS DEPOT,"Insert into destination_lookup (actualname, destinationlookup) values ('WALTAIR BUS DEPOT','WALTAIR BUS DEPOT');"
-WALTAIR RAILWAY STATION,WALTAIR RAILWAY STATION,"Insert into destination_lookup (actualname, destinationlookup) values ('WALTAIR RAILWAY STATION','WALTAIR RAILWAY STATION');"
-WALTAIR RAILWAY STATION (STATION SIDE),WALTAIR RAILWAY STATION,"Insert into destination_lookup (actualname, destinationlookup) values ('WALTAIR RAILWAY STATION (STATION SIDE)','WALTAIR RAILWAY STATION');"
-WOODPETA,WOODPETA,"Insert into destination_lookup (actualname, destinationlookup) values ('WOODPETA','WOODPETA');"
-YADAVA JAGGARAJU PETA,YADAVA JAGGARAJU PETA,"Insert into destination_lookup (actualname, destinationlookup) values ('YADAVA JAGGARAJU PETA','YADAVA JAGGARAJU PETA');"
-YARADA BC COLONY,YARADA BC COLONY,"Insert into destination_lookup (actualname, destinationlookup) values ('YARADA BC COLONY','YARADA BC COLONY');"
-YARADA OLD BUS STOP,YARADA OLD BUS STOP,"Insert into destination_lookup (actualname, destinationlookup) values ('YARADA OLD BUS STOP','YARADA OLD BUS STOP');"
-YARADA VILLAGE,YARADA VILLAGE,"Insert into destination_lookup (actualname, destinationlookup) values ('YARADA VILLAGE','YARADA VILLAGE');"
-YEDURUVADA,YEDURUVADA,"Insert into destination_lookup (actualname, destinationlookup) values ('YEDURUVADA','YEDURUVADA');"
-YELLAMANCHILI,YELLAMANCHILI,"Insert into destination_lookup (actualname, destinationlookup) values ('YELLAMANCHILI','YELLAMANCHILI');"
-YERRAVANIPALEM,YERRAVANIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('YERRAVANIPALEM','YERRAVANIPALEM');"
-Z JUNCTION TOWARDS KARNAVANIPALEM,Z JUNCTION TOWARDS KARNAVANIPALEM,"Insert into destination_lookup (actualname, destinationlookup) values ('Z JUNCTION TOWARDS KARNAVANIPALEM','Z JUNCTION TOWARDS KARNAVANIPALEM');"
-ZILLA PARISHAD BUS STATION,ZILLA PARISHAD BUS STATION,"Insert into destination_lookup (actualname, destinationlookup) values ('ZILLA PARISHAD BUS STATION','ZILLA PARISHAD BUS STATION');"
-ZOO PARK (BACK GATE),ZOO PARK,"Insert into destination_lookup (actualname, destinationlookup) values ('ZOO PARK (BACK GATE)','ZOO PARK');"
-ZOO PARK (FRONT GATE),KAMBALKONDA,"Insert into destination_lookup (actualname, destinationlookup) values ('ZOO PARK (FRONT GATE)','KAMBALKONDA');"
-ZOO PARK (FRONT GATE),ZOO PARK,"Insert into destination_lookup (actualname, destinationlookup) values ('ZOO PARK (FRONT GATE)','ZOO PARK');"
+ACTUALNAME,DESTINATIONLOOKUP
+A KODURU,A KODURU
+ADARSH NAGAR,OLD DAIRY FARM
+ADARSH NAGAR,ADARSH NAGAR
+ADDURU,ADDURU
+ADIVIVARAM,ADIVIVARAM
+AGANAMPUDI,AGANAMPUDI
+AGANAMPUDI TOLLGATE,AGANAMPUDI
+AGRAHARAM,AGRAHARAM
+AJANAGIRI,AJANAGIRI
+AJANAGIRI COLONY,AJANAGIRI
+AKKAYYAPALEM,AKKAYYAPALEM
+AKKAYYAPALEM HIGHWAY,AKKAYYAPALEM
+AKKIREDDIPALEM,AKKIREDDIPALEM
+ALLIPURAM,ALLIPURAM
+AMAL COLLEGE JUNCTION,AMAL COLLEGE JUNCTION
+AMANAM,AMANAM
+AMBEDKAR COLONY,AMBEDKAR COLONY
+AMBEDKAR NAGAR,AMBEDKAR NAGAR
+AMERICAN HOSPITAL,AMERICAN HOSPITAL
+AMG SCHOOL/ COLLEGE,AMG SCHOOL/ COLLEGE
+AMRUTAPURAM,AMRUTAPURAM
+ANAKAPALLE - RTC COMPLEX,ANAKAPALLE - RTC COMPLEX
+ANAKAPALLE BYPASS ROAD,ANAKAPALLE BYPASS ROAD
+ANAKAPALLE COURT (NEAR VIZIANAGARAM ROAD),ANAKAPALLE COURT (NEAR VIZIANAGARAM ROAD)
+ANAKAPALLE FOUR ROAD JUNCTION,ANAKAPALLE FOUR ROAD JUNCTION
+ANANDAPURAM,ANANDAPURAM
+ANANDAPURAM JUNCTION,ANANDAPURAM
+ANANTAPURAM (NEAR DEVARAPALLI),ANANTAPURAM (NEAR DEVARAPALLI)
+ANANTHAVARAM,ANANTHAVARAM
+ANANTHAVARAM CENTRE,ANANTHAVARAM 
+ANDHRA UNIVERSITY IN GATE,ANDHRA UNIVERSITY
+ANDHRA UNIVERSITY IN GATE,ANDHRA UNIVERSITY IN GATE
+ANDHRA UNIVERSITY OUT GATE,ANDHRA UNIVERSITY
+ANDHRA UNIVERSITY OUT GATE,ANDHRA UNIVERSITY OUT GATE
+ANDHRA UNIVERSITY REGISTER OFFICE,ANDHRA UNIVERSITY
+ANDHRA UNIVERSITY REGISTER OFFICE,ANDHRA UNIVERSITY REGISTER OFFICE
+ANITS COLLEGE,ANITS COLLEGE
+ANJALI MURTHY NAGAR 3RD LINE,ANJALI MURTHY NAGAR 3RD LINE
+ANKAJOSYULAPALEM,ANKAJOSYULAPALEM
+ANTHAKAPALLI,ANTHAKAPALLI
+APHB COLONY MAIN,APHB COLONY MAIN
+APPANNAPALEM (KRISHNAMPALEM),APPANNAPALEM (KRISHNAMPALEM)
+APPANNAPALEM (NEAR GOSTHANI RIVER),APPANNAPALEM (NEAR GOSTHANI RIVER)
+APPANNAPALEM (SIMHAPURI COLONY),APPANNAPALEM (SIMHAPURI COLONY)
+APPIKONDA,APPIKONDA
+APPUGHAR,APPUGHAR
+APPUGHAR(MVP MAINROAD JUNCTION),APPUGHAR
+AQJ COLLEGE,AQJ COLLEGE
+ARDHANNAPALEM,ARDHANNAPALEM
+ARILOVA,ARILOVA
+ARILOVA COLONY,ARILOVA
+ARIPAKA,ARIPAKA
+ARLI,ARLI
+ARLI JUNCTION,ARLI
+ARTS COLLEGE,ARTS COLLEGE
+ARUKU - RTC COMPLEX,ARUKU - RTC COMPLEX
+ARUNA ZUTE MILLS,ARUNA ZUTE MILLS
+ASAKAPALLI,ASAKAPALLI
+ASHOK NAGAR,VAMBAY COLONY (NEAR GAJUWAKA)
+ASHOK NAGAR,ASHOK NAGAR
+ASILMETTA JUNCTION,SAMPATH VINAYAKA TEMPLE
+ASILMETTA JUNCTION,ASILMETTA JUNCTION
+ASILMETTA JUNCTION,VIZAG - RTC COMPLEX
+AUTO NAGAR,AUTO NAGAR
+AVANTHI ENGINEERING COLLEGE,AVANTHI ENGINEERING COLLEGE
+AYYANNAPALEM,AYYANNAPALEM
+BABA BAZAR (LAWSONS BAY COLONY),BABA BAZAR (LAWSONS BAY COLONY)
+BAJI JUNCTION,BAJI JUNCTION
+BAKKANNAPALEM,BAKKANNAPALEM
+BALAGANAPATHI TEMPLE,BALAGANAPATHI TEMPLE
+BALAJI NAGAR,BALAJI NAGAR
+BALAKRISHNA,BALAKRISHNA
+BEHARA POLYTECHNICAL COLLEGE (NARAVA),BEHARA POLYTECHNICAL COLLEGE (NARAVA)
+BENNAVARAM,BENNAVARAM
+BHEEMUNIPATNAM Y JUNCTION (CROSS ROADS),BHEEMUNIPATNAM Y JUNCTION (CROSS ROADS)
+BHEEMUNIPATNAM Y JUNCTION (CROSS ROADS),BHIMILI Y JUNCTION (CROSS ROADS)
+BHIMILI (DHORA THOTA),DHORA THOTA
+BHIMILI (DHORA THOTA),BHIMILI
+BHIMILI (DHORA THOTA),BHEEMILI
+BHIMILI POLICE STATION,BHIMILI POLICE STATION
+BHIMILI POLICE STATION,BHEEMILI POLICE STATION
+BHIMILI RTC COMPLEX (OLD BUS STAND),BHIMILI RTC COMPLEX (OLD BUS STAND)
+BHOGAPURAM,BHOGAPURAM
+BHPV,BHPV
+BIRLA,BIRLA
+BODDAPALEM,BODDAPALEM
+BODDAVALASA,BODDAVALASA
+BORAVANIPALEM,BORAVANIPALEM
+BOYAPALEM,BOYAPALEM
+BOYAPALEM,PYDAH COLLEGE
+BRTS,BRTS
+BUCHIRAJUPALEM,BUCHIRAJUPALEM
+BULLAYYA COLLEGE (TOWARDS RAMA TALKIES),BULLAYYA COLLEGE
+BULLAYYA COLLEGE (TOWARDS SATYAM COMPUTERS),BULLAYYA COLLEGE
+BURMANGUDA,BURMANGUDA
+BUTCHIYYAPETA,BUTCHIYYAPETA
+BVK COLLEGE,BVK COLLEGE
+BYPUREDDYPALEM,BYPUREDDYPALEM
+CARSHED,CARSHED
+CENTURY CLUB,CENTURY CLUB
+CHAITANYA SCHOOL (PEDHAGANTYADA),CHAITANYA SCHOOL (PEDHAGANTYADA)
+CHANDANA BROS,JAGADAMBA
+CHANDANA BROS,CHANDANA BROS
+CHANDRAMPALEM ZP HIGH SCHOOL,MADHURWADA
+CHANDRAMPALEM ZP HIGH SCHOOL,CHANDRAMPALEM ZP HIGH SCHOOL
+CHANDRAYYAPETA,CHANDRAYYAPETA
+CHAVULAMADAM,CONVENT JUNCTION
+CHAVULAMADAM,CHAVULAMADAM
+CHEEMALA PALLI,CHIMALA PALLI
+CHEEMALA PALLI,CHEEMALA PALLI
+CHINAGADILI,CHINAGADILI
+CHINAGUDIPALA,CHINAGUDIPALA
+CHINAPPANNAPALEM,CHINAPPANNAPALEM
+CHINAYATHAPALEM,CHINAYATHAPALEM
+CHINNA GANTYADA,CHINNA GANTYADA
+CHINNA RUSHIKONDA,CHINNA RUSHIKONDA
+CHINNA WALTAIR,CHINNA WALTAIR
+CHINNAMUSHUDIWADA,SAVITRI NAGAR
+CHINNAMUSHUDIWADA,CHINNAMUSHUDIWADA
+CHINNAPALEM,CHINNAPALEM
+CHINNAPURAM JUNCTION,CHINNAPURAM JUNCTION
+CHINNARAOPALLI,CHINNARAOPALLI
+CHINNAYYAPALEM,PATAROAD
+CHINNAYYAPALEM,CHINNAYYAPALEM
+CHINTAGATLA,CHINTAGATLA
+CHINTALA AGRAHARAM,CHINTALA AGRAHARAM
+CHINTALADIMMA,CHINTALADIMMA
+CHINTALAGRAHARAM (NEAR VEPAGUNTA),CHINTALAGRAHARAM (NEAR VEPAGUNTA)
+CHINTHALAPALEM,CHINTHALAPALEM
+CHODAVARAM,CHODAVARAM
+CHODAVARAM (OLD BUS STAND),CHODAVARAM
+CHOULTRY,CHOULTRY
+CISF CHILDREN PARK,CISF CHILDREN PARK
+CMR CENTRAL,JUDGE COURT
+CMR CENTRAL,CMR CENTRAL
+COLLECTOR OFFICE,COLLECTOR OFFICE
+CONVENT JUNCTION,CONVENT JUNCTION
+CONVENT JUNCTION,CHAVULAMADAM
+COROMANDAL GATE,COROMANDAL GATE
+CWC,CWC
+D YELLAVARAMJUNCTION,D YELLAVARAMJUNCTION
+DABA GARDENS,DABA GARDENS
+DASARIVANIPALEM,DASARIVANIPALEM
+DAYAL NAGAR,DAYAL NAGAR
+DESA PATHRUNIPALEM (NEAR STEEL PLANT),DESA PATHRUNIPALEM (NEAR STEEL PLANT)
+DESA PATRUNIPALEM (NEAR KOTHAVALASA),DESA PATRUNIPALEM (NEAR KOTHAVALASA)
+DEVADA,DEVADA
+DEVADA (DEVARAPALLE ROAD),DEVADA
+DEVARAPALLE,DEVARAPALLE
+DEVIPURAM,DEVIPURAM
+DEVIPURAM HIGHWAY,DEVIPURAM
+DHANUNJAYA NEAR SWARNA BHARATHI INDOOR STADIUM,SWARNA BHARATHI INDOOR STADIUM
+DHANUNJAYA NEAR SWARNA BHARATHI INDOOR STADIUM,DHANUNJAYA NEAR SWARNA BHARATHI INDOOR STADIUM
+DHAYALA NAGAR (104 AREA),DHAYALA NAGAR (104 AREA)
+DHORA THOTA,DHORA THOTA
+DHORA THOTA (NEAR BHEEMILI),DHORA THOTA
+DIBBAPALEM R.H COLONY,DIBBAPALEM R.H COLONY
+DISTRICT JUDGE COURT,JUDGE COURT
+DISTRICT JUDGE COURT,DISTRICT JUDGE COURT
+DIVIS,DIVIS
+DOCKYARD,DOCKYARD
+DOLPHIN OFFICE,DOLPHIN OFFICE
+DONDAPARTHY,DONDAPARTHY
+DONDAPARTHY (RAILWAY NEW COLONY ROAD),DONDAPARTHY
+DONDAPUDI,DONDAPUDI
+DOSURU,DOSURU
+DRGADA,DRGADA
+DUDDUPALEM JUNCTION,DUDDUPALEM JUNCTION
+DUKKAVANIPALEM,DUKKAVANIPALEM
+DURGA BAZAR,DURGA BAZAR
+DURGA TEMPLE,DURGA TEMPLE
+DUVVADA BRIDGE,FAKEERTAKIYA
+DUVVADA BRIDGE,DUVVADA BRIDGE
+DUVVADA RAILWAY STATION,DUVVADA RAILWAY STATION
+EAST POINT COLONY,GIRIJAN CORPORATION
+EAST POINT COLONY,EAST POINT COLONY
+EENADU,EENADU
+EENADU (TOWARDS SATYAM JUNCTION),EENADU
+EMP X ROADS (LANKELAPALEM JUNCTION),LANKELAPALEM
+EMP X ROADS (LANKELAPALEM JUNCTION),EMP X ROADS (LANKELAPALEM JUNCTION)
+ENDADA,ENDADA
+ENDADA (BEACH RD),ENDADA
+ENDADA PETROL BUNK,ENDADA
+ENDAMILLI,ENDAMILLI
+ERUKUNAIDUPALEM,ERUKUNAIDUPALEM
+ESSAR,ESSAR
+EX-SERVICE MEN COLONY,EX-SERVICE MEN COLONY
+EYE CARE OPTICALS,EYE CARE OPTICALS
+FAKEERTAKIYA,DUVVADA BRIDGE
+FAKEERTAKIYA,FAKEERTAKIYA
+FIFTH TOWN POLICE STATION,SATYANAGAR
+FIFTH TOWN POLICE STATION,FIFTH TOWN POLICE STATION
+FISHING HARBOUR,FISHING HARBOUR
+FOUR ROAD JUNCTION,FOUR ROAD JUNCTION
+FOURTH TOWN POLICE STATION,FOURTH TOWN POLICE STATION
+GAJUWAKA BUS DEPOT,GAJUWAKA BUS DEPOT
+GALI BHEEMAVARAM,GALI BHEEMAVARAM
+GANDHINAGARAM,GANDHINAGARAM
+GANDIGUNDAM,GANDIGUNDAM
+GANDIPALEM,GANDIPALEM
+GANGADEVIPATE,GANGADEVIPATE
+GANGAVARAM COLONY,GANGAVARAM
+GANGAVARAM JUNCTION,GANGAVARAM
+GARAVA JAGGAYYAPALEM,GARAVA JAGGAYYAPALEM
+GAS COMPANY (ANAKAPALLE RD),GAS COMPANY (ANAKAPALLE RD)
+GAS COMPANY (GAS AUTHORITY OF INDIA),GAS COMPANY (GAS AUTHORITY OF INDIA)
+GAVARA ANAKAPALLE,GAVARA ANAKAPALLE
+GEDDAPETA JUNCTION,GEDDAPETA JUNCTION
+GHAT ROAD (MADUGULA),GHAT ROAD (MADUGULA)
+GIDIJALA,GIDIJALA
+GIDIJALA CENTER,GIDIJALA
+GIRIBABU BYPUREDDY,GIRIBABU BYPUREDDY
+GITAM,GITAM
+GITAM UNIVERSITY (ENTRANCE),GITAM
+GNANAPURAM,GNANAPURAM
+GNANAPURAM (NEAR WALTAIR RAILWAY STATION),GNANAPURAM
+GOKIVADA,GOKIVADA
+GOKIVADA JUNCTION BUS STATION,GOKIVADA
+GOLDEN LAYOUT (SARIPALLI),GOLDEN LAYOUT (SARIPALLI)
+GOLLALAPALEM BUS STATION,GOLLALAPALEM BUS STATION
+GOLLAPALEM,GOLLAPALEM
+GOPALAPATNAM,GOPALAPATNAM
+GORLEVANIPALEM,GORLEVANIPALEM
+GOTIVADA,GOTIVADA
+GOTIVADA (NEAR NAKKAVANIPALEM),GOTIVADA (NEAR NAKKAVANIPALEM)
+GOVADA,GOVADA
+GOVERNER BUNGALOW,GOVERNER BUNGALOW
+GOVINDAPALEM,GOVINDAPALEM
+GOWRI NAGAR JUNCTION,GOWRI NAGAR JUNCTION
+GOWRIPATHAM,GOWRIPATHAM
+GREEN CITY,GREEN CITY
+GREEN PARK,GREEN PARK
+GUDILOVA,GUDILOVA
+GUDILOVA HOSTEL,GUDILOVA
+GULLEPALLE,GULLEPALLE
+GULLEPALLE JUNCTION,GULLEPALLE
+GUNTASEEMA BUS STATION,GUNTASEEMA BUS STATION
+GURRAMPALEM,GURRAMPALEM
+GURUDWARA,GURUDWARA
+GVMC,VIZAG - RTC COMPLEX
+GVMC,GVMC
+HANUMANTHAWAKA,HANUMANTHAWAKA
+HANUMANTHAWAKA (NEAR MARKET YARD),HANUMANTHAWAKA
+HARIPALEM,HARIPALEM
+HB COLONY LAST,HB COLONY LAST
+HCC COMPANY,HCC COMPANY
+HOUSING BOARD (PM PALEM),POTHINAMALLAYYAPALEM (PM PALEM)
+HOUSING BOARD (PM PALEM),HOUSING BOARD (PM PALEM)
+INS CIRCARS,INS CIRCARS
+INS KALINGA,INS KALINGA
+INS SATAVAHANA,INS SATAVAHANA
+IPPILAVANIPALEM,IPPILAVANIPALEM
+IRUVADA,IRUVADA
+ISLAMPETA,ISLAMPETA
+ISUKATHOTA,ISUKATHOTA
+IT PARK,IT PARK
+ITI JUNCTION,INDUSTRIAL ESTATE
+ITI JUNCTION,ITI JUNCTION
+J K LAYOUT,J K LAYOUT
+JAGADAMBA,JAGADAMBA
+JAIL ROAD,JAIL ROAD
+JAIL ROAD JUNCTION,JAIL ROAD
+JAJULAVANIPALEM,JAJULAVANIPALEM
+JAMMI DEVARA PETA,NALLABILLI
+JAMMI DEVARA PETA,JAMMI DEVARA PETA
+JANATHA COLONY,JANATHA COLONY
+JANGALA PALEM,JANGALA PALEM
+JANGALAPALEM NEAR GOTIVADA,JANGALAPALEM NEAR GOTIVADA
+JANGALAPALLI,JANGALAPALLI
+JEERUPETA RAYAPALEM POST,JEERUPETA RAYAPALEM POST
+JERRIPOTHULAPALEM,JERRIPOTHULAPALEM
+JODUGULLA PALEM,JODUGULLA PALEM
+JONNADA,JONNADA
+JUDGE COURT,JUDGE COURT
+K CHANDRAYYAPETA,K CHANDRAYYAPETA
+K KOTAPADU,K KOTAPADU
+K SANTAPALEM,K SANTAPALEM
+KAILASAGIRI,KAILASAGIRI
+KAILASAGIRI ROPE WAY,KAILASAGIRI
+KAILASAGIRI ROPE WAY,KAILASAGIRI ROPE WAY
+KAILASPURAM,KAILASPURAM
+KAKANI NAGAR (TOWARDS AIRPORT),KAKANI NAGAR
+KAKANI NAGAR (TOWARDS NAD),KAKANI NAGAR
+KAKARLOVA,KAKARLOVA
+KAKATIYA ITI JUNCTION,KAKATIYA ITI JUNCTION
+KALAPAKA,KALAPAKA
+KALAPAKA JUNCTION,KALAPAKA
+KALINGANAGAR,KALINGANAGAR
+KANCHARAPALEM,KANCHARAPALEM
+KANCHARAPALEM (MUTHYAMAMBA TEMPLE),KANCHARAPALEM 
+KANTAKAPALLI,KANTAKAPALLI
+KANTAKAPALLI RAILWAY STATION ROAD,KANTAKAPALLI
+KARASA,KARASA
+KARNAVANI PALEM BUSTOP 1,KARNAVANI PALEM
+KARNAVANI PALEM BUSTOP 2,KARNAVANI PALEM
+KASIMKOTA,KASIMKOTA
+KASIPURAM,KASIPURAM
+KATA,KATA
+KG PENTA1,KG PENTA
+KG PENTA2,KG PENTA
+KGH,KGH
+KGH OUT-PATIENT GATE,KGH OUT-PATIENT GATE
+KHANDIVARAM VILLAGE,KHANDIVARAM VILLAGE
+KOKKIRA PALLI,KOKKIRA PALLI
+KOLLIVANIPALEM,KOLLIVANIPALEM
+KOMMADI JUNCTION,KOMMADI JUNCTION
+KOMMADI VILLAGE,KOMMADI VILLAGE
+KONDAKARLA JUNCTION,KONDAKARLA JUNCTION
+KONNURU,KONNURU
+KOPPAKA,KOPPAKA
+KORADA,KORADA
+KORUVADA,KORUVADA
+KOTA (PEDA NARAVA),KOTA (PEDA NARAVA)
+KOTA NARAVA,KOTA NARAVA
+KOTAVURATLA,KOTAVURATLA
+KOTHA KOVVADA ROAD,KOTHA KOVVADA ROAD
+KOTHAKOTA,KOTHAKOTA
+KOTHAPATNAM,KOTHAPATNAM
+KOTHAVALASA,KOTHAVALASA
+KOTHAVALASA JUNCTION,KOTHAVALASA JUNCTION
+KOTHAVALASA RAILWAY STATION,KOTHAVALASA RAILWAY STATION
+KOTHURU ANAKAPALLE,KOTHURU ANAKAPALLE
+KOTHURU JUNCTION,KOTHURU JUNCTION
+KOTTA NAGAVARAM,KOTTA NAGAVARAM
+KOTTHA YELLAVARAM,KOTTHA YELLAVARAM
+KOTTURU,KOTTURU
+KOVVADA,KOVVADA
+KOYYALAPADU JUNCTION,KOYYALAPADU JUNCTION
+KRANTHI NAGAR,KRANTHI NAGAR
+KRISHNA COLLEGE ROAD,KRISHNA COLLEGE ROAD
+KRISHNA NAGAR BHIMILI,KRISHNA NAGAR BHIMILI
+KRISHNA PURAM,KRISHNA PURAM
+KRISHNAMPURAM,KRISHNAMPURAM
+KRISHNARAYA PURAM,KRISHNARAYA PURAM
+KUMMAPALLE,KUMMAPALLE
+KURMANNAPALEM - RTC COMPLEX,KURMANNAPALEM
+KURMANNAPALEM BUS STATION,PURNA THEATRE (KURMANNAPALEM)
+KURMANNAPALEM BUS STATION,KURMANNAPALEM
+KURPAM MARKET,KURPAM MARKET
+KURUPAM CIRCLE,KURUPAM CIRCLE
+KURUVADA,KURUVADA
+KURUVADA,KORUVADA
+LAGISETTIPALEM,LAGISETTIPALEM
+LAKSHMI TALKIES,LAKSHMI TALKIES
+LAKSHMIPURAM VILLAGE,LAKSHMIPURAM VILLAGE
+LANKAVANI PALEM,LANKAVANI PALEM
+LANKELAPALEM (NORTH TOWARDS KANNURU),LANKELAPALEM
+LANKELAPALEM (SOUTH TOWARDS PARAWADA),LANKELAPALEM
+LAW COLLEGE,LAW COLLEGE
+LAWSONS BAY,LAWSONS BAY
+LAWSONS BAY (TOWARDS VUDA PARK),VASAVANIPALEM
+LAWSONS BAY (TOWARDS VUDA PARK),LAWSONS BAY (TOWARDS VUDA PARK)
+LAWSONS BAY (TOWARDS VUDA PARK),LAWSONS BAY
+LEELA KRISHNA TOYOTA,LEELA KRISHNA TOYOTA
+LEMARTHI,LEMARTHI
+LENDI COLLEGE,LENDI COLLEGE
+LEPAKSHI,LEPAKSHI
+LEPAKSHI,JAGADAMBA 
+LINGALA TIRUGUDU,LINGALA TIRUGUDU
+LIONS CLUB (RAMNAGAR),RAMNAGAR
+LIONS CLUB (RAMNAGAR),LIONS CLUB (RAMNAGAR)
+LOPUDI,LOPUDI
+MADDI,MADDI
+MADDI ROAD,MADDI ROAD
+MADDILAPALEM (SAI RAM HOTEL),MADDILAPALEM DEPOT
+MADDILAPALEM DEPOT,MADDILAPALEM DEPOT
+MADHAVADHARA,MADHAVADHARA
+MADHAVADHARA (NEAR SREE KANAKA DURGA FUNCTION HALL),MADHAVADHARA
+MADHURAWADA DEPOT,MADHURWADA
+MADHURAWADA DEPOT,MADHURAWADA DEPOT
+MADHURWADA,MADHURWADA
+MADHURWADA JUNCTION,MADHURWADA
+MADHURWADA JUNCTION,MADHURWADA JUNCTION
+MADHUSUDANA NAGAR,MADHUSUDANA NAGAR
+MADUGULA,MADUGULA
+MAHARAJUPETA JUNCTION,MAHARAJUPETA JUNCTION
+MAHARANI PETA,MAHARANI PETA
+MAHATI ENGLISH MEDIUM SCHOOL BUS STOP,PAVANI MEDICALS
+MAHATI ENGLISH MEDIUM SCHOOL BUS STOP,MAHATI ENGLISH MEDIUM SCHOOL BUS STOP
+MAJJIVALASA,MAJJIVALASA
+MALAPALLI JUNCTION,MALAPALLI JUNCTION
+MALKAPURAM,MALKAPURAM
+MALLINAIDU PALEM,MALLINAIDU PALEM
+MAMIDILOVA,SONTYAM
+MAMIDILOVA,MAMIDILOVA
+MANCHALA VILLAGE,MANCHALA VILLAGE
+MANGALAPALEM,MANGALAPALEM
+MANGALAPALEM HIGHWAY,MANGALAPALEM
+MANGAMARI PETA,MANGAMARI PETA
+MARIKAVALASA,MARIKAVALASA
+MARIKAVALASA HIGHWAY,MARIKAVALASA
+MARRIPALEM (104 AREA),MARRIPALEM (104 AREA)
+MARRIPALEM (GALI BHEEMAVARAM),MARRIPALEM (GALI BHEEMAVARAM)
+MARRIPALEM (NEAR POTHALA CHERUVU),MARRIPALEM (NEAR POTHALA CHERUVU)
+MASJID,MASJID
+MEDIVADA VILLAGE,MEDIVADA VILLAGE
+MENTAL HOSPITAL,MENTAL HOSPITAL
+METTAPALEM,METTAPALEM
+MINDI,MINDI
+MINDIVANI PALEM,MINDIVANI PALEM
+MISSIONARY SCHOOL (KOMMADI),MISSIONARY SCHOOL (KOMMADI)
+MITHILAPURI VUDA COLONY,MITHILAPURI VUDA COLONY
+MMTC,HB COLONY POST OFFICE
+MMTC,MMTC
+MODHAVALASA,MODHAVALASA
+MOGALIPURAM,MOGALIPURAM
+MOOLAPETA,MOOLAPETA
+MOPADA,MOPADA
+MUDASARLOVA,MUDASARLOVA
+MULAGAPUDI,MULAGAPUDI
+MUNAGAPAAKA,MUNAGAPAAKA
+MUNICIPAL STADIUM (PATA BUS STAND),MUNICIPAL STADIUM (PATA BUS STAND)
+MURALINAGAR (BURMA COLONY),MURALINAGAR (BURMA COLONY)
+MURALINAGAR (NEHRU NAGAR),MURALINAGAR (NEHRU NAGAR)
+MUSIRAM,MUSIRAM
+MUTCHERLA,MUTCHERLA
+MVP BUS DEPOT (RYTHU BAZAAR),MVP BUS DEPOT
+MVP CIRCLE,MVP CIRCLE
+MVP COLONY (VIJAYA HOSPITALS),MVP COLONY (VIJAYA HOSPITALS)
+MVP COLONY BUS DEPOT (MUVVALAVANIPALEM (DEPOT)),MVP BUS DEPOT
+MVP GOTHISONS,MVP GOTHISONS
+NAAMAVARAM,NAAMAVARAM
+NAD,NAD
+NADUPURU,NADUPURU
+NADUPURU DAIRY COLONY,NADUPURU
+NAGARAPALEM,NAGARAPALEM
+NAIDU THOTA,NAIDU THOTA
+NAIDU THOTA JUNCTION,NAIDU THOTA JUNCTION
+NAIDUPALEM,NAIDUPALEM
+NAKKAPALLI BUS STATION,NAKKAPALLI BUS STATION
+NALLABILLI,JAMMI DEVARA PETA
+NALLABILLI,NALLABILLI
+NAMMIDODDI JUNCTION,NAMMIDODDI JUNCTION
+NARAPADU,NARAPADU
+NARAPAM (DEVADA RD),NARAPAM (DEVADA RD)
+NARAYANAPURAM,NARAYANAPURAM
+NARSIPATNAM - RTC COMPLEX,NARSIPATNAM - RTC COMPLEX
+NARSIPATNAM BUS DEPOT,NARSIPATNAM - RTC COMPLEX
+NATHAYYAPALEM,NATHAYYAPALEM
+NATHAYYAPALEM HIGHWAY,NATHAYYAPALEM
+NAUSANA BAUGH ENTRANCE,NAUSENA BAUGH
+NAUSENA BAUGH,NAUSENA BAUGH
+NDV,DOCKYARD
+NDV,NDV
+NEELAKANTARAJAPURAM,NEELAKANTARAJAPURAM
+NEELAKUNDEELU,NEELAKUNDEELU
+NEW GAJUWAKA,NEW GAJUWAKA
+NEW GAJUWAKA MARKET,NEW GAJUWAKA
+NEW GAJUWAKA THEATRES,NEW GAJUWAKA
+NGGO COLONY,NGGO COLONY
+NOOKALAMMA TEMPLE,NOOKALAMMA TEMPLE
+NOOKALAMMA TEMPLE,NOOKALAMMA TEMPLE  (RYTHU BAZAAR)
+NTPC DEEPANJALINAGAR,NTPC DEEPANJALINAGAR
+NTPC VISAKHAPATNAM,NTPC VISAKHAPATNAM
+NUNAPARTI,NUNAPARTI
+OLD BUS STAND (NARSIPATNAM),OLD BUS STAND (NARSIPATNAM)
+OLD BUS STAND (VENKANNAPALEM),VENKANNAPALEM
+OLD BUS STAND (VENKANNAPALEM),OLD BUS STAND (VENKANNAPALEM)
+OLD BYPUREDDYPALEM,OLD BYPUREDDYPALEM
+OLD CBI,OLD CBI
+OLD DAIRY FARM,OLD DAIRY FARM
+OLD DAIRY FARM,ADARSH NAGAR
+OLD GAJUWAKA,OLD GAJUWAKA
+OLD GAJUWAKA MAINROAD,OLD GAJUWAKA
+OLD HEAD POST OFFICE (OHPO),OLD HEAD POST OFFICE (OHPO)
+ONE TOWN,ONE TOWN
+ONE TOWN (TOWARDS OHPO),ONE TOWN
+PADERU - RTC COMPLEX,PADERU - RTC COMPLEX
+PADMANABHAM,PADMANABHAM
+PALAVALASA,PALAVALASA
+PANCHADARLA,PANCHADARLA
+PANDRANGI,PANDRANGI
+PANTHULUGARI MEDA,PANTHULUGARI MEDA
+PARADESIPALEM,PARADESIPALEM
+PARAWADA,PARAWADA
+PARAWADA CINEMA HALL,PARAWADA CINEMA HALL
+PARAWADA MRO OFFICE,PARAWADA MRO OFFICE
+PARAWADA SUB STATION,PARAWADA SUB STATION
+PATHA KOVVADA,PATHA KOVVADA
+PAVANI MEDICALS,PAVANI MEDICALS
+PEDA NARAVA,PEDA NARAVA
+PEDABAYALU,PEDABAYALU
+PEDAGADHILI,PEDAGADHILI
+PEDAGANTYADA,PEDAGANTYADA
+PEDAMUSIDIVADA,PEDAMUSIDIVADA
+PEDAMUSIDIVADA HIGHWAY,PEDAMUSIDIVADA
+PEDARAOPALLI,PEDARAOPALLI
+PEDDA RUSHIKONDA,PEDDA RUSHIKONDA
+PEDDA WALTAIR,PEDDA WALTAIR
+PEDDA WALTAIR (TOWARDS MENTAL HOSPITAL),PEDDA WALTAIR
+PEDDAPALEM,PEDDAPALEM
+PEDDIPALEM,PEDDIPALEM
+PENDURTHI,PENDURTHI
+PENDURTHI (NARSIPATNAM ROAD),PENDURTHI (NARSIPATNAM ROAD)
+PENDURTHI GENERAL HOSPITAL,PENDURTHI GENERAL HOSPITAL
+PENDURTHI GOVT. JUNIOR COLLEGE,PENDURTHI GOVT. JUNIOR COLLEGE
+PENDURTHI MAIN JUNCTION,PENDURTHI MAIN JUNCTION
+PF OFFICE,PF OFFICE
+PINAGADI JUNCTION,RAMPURAM ROAD
+PINAGADI JUNCTION,PINAGADI JUNCTION
+PINE APPLE COLONY,PINE APPLE COLONY
+PITTAVANIPALEM,PITTAVANIPALEM
+PMPALEM CHAITANYA COLLEGE,CARSHED
+PMPALEM CHAITANYA COLLEGE,PMPALEM CHAITANYA COLLEGE
+POLICE BARRACKS,POLICE BARRACKS
+POLIPALLI,POLIPALLI
+POLIPALLI JUNCTION,POLIPALLI JUNCTION
+PORLUPALEM,PORLUPALEM
+PORT GYMKHANA (OLD BUS STAND),PORT GYMKHANA (OLD BUS STAND)
+PORT HOSPITAL,PORT HOSPITAL
+PORT HOSPITAL (PORT QUARTERS),PORT HOSPITAL (PORT QUARTERS)
+PORT HOSPITAL (TOWARDS AKKAYYAPALEM),PORT HOSPITAL
+POTHINAMALLAYYA PALEM FIRST STOP (P M PALEM),POTHINAMALLAYYAPALEM (PM PALEM)
+POTHINAMALLAYYA PALEM LAST STOP (P M PALEM),POTHINAMALLAYYAPALEM (PM PALEM)
+PRAHALADAPURAM,PRAHALADAPURAM
+PRAHALADAPURAM (NEAR VARAHALAKSHMI SIMHA SWAMY ASHRAM),PRAHALADAPURAM
+PUNJAB HOTEL,PUNJAB HOTEL
+PURNA MARKET,PURNA MARKET
+PURNA MARKET (NEAR MUNICIPAL STADIUM),PURNA MARKET (NEAR MUNICIPAL STADIUM)
+PURNA THEATRE,PURNA THEATRE
+PURNA THEATRE,CHODAVARAM
+PURNA THEATRE (KURMANNAPALEM),KURMANNAPALEM BUS STATION
+PURUSHOTHAPURAM,PURUSHOTHAPURAM
+PURUSHOTTAPURAM (PURUSHOTTAM),PURUSHOTTAPURAM (PURUSHOTTAM)
+PYDAH COLLEGE,PYDAH COLLEGE
+PYDAH COLLEGE,BOYAPALEM
+PYDIWADA,PYDIWADA
+PYDIWADA AGRAHARAM,PYDIWADA AGRAHARAM
+R & B,R & B
+R K BEACH,R K BEACH
+R K BEACH - SUBMARINE,R K BEACH - SUBMARINE
+R K BEACH (KALI TEMPLE),R K BEACH (KALI TEMPLE)
+R K BEACH (KALI TEMPLE),R K BEACH 
+RAAVIKAMATHAM,RAAVIKAMATHAM
+RAGHU ENGINEERING COLLEGE,RAGHU ENGINEERING COLLEGE
+RAILWAY NEW COLONY,RAILWAY NEW COLONY
+RAIWADA,RAIWADA
+RAJANNAPALEM,RAJANNAPALEM
+RAJIV NAGAR,RAJIV NAGAR
+RAJIV NAGAR CENTRE,RAJIV NAGAR
+RAJULA TALLAVALASA,RAJULA TALLAVALASA
+RAJUPETA,RAJUPETA
+RAMA TALKIES,RAMA TALKIES
+RAMAKRISHNA PURAM (R K PURAM),RAMAKRISHNA PURAM (R K PURAM)
+RAMALAYAM (P M PALEM),RAMALAYAM (P M PALEM)
+RAMANARAYANAM,RAMANARAYANAM
+RAMAPADU,RAMAPADU
+RAMAPURAM,RAMAPURAM
+RAMAPURAM ROAD,RAMPURAM
+RAMAVARAM,RAMAVARAM
+RAMAYOGI AGRAHARAM,RAMAYOGI AGRAHARAM
+RAMBILLI,RAMBILLI
+RAVINDRA NAGAR,RAVINDRA NAGAR
+RAVULAMMAPALEM,RAVULAMMAPALEM
+READING ROOM JUNCTION,READING ROOM JUNCTION
+REBBAKA,REBBAKA
+RELL VEEDI,RELL VEEDI
+RMHP,RMHP
+RTC COLONY,RTC COLONY
+RYTHU BAZAAR,NOOKALAMMA TEMPLE  (RYTHU BAZAAR)
+RYTHU BAZAAR,NOOKALAMMA TEMPLE 
+SABBAVARAM REGISTER OFFICE,SABBAVARAM REGISTER OFFICE
+SABBAVARAM RTC COMPLEX,SABBAVARAM RTC COMPLEX
+SAGAR NAGAR,SAGAR NAGAR
+SAGAR NAGAR (LOCAL),SAGAR NAGAR
+SAIRAM COLONY (KOMMADI),SAIRAM COLONY (KOMMADI)
+SALAGRAMAPURAM (PORT QUARTERS),SALAGRAMAPURAM (PORT QUARTERS)
+SALAGRAMAPURAM (SANTHI NAGAR),SALAGRAMAPURAM (SANTHI NAGAR)
+SALAPUVANIPALEM,SALAPUVANIPALEM
+SAMPATH VINAYAKA TEMPLE,SAMPATH VINAYAKA TEMPLE
+SAMPATH VINAYAKA TEMPLE,ASILMETTA JUNCTION
+SANGAM OFFICE,SANGAM OFFICE
+SANGHIVALASA COLONY,SANGHIVALASA COLONY
+SANJEEV COLONY,SANJEEV COLONY
+SANJIVA METTA,SANJIVA METTA
+SANKARAM,SANKARAM
+SANKARAM (ANAKAPALLE),SANKARAM (ANAKAPALLE)
+SANKARAM (MADUGULA),SANKARAM (MADUGULA)
+SANTAPALEM,SANTAPALEM
+SARASWATI PARK,SARASWATI PARK
+SARIPALLI,SARIPALLI
+SATHIVANI PALEM (SANTUVANI PALEM),SATHIVANI PALEM (SANTUVANI PALEM)
+SATYAM JUNCTION,SATYAM JUNCTION
+SATYANAGAR ,SATYANAGAR 
+SAVARAVILLI,SAVARAVILLI
+SCINDIA,SCINDIA
+SCINDIA JUNCTION,SCINDIA
+SCINDIA NEW COLONY,SCINDIA
+SECTOR K,SECTOR K
+SEETANAGARAM,SEETANAGARAM
+SEETHAMMADARA (NORTH EXTENSION),SEETHAMMADARA
+SEETHAMMADARA (NORTH EXTENSION),SEETHAMMADHARA
+SEETHAMMADHARA,SEETHAMMADHARA
+SEETHAMMADHARA (TOWARDS SATYAM COMPUTERS),SEETHAMMADHARA
+SEETHAMMADHARA (TOWARDS VENKOJIPALEM),SEETHAMMADHARA
+SEETHAMMAPETA,SEETHAMMAPETA
+SEETHAYYAPETA,SEETHAYYAPETA
+SHEELA NAGAR BUS SHELTER,SHEELA NAGAR
+SHEELA NAGAR BUS SHELTER (LOCAL),SHEELA NAGAR
+SIMHACHALAM - RTC COMPLEX,SIMHACHALAM - RTC COMPLEX
+SIMHACHALAM DEVASTHANAM BUS DEPOT,SIMHACHALAM DEVASTHANAM BUS DEPOT
+SIMHACHALAM DHEVASTHANAM GHOSHALA,SIMHACHALAM DHEVASTHANAM GHOSHALA
+SIMHACHALAM HILL CURVE,SIMHACHALAM HILL CURVE
+SIMHACHALAM HILLS,SIMHACHALAM HILLS
+SIMHACHALAM HOSPITAL,SIMHACHALAM HOSPITAL
+SIMHADRI (DONKADA),SIMHADRI (DONKADA)
+SIMHAPURI COLONY,SIMHAPURI COLONY
+SINGANNADORAPALEM,SINGANNADORAPALEM
+SINGAVARAM,SINGAVARAM
+SIRASAPALLI,SIRASAPALLI
+SIRIPURAM,SIRIPURAM
+SIRLAPALEM,SIRLAPALEM
+SIRLAPALEM (KOVVUDU - MADDI ROAD),SIRLAPALEM (KOVVUDU - MADDI ROAD)
+SONTYAM,MAMIDILOVA
+SONTYAM,SONTYAM
+SONTYAM X ROADS,SONTYAM X ROADS
+SRAMASAKTHI NAGAR,SRAMASAKTHI NAGAR
+SRI NAGAR STREET,SRI NAGAR STREET
+SRIHARIPURAM,SRIHARIPURAM
+SRIKANAKAMAHALAXMI,SRIKANAKAMAHALAXMI
+SRINAGAR,SRINAGAR
+SRINIVASA NAGAR (SIMHACHALAM),SRINIVASA NAGAR (SIMHACHALAM)
+SRMT,SRMT
+ST JOSEPH,ST JOSEPH
+ST. JOSEPH COLLEGE,ST. JOSEPH COLLEGE
+STEEL PLANT TWP - CPS,STEEL PLANT TWP - CPS
+STEEL PLANT TWP - DAV PUBLIC SCHOOL,STEEL PLANT TWP - DAV PUBLIC SCHOOL
+STEEL PLANT TWP - HOSPITAL,STEEL PLANT TWP - HOSPITAL
+STEEL PLANT TWP - INDHIRA GANDHI PARK,STEEL PLANT TWP - INDHIRA GANDHI PARK
+STEEL PLANT TWP - KANITHI ROAD,STEEL PLANT TWP - KANITHI ROAD
+STEEL PLANT TWP - MAIN GATE,STEEL PLANT TWP - MAIN GATE
+STEEL PLANT TWP - MAIN GATE,KURMANNAPALEM
+STEEL PLANT TWP - MARKET,STEEL PLANT TWP - MARKET
+STEEL PLANT TWP - SECTOR 1,STEEL PLANT TWP - SECTOR 1
+STEEL PLANT TWP - SECTOR 11,STEEL PLANT TWP - SECTOR 11
+STEEL PLANT TWP - SECTOR 12,STEEL PLANT TWP - SECTOR 12
+STEEL PLANT TWP - SECTOR 3,STEEL PLANT TWP - SECTOR 3
+STEEL PLANT TWP - SECTOR 5,STEEL PLANT TWP - SECTOR 5
+STEEL PLANT TWP - SECTOR 6,STEEL PLANT TWP - SECTOR 6
+STEEL PLANT TWP - SECTOR 8,STEEL PLANT TWP - SECTOR 8
+STEEL PLANT TWP - SECTOR 9,STEEL PLANT TWP - SECTOR 9
+STEEL PLANT TWP - SRICHAITANYA JR. COLLEGE,STEEL PLANT TWP - SRICHAITANYA JR. COLLEGE
+STEEL PLANT TWP - T & DC,STEEL PLANT TWP - T & DC
+STEEL PLANT TWP - UKKUNAGARAM,STEEL PLANT TWP - UKKUNAGARAM
+SUJATHA NAGAR,SUJATHA NAGAR
+SUJATHA NAGAR (PURUSHOTHAM BUS STOP),SUJATHA NAGAR (PURUSHOTHAM BUS STOP)
+SUNDAR NAGAR,SUNDAR NAGAR
+SUNDARAYYA COLONY BUS TERMINAL,SUNDARAYYA COLONY BUS TERMINAL
+SURIREDDIPALEM,SURIREDDIPALEM
+SVLNS GOVERNMENT STOP,SVLNS GOVERNMENT STOP
+SWARNA BHARATHI INDOOR STADIUM,SWARNA BHARATHI INDOOR STADIUM
+SWATANTRA NAGAR,SWATANTRA NAGAR
+SWAYAMBUVARAM,SWAYAMBUVARAM
+TAGARAPUVALASA (NEAR TATA THEATRE),TAGARAPUVALASA (NEAR TATA THEATRE)
+TAGARAPUVALASA (NEAR TATA THEATRE),TAGARAPUVALASA
+TAGARAPUVALASA HIGHWAY,TAGARAPUVALASA
+TAGARAPUVALASA RTC COMPLEX,TAGARAPUVALASA RTC COMPLEX
+TAGARAPUVALASA RTC COMPLEX,TAGARAPUVALASA
+TALLAPALEM,TALLAPALEM
+TALLAVALASA,TALLAVALASA
+TALLAVALASA NH16 CONNECTING ROAD (DEGREE COLLEGE STOP),TALLAVALASA NH16 CONNECTING ROAD (DEGREE COLLEGE STOP)
+TARAKARAMA,TARAKARAMA
+TARLUWADA,TARLUWADA
+TAVVAVANIPALEM,TAVVAVANIPALEM
+TEMAPURAM BUS STATION,TEMAPURAM BUS STATION
+TENNETI NAGAR (48A BUS STOP),TENNETI NAGAR (48A BUS STOP)
+TENNETI PARK,TENNETI PARK
+THANAM,THANAM
+THANAM JUNCTION,THANAM
+THATICHETLAPALEM,THATICHETLAPALEM
+THATICHETLAPALEM (BOYAPALEM),THATICHETLAPALEM
+THOTAGARUVU,THOTAGARUVU
+THUMMAPALA,THUMMAPALA
+TIKKAVANIPALEM,TIKKAVANIPALEM
+TIMMAPURAM,TIMMAPURAM
+TIMMARAJUPETA,TIMMARAJUPETA
+TOWN KOTHAROAD,TOWN KOTHAROAD
+TOWN KOTHAROAD JUNCTION,TOWN KOTHAROAD
+TUMMIKAPALLI GATE,TUMMIKAPALLI GATE
+TUNGALAM,TUNGALAM
+TUNIVALASA,TUNIVALASA
+TWO TOWN (WOMENS COLLEGE),TWO TOWN (WOMENS COLLEGE)
+TYDA,TYDA
+UPPADA,UPPADA
+URVASI NH,URVASI
+URVASI THEATRE,URVASI
+USHODAYA JUNCTION,USHODAYA JUNCTION
+VADACHEEPURUPALLI WEST,VADACHEEPURUPALLI WEST
+VADDADI,VADDADI
+VADDIMETTA,VADDIMETTA
+VADLAPUDI JUNCTION,VADLAPUDI
+VADLAPUDI RAILWAY QUARTERS,VADLAPUDI
+VADLAPUDI TOWARDS KURMANNAPALEM,VADLAPUDI
+VALANDAPETA,VALANDAPETA
+VAMBAY COLONY (NEAR GAJUWAKA),VAMBAY COLONY (NEAR GAJUWAKA)
+VAMBAY COLONY (NEAR GAJUWAKA),ASHOK NAGAR 
+VANGALI,VANGALI
+VARADA,VARADA
+VARADA SANTAPALEM,VARADA SANTAPALEM
+VECHALAM,VECHALAM
+VEDULLANARAVA,VEDULLANARAVA
+VELLANKI,VELLANKI
+VELLANKI LOCAL ROAD,VELLANKI
+VELLANKI NH16 CONNECTING ROAD,VELLANKI NH16 CONNECTING ROAD
+VELLANKI VILLAGE,VELLANKI VILLAGE
+VENKANNAPALEM,VENKANNAPALEM
+VENKOJIPALEM,VENKOJIPALEM
+VENKOJIPALEM(TOWARDS ISUKATHOTA),VENKOJIPALEM
+VENNALAPALEM,VENNALAPALEM
+VEPADA,VEPADA
+VEPAGUNTA,VEPAGUNTA
+VEPAGUNTA (NEAR BRTS ROAD),VEPAGUNTA
+VIJAYARAMARAJU PETA,VIJAYARAMARAJU PETA
+VIMAN NAGAR,VIMAN NAGAR
+VIRAT NAGAR,VIRAT NAGAR
+VISAKHA EYE HOSPITAL,VISAKHA EYE HOSPITAL
+VISAKHAPATNAM AIRPORT,VISAKHAPATNAM AIRPORT
+VISAKHAPATNAM CENTRAL JAIL,VISAKHAPATNAM CENTRAL JAIL
+VISALAKSHI NAGAR,VISALAKSHI NAGAR
+VISALAKSHI NAGAR (NEAR POLICE QUARTERS),VISALAKSHI NAGAR (NEAR POLICE QUARTERS)
+VISALAKSHI NAGAR (NEAR POLICE QUARTERS),VISALAKSHI NAGAR
+VITAM COLLEGE,VITAM COLLEGE
+VIVEKANANDA NAGAR,VIVEKANANDA NAGAR
+VIYYAMPETA (GOVERNMENT HOSPITAL),VIYYAMPETA (GOVERNMENT HOSPITAL)
+VIZAG - RTC COMPLEX,VIZAG - RTC COMPLEX
+VIZAG - RTC COMPLEX (222),VIZAG - RTC COMPLEX
+"VIZAG - RTC COMPLEX (25P,25D/V,60,60C,52D)",VIZAG - RTC COMPLEX
+"VIZAG - RTC COMPLEX (6A, 400)",VIZAG - RTC COMPLEX
+VIZAG - RTC COMPLEX (PALLE VELUGU STOP),VIZAG - RTC COMPLEX
+VIZAG - RTC COMPLEX INGATE,VIZAG - RTC COMPLEX
+VIZAG - RTC COMPLEX LIC BUILDING,VIZAG - RTC COMPLEX
+VIZIANAGARAM - RTC COMPLEX,VIZIANAGARAM - RTC COMPLEX
+VUDA COLONY,VUDA COLONY
+VUDA COLONY (NEAR CHINNAMUSHUDIWADA),CHINNAMUSHUDIWADA
+VUDA COLONY (NEAR CHINNAMUSHUDIWADA),VUDA COLONY (NEAR CHINNAMUSHUDIWADA)
+VUDA PARK,VUDA PARK
+VUDA PARK (THE PARK HOTEL),VUDA PARK
+VUTAGEDDA,VUTAGEDDA
+WALTAIR BUS DEPOT,WALTAIR BUS DEPOT
+WALTAIR RAILWAY STATION,WALTAIR RAILWAY STATION
+WALTAIR RAILWAY STATION (STATION SIDE),WALTAIR RAILWAY STATION
+WOODPETA,WOODPETA
+YADAVA JAGGARAJU PETA,YADAVA JAGGARAJU PETA
+YARADA BC COLONY,YARADA BC COLONY
+YARADA OLD BUS STOP,YARADA OLD BUS STOP
+YARADA VILLAGE,YARADA VILLAGE
+YEDURUVADA,YEDURUVADA
+YELLAMANCHILI,YELLAMANCHILI
+YERRAVANIPALEM,YERRAVANIPALEM
+Z JUNCTION TOWARDS KARNAVANIPALEM,Z JUNCTION TOWARDS KARNAVANIPALEM
+ZILLA PARISHAD BUS STATION,ZILLA PARISHAD BUS STATION
+ZOO PARK (BACK GATE),ZOO PARK
+ZOO PARK (FRONT GATE),KAMBALKONDA
+ZOO PARK (FRONT GATE),ZOO PARK

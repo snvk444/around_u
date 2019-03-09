@@ -104,6 +104,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import aroundu.snvk.com.aroundu_template_change.PivotTableData;
 import aroundu.snvk.com.aroundu_template_change.R;
@@ -218,6 +219,7 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void run() {
 
+                    uuid = dbHandler.uuid_check();
                     populateDestinationLookUpTable();
                     //working code
                     /*dbHandler.createDataBase();
@@ -225,21 +227,22 @@ public class MainActivity extends AppCompatActivity
                     //*Log.d("DestLookUp", "Before");
                     populateDatabaseWithInitialData();
                     Log.d("DestLookUp", "After");
-                    populateDestinationLookUpTable();
+                   populateDestinationLookUpTable();
                     //if we have the .db file created, use the below line to get the data into database fast. use below for release.
 
                     final String uuid = UUID.randomUUID().toString().replace("-", "");
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putString("ad_id", uuid );
                     editor.putBoolean("first_run", false);
-                    editor.apply();*/
-
+                    editor.apply();
+                    Log.d(TAG, "This is the uuid: " + uuid);
+*/
 
                 }
             });
         }
         //uuid = UUID.randomUUID().toString().replace("-", "");
-        //prefs.edit().putString("ad_id", uuid );
+        prefs.edit().putString("ad_id", uuid );
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

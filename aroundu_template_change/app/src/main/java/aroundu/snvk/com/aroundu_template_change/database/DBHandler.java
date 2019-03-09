@@ -3,11 +3,13 @@ package aroundu.snvk.com.aroundu_template_change.database;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 import com.google.gson.Gson;
@@ -71,9 +73,12 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DEST_LOOK_UP = "dest_look_up";
     private static final String ACTUAL_NAME = "actual_name";
     private static final String STATUS = "status";
-    private String uuid ="-11";
+    protected String uuid ="-11";
     private static DBHandler mInstance = null;
     protected Context mContext;
+    SharedPreferences prefs;
+
+
 
     public synchronized static DBHandler getInstance(Context context) {
         if (mInstance == null) {
@@ -142,7 +147,23 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
     }
 
+    public String uuid_check(){
+        prefs = PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext());
+        if (prefs.getBoolean("uuid_check", true)) {
+            Log.d(TAG, "Populating the database");
+            uuid = UUID.randomUUID().toString().replace("-", "");
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("ad_id", uuid );
+            editor.putBoolean("uuid_check", false);
+            editor.apply();
+            Log.d(TAG, "This is the uuid: " + uuid);
+
+        }
+        return uuid;
+    }
+
     public String composeJSONfromSQLite(){
+
         Log.d(TAG,"in ComposeJSONfromSQLite");
         List wordList;
         wordList = new ArrayList();
@@ -157,6 +178,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 li.setTime_stamp(cursor.getLong(1));
                 li.setLatitude(cursor.getDouble(2));
                 li.setLongitude(cursor.getDouble(3));
+                Log.d(TAG, "uuid in composeJSONfromSQLite" + uuid);
                 li.setDevice_id(uuid);
                 wordList.add(li);
             } while (cursor.moveToNext());
@@ -173,6 +195,7 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         count = cursor.getCount();
+        Log.d(TAG,"count of location_records" + String.valueOf(count));
         database.close();
         return count;
     }
@@ -190,7 +213,7 @@ public class DBHandler extends SQLiteOpenHelper {
         Date currentTime = Calendar.getInstance().getTime();
         Date newDate = new Date(currentTime.getTime() - 604800000L);
         String updateQuery = "delete from " + LOC_TABLE_NAME + " where time_stamp < " + newDate.getTime() + " and status = 1";
-        Log.d(TAG,updateQuery);
+        Log.d(TAG,"Deleted records" + updateQuery);
         database.execSQL(updateQuery);
         database.close();
     }
@@ -398,12 +421,13 @@ public class DBHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("Select round(latitude,3), round(longitude,3) from " + LOC_TABLE_NAME + " group by round(latitude,3), round(longitude,3)" , null);
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
         LocationInfo li;
-        uuid = UUID.randomUUID().toString().replace("-", "");
+        //uuid = UUID.randomUUID().toString().replace("-", "");
         while (cursor.moveToNext()) {
             li = new LocationInfo();
             //li.setTime_stamp(cursor.getLong(1));
             li.setLatitude(cursor.getDouble(0));
             li.setLongitude(cursor.getDouble(1));
+            Log.d(TAG, "uuid in readLocationInfo_1" + uuid);
             li.setDevice_id(uuid);
             displaypoints.add(li);
         }
@@ -416,12 +440,13 @@ public class DBHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("Select * from " + LOC_TABLE_NAME + " where status = 0 ", null);
         ArrayList<LocationInfo> displaypoints = new ArrayList<>();
         LocationInfo li;
-        uuid = UUID.randomUUID().toString().replace("-", "");
+        //uuid = UUID.randomUUID().toString().replace("-", "");
         while (cursor.moveToNext()) {
             li = new LocationInfo();
             li.setTime_stamp(cursor.getLong(1));
             li.setLatitude(cursor.getDouble(2));
             li.setLongitude(cursor.getDouble(3));
+            Log.d(TAG, "uuid in UpdateServerLocationInfo" + uuid);
             li.setDevice_id(uuid);
             displaypoints.add(li);
         }

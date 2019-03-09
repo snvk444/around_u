@@ -70,7 +70,7 @@ public class BackgroundService extends Service {
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             provider = LocationManager.GPS_PROVIDER;
         }
-        locationManager.requestLocationUpdates(provider, 100, 0, new LocationListener() {
+        locationManager.requestLocationUpdates(provider, 600, 0, new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 Log.i("ServiceTest", "onLocationChanged");
@@ -169,7 +169,7 @@ public class BackgroundService extends Service {
                             Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
                         } else {
                             Log.d("Sync", error.getMessage());
-                            Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]" + error.getMessage() , Toast.LENGTH_LONG).show();
                         }
                     }
                 });
