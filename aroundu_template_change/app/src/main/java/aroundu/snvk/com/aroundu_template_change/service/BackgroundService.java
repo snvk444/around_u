@@ -43,7 +43,7 @@ public class BackgroundService extends Service {
         handler = new Handler();
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         setLocationManager();
-        if((dbHandler.dbSyncCount() >= 1000)){
+        if((dbHandler.dbSyncCount() >= 100)){
             //pull the data from the device where status=0 in locationInfo table.
             Log.d("Sync", "Starting SyncSQLiteMySQLDB");
             syncSQLiteMySQLDB();

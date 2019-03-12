@@ -92,6 +92,7 @@ public class DBHandler extends SQLiteOpenHelper {
         mContext = context;
         SQLiteDatabase db = getReadableDatabase();
         db = null;
+        prefs = PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext());
     }
 
     @Override
@@ -149,16 +150,14 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public String uuid_check(){
         prefs = PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext());
-        if (prefs.getBoolean("uuid_check", true)) {
-            Log.d(TAG, "Populating the database");
+        Log.d(TAG, "Populating the database");
             uuid = UUID.randomUUID().toString().replace("-", "");
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("ad_id", uuid );
             editor.putBoolean("uuid_check", false);
             editor.apply();
-            Log.d(TAG, "This is the uuid: " + uuid);
+            Log.d(TAG, "This is the uuid: (In DBHandler) " + uuid);
 
-        }
         return uuid;
     }
 
@@ -178,8 +177,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 li.setTime_stamp(cursor.getLong(1));
                 li.setLatitude(cursor.getDouble(2));
                 li.setLongitude(cursor.getDouble(3));
-                Log.d(TAG, "uuid in composeJSONfromSQLite" + uuid);
-                li.setDevice_id(uuid);
+                Log.d(TAG, "uuid in composeJSONfromSQLite" + prefs.getString("ad_id", uuid ));
+                li.setDevice_id(prefs.getString("ad_id", uuid ));
                 wordList.add(li);
             } while (cursor.moveToNext());
         }
@@ -213,7 +212,8 @@ public class DBHandler extends SQLiteOpenHelper {
         Date currentTime = Calendar.getInstance().getTime();
         Date newDate = new Date(currentTime.getTime() - 604800000L);
         String updateQuery = "delete from " + LOC_TABLE_NAME + " where time_stamp < " + newDate.getTime() + " and status = 1";
-        Log.d(TAG,"Deleted records" + updateQuery);
+        List count = TotalCount();
+        Log.d(TAG,"Deleted records: " + count.size());
         database.execSQL(updateQuery);
         database.close();
     }
@@ -427,8 +427,8 @@ public class DBHandler extends SQLiteOpenHelper {
             //li.setTime_stamp(cursor.getLong(1));
             li.setLatitude(cursor.getDouble(0));
             li.setLongitude(cursor.getDouble(1));
-            Log.d(TAG, "uuid in readLocationInfo_1" + uuid);
-            li.setDevice_id(uuid);
+            Log.d(TAG, "uuid in readLocationInfo_1" + prefs.getString("ad_id", uuid ));
+            li.setDevice_id(prefs.getString("ad_id", uuid ));
             displaypoints.add(li);
         }
         cursor.close();
@@ -446,8 +446,11 @@ public class DBHandler extends SQLiteOpenHelper {
             li.setTime_stamp(cursor.getLong(1));
             li.setLatitude(cursor.getDouble(2));
             li.setLongitude(cursor.getDouble(3));
-            Log.d(TAG, "uuid in UpdateServerLocationInfo" + uuid);
-            li.setDevice_id(uuid);
+            if(prefs.getString("ad_id",uuid) == "-11"){
+                uuid = uuid_check();
+            }
+            Log.d(TAG, "uuid in UpdateServerLocationInfo" + prefs.getString("ad_id", uuid ));
+            li.setDevice_id(prefs.getString("ad_id", uuid ));
             displaypoints.add(li);
         }
         cursor.close();
@@ -457,11 +460,11 @@ public class DBHandler extends SQLiteOpenHelper {
     @SuppressLint("LongLogTag")
     public List TotalCount() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("Select count(*) from " + TABLE_NAME, null);
+        Cursor cursor = db.rawQuery("Select count(*) from " + LOC_TABLE_NAME + " where status = 1", null);
         List itemIds = new ArrayList<>();
         while (cursor.moveToNext()) {
             long itemId = cursor.getLong(
-                    cursor.getColumnIndexOrThrow(LATITUDE));
+                    cursor.getInt(0));
             Log.i(TAG, String.valueOf(cursor.getInt(0)));
             itemIds.add(itemId);
         }

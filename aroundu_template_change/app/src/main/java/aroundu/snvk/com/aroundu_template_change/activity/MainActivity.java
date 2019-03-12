@@ -213,6 +213,9 @@ public class MainActivity extends AppCompatActivity
 
         //initial insert of data
         if (prefs.getBoolean("first_run", true)) {
+            /*if(prefs.getString("ad_id",uuid) == "-11"){
+                uuid = dbHandler.uuid_check();
+            }*/
             Log.d(TAG, "Populating the database");
 
             backgroundHandler.post(new Runnable() {
@@ -220,6 +223,7 @@ public class MainActivity extends AppCompatActivity
                 public void run() {
 
                     uuid = dbHandler.uuid_check();
+                    Log.d(TAG, "In MainActivity" + uuid);
                     populateDestinationLookUpTable();
                     //working code
                     /*dbHandler.createDataBase();
@@ -237,12 +241,14 @@ public class MainActivity extends AppCompatActivity
                     editor.apply();
                     Log.d(TAG, "This is the uuid: " + uuid);
 */
-
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean("first_run", false);
+                    editor.apply();
                 }
             });
         }
         //uuid = UUID.randomUUID().toString().replace("-", "");
-        prefs.edit().putString("ad_id", uuid );
+        //prefs.edit().putString("ad_id", uuid );
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -695,8 +701,9 @@ public class MainActivity extends AppCompatActivity
                     View customView = layoutInflater.inflate(R.layout.popup,null);
                     closePopupBtn = (Button) customView.findViewById(R.id.closePopupBtn);
                     TextView displayText = (TextView) customView.findViewById(R.id.popuptext);
-                    displayText.setText("Get a list of buses that travel from your closest bus stop to your destination. \n\n " +
-                            "Select a bus stop on the map and provide the destination.");
+                    displayText.setText("Select a bus stop on the map and provide the destination to get a list of buses " +
+                            "(bus numbers) that travel from the selected bus stop to your destination. \n \n " +
+                            "You can also get the path the selected bus takes to reach your destination!!");
                     //instantiate popup window
                     popupWindow = new PopupWindow(customView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                     popupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -1189,7 +1196,7 @@ public class MainActivity extends AppCompatActivity
             Log.d("DebugTest", "Error creating input stream bus lines: " + e.getLocalizedMessage());
             Log.i(TAG, "Reading LocationReadings.csv to db failed");
         }
-        prefs.edit().putBoolean("first_run", false).apply();
+        //prefs.edit().putBoolean("first_run", false).apply();
 
         try {
             while ((line = reader.readLine()) != null) // Read until end of file
@@ -1212,7 +1219,7 @@ public class MainActivity extends AppCompatActivity
             Log.d("DebugTest", "I/O Error: " + e.getLocalizedMessage());
             e.printStackTrace();
         }
-        prefs.edit().putBoolean("first_run", false).apply();
+        //prefs.edit().putBoolean("first_run", false).apply();
     }
 
     @Override
@@ -1489,6 +1496,7 @@ public class MainActivity extends AppCompatActivity
         line_id = lineid;
         Log.d(TAG, String.valueOf(srcLocation) + "," + String.valueOf(destLocation) + "," + String.valueOf(bus_no) + "," + String.valueOf(line_id) );
         dialog.show();
+
         final TextView numberOfStops = (TextView) dialog.findViewById(R.id.number_of_stops);
         //dbHandler.getNumberOfStopsBetween(src, destination, busName);
         //numberOfStops.setText(String.valueOf(dbHandler.getNumberOfStopsBetween(src, destination, busName)));
@@ -1518,6 +1526,7 @@ public class MainActivity extends AppCompatActivity
                 JSONArray arr= null;
                 try {
                     busrouteList.clear();
+                    prgDialog.show();
                     Log.d(TAG, "Getting Bus Route");
                     //List<BusRoutesInfo> markersList = new ArrayList<BusRoutesInfo>();
                     arr = new JSONArray(new String(responseBody));
@@ -1533,7 +1542,6 @@ public class MainActivity extends AppCompatActivity
                     }
 
                     numberOfStops.setText(String.valueOf(busrouteList.size()));
-
                     /*ArrayList busList = new ArrayList(markersList);
                     Log.d("BottomSheetTest", "Size: " + busList.size());
                     if (busList.size() == 0) {
@@ -1549,6 +1557,7 @@ public class MainActivity extends AppCompatActivity
 
                     //fab_info.setVisibility(view.VISIBLE);
                 } catch (JSONException e) {
+                    prgDialog.hide();
                     e.printStackTrace();
                     Log.d(TAG, "success in catch");
                 }
@@ -1556,15 +1565,18 @@ public class MainActivity extends AppCompatActivity
                 //Toast.makeText(getApplicationContext(), "successful - but nothing happenin on ui: ", Toast.LENGTH_SHORT).show();
 
 
-
+                prgDialog.hide();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.d(TAG, "Failed to send latlong to server");
+                prgDialog.hide();
             }
         });
         //testing code above
+
+         prgDialog.hide();
     }
 
 
