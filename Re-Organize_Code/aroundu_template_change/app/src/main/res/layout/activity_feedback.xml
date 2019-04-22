@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/feedback_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/titlebar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
+
+        <RelativeLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textSize="14sp"
+                android:textColor="#fff"
+                android:layout_centerInParent="true"
+                android:paddingLeft="10dp"
+                android:id="@+id/title_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FEEDBACK" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/bus_stop_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:layout_margin="20dp">
+
+                <EditText
+                    android:id="@+id/bust_stop_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:ems="10"
+                    android:textSize="14sp"
+                    android:padding="10dp"
+                    android:background="@drawable/selector_searchbox_background"
+                    android:inputType="text"
+                    android:layout_margin="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enter Bus Stop"
+                    android:textSize="12sp"
+                    android:textColor="#b9b9b9"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="#fff"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/feedback_body_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
+
+                <EditText
+                    android:id="@+id/feedback_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/selector_searchbox_background"
+                    android:gravity="top|start"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enter your suggestions"
+                    android:textSize="12sp"
+                    android:textColor="#b9b9b9"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="#fff"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"/>
+
+            </RelativeLayout>
+
+
+
+            <TextView
+                android:id="@+id/info_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:text="@string/feedback_info"
+                android:textSize="15dp"
+                android:textColor="#333"
+                android:textStyle="bold"/>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/cancel_button"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:text="Cancel"
+                    android:textColor="@color/white"
+                    android:textAllCaps="false"
+                    android:background="@drawable/selector_button_background"/>
+
+                <Button
+                    android:id="@+id/submit_button"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:text="Submit"
+                    android:textColor="@color/white"
+                    android:textAllCaps="false"
+                    android:background="@drawable/selector_button_background"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
