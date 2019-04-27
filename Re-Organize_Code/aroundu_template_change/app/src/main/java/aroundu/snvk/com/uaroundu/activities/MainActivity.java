@@ -943,7 +943,7 @@ public class MainActivity extends AppCompatActivity
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         Log.d(TAG, String.valueOf(markers));
 
-        //distanceCalcLayout.setVisibility(View.VISIBLE);
+        distanceCalcLayout.setVisibility(View.VISIBLE);
 
         dist_metric_layout = 1;
         double distance = 0.0;

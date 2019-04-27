@@ -100,9 +100,9 @@
         android:id="@+id/distancecalc_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_below="@+id/search_result_layout"
         android:background="@color/colorPrimary"
+        android:orientation="vertical"
         android:visibility="gone">
 
         <TextView
@@ -110,9 +110,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Distance to Destination: "
-            android:textColor="#FFFFFF"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textColor="#FFFFFF" />
 
+        <Switch
+            android:id="@+id/notify_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notify the next stop in the path "
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="#FFFFFF"/>
+
+        <Switch
+            android:id="@+id/track_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show my location on the map "
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="#FFFFFF"/>
     </LinearLayout>
 
     <LinearLayout
